@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<indexdata>
+	<key name="Agenda">
+		<topic name="Menú Agenda" url="Men__Agenda.htm"/>
+	</key>
+	<key name="contactos">
+		<topic name="Creando los contactos de la cuenta" url="Creando_los_contactos_de_la_cuenta.htm"/>
+	</key>
+	<key name="cuenta">
+		<topic name="Creando los contactos de la cuenta" url="Creando_los_contactos_de_la_cuenta.htm"/>
+	</key>
+	<key name="cuenta nueva">
+		<topic name="Creando una cuenta nueva (Sospechoso)" url="Creando_una_cuenta_nueva_(Sospechoso).htm"/>
+	</key>
+	<key name="Licencia">
+		<topic name="Licencia de Uso" url="Licencia_de_Uso.htm"/>
+	</key>
+	<key name="Mis gestiones administrativas">
+		<topic name="Mis gestiones administrativas" url="Mis_gestiones_administrativas.htm"/>
+	</key>
+	<key name="Mis Tareas">
+		<topic name="Mis Tareas" url="Mis_Tareas.htm"/>
+	</key>
+	<key name="Obteniendo Ayuda">
+		<topic name="Obteniendo Ayuda" url="Obteniendo_Ayuda.htm"/>
+	</key>
+	<key name="Oficinas Corporativas">
+		<topic name="Oficinas Corporativas" url="Oficinas_Corporativas.htm"/>
+	</key>
+	<key name="oportunidad">
+		<topic name="Creando una oportunidad desde CERO" url="Creando_una_oportunidad_desde_CERO.htm"/>
+	</key>
+	<key name="Preguntas frecuentes">
+		<topic name="Preguntas frecuentes" url="Preguntas_frecuentes.htm"/>
+	</key>
+	<key name="Reportes">
+		<topic name="Menú Reportes" url="Men__Reportes.htm"/>
+	</key>
+	<key name="Requerimientos del Sistema">
+		<topic name="Requerimientos del Sistema" url="Requerimientos_del_Sistema.htm"/>
+	</key>
+	<key name="Soporte Técnico">
+		<topic name="Soporte Técnico" url="Soporte_T_cnico.htm"/>
+	</key>
+	<key name="Sospechoso">
+		<topic name="Creando una cuenta nueva (Sospechoso)" url="Creando_una_cuenta_nueva_(Sospechoso).htm"/>
+	</key>
+	<key name="Usando mi S.O.S.">
+		<topic name="Usando mi S.O.S. por Primera Vez" url="Usando_mi_T.M.S._por_Primera_Vez.htm"/>
+	</key>
+</indexdata>

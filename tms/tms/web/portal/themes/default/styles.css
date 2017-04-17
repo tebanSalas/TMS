@@ -1,0 +1,374 @@
+BODY
+{
+    FONT-SIZE: 11px;
+    COLOR: black;
+    FONT-FAMILY: Verdana, Arial, Impact, sans-serif
+}
+TD
+{
+    FONT-SIZE: 11px;
+    FONT-FAMILY: Verdana, Arial, helvetica, sans-serif
+}
+P
+{
+    FONT-SIZE: 11px
+}
+TEXTAREA
+{
+    FONT-SIZE: 11px;
+    COLOR: black;
+    FONT-FAMILY: Verdana, Arial, helvetica, sans-serif
+}
+INPUT
+{
+    FONT-SIZE: 11px;
+    COLOR: black;
+    FONT-FAMILY: Verdana, Arial, helvetica, sans-serif
+}
+TH
+{
+    TEXT-ALIGN: left
+}
+SELECT
+{
+    FONT-SIZE: 11px;
+    COLOR: black;
+    FONT-FAMILY: Verdana, Arial, helvetica, sans-serif
+}
+.ModuleTitle
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 18px;
+    VERTICAL-ALIGN: bottom;
+    COLOR: #9c3000;
+    FONT-FAMILY: Verdana, Arial, sans-serif;
+    TEXT-ALIGN: left
+}
+.ModuleColumnHeader
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    VERTICAL-ALIGN: bottom;
+    COLOR: white;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    BACKGROUND-COLOR: #666666;
+    TEXT-ALIGN: left
+}
+.ModuleColumnHeader A:link
+{
+    COLOR: white;
+    TEXT-DECORATION: underline
+}
+.ModuleColumnHeader A:visited
+{
+    COLOR: white;
+    TEXT-DECORATION: underline
+}
+.ModuleColumnHeader A:hover
+{
+    COLOR: white;
+    TEXT-DECORATION: underline
+}
+.ModuleColumnHeader A:active
+{
+    COLOR: white;
+    TEXT-DECORATION: underline
+}
+.ModuleColumnHeaderSort
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    VERTICAL-ALIGN: bottom;
+    COLOR: black;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    BACKGROUND-COLOR: #006699;
+    TEXT-ALIGN: left
+}
+.ModuleColumnHeaderSort A:link
+{
+    COLOR: white;
+    TEXT-DECORATION: underline
+}
+.ModuleColumnHeaderSort A:visited
+{
+    COLOR: white;
+    TEXT-DECORATION: underline
+}
+.ModuleColumnHeaderSort A:hover
+{
+    COLOR: white;
+    TEXT-DECORATION: underline
+}
+.ModuleColumnHeaderSort A:active
+{
+    COLOR: white;
+    TEXT-DECORATION: underline
+}
+.DetailPageTitle
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 18px;
+    VERTICAL-ALIGN: bottom;
+    COLOR: #9c3000;
+    FONT-FAMILY: Verdana, Arial, sans-serif;
+    TEXT-ALIGN: left
+}
+.FooterLine
+{
+    BACKGROUND-COLOR: #9c3000
+}
+.FooterCell
+{
+    FONT-WEIGHT: 600;
+    FONT-SIZE: 11px;
+    COLOR: #666666;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    TEXT-ALIGN: right
+}
+.FooterCell A:link
+{
+    COLOR: #9c3000;
+    TEXT-DECORATION: underline
+}
+.FooterCell A:visited
+{
+    COLOR: #9c3000;
+    TEXT-DECORATION: underline
+}
+.FooterCell A:hover
+{
+    COLOR: #ff6600;
+    TEXT-DECORATION: underline
+}
+.FooterCell A:active
+{
+    COLOR: #ff6600;
+    TEXT-DECORATION: underline
+}
+.FormLabel
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    COLOR: #003366;
+    FONT-FAMILY: Arial, Verdana, sans-serif;
+    TEXT-ALIGN: right;
+    TEXT-VALIGN: top
+}
+.FormValue
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    COLOR: black;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+.ListOddRow
+{
+    VERTICAL-ALIGN: top;
+    COLOR: #000000;
+    BACKGROUND-COLOR: #e6e6e5
+}
+.ListOddRow A:link
+{
+    COLOR: #666666;
+    TEXT-DECORATION: underline
+}
+.ListOddRow A:visited
+{
+    COLOR: #666666;
+    TEXT-DECORATION: underline
+}
+.ListOddRow A:hover
+{
+    COLOR: black;
+    TEXT-DECORATION: underline
+}
+.ListOddRow A:active
+{
+    COLOR: black;
+    TEXT-DECORATION: underline
+}
+.ListOddRowDetail
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    VERTICAL-ALIGN: top;
+    COLOR: #000000;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    BACKGROUND-COLOR: #e6e6e5
+}
+.ListOddRowDetail A:link
+{
+    FONT-SIZE: 11px;
+    COLOR: #666666;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    TEXT-DECORATION: underline
+}
+.ListOddRowDetail A:visited
+{
+    FONT-SIZE: 11px;
+    COLOR: #666666;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    TEXT-DECORATION: underline
+}
+.ListOddRowDetail A:active
+{
+    FONT-SIZE: 11px;
+    COLOR: black;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    TEXT-DECORATION: underline
+}
+.ListOddRowDetail A:hover
+{
+    FONT-SIZE: 11px;
+    COLOR: black;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    TEXT-DECORATION: underline
+}
+.ListEvenRow
+{
+    VERTICAL-ALIGN: top;
+    COLOR: #000000;
+    BACKGROUND-COLOR: white
+}
+.ListEvenRow A:link
+{
+    COLOR: #666666;
+    TEXT-DECORATION: underline
+}
+.ListEvenRow A:visited
+{
+    COLOR: #666666;
+    TEXT-DECORATION: underline
+}
+.ListEvenRow A:hover
+{
+    COLOR: black;
+    TEXT-DECORATION: underline
+}
+.ListEvenRowDetail
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    VERTICAL-ALIGN: top;
+    COLOR: #000000;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    BACKGROUND-COLOR: white
+}
+.ListEvenRowDetail A:link
+{
+    FONT-SIZE: 11px;
+    COLOR: #666666;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    TEXT-DECORATION: underline
+}
+.ListEvenRowDetail A:visited
+{
+    FONT-SIZE: 11px;
+    COLOR: #666666;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    TEXT-DECORATION: underline
+}
+.ListEvenRowDetail A:active
+{
+    FONT-SIZE: 11px;
+    COLOR: black;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    TEXT-DECORATION: underline
+}
+.ListEvenRowDetail A:hover
+{
+    FONT-SIZE: 11px;
+    COLOR: black;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    TEXT-DECORATION: underline
+}
+.NavigationBar
+{
+    COLOR: white;
+    BACKGROUND-COLOR: #333333
+}
+.NavigationBar A:link
+{
+    FONT-WEIGHT: bold;
+    COLOR: #ffcf63;
+    TEXT-DECORATION: none
+}
+.NavigationBar A:visited
+{
+    FONT-WEIGHT: bold;
+    COLOR: #ffcf63;
+    TEXT-DECORATION: none
+}
+.NavigationBar A:hover
+{
+    FONT-WEIGHT: bold;
+    COLOR: #ff9900;
+    TEXT-DECORATION: underline
+}
+.NavigationBar A:active
+{
+    FONT-WEIGHT: bold;
+    COLOR: #ff6600;
+    TEXT-DECORATION: underline
+}
+.CompanyLogoPlacement
+{
+    TEXT-ALIGN: center
+}
+.RequiredIndicator
+{
+    FONT-WEIGHT: bold;
+    COLOR: #aa0000
+}
+.ErrorText
+{
+    FONT-WEIGHT: bold;
+    COLOR: #ff0000
+}
+UL
+{
+    LIST-STYLE-TYPE: square
+}
+LI
+{
+    LIST-STYLE-TYPE: square
+}
+.ModuleDescription
+{
+    FONT-WEIGHT: normal;
+    COLOR: #666666;
+    FONT-FAMILY: Verdana, Arial, sans-serif;
+    SIZE: 10px
+}
+.SideBar
+{
+    COLOR: #003366;
+    BACKGROUND-COLOR: #ffcf63
+}
+.SideBarVerticalPixel
+{
+    BACKGROUND-COLOR: #006699
+}
+H3
+{
+    FONT-SIZE: 20px;
+    COLOR: #9c3000;
+    FONT-FAMILY: Verdana, Arial, sans-serif
+}
+.PageFooter
+{
+    FONT-SIZE: 11px;
+    COLOR: white;
+    BACKGROUND-COLOR: #006699
+}
+.PageSideBar
+{
+    BACKGROUND-COLOR: #006699
+}
+.InfoHeader
+{
+    FONT-SIZE: 10pt;
+    COLOR: #9c3000;
+    FONT-FAMILY: Verdana, Arial, helvetica, sans-serif;
+    TEXT-ALIGN: left
+}

@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>$systemName</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head>
+<script>
+#macro (errorMarkup)
+  #if ($errors.exist() )
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1">$e <br>
+    #end
+    </ul>
+  #end
+#end
+</script>
+<body bgcolor="#FFFFFF" text="#000000">
+<p>&nbsp;</p>
+<p><font color="#CC0000">#errorMarkup()</font></p>
+<form method="POST" name="confirmDelete" action="$do">
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("common.deleteRisk")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+<tr>
+<th colspan="2">$msg.get("common.delete.question")</th>
+</tr>
+    #foreach( $lista in $items)
+	<tr class="odd">
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td >$!lista.description</td>
+    </tr>
+    #end
+    <tr class="odd">
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td>
+<input type="submit" name="delete" value=$msg.get("common.delete")>
+<input type="button" name="cancel" value=$msg.get("common.cancel") onClick="history.back();">
+<input type="hidden" name="operation" value="applyDelete">
+<input type="hidden" name="fromPage" value="$fromPage">
+<input type="hidden" name="param" value="$param">
+<input type="hidden" name="checkedItems" value="$checkedItems">
+      </td>
+    </tr>
+ </table></div>
+ </td></tr></table></div>
+  <hr>
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

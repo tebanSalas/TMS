@@ -1,0 +1,118 @@
+<html>
+<!-- Sitemap 1.0 -->
+<object type="text/site properties">
+  <param name="FrameName" value="bsscright">
+  <param name="SiteType" value="toc">
+</object>
+<ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Bienvenido a Nuestro Producto">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Licencia de Uso">
+      <param name="Local" value="Licencia_de_Uso.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Bienvenidos a Nuestro Producto">
+      <param name="Local" value="Bienvenidos_a_Nuestro_Producto.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Obteniendo Ayuda">
+      <param name="Local" value="Obteniendo_Ayuda.htm">
+    </object>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Usando la ayuda en línea">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Buscando información en la Ayuda">
+      <param name="Local" value="Buscando_informaci_n_en_la_Ayuda.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Moviéndonos dentro de la Ayuda">
+      <param name="Local" value="Movi_ndonos_dentro_de_la_Ayuda.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Imprimiendo la Ayuda">
+      <param name="Local" value="Imprimiendo_la_Ayuda.htm">
+    </object>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Iniciando en mi Producto T.M.S.">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Personalizando el Producto">
+      <param name="Local" value="Personalizando_el_Producto.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Descripción de Iconos">
+      <param name="Local" value="Descripci_n_de_Iconos.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Requerimientos del Sistema">
+      <param name="Local" value="Requerimientos_del_Sistema.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Navegando en el Producto">
+      <param name="Local" value="Navegando_en_el_Producto2.htm">
+    </object>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Usando el TMS">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Instalando mi TMS por primera vez">
+      <param name="Local" value="Usando_mi_T.M.S._por_Primera_Vez.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Configurando por primera vez  mi T.M.S.">
+      <param name="Local" value="Configurando_por_primera_vez_el_T.M.S..htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Trabajando con los Proyecto del T.M.S.">
+      <param name="Local" value="Creando_una_cuenta_nueva_(Sospechoso).htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Consultando la base de datos T.M.S.">
+      <param name="Local" value="Men__Buscar.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Miembros del Proyecto">
+      <param name="Local" value="Miembros_del_Proyecto.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Mis Clientes">
+      <param name="Local" value="Mis_Tareas.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Agregando una cita en la Agenda">
+      <param name="Local" value="Men__Agenda.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Generando un  Reporte ">
+      <param name="Local" value="Men__Reportes.htm">
+    </object>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Contáctenos">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Oficinas Corporativas">
+      <param name="Local" value="Departamento_de_Ventas.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Departamento de Ventas">
+      <param name="Local" value="Oficinas_Corporativas.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Soporte Técnico">
+      <param name="Local" value="Soporte_T_cnico.htm">
+    </object>
+    </ul>
+</ul>
+</html>

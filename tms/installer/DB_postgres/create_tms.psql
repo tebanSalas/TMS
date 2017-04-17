@@ -1,0 +1,55 @@
+\connect postgres
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET escape_string_warning = 'off';
+
+CREATE LANGUAGE plpgsql; 
+
+--
+-- Roles
+--
+
+CREATE ROLE tms;
+ALTER ROLE tms WITH NOSUPERUSER NOINHERIT NOCREATEROLE NOCREATEDB LOGIN PASSWORD 'Tms' VALID UNTIL 'infinity';
+COMMENT ON ROLE tms IS 'Task Managment System';
+
+--
+-- Tablespaces
+-- Ruta Absoluta
+
+CREATE TABLESPACE tms_data OWNER tms LOCATION '/home/postgres/pg_tms_data';
+
+--
+-- Schemas
+--
+
+CREATE SCHEMA tms;
+
+
+ALTER SCHEMA tms OWNER TO tms;
+
+--
+-- DUAL table for compatibility
+--
+
+CREATE TABLE dual (
+    dummy character varying(1)
+);
+
+
+ALTER TABLE public.dual OWNER TO postgres;
+
+BEGIN TRANSACTION;
+
+  insert into dual (dummy) values ('X');
+
+END TRANSACTION;
+
+SET search_path = public, pg_catalog;
+
+REVOKE ALL ON TABLE dual FROM PUBLIC;
+REVOKE ALL ON TABLE dual FROM postgres;
+GRANT ALL ON TABLE dual TO postgres;
+GRANT SELECT,REFERENCES ON TABLE dual TO PUBLIC;
+

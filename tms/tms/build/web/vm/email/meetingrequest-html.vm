@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>Email</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<style type="text/css">
+A.LinkText {
+	COLOR: #006666; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 12px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+A.LinkText:hover {
+	COLOR: #ff6600; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 12px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+A.LinkText2 {
+	COLOR: #006666; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 14px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+A.LinkText2:hover {
+	COLOR: #ff6600; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 14px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table cellspacing=0 cellpadding=0 width=90% border=0 height="399">
+  <tbody> 
+  <tr valign=top bgcolor="#006666"> 
+    <td colspan=3 height="16" width="483" bgcolor="#006666"><font size="4"><b><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">Task Management System (TMS)</font></b></font></td>
+  </tr>    
+  <hr>
+  <tr valign=top> 
+    <td width=483 background=""> 
+      <br>
+      <table width="90%" border="0" cellspacing="0" cellpadding="2" align="left" height="43">         
+        <tr><font face="Arial, Helvetica, sans-serif" size="2" color="#333333">$name : </font></tr><br>
+<hr>
+   <tr>$!meetingdate</tr><br>
+	<tr><font face="Arial, Helvetica, sans-serif" size="2" color="#333333">$msg.get("email.meetinghost.message") $hostmember $msg.get("email.meetinginvitation.message") $!meetingdate </font></tr><br>
+	<tr><font face="Arial, Helvetica, sans-serif" size="2" color="#333333">$msg.get("email.meetinginithour.message") $meetinginithour $msg.get("email.meetingendhour.message") $meetingendhour  </font></tr>
+	<tr><font face="Arial, Helvetica, sans-serif" size="2" color="#333333">$msg.get("email.meetingsubject.message"): $meetingsubject. </font></tr><br>
+	<tr><font face="Arial, Helvetica, sans-serif" size="2" color="#333333">$msg.get("email.meetinganswer.message") </font></tr>
+
+	<tr> </tr>
+	<br> 
+	<br>
+	<tr><font face="Arial, Helvetica, sans-serif" size="2" color="#333333">$msg.get("email.meetinggreeting.message") </font></tr>
+	<tr> </tr>
+	  	 
+	<tr></tr>
+	
+	<br>
+	<br>
+	<tr height="64"><font face="Arial, Helvetica, sans-serif" size="2" color="#333333">Esta 
+            notificaci&oacute;n fue generada por $company.<br>
+       
+            Para ver su $creator - Home Page, visite:<br>
+            <div align="left"><a class="LinkText" href="$mainURL/login.do">$mainURL/login.do</a></div>
+            </font> </tr>
+      </table>   
+  </tbody> 
+</body>
+</html>

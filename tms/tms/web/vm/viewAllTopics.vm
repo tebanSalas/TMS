@@ -1,0 +1,355 @@
+<html>
+<head>
+<title>Listing Topics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+<script language="JavaScript">
+function getArrayNumbers(theForm) {
+	if (theForm.selectedItems != null)
+		theForm.checkedItems.value = theForm.selectedItems.join(',');
+
+}
+</script>
+
+</head><body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+
+#set ($activeid = "")
+#set ($activeowner = "")
+#set ($activestatus = "")
+#set ($activepublished = "")
+#set ($activesubject = "")
+#set ($activelast_post = "")
+#set ($activetotasks = "")
+#set ($activeposts = "")
+
+#set ($imageowner = "")
+#set ($imagestatus = "")
+#set ($imagepublished = "")
+#set ($imagesubject = "")
+#set ($imagelast_post = "")
+#set ($imagetotasks = "")
+#set ($imageposts = "")
+#set ($imageid = "")
+
+#set ($sortowner = "ASC")
+#set ($sortstatus = "ASC")
+#set ($sortpublished = "ASC")
+#set ($sortsubject = "ASC")
+#set ($sortlast_post = "ASC")
+#set ($sorttotasks = "ASC")
+#set ($sortposts = "ASC")
+#set ($sortid = "ASC")
+
+
+#if ($!topicsForm.sortOrder == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+#if ($!topicsForm.sortColumn == "last_post" || $!topicsForm.sortColumn == "")
+	#set ($activelast_post = "class='active'")
+	#set ($imagelast_post = $image)
+	#set ($sortlast_post = $!topicsForm.sortOrder)
+#elseif ($!topicsForm.sortColumn == "owner")
+	#set ($activeowner = "class='active'")
+	#set ($imageowner = $image)
+	#set ($sortowner = $!topicsForm.sortOrder)
+#elseif ($!topicsForm.sortColumn == "status")
+	#set ($activestatus = "class='active'")
+	#set ($imagestatus = $image)
+	#set ($sortstatus = $!topicsForm.sortOrder)
+#elseif ($!topicsForm.sortColumn == "published")
+	#set ($activepublished = "class='active'")
+	#set ($imagepublished = $image)
+	#set ($sortpublished = $!topicsForm.sortOrder)
+#elseif ($!topicsForm.sortColumn == "subject")
+	#set ($activesubject = "class='active'")
+	#set ($imagesubject = $image)
+	#set ($sortsubject = $!topicsForm.sortOrder)
+#elseif ($!topicsForm.sortColumn == "totasks")
+	#set ($activetotasks = "class='active'")
+	#set ($imagetotasks = $image)
+	#set ($sorttotasks = $!topicsForm.sortOrder)
+#elseif ($!topicsForm.sortColumn == "posts")
+	#set ($activeposts = "class='active'")
+	#set ($imageposts = $image)
+	#set ($sortposts = $!topicsForm.sortOrder)
+#elseif ($!topicsForm.sortColumn == "id")
+	#set ($activeid = "class='active'")
+	#set ($imageid = $image)
+	#set ($sortid = $!topicsForm.sortOrder)
+#end
+<div id="wbPHead" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbPToggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+     $msg.get("common.Topics.name")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+<TABLE class=icons cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD class=commandDesc>
+      <DIV class=rel id=topicsListtt>
+      <DIV class=abs id=topicsListtti><IMG height=1 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif"  width=350></DIV></DIV>
+	  </TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtopics, 'topicsList0'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtopics, 'topicsList0'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtopics, 'topicsList0'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.addLabel")' src="./themes/$userInfo.getTemplate()/btn_add_norm.gif"
+      width=24 border=0 name=topicsList0></A></TD>
+#if ($connectedUser == "$projectOwner" || $connectedUser == "1")
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtopics, 'topicsList1'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtopics, 'topicsList1'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtopics, 'topicsList1'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.deleteLabel")' src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif"
+      width=24 border=0 name=topicsList1></A></TD>
+
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtopics, 'topicsList4'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtopics, 'topicsList4'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtopics, 'topicsList4'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.closeLabel")' src="./themes/$userInfo.getTemplate()/btn_lock_norm.gif" width=24
+      border=0 name=topicsList4></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtopics, 'topicsList5'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtopics, 'topicsList5'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtopics, 'topicsList5'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.addToSiteLabel")' src="./themes/$userInfo.getTemplate()/btn_add_projectsite_norm.gif" width=24
+      border=0 name=topicsList5></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtopics, 'topicsList6'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtopics, 'topicsList6'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtopics, 'topicsList6'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.removeFromSiteLabel")' src="./themes/$userInfo.getTemplate()/btn_remove_projectsite_norm.gif" width=24
+      border=0 name=topicsList6></A></TD>
+#end
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtopics, 'topicsList2'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtopics, 'topicsList2'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtopics, 'topicsList2'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.viewLabel")' src="./themes/$userInfo.getTemplate()/btn_info_norm.gif" width=24
+      border=0 name=topicsList2></A></TD>
+#if ($connectedUser == "$projectOwner"  || $connectedUser == "1")
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtopics, 'topicsList3'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtopics, 'topicsList3'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtopics, 'topicsList3'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.editLabel")' src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif"
+      width=24 border=0 name=topicsList3></A></TD>
+#end
+
+#if ($!autom_notification == "0")
+  <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtopics, 'topicsList7'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtopics, 'topicsList7'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtopics, 'topicsList7'); if (b) b.click();"><IMG 
+      height=23 alt='$msg.get("common.addToSiteLabel")' src="./themes/$userInfo.getTemplate()/btn_add_projectsite_norm.gif" width=24
+      border=0 name=topicsList7></A></TD>
+#end
+    <TD align=left><IMG height=26 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif" width=5></TD>
+
+	  </TR>
+	  </TBODY>
+	  </TABLE>
+
+
+
+   </nobr>
+   </td>
+  </tr>
+ </table>
+ </div>
+
+<div name="wbP" id="wbP" style="display:block" class=formBody>
+
+<form name="formtopics" method="post" action="./topics.do">
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+	  <th width="1%" align="center">
+        <a href="javascript:MM_toggleSelectedItems(document.formtopics,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
+      </th>
+<th nowrap $activeid><a href="javascript:document.formtopics.sortColumn.value='id';document.formtopics.sortOrder.value='$sortid';document.formtopics.operation.value = 'sortAll';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por Id'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Id")</a>$imageid</th>
+<th nowrap $activesubject><a href="javascript:document.formtopics.sortColumn.value='subject';document.formtopics.sortOrder.value='$sortsubject';document.formtopics.operation.value = 'sortAll';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por subject'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Subject")</a>$imagesubject</th>
+<th nowrap $activeowner><a href="javascript:document.formtopics.sortColumn.value='owner';document.formtopics.sortOrder.value='$sortowner';document.formtopics.operation.value = 'sortAll';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por owner'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Owner")</a>$imageowner</th>
+<th nowrap $activeposts><a href="javascript:document.formtopics.sortColumn.value='posts';document.formtopics.sortOrder.value='$sortposts';document.formtopics.operation.value = 'sortAll';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por Posts'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Post")</a>$imageposts</th>
+<th nowrap $activelast_post><a href="javascript:document.formtopics.sortColumn.value='last_post';document.formtopics.sortOrder.value='$sortlast_post';document.formtopics.operation.value = 'sortAll';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por last_post'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.LastPost")</a>$imagelast_post</th>
+<th nowrap $activestatus><a href="javascript:document.formtopics.sortColumn.value='status';document.formtopics.sortOrder.value='$sortstatus';document.formtopics.operation.value = 'sortAll';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por status'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Status")</a>$imagestatus</th>
+<th nowrap $activetotasks><a href="javascript:document.formtopics.sortColumn.value='totasks';document.formtopics.sortOrder.value='$sorttotasks';document.formtopics.operation.value = 'sortAll';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por Task'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Task")</a>$imagetotasks</th>
+<th nowrap $activepublished><a href="javascript:document.formtopics.sortColumn.value='published';document.formtopics.sortOrder.value='$sortpublished';document.formtopics.operation.value = 'sortAll';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por published'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Published")</a>$imagepublished</th>
+#if ($autom_notification=="0")
+<th nowrap ><a>$msg.get("common.notified")</a>$imagepublished</th>
+#end
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $listTopics)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+	<td align="center">
+	<a onClick="isPublished('$lista.getid()')" href="javascript:document.formtopics.id.value='$lista.getid()';MM_toggleItem(document.formtopics, '$lista.getid()', 'topicsListcb$row','$userInfo.getTemplate()');">
+	<img name="topicsListcb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3"></a>
+	</td>
+<td><a href="javascript:document.formtopics.id.value='$lista.getid()';sendDataTopics('view');"> $lista.getid()</a></td>
+<td><a href="javascript:document.formtopics.id.value='$lista.getid()';sendDataTopics('view');"> $lista.getsubject()</a></td>
+<td> <a href="mailto:$lista.getparentOwner().getemail_work()"> $!lista.getparentOwner().getlogin()</a></td>
+<td> $lista.getdetailPost().size()</td>
+<td> $lista.getFormattedLastPost()</td>
+#if ($lista.getstatus() == "1")
+	#set ($label = $msg.get("common.open"))
+#else
+	#set ($label = $msg.get("common.closed"))
+#end
+
+<td> $label</td>
+#if ($lista.gettotasks() == "1")
+	#set ($label = $msg.get("common.yes"))
+#else
+	#set ($label = $msg.get("common.no"))
+#end
+
+#if ($lista.gettotasks() == "1")
+	#set ($label = $msg.get("common.yes"))
+	<td><a href="./tasks.do?operation=view&id=$lista.tasks">$label</a></td>
+#else
+	#set ($label = $msg.get("common.no"))
+	<td>$label</td>
+#end
+
+#if ($lista.getpublished() == "1")
+	#set ($label = $msg.get("common.yes"))
+#else
+	#set ($label = $msg.get("common.no"))
+#end
+
+<td> $label</td>
+
+#if ($autom_notification == "0")
+    #if ($lista.getnotified() == "0")
+    <td><a href="javascript:document.formtopics.id.value='$lista.getid()';sendDataTopics('notify');"> $msg.get("common.sendnotification")</a></td>
+    #else
+    <td></td>
+    #end  
+#end
+
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+  <input type="hidden" name="operation" value="listing">
+  <input type="hidden" name="id" value="22">
+  <input type="hidden" name="project" value="$topicsForm.project">
+  <input type="hidden" name="checkedItems" value="" >
+  <input type="hidden" name="sortColumn" value="$topicsForm.sortColumn" >
+  <input type="hidden" name="sortOrder" value="$topicsForm.sortOrder" >
+    <input type="hidden" name="typeTopic" value="$topicsForm.typeTopic" >
+  <input type="hidden" name="fromPage" value="viewProject" >
+</form>
+</div>
+<script language="JavaScript">
+
+document.formtopics.buttons = new Array();
+document.formtopics.buttons[document.formtopics.buttons.length] = new MMCommandButton('topicsList0',document.formtopics,"javascript:sendDataTopics('add');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','Agregar',false,'Confirm report deletion');
+document.formtopics.buttons[document.formtopics.buttons.length] = new MMCommandButton('topicsList2',document.formtopics,"javascript:sendDataTopics('view');",'./themes/$userInfo.getTemplate()/btn_info_norm.gif','./themes/$userInfo.getTemplate()/btn_info_over.gif','./themes/$userInfo.getTemplate()/btn_info_down.gif','./themes/$userInfo.getTemplate()/btn_info_dim.gif',false,true,false,'','Ver',false,'Confirm report deletion');
+
+#if ($connectedUser == "$projectOwner" || $connectedUser == "1")
+	document.formtopics.buttons[document.formtopics.buttons.length] = new MMCommandButton('topicsList1',document.formtopics,"javascript:sendDataTopics('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',false,true,true,'','$msg.get("common.deleteLabel")',false,'Confirm report deletion');
+	document.formtopics.buttons[document.formtopics.buttons.length] = new MMCommandButton('topicsList3',document.formtopics,"javascript:sendDataTopics('edit');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',false,true,false,'','$msg.get("common.editLabel")',false,'Confirm report deletion');
+	document.formtopics.buttons[document.formtopics.buttons.length] = new MMCommandButton('topicsList4',document.formtopics,"javascript:sendDataTopics('close');",'./themes/$userInfo.getTemplate()/btn_lock_norm.gif','./themes/$userInfo.getTemplate()/btn_lock_over.gif','./themes/$userInfo.getTemplate()/btn_lock_down.gif','./themes/$userInfo.getTemplate()/btn_lock_dim.gif',false,true,true,'','$msg.get("common.closeLabel")',false,'Confirm report deletion');
+	document.formtopics.buttons[document.formtopics.buttons.length] = new MMCommandButton('topicsList5',document.formtopics,"javascript:sendDataTopics('addToSite');",'./themes/$userInfo.getTemplate()/btn_add_projectsite_norm.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_over.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_down.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_dim.gif',false,true,true,'','$msg.get("common.addToSiteLabel")',false,'Confirm report deletion');
+	document.formtopics.buttons[document.formtopics.buttons.length] = new MMCommandButton('topicsList6',document.formtopics,"javascript:sendDataTopics('removeFromSite');",'./themes/$userInfo.getTemplate()/btn_remove_projectsite_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_projectsite_over.gif','./themes/$userInfo.getTemplate()/btn_remove_projectsite_down.gif','./themes/$userInfo.getTemplate()/btn_remove_projectsite_dim.gif',false,true,true,'','$msg.get("common.removeFromSiteLabel")',false,'Confirm report deletion');
+
+	document.formtopics.buttons[document.formtopics.buttons.length] = new MMCommandButton('topicsList7',document.formtopics,"javascript:sendDataTopics('notifySelected');",'./themes/$userInfo.getTemplate()/btn_add_projectsite_norm.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_over.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_down.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_dim.gif',false,true, true,'','Notificar',false,'Confirm report deletion');
+#end
+
+	document.formtopics.buttons[document.formtopics.buttons.length] = new MMCommandButton('topicsList7',document.formtopics,"javascript:sendDataTopics('notifySelected');",'./themes/$userInfo.getTemplate()/btn_add_projectsite_norm.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_over.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_down.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_dim.gif',false,true, true,'','Notificar',false,'Confirm report deletion');
+
+MM_updateButtons(document.formtopics, 0);
+
+document.formtopics.checkboxes = new Array();
+document.formtopics.selected= new Array();
+#set ($row = 1)
+#foreach( $lista in $listTopics)
+ document.formtopics.checkboxes[document.formtopics.checkboxes.length] = new MMCheckbox('$lista.getid()',document.formtopics,'topicsListcb$row');
+document.formtopics.selected[$row] = $lista.getid() +'-'+ $lista.getnotified()+'-0';
+#set ($row = $row + 1)
+#end
+document.formtopics.tt = 'topicsListtt';
+
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendDataTopics(tipo) {
+	document.formtopics.operation.value = tipo;
+	getArrayNumbers(document.formtopics);
+	document.formtopics.submit();
+}
+
+function isPublished(id) {
+var i=1;
+var flag=false;
+
+    while (i < document.formtopics.selected.length)
+    {
+        if(document.formtopics.selected[i].split("-")[0]== id)
+        {
+
+            if( document.formtopics.selected[i].split("-")[2] == '0')
+            {
+                document.formtopics.selected[i]=document.formtopics.selected[i].split("-")[0]+ '-'+document.formtopics.selected[i].split("-")[1]+'-1';
+            }else{
+                document.formtopics.selected[i]=document.formtopics.selected[i].split("-")[0]+ '-'+document.formtopics.selected[i].split("-")[1]+'-0';
+            }
+        }
+
+        i=i+1;
+    }
+i=1;
+    while (i < document.formtopics.selected.length)
+    {
+        if(document.formtopics.selected[i].split("-")[2] == '1')
+        {
+            if(document.formtopics.selected[i].split("-")[1]== '1')
+            {  
+                flag=true;
+            }
+        }
+        i=i+1;
+    }
+if (flag){
+    document.formtopics.buttons[2]= new MMCommandButton('topicsList7',document.formtopics,"javascript:sendDataTopics('notifySelected');",'./themes/$userInfo.getTemplate()/btn_add_projectsite_norm.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_over.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_down.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_dim.gif',false,false,false,'','Notificar',false,'Confirm report deletion');
+}else{
+    document.formtopics.buttons[2]=new MMCommandButton('topicsList7',document.formtopics,"javascript:sendDataTopics('notifySelected');",'./themes/$userInfo.getTemplate()/btn_add_projectsite_norm.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_over.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_down.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_dim.gif',false,true, true,'','Notificar',false,'Confirm report deletion');
+}
+}
+</script>
+
+
+#parse ("/vm/footer.vm")
+</body>
+</html>

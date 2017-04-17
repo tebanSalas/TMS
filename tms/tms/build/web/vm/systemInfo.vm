@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>System Information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+</head><body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+
+  <table class="content" cellspacing="0" cellpadding="0">
+    <tr>
+      <th colspan="2">System Properties</th>
+    </tr>
+#foreach( $lista in $list)
+    <tr class="odd">
+	<td valign="top" class="leftvalue">$lista.getname() :&nbsp;</td>
+	<td >$lista.getvalue()</td>
+   </tr>
+#end
+</table>
+#parse ("/vm/footer.vm")
+</body>
+</html>

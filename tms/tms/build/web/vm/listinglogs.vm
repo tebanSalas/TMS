@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Organizations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head>
+
+#set ($activelast_visite = "")
+#set ($activelogin = "")
+#set ($activepassword = "")
+#set ($activeconnected = "")
+#set ($activesession = "")
+#set ($activecompt = "")
+#set ($activeip = "")
+#set ($activeid = "")
+
+#set ($imagelast_visite = "")
+#set ($imagelogin = "")
+#set ($imagepassword = "")
+#set ($imageconnected = "")
+#set ($imagesession = "")
+#set ($imagecompt = "")
+#set ($imageip = "")
+#set ($imageid = "")
+
+#set ($sortlast_visite = "ASC")
+#set ($sortlogin = "ASC")
+#set ($sortpassword = "ASC")
+#set ($sortconnected = "ASC")
+#set ($sortsession = "ASC")
+#set ($sortcompt = "ASC")
+#set ($sortip = "ASC")
+#set ($sortid = "ASC")
+
+
+#if ($!logsForm.sortOrder == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+#if ($!logsForm.sortColumn == "last_visite" || $!logsForm.sortColumn == "")
+#set ($activelast_visite = "class='active'")
+#set ($imagelast_visite = $image)
+#set ($sortlast_visite = $logsForm.sortOrder)
+#elseif ($!logsForm.sortColumn == "login")
+#set ($activelogin = "class='active'")
+#set ($imagelogin = $image)
+#set ($sortlogin = $logsForm.sortOrder)
+#elseif ($!logsForm.sortColumn == "password")
+#set ($activepassword = "class='active'")
+#set ($imagepassword = $image)
+#set ($sortpassword = $logsForm.sortOrder)
+#elseif ($!logsForm.sortColumn == "connected")
+#set ($activeconnected = "class='active'")
+#set ($imageconnected = $image)
+#set ($sortconnected = $logsForm.sortOrder)
+#elseif ($!logsForm.sortColumn == "session")
+#set ($activesession = "class='active'")
+#set ($imagesession = $image)
+#set ($sortsession = $logsForm.sortOrder)
+#elseif ($!logsForm.sortColumn == "compt")
+#set ($activecompt = "class='active'")
+#set ($imagecompt = $image)
+#set ($sortcompt = $logsForm.sortOrder)
+#elseif ($!logsForm.sortColumn == "ip")
+#set ($activeip = "class='active'")
+#set ($imageip = $image)
+#set ($sortip = $logsForm.sortOrder)
+#elseif ($!logsForm.sortColumn == "id")
+#set ($activeid = "class='active'")
+#set ($imageid = $image)
+#set ($sortid = $logsForm.sortOrder)
+#end
+
+
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1 class="heading">Client Organizations</h1>
+<form name="formlogs" method="post" action="/webcenter/logs.do">
+<TABLE class=icons cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formlogs, 'clientList0'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formlogs, 'clientList0'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formlogs, 'clientList0'); if (b) b.click();"><IMG
+      height=23 alt=Agregar src="./themes/$userInfo.getTemplate()/btn_add_norm.gif"
+      width=24 border=0 name=clientList0></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formlogs, 'clientList1'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formlogs, 'clientList1'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formlogs, 'clientList1'); if (b) b.click();"><IMG
+      height=23 alt=Eliminar src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif"
+      width=24 border=0 name=clientList1></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formlogs, 'clientList2'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formlogs, 'clientList2'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formlogs, 'clientList2'); if (b) b.click();"><IMG
+      height=23 alt=Ver src="./themes/$userInfo.getTemplate()/btn_info_norm.gif" width=24
+      border=0 name=clientList2></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formlogs, 'clientList3'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formlogs, 'clientList3'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formlogs, 'clientList3'); if (b) b.click();"><IMG
+      height=23 alt=Editar src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif"
+      width=24 border=0 name=clientList3></A></TD>
+    <TD align=left><IMG height=26 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif" width=5></TD>
+    <TD class=commandDesc>
+      <DIV class=rel id=clientListtt>
+      <DIV class=abs id=clientListtti><IMG height=1 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif"  width=350></DIV></DIV>
+	  </TD>
+	  </TR>
+	  </TBODY>
+	  </TABLE>
+
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+	  <th width="1%" align="center">
+        <a href="javascript:MM_toggleSelectedItems(document.formlogs,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
+      </th>
+<th nowrap $activelast_visite width="32%"><a href="javascript:document.formlogs.sortColumn.value='last_visite';document.formlogs.sortOrder.value='$sortlast_visite';document.formlogs.operation.value = 'sort';document.formlogs.submit();" onMouseOver="javascript:window.status='Ordenar por last_visite'; return true;" onMouseOut="javascript:window.status=''; return true">last_visite</a>$imagelast_visite</th>
+<th nowrap $activelogin width="32%"><a href="javascript:document.formlogs.sortColumn.value='login';document.formlogs.sortOrder.value='$sortlogin';document.formlogs.operation.value = 'sort';document.formlogs.submit();" onMouseOver="javascript:window.status='Ordenar por login'; return true;" onMouseOut="javascript:window.status=''; return true">login</a>$imagelogin</th>
+<th nowrap $activepassword width="32%"><a href="javascript:document.formlogs.sortColumn.value='password';document.formlogs.sortOrder.value='$sortpassword';document.formlogs.operation.value = 'sort';document.formlogs.submit();" onMouseOver="javascript:window.status='Ordenar por password'; return true;" onMouseOut="javascript:window.status=''; return true">password</a>$imagepassword</th>
+<th nowrap $activeconnected width="32%"><a href="javascript:document.formlogs.sortColumn.value='connected';document.formlogs.sortOrder.value='$sortconnected';document.formlogs.operation.value = 'sort';document.formlogs.submit();" onMouseOver="javascript:window.status='Ordenar por connected'; return true;" onMouseOut="javascript:window.status=''; return true">connected</a>$imageconnected</th>
+<th nowrap $activesession width="32%"><a href="javascript:document.formlogs.sortColumn.value='session';document.formlogs.sortOrder.value='$sortsession';document.formlogs.operation.value = 'sort';document.formlogs.submit();" onMouseOver="javascript:window.status='Ordenar por session'; return true;" onMouseOut="javascript:window.status=''; return true">session</a>$imagesession</th>
+<th nowrap $activecompt width="32%"><a href="javascript:document.formlogs.sortColumn.value='compt';document.formlogs.sortOrder.value='$sortcompt';document.formlogs.operation.value = 'sort';document.formlogs.submit();" onMouseOver="javascript:window.status='Ordenar por compt'; return true;" onMouseOut="javascript:window.status=''; return true">compt</a>$imagecompt</th>
+<th nowrap $activeip width="32%"><a href="javascript:document.formlogs.sortColumn.value='ip';document.formlogs.sortOrder.value='$sortip';document.formlogs.operation.value = 'sort';document.formlogs.submit();" onMouseOver="javascript:window.status='Ordenar por ip'; return true;" onMouseOut="javascript:window.status=''; return true">ip</a>$imageip</th>
+<th nowrap $activeid width="32%"><a href="javascript:document.formlogs.sortColumn.value='id';document.formlogs.sortOrder.value='$sortid';document.formlogs.operation.value = 'sort';document.formlogs.submit();" onMouseOver="javascript:window.status='Ordenar por id'; return true;" onMouseOut="javascript:window.status=''; return true">id</a>$imageid</th>
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $list)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
+	<td align="center">
+	<a href="javascript:document.formlogs.id.value='$lista.getid()';MM_toggleItem(document.formlogs, '$row', 'clientListcb$row','$userInfo.getTemplate()');">
+	<img name="clientListcb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3"></a>
+	</td>
+<td width="26%"> $lista.getlast_visite()</td>
+<td width="26%"> $lista.getlogin()</td>
+<td width="26%"> $lista.getpassword()</td>
+<td width="26%"> $lista.getconnected()</td>
+<td width="26%"> $lista.getsession()</td>
+<td width="26%"> $lista.getcompt()</td>
+<td width="26%"> $lista.getip()</td>
+<td width="26%"><a href="javascript:document.formlogs.id.value='$lista.getid()';sendData('view');"> $lista.getid()</a></td>
+
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+  <hr>
+  <input type="hidden" name="operation" value="listing">
+  <input type="hidden" name="id" value="22">
+  <input type="hidden" name="sortOrder" value="$!logsForm.sortOrder">
+  <input type="hidden" name="sortColumn" value="$!logsForm.sortColumn">
+</form>
+</body>
+<script language="JavaScript">
+
+document.formlogs.buttons = new Array();
+document.formlogs.buttons[document.formlogs.buttons.length] = new MMCommandButton('clientList0',document.formlogs,"javascript:sendData('add');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','Agregar',false,'Confirm report deletion');
+document.formlogs.buttons[document.formlogs.buttons.length] = new MMCommandButton('clientList1',document.formlogs,"javascript:sendData('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',false,true,true,'','Eliminar',false,'Confirm report deletion');
+document.formlogs.buttons[document.formlogs.buttons.length] = new MMCommandButton('clientList2',document.formlogs,"javascript:sendData('view');",'./themes/$userInfo.getTemplate()/btn_info_norm.gif','./themes/$userInfo.getTemplate()/btn_info_over.gif','./themes/$userInfo.getTemplate()/btn_info_down.gif','./themes/$userInfo.getTemplate()/btn_info_dim.gif',false,true,false,'','Ver',false,'Confirm report deletion');
+document.formlogs.buttons[document.formlogs.buttons.length] = new MMCommandButton('clientList3',document.formlogs,"javascript:sendData('edit');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',false,true,false,'','Editar',false,'Confirm report deletion');
+MM_updateButtons(document.formlogs, 0);
+
+document.formlogs.checkboxes = new Array();
+#set ($row = 1)
+#foreach( $lista in $list) 
+ document.formlogs.checkboxes[document.formlogs.checkboxes.length] = new MMCheckbox('$row',document.formlogs,'clientListcb$row');
+#set ($row = $row + 1)   
+#end
+document.formlogs.tt = 'clientListtt';
+
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion >
+<!-- que ha sido seleccionada. >
+function sendData(tipo) {
+	document.formlogs.operation.value = tipo;	
+	document.formlogs.submit();
+}
+</script>
+</html>

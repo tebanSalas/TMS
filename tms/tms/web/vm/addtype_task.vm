@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>Add Task Type</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head>
+#parse ("/vm/header.vm")
+<body bgcolor="#FFFFFF" text="#000000">
+<form method="POST" name="add" action="./type_tasks.do" >
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("common.addType_Task")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+<tr><th colspan="2">$msg.get("common.Details")</th></tr>
+<tr class="odd">
+   <td valign="top" class="leftvalue">* $msg.get("common.Description") :</td>
+   <td><textarea rows="5" wrap="VIRTUAL" style="width: 600px; height: 50px;" name="description" cols="43">$!type_tasksForm.description</textarea></td>
+</tr>
+<tr class="odd">
+   <td valign="top" class="leftvalue">$msg.get("typeTasks.prefix") :</td>
+   <td><input size="44" value="$!type_tasksForm.prefix" style="width: 100px" name="prefix" maxlength="7"></td>
+</tr>
+<tr class="odd">
+   <td valign="top" class="leftvalue">$msg.get("typeTasks.consecutive") :</td>
+   <td><input size="44" value="$!type_tasksForm.consecutive" style="width: 100px" name="consecutive" maxlength="5"></td>
+</tr>
+<tr class="odd">
+   <td valign="top" class="leftvalue">$msg.get("typeTasks.usePrefix") :</td>
+   <td><INPUT type="checkbox" name="use_prefix" value="1" #if ($!type_tasksForm.use_prefix == "1") checked #end></td>
+</tr>
+<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><input type="SUBMIT" value=$msg.get("common.save")></td></tr>
+
+ </table></div>
+ </td></tr></table></div>
+  <input type="hidden" name="operation" value="$!type_tasksForm.operation">
+  <input type="hidden" name="id" value="$!type_tasksForm.id">
+  <input type="hidden" name="id_account" value="$!type_tasksForm.id_account">
+  <hr />
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

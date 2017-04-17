@@ -1,0 +1,24 @@
+Prompt drop TABLE SCHEDULES;
+ALTER TABLE SCHEDULES
+ DROP PRIMARY KEY CASCADE
+/
+DROP TABLE SCHEDULES CASCADE CONSTRAINTS PURGE
+/
+
+Prompt Table SCHEDULES;
+--
+-- SCHEDULES  (Table) 
+--
+CREATE TABLE SCHEDULES
+(
+  HOURID       NUMBER(10)                       NOT NULL,
+  USERID       NUMBER(10)                       NOT NULL,
+  DAY          VARCHAR2(20 BYTE)                NOT NULL,
+  TASKID       NUMBER(10),
+  COMMENTS     CLOB,
+  LAST_UPDATE  DATE                             NOT NULL,
+  HOUR_NAME    VARCHAR2(8 BYTE)
+)
+/
+
+

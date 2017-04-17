@@ -1,0 +1,362 @@
+<html>
+<head>
+<title>Resultado del Reporte</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+</head><body bgcolor="#FFFFFF" text="#000000">
+
+#set ($activeid = "")
+#set ($activetask = "")
+#set ($activepriority = "")
+#set ($activestatus = "")
+#set ($activestartdate = "")
+#set ($activedeliverdate = "")
+#set ($activeassignedto = "")
+#set ($activeproject = "")
+#set ($activepublished = "")
+
+#set ($imageid = "")
+#set ($imagetask = "")
+#set ($imagepriority = "")
+#set ($imagestatus = "")
+#set ($imagestartdate = "")
+#set ($imagedeliverdate = "")
+#set ($imageassignedto = "")
+#set ($imageproject = "")
+#set ($imagepublished = "")
+
+#set ($sortcolumn= "id")
+#set ($sortid = "ASC")
+#set ($sorttask = "DESC")
+#set ($sortpriority = "DESC")
+#set ($sortstatus = "DESC")
+#set ($sortstartdate = "DESC")
+#set ($sortdeliverdate = "DESC")
+#set ($sortassignedto = "DESC")
+#set ($sortproject = "DESC")
+#set ($sortpublished = "DESC")
+
+
+#if ($!reportsForm.sortOrder == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+
+
+#if ($!reportsForm.sortColumn == "name" || $!reportsForm.sortColumn == "")
+	#set ($activetask = "class='active'")
+	#set ($imagetask = $image)
+	#set ($sorttask = $sortOrder)
+	#set ($sortcolumn = $!reportsForm.sortColumn)
+#elseif ($!reportsForm.sortColumn == "priority")
+	#set ($activepriority = "class='active'")
+	#set ($imagepriority = $image)
+	#set ($sortpriority = $reportsForm.sortOrder)
+	#set ($sortcolumn = $!reportsForm.sortColumn)
+#elseif ($!reportsForm.sortColumn == "status")
+	#set ($activestatus = "class='active'")
+	#set ($imagestatus = $image)
+	#set ($sortstatus = $reportsForm.sortOrder)
+	#set ($sortcolumn = $!reportsForm.sortColumn)
+#elseif ($!reportsForm.sortColumn == "start_date")
+	#set ($activestartdate = "class='active'")
+	#set ($imagestartdate = $image)
+	#set ($sortstartdate = $reportsForm.sortOrder)
+	#set ($sortcolumn = $!reportsForm.sortColumn)
+#elseif ($!reportsForm.sortColumn == "due_date")
+	#set ($activedeliverdate = "class='active'")
+	#set ($imagedeliverdate = $image)
+	#set ($sortdeliverdate = $reportsForm.sortOrder)
+	#set ($sortcolumn = $!reportsForm.sortColumn)
+#elseif ($!reportsForm.sortColumn == "assigned_to")
+	#set ($activeassignedto = "class='active'")
+	#set ($imageassignedto = $image)
+	#set ($sortassignedto = $reportsForm.sortOrder)
+	#set ($sortcolumn = $!reportsForm.sortColumn)
+#elseif ($!reportsForm.sortColumn == "project")
+	#set ($activeproject = "class='active'")
+	#set ($imageproject = $image)
+	#set ($sortproject = $reportsForm.sortOrder)
+	#set ($sortcolumn = $!reportsForm.sortColumn)
+#elseif ($!reportsForm.sortColumn == "published")
+	#set ($activepublished = "class='active'")
+	#set ($imagepublished = $image)
+	#set ($sortpublished = $reportsForm.sortOrder)
+	#set ($sortcolumn = $!reportsForm.sortColumn)
+#elseif ($!reportsForm.sortColumn == "id")
+	#set ($activeid = "class='active'")
+	#set ($imageid = $image)
+	#set ($sortid = $reportsForm.sortOrder)
+	#set ($sortcolumn = $!reportsForm.sortColumn)
+#end
+
+
+#parse ("/vm/header.vm")
+
+<table class="content" cellspacing="0" cellpadding="0">
+<tr><th colspan="2">$msg.get("common.Reports.reportResultsName")</th></tr>
+<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td>
+<td>$total&nbsp;$msg.get("common.Reports.matches")</td>
+</tr>
+</table>
+
+
+
+
+
+<div name="wbP" id="wbP" style="display:block" class=formBody>
+
+<form name="formReports" method="post" action="./reports.do">
+<table class="content" cellspacing="0" cellpadding="0">
+<tr>
+   <th colspan="2">$msg.get("common.Reports.saveTaskStatus")</th>
+</tr>
+<tr class="odd">
+ <td valign="top" class="leftvalue">$msg.get("common.changeTaskTo") :</td>
+		<td>
+			<SELECT size="1" name="status" >
+      <OPTION value="0" #if ($tasksForm.status == 0) selected #end>$msg.get("common.statusClientEnd")</OPTION>
+      <OPTION value="1" #if ($tasksForm.status == 1) selected #end>$msg.get("common.statusEnd")</OPTION>
+      <OPTION value="2" #if ($tasksForm.status == 2) selected #end>$msg.get("common.statusNotStarted")</OPTION>
+      <OPTION value="3" #if ($tasksForm.status == 3) selected #end>$msg.get("common.statusStarted")</OPTION>
+      <OPTION value="4" #if ($tasksForm.status == 4) selected #end>$msg.get("common.statusSuspended")</OPTION>
+      <OPTION value="5" #if ($tasksForm.status == 5) selected #end>$msg.get("common.statusQuote")</OPTION>
+      <OPTION value="6" #if ($tasksForm.status == 6) selected #end>$msg.get("common.statusQuoteSended")</OPTION>
+      <OPTION value="7" #if ($tasksForm.status == 7) selected #end>$msg.get("common.statusQuoteRejected")</OPTION>
+      <OPTION value="8" #if ($tasksForm.status == 8) selected #end>$msg.get("common.statusQuoteAcepted")</OPTION>
+      <OPTION value="9" #if ($tasksForm.status == 9) selected #end>$msg.get("common.statusCharge")</OPTION>
+      <OPTION value="10" #if ($tasksForm.status == 10) selected #end>$msg.get("common.statusChargeSended")</OPTION>
+      <OPTION value="11" #if ($tasksForm.status == 11) selected #end>$msg.get("common.statusProcessingCharge")</OPTION>
+      <OPTION value="12" #if ($tasksForm.status == 12) selected #end>$msg.get("common.statusRejected")</OPTION>
+      <OPTION value="13" #if ($tasksForm.status == 13) selected #end>$msg.get("common.qualitycontrol")</OPTION>
+      <OPTION value="14" #if ($tasksForm.status == 14) selected #end>$msg.get("common.standBy")</OPTION>
+      </SELECT></td>
+</tr>
+<tr class="odd">
+ <td></td>
+ <td><input type="button" name="Save" value=$msg.get("common.save") onClick= sendDataTasks('applyChangeStatus');></td>
+</tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+  <th width="1%" align="center">
+       <a href="javascript:MM_toggleSelectedItems(document.formtasks,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
+   </th>
+<th nowrap $activeid ><a href="javascript:document.formReports.sortColumn.value='id';document.formReports.sortOrder.value='$sortid';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.status='Ordenar por Id'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Id")</a>$imageid</th>
+<th nowrap $activetask ><a href="javascript:document.formReports.sortColumn.value='name';document.formReports.sortOrder.value='$sorttask';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.status='Ordenar por name'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Task")</a>$imagetask</th>
+<th nowrap $activepriority><a href="javascript:document.formReports.sortColumn.value='priority';document.formReports.sortOrder.value='$sortpriority';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.status='Ordenar por title'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Priority")</a>$imagepriority</th>
+<th nowrap $activestatus ><a href="javascript:document.formReports.sortColumn.value='status';document.formReports.sortOrder.value='$sortstatus';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.status='Ordenar por login'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Status")</a>$imagestatus</th>
+<th nowrap $activestartdate ><a href="javascript:document.formReports.sortColumn.value='start_date';document.formReports.sortOrder.value='$sortstartdate';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.status='Ordenar por login'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.startDate")</a>$imagestartdate</th>
+<th>$msg.get("common.EstimatedTime") (hh:mm)</th>
+<th >$msg.get("common.RealTime") (hh:mm)</th>
+<th nowrap $activedeliverdate ><a href="javascript:document.formReports.sortColumn.value='due_date';document.formReports.sortOrder.value='$sortdeliverdate';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.status='Ordenar por login'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.deliverDate")</a>$imagedeliverdate</th>
+<th nowrap $activeassignedto ><a href="javascript:document.formReports.sortColumn.value='assigned_to';document.formReports.sortOrder.value='$sortassignedto';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.status='Ordenar por login'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.assignedTo")</a>$imageassignedto</th>
+<th nowrap $activeproject ><a href="javascript:document.formReports.sortColumn.value='project';document.formReports.sortOrder.value='$sortproject';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.status='Ordenar por login'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Project")</a>$imageproject</th>
+<th nowrap $activepublished ><a href="javascript:document.formReports.sortColumn.value='published';document.formReports.sortOrder.value='$sortpublished';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.status='Ordenar por login'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Published")</a>$imagepublished</th>
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $list_report)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onMouseOver="this.style.backgroundColor='#DEE7EB'" onMouseOut="this.style.backgroundColor='$color'">
+	<td align="center">
+	<a href="javascript:document.formtasks.id.value='$lista.getid()';MM_toggleItem(document.formtasks, '$lista.getid()', 'clientListcb$row','$userInfo.getTemplate()');">
+	<img name="clientListcb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3"></a>
+	</td>
+<td > <a href="./tasks.do?operation=view&id=$lista.getid()">$lista.getid()</a></td>
+<td > <a href="./tasks.do?operation=view&id=$lista.getid()">$lista.getname()</a></td>
+
+#if ($lista.getpriority() == 0)
+	#set ($tagPriority = $msg.get("common.nonePriority"))
+#elseif ($lista.getpriority() == 1)
+	#set ($tagPriority = $msg.get("common.lowestPriority"))
+#elseif ($lista.getpriority() == 2)
+	#set ($tagPriority = $msg.get("common.lowPriority"))
+#elseif ($lista.getpriority() == 3)
+	#set ($tagPriority = $msg.get("common.mediumPriority"))
+#elseif ($lista.getpriority() == 4)
+	#set ($tagPriority = $msg.get("common.highPriority"))
+#elseif ($lista.getpriority() == 5)
+	#set ($tagPriority = $msg.get("common.highestPriority"))
+#end
+
+<td >$tagPriority</td>
+
+#if ($lista.getstatus() == 0)
+	#set ($tagStatus = $msg.get("common.statusClientEnd"))
+#elseif ($lista.getstatus() == 1)
+	#set ($tagStatus = $msg.get("common.statusEnd"))
+#elseif ($lista.getstatus() == 2)
+	#set ($tagStatus = $msg.get("common.statusNotStarted"))
+#elseif ($lista.getstatus() == 3)
+	#set ($tagStatus = $msg.get("common.statusStarted"))
+#elseif ($lista.getstatus() == 4)
+	#set ($tagStatus = $msg.get("common.statusSuspended"))
+#elseif ($lista.getstatus() == 5)
+	#set ($tagStatus = $msg.get("common.statusQuote"))
+#elseif ($lista.getstatus() == 6)
+	#set ($tagStatus = $msg.get("common.statusQuoteSended"))
+#elseif ($lista.getstatus() == 7)
+	#set ($tagStatus = $msg.get("common.statusQuoteRejected"))
+#elseif ($lista.getstatus() == 8)
+	#set ($tagStatus = $msg.get("common.statusQuoteAcepted"))
+#elseif ($lista.getstatus() == 9)
+	#set ($tagStatus = $msg.get("common.statusCharge"))
+#elseif ($lista.getstatus() == 10)
+	#set ($tagStatus = $msg.get("common.statusChargeSended"))
+#elseif ($lista.getstatus() == 11)
+	#set ($tagStatus = $msg.get("common.statusProcessingCharge"))
+#elseif ($lista.getstatus() == 12)
+	#set ($tagStatus = $msg.get("common.statusRejected"))
+#elseif ($lista.getstatus() == 13)
+	#set ($tagStatus = $msg.get("common.qualitycontrol"))
+#elseif ($lista.getstatus() == 14)
+	#set ($tagStatus = $msg.get("common.standBy"))
+
+#end
+<td >$tagStatus</td>
+<td >$lista.getFormatedStartDate()</td>
+<td align="center">$lista.formatRealHour($lista.getestimated_time())</td>
+<td align="center">$lista.formatRealHour($lista.getactual_time())</td>
+
+
+#if ($lista.expired() == true)
+	#set ($bold = "<b>")
+	#set ($end_bold = "</b>")
+#else
+	#set ($bold = "")
+	#set ($end_bold = "")
+#end
+
+<td>$bold $lista.getFormatedDueDate()$end_bold</td>
+
+<td> <a href="mailto:$lista.getparentAssigned().getemail_work()"> $!lista.getparentAssigned().getlogin()</a></td>
+
+<td ><a href="./projects.do?operation=view&id=$lista.getproject()">$lista.getparentProject().getname()</a></td>
+
+#if ($lista.getpublished() == "1")
+	#set ($indicador = $msg.get("common.yes"))
+#else
+	#set ($indicador = $msg.get("common.no"))
+#end
+<td>$indicador</td>
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+#if ($!reportsForm.pages > 0)
+<table cellspacing="0" width="100%" border="0" cellpadding="0">
+ <tr>
+   <td nowrap class="footerCell">&#160;&#160;&#160;&#160;
+
+#foreach( $lista in $listPagesFiles)
+	#if ($lista.intValue() == $!reportsForm.pages)
+		<b>$lista.intValue()</b>&#160;
+	#else
+<a href="javascript:document.formReports.operation.value='execute';document.formReports.pages.value='$lista.intValue()'; document.formReports.sortColumn.value='$sortcolumn';document.formReports.sortOrder.value='$!reportsForm.sortLastOrder';document.formReports.submit();">$lista.intValue()</a>&#160;
+	
+	#end
+#end
+   </td>
+ </tr>
+ <tr>
+   <td height="5" colspan="2"><img width="1" height="5" border="0" src="./themes/$userInfo.getTemplate()/spacer.gif" alt="">
+   </td>
+ </tr>
+</table>
+#end
+
+  <input type="hidden" name="operation" value="$reportsForm.operation">
+  <input type="hidden" name="id" value="22">
+  <input type="hidden" name="sortOrder" value="$!reportsForm.sortOrder">
+  <input type="hidden" name="sortLastOrder" value="$!reportsForm.sortLastOrder">
+  <input type="hidden" name="sortColumn" value="$!reportsForm.sortColumn">
+  <input type="hidden" name="lastPage" value="$!lastPage">
+  <input type="hidden" name="listing_members" value="$!listing_members">
+  <input type="hidden" name="listing_projects" value="$!listing_projects">
+  <input type="hidden" name="listing_status" value="$!listing_status">
+  <input type="hidden" name="listing_typetasks" value="$!listing_typetasks">
+  <input type="hidden" name="listing_priorities" value="$!listing_priorities">
+  <input type="hidden" name="projects[]" value="$reportsForm.projects">
+  <input type="hidden" name="priorities[]" value="$reportsForm.priorities">
+  <input type="hidden" name="status[]" value="$reportsForm.status">
+  <input type="hidden" name="typetasks[]" value="$reportsForm.typetasks">
+  <input type="hidden" name="pages" value="$reportsForm.pages">
+  <input type="hidden" name="list_projects" value="$list_projects">
+  <input type="hidden" name="list_members" value="$!list_members">
+  <input type="hidden" name="list_priorities" value="$!list_priorities">
+  <input type="hidden" name="list_status" value="$!list_status">
+  <input type="hidden" name="list_typetasks" value="$!list_typetasks">
+  <input type="hidden" name="FechaInicio" value="$!FechaInicio">
+  <input type="hidden" name="startDate1" value="$!startDate1">
+  <input type="hidden" name="startDate2" value="$!startDate2">
+  <input type="hidden" name="FechaEntrega" value="$!FechaEntrega">
+  <input type="hidden" name="dueDate1" value="$!dueDate1">
+  <input type="hidden" name="dueDate2" value="$!dueDate2">
+  <input type="hidden" name="FechaFinal" value="$!FechaFinal">
+  <input type="hidden" name="endDate1" value="$!endDate1">
+  <input type="hidden" name="endDate2" value="$!endDate2">
+  <input type="hidden" name="spreadfix" value="$!spreadfix">
+  <input type="hidden" name="tareaCobrable" value="$!tareaCobrable">
+  
+  
+</form>
+
+<form name="formtasks" method="post" action="./tasks.do"> 
+     <input type="hidden" name="operation" value="changeTaskStatus">
+     <input type="hidden" name="id" value="22">
+     <input type="hidden" name="checkedItems" value="" >
+     <input type="hidden" name="fromPage" value="home" >
+     <input type="hidden" name="status" value="" >
+</form>
+</div>
+#parse ("/vm/footer.vm")
+</body>
+<script language="JavaScript">
+document.formtasks.checkboxes = new Array();
+#set ($row = 1)
+#foreach( $lista in $list_report) 
+ document.formtasks.checkboxes[document.formtasks.checkboxes.length] = new MMCheckbox('$lista.getid()',document.formReports,'clientListcb$row');
+#set ($row = $row + 1)   
+#end
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendData(tipo) {
+	document.formReports.operation.value = tipo;
+	document.formReports.submit();
+}
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendDataTasks(tipo) {
+	document.formtasks.operation.value = tipo;
+        document.formtasks.status.value=document.formReports.status.value;
+	getArrayNumbers(document.formtasks);
+	document.formtasks.submit();
+}
+
+
+function getArrayNumbers(theForm) {
+	if (theForm.selectedItems != null)
+		theForm.checkedItems.value = theForm.selectedItems.join(',');
+}
+</script>
+</html>

@@ -1,0 +1,108 @@
+<html>
+<head>
+<title>Add post</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+<script>
+function sendData() {
+document.add.save.disabled="disabled";
+document.add.submit();
+}
+
+</script>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+<form method="POST" name="add" action="./posts.do" >
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$title</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tr>
+      <th colspan="2">$msg.get("common.Information")</th>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Project") :</td>
+      <td>$projectdata.getname() </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Client") :</td>
+      <td>$projectdata.parentOrganizations.getname() </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Owner") :</td>
+      <td>$projectdata.parentOwner.getname() </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Published") :</td>
+      <td width="189"> #if ($topicdata.getpublished() == 0) $msg.get("common.no") #else $msg.get("common.yes") #end</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Messages") :</td>
+      <td width="189"> $lista.size()</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.LastPost") :</td>
+      <td width="189"> $!topicdata.getlast_post()</td>
+    </tr>
+	<tr><th colspan="2">$msg.get("common.Details")</th></tr>	
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Message") :</td>
+      <td> 
+        <textarea rows="10" wrap="VIRTUAL" style="width: 400px; height: 150px;" name="message" cols="43">$!postForm.message</textarea>
+      </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td> 
+        <input type="SUBMIT" value=$msg.get("common.save") name='save' onclick="sendData();" >
+      </td>
+    </tr>	
+    <tr> 
+      <th colspan="2">$msg.get("common.Messages")</th>
+    #set ($row = 1) 
+	#foreach( $list in $lista) 
+	#if (($row % 2) == 0) 
+		#set ($type = "even") 
+		#set ($color = "#EFEFEF") 
+	#else 
+		#set ($type = "odd") 
+		#set ($color = "#F5F5F5") 
+	#end 
+    <tr class="$type">
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.CreatedBy") :</td>
+      <td width="189"> $!list.getparentMember().getname()</td>
+    </tr>
+    <tr class="$type"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Created") :</td>
+      <td width="189"> $!list.getcreated()</td>
+    </tr>
+    <tr class="$type"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Message") :</td>
+      <td width="189"> $!list.getFormatedMessage()</td>
+    </tr>
+    #set ($row = $row + 1) 
+	#end 
+ </table></div>
+ </td></tr></table></div>
+  <table class="content" cellspacing="0" cellpadding="0">
+  </table>
+  <input type="hidden" name="operation" value="$!postForm.operation">
+  <input type="hidden" name="id" value="$!postForm.id">
+  <input type="hidden" name="topic" value="$!postForm.topic">
+  <hr />
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

@@ -1,0 +1,227 @@
+<body bgcolor="#FFFFFF" text="#000000">#set ($activename = "")
+#set ($activetitle = "")
+#set ($activelogin = "")
+#set ($activepublished = "")
+#set ($activephone_work = "")
+
+#set ($imagename = "")
+#set ($imagetitle = "")
+#set ($imagelogin = "")
+#set ($imagepublished = "")
+#set ($imagephone_work = "")
+
+#set ($sortauthorized = "ASC")
+#set ($sorttitle = "ASC")
+#set ($sortlogin = "ASC")
+#set ($sortpublished = "ASC")
+#set ($sortphone_work = "ASC")
+
+
+#if ($!projectsForm.sortOrderTeams == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+#if ($!projectsForm.sortColumnTeams == "parentMember.title" || $!projectsForm.sortColumnTeams == "")
+	#set ($activetitle = "class='active'")
+	#set ($imagetitle = $image)
+	#set ($sorttitle = $projectsForm.sortOrderTeams)
+#elseif ($!projectsForm.sortColumnTeams == "parentMember.name")
+	#set ($activename = "class='active'")
+	#set ($imagename = $image)
+	#set ($sortname = $projectsForm.sortOrderTeams)
+#elseif ($!projectsForm.sortColumnTeams == "parentMember.login")
+	#set ($activelogin = "class='active'")
+	#set ($imagelogin = $image)
+	#set ($sortlogin = $projectsForm.sortOrderTeams)
+#elseif ($!projectsForm.sortColumnTeams == "parentMember.published")
+	#set ($activepublished = "class='active'")
+	#set ($imagepublished = $image)
+	#set ($sortpublished = $projectsForm.sortOrderTeams)
+#elseif ($!projectsForm.sortColumnTeams == "parentMember.phone_work")
+	#set ($activephone_work = "class='active'")
+	#set ($imagephone_work = $image)
+	#set ($sortphone_work = $projectsForm.sortOrderTeams)
+#end
+
+<div id="wbP15Head" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP15','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP15'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbP15Toggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+      $msg.get("common.TasksStatusLog")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+
+
+
+   </nobr>
+   </td>
+  </tr>
+ </table>
+ </div>
+
+<div name="wbP15" id="wbP15" style="display:block" class=formBody>
+
+<form name="formteams" method="post" action="./teams.do">
+
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+
+<th nowrap>$msg.get("common.Status")</th>
+<th nowrap>$msg.get("common.modificationDate")</th>
+<th nowrap>$msg.get("common.updatedBy")</th>
+
+<!--#if ((($connectedUser == "$!projectsForm.owner") && ($userInfo.getprofile() == "1")) || ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" ))
+	<th nowrap>$msg.get("common.performance")</th>
+#end-->
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $listLog)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
+
+#if ($lista.getStatus() == 0)
+	<td>$msg.get("common.statusClientEnd")</td>
+#elseif ($lista.getStatus() == 1)
+	<td>$msg.get("common.statusEnd")</td>
+#elseif ($lista.getStatus() == 2)
+	<td>$msg.get("common.statusNotStarted")</td>
+#elseif ($lista.getStatus() == 3)
+	<td>$msg.get("common.statusStarted")</td>
+#elseif ($lista.getStatus() == 4)
+	<td>$msg.get("common.statusSuspended")</td>
+#elseif ($lista.getStatus() == 5)
+	<td>$msg.get("common.statusQuote")</td>
+#elseif ($lista.getStatus() == 6)
+	<td>$msg.get("common.statusQuoteSended")</td>
+#elseif ($lista.getStatus() == 7)
+	<td>$msg.get("common.statusQuoteRejected")</td>
+#elseif ($lista.getStatus() == 8)
+	<td>$msg.get("common.statusQuoteAcepted")</td>
+#elseif ($lista.getStatus() == 9)
+	<td>$msg.get("common.statusCharge")</td>
+#elseif ($lista.getStatus() == 10)
+	<td>$msg.get("common.statusChargeSended")</td>
+#elseif ($lista.getStatus() == 11)
+	<td>$msg.get("common.statusProcessingCharge")</td>
+#elseif ($lista.getStatus() == 12)
+	<td>$msg.get("common.statusRejected")</td>
+#elseif ($lista.getStatus() == 13)
+	<td>$msg.get("common.qualitycontrol")</td>
+#elseif ($lista.getStatus() == 14)
+	<td>$msg.get("common.standBy")</td>
+#end
+
+
+<td> $!lista.getCreated()</td>
+<td> <a href="mailto:$lista.getparentMember().getemail_work()"> $!lista.getParentMember().getlogin()</a></td>
+
+
+
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+
+
+  <input type="hidden" name="operation" value="listing">
+  <input type="hidden" name="id" value="22">
+  <input type="hidden" name="projects" value="$projectsForm.id">
+  <input type="hidden" name="checkedItems" value="" >
+  <input type="hidden" name="checkedTeams" value="" >
+</form>
+</div>
+<script language="JavaScript">
+
+document.formteams.buttons = new Array();
+
+document.formteams.buttons[document.formteams.buttons.length] = new MMCommandButton('clientTeams2',document.formteams,"javascript:sendDataTeams('view');",'./themes/$userInfo.getTemplate()/btn_info_norm.gif','./themes/$userInfo.getTemplate()/btn_info_over.gif','./themes/$userInfo.getTemplate()/btn_info_down.gif','./themes/$userInfo.getTemplate()/btn_info_dim.gif',false,true,false,'','Ver',false,'Confirm report deletion');
+#if (($connectedUser == "$!projectsForm.owner") || ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" ))
+
+	document.formteams.buttons[document.formteams.buttons.length] = new MMCommandButton('clientTeams3',document.formteams,"javascript:sendDataTeams('addToSite');",'./themes/$userInfo.getTemplate()/btn_add_projectsite_norm.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_over.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_down.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_dim.gif',false,true,true,'','$msg.get("common.addToSiteLabel")',false,'Confirm report deletion');
+	document.formteams.buttons[document.formteams.buttons.length] = new MMCommandButton('clientTeams4',document.formteams,"javascript:sendDataTeams('removeFromSite');",'./themes/$userInfo.getTemplate()/btn_remove_projectsite_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_projectsite_over.gif','./themes/$userInfo.getTemplate()/btn_remove_projectsite_down.gif','./themes/$userInfo.getTemplate()/btn_remove_projectsite_dim.gif',false,true,true,'','$msg.get("common.removeFromSiteLabel")',false,'Confirm report deletion');
+	document.formteams.buttons[document.formteams.buttons.length] = new MMCommandButton('clientTeams0',document.formteams,"javascript:sendDataTeams('add');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','$msg.get("common.addLabel")',false,'Confirm report deletion');
+	document.formteams.buttons[document.formteams.buttons.length] = new MMCommandButton('clientTeams1',document.formteams,"javascript:sendDataTeams('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',false,true,true,'','$msg.get("common.deleteLabel")',false,'Confirm report deletion');
+#end
+MM_updateButtons(document.formteams, 0);
+
+document.formteams.checkboxes = new Array();
+document.formteams.checkboxesTeams = new Array();
+#set ($row = 1)
+#foreach( $lista in $list_teams)
+ document.formteams.checkboxes[document.formteams.checkboxes.length] = new MMCheckbox('$lista.getmembers()',document.formteams,'clientTeamscb$row');
+ document.formteams.checkboxesTeams[document.formteams.checkboxesTeams.length] = '$lista.getid()';
+#set ($row = $row + 1)
+#end
+document.formteams.tt = 'clientTeamstt';
+
+
+function MM_toggleItemTeams(form, itemName) {
+	if (form.selectedTeams == null)
+		form.selectedTeams = new Array();
+
+	if (MM_arrayContainsString(form.selectedTeams, itemName)) {
+		form.selectedTeams = MM_removeStringFromArray(form.selectedTeams, itemName);
+	} else {
+		form.selectedTeams[form.selectedTeams.length] = itemName;
+	}
+}
+
+// If all items are selected, deselect all. Otherwise select all.
+function MM_toggleSelectedTeams(form) {
+	if (!form.selectedTeams)
+		form.selectedTeams = new Array();
+
+	if (form.checkboxes) {
+		if (form.selectedTeams.length == form.checkboxes.length - MM_countDisabledCheckboxes(form))
+			MM_deselectAllTeams(form);
+		else
+			MM_selectAllTeams(form);
+	}
+}
+
+
+function MM_deselectAllTeams(form) {
+	form.selectedTeams = new Array();
+}
+
+function MM_selectAllTeams(form) {
+
+	form.selectedTeams = new Array();
+	if (form.checkboxes) {
+		var checkboxCount = form.checkboxesTeams.length;
+		for (i = 0; i < checkboxCount; i++) {
+			form.selectedTeams[form.selectedTeams.length] = form.checkboxesTeams[i];
+		}
+	}
+}
+
+
+
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendDataTeams(tipo) {
+	document.formteams.operation.value = tipo;
+	getArrayNumbers(document.formteams);
+	<!-- Tenemos que pasar los elementos marcados tambien a una estructura para la parte de publicarlos. -->
+	if (document.formteams.selectedTeams != null)
+		document.formteams.checkedTeams.value = document.formteams.selectedTeams.join(',');
+
+	document.formteams.submit();
+}
+</script>

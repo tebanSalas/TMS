@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+
+<form-validation>
+   <global>
+        <constant>
+            <constant-name>phone</constant-name>
+            <constant-value>^(\d{3})[-| ]?(\d{4})$</constant-value>
+        </constant>
+   </global>
+
+   <formset>    
+      <form name="/login">
+         <field    property="username"
+         	   depends="required,mask,minlength">
+         	     <arg0 key="loginForm.username.displayname"/>
+         	     <arg1 name="minlength" key="${var:minlength}" resource="false"/>
+                     <var>
+                       <var-name>mask</var-name>
+                       <var-value>^\w+$</var-value>
+                     </var>
+                     <var>
+                       <var-name>minlength</var-name>
+                       <var-value>4</var-value>
+                     </var>
+         </field>    
+         <field    property="password"
+         	   depends="required,minlength">
+         	     <arg0 key="loginForm.password.displayname"/>
+         	     <arg1 name="minlength" key="${var:minlength}" resource="false"/>
+                     <var>
+                       <var-name>minlength</var-name>
+                       <var-value>6</var-value>
+                     </var>
+         </field>
+      </form>
+
+      <form name="/projects">
+         <field    property="name"
+         	   depends="required">
+         	     <arg0 key="projectsForm.name.displayName"/>         	    
+         </field>      
+         <field    property="description"
+         	   depends="required">
+         	     <arg0 key="projectsForm.description.displayName"/>         	     
+         </field>	 
+         <field    property="upload_max"
+         	   depends="required,integer">
+         	     <arg0 key="projectsForm.upload_max.displayName"/>         	 
+         </field>
+      </form>
+
+    <form name="/tasks">
+         <field    property="name"
+         	   depends="required">
+         	     <arg0 key="tasksForm.name.displayName"/>         	    
+         </field>      	
+         <field    property="estimated_time"
+         	   depends="required,double">
+         	     <arg0 key="tasksForm.estimatedTime.displayName"/>         	     
+         </field>	 
+         <field    property="tolerance"
+         	   depends="required,integer">
+         	     <arg0 key="tasksForm.tolerance.displayName"/>         	     
+         </field>	 
+         <field    property="actual_time"
+         	   depends="required,double">
+         	     <arg0 key="tasksForm.actualTime.displayName"/>         	     
+         </field>	
+        
+      </form>
+
+    <form name="/schedules">
+         <field    property="comment"
+         	   depends="maxlength">
+         	     <arg0 key="common.Comments"/>         	     
+         	     <arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+                     <var>
+                       <var-name>maxlength</var-name>
+                       <var-value>250</var-value>
+                     </var>
+         </field>	 
+      </form>
+
+
+    <form name="/members">
+         <field    property="login"
+         	   depends="required,minlength">
+         	     <arg0 key="membersForm.login.displayLogin"/>         	     
+         	     <arg1 name="minlength" key="${var:minlength}" resource="false"/>
+                     <var>
+                       <var-name>minlength</var-name>
+                       <var-value>4</var-value>
+                 </var>
+         </field>    
+         
+         
+         <field    property="name"
+         	   depends="required">
+         	     <arg0 key="membersForm.name.displayName"/>         	     
+         </field>	 
+         <field    property="email_work"
+         	   depends="required,email">
+         	     <arg0 key="membersForm.email.displayName"/>         	 
+         </field>
+         <field    property="password"
+         	   depends="required,minlength">
+         	     <arg0 key="membersForm.password.displayName"/>         	     
+         	     <arg1 name="minlength" key="${var:minlength}" resource="false"/>
+                     <var>
+                       <var-name>minlength</var-name>
+                       <var-value>6</var-value>
+                     </var>
+         </field>	 
+         <field    property="cost"
+         	   depends="required, double">
+         	     <arg0 key="common.Cost"/>         	     
+         </field>	 
+
+      </form>
+	
+	 <form name="/type_tasks">
+         <field    property="description"
+         	   depends="required">
+         	     <arg0 key="type_tasksForm.description.displayName"/>         	     
+        </field>	 
+      </form>
+
+    <form name="/risks">
+         <field    property="description"
+         	   depends="required">
+         	     <arg0 key="risksForm.description.displayName"/>         	    
+         </field>      
+         <field    property="probability"
+         	   depends="required">
+         	     <arg0 key="risksForm.probability.displayName"/>         	     
+         </field>	 
+         <field    property="todoaction"
+         	   depends="required">
+         	     <arg0 key="risksForm.todoaction.displayName"/>         	 
+         </field>
+      </form>
+
+	 <form name="/organizations">
+         <field    property="name"
+         	   depends="required,maxlength">
+         	     <arg0 key="common.Name"/>  
+				<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+                     <var>
+                       <var-name>maxlength</var-name>
+                       <var-value>150</var-value>
+                     </var>						 
+        </field>
+         <field    property="address1"
+         	   depends="required, maxlength">
+         	     <arg0 key="common.Address"/>      
+				 <arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+                     <var>
+                       <var-name>maxlength</var-name>
+                       <var-value>255</var-value>
+                     </var>				 
+        </field>
+         <field    property="email"
+         	   depends="required,email">
+         	     <arg0 key="common.Email"/>         	     
+        </field>	
+         <field    property="phone"
+         	   depends="required, maxlength">
+         	     <arg0 key="common.Phone"/>      
+				 <arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+                     <var>
+                       <var-name>maxlength</var-name>
+                       <var-value>20</var-value>
+                     </var>				 
+        </field>
+		
+      </form>
+      
+        <form name="/account">
+   
+    <field    property="name"
+         	   depends="required">
+         	     <arg0 key="common.Name"/>  
+         </field>    
+             <field    property="shortname"
+         	   depends="required">
+         	     <arg0 key="accountsForm.common.shortName"/>  
+         </field>      
+         <field    property="description"
+         	   depends="required">
+         	     <arg0 key="common.Description"/>  
+         </field>    
+         <field    property="company"
+         	   depends="required">
+         	     <arg0 key="common.shortName"/>  
+         </field>    
+         <field    property="address"
+         	   depends="required">
+         	     <arg0 key="common.Address"/>  
+         </field>
+        
+      </form>
+   </formset>   
+</form-validation>    

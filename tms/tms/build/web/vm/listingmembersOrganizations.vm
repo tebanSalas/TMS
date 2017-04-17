@@ -1,0 +1,266 @@
+
+#set ($activeprofile = "")
+#set ($activeemail_work = "")
+#set ($activelogin = "")
+#set ($activename = "")
+#set ($activework_phone = "")
+#set ($activequotation = "")
+#set ($activereports = "")
+#set ($activeind_client_manager = "")
+
+
+#set ($imageprofile = "")
+#set ($imageemail_work = "")
+#set ($imagelogin = "")
+#set ($imagename = "")
+#set ($imagework_phone = "")
+#set ($imagequotation = "")
+#set ($imagereports = "")
+#set ($imageind_client_manager = "")
+
+
+#set ($sortprofile = "ASC")
+#set ($sortemail_work = "ASC")
+#set ($sortlogin = "ASC")
+#set ($sortname = "ASC")
+#set ($sortwork_phone = "ASC")
+#set ($sortquotation = "ASC")
+#set ($sortreports = "ASC")
+#set ($sortind_client_manager = "ASC")
+
+
+#if ($!organizationsForm.sortOrderMembers == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+
+
+#if ($!organizationsForm.sortColumnMembers == "name" || $!organizationsForm.sortColumnMembers == "")
+	#set ($activename = "class='active'")
+	#set ($imagename = $image)
+	#set ($sortname = $organizationsForm.sortOrderMembers)
+#elseif ($!organizationsForm.sortColumnMembers == "profile")
+	#set ($activeprofile = "class='active'")
+	#set ($imageprofile = $image)
+	#set ($sortprofile = $organizationsForm.sortOrderMembers)
+#elseif ($!organizationsForm.sortColumnMembers == "email_work")
+	#set ($activeemail_work = "class='active'")
+	#set ($imageemail_work = $image)
+	#set ($sortemail_work = $organizationsForm.sortOrderMembers)
+#elseif ($!organizationsForm.sortColumnMembers == "login")
+	#set ($activelogin = "class='active'")
+	#set ($imagelogin = $image)
+	#set ($sortlogin = $organizationsForm.sortOrderMembers)
+#elseif ($!organizationsForm.sortColumnMembers == "work_phone")
+	#set ($activework_phone = "class='active'")
+	#set ($imagework_phone = $image)
+	#set ($sortwork_phone = $organizationsForm.sortOrderMembers)
+#elseif ($!organizationsForm.sortColumnMembers == "quotation")
+	#set ($activequotation = "class='active'")
+	#set ($imagequotation = $image)
+	#set ($sortquotation = $organizationsForm.sortOrderMembers)
+#elseif ($!organizationsForm.sortColumnMembers == "reports")
+	#set ($activereports = "class='active'")
+	#set ($imagereports = $image)
+	#set ($sortreports = $organizationsForm.sortOrderMembers)
+#elseif ($!organizationsForm.sortColumnMembers == "ind_client_manager")
+	#set ($activeind_client_manager = "class='active'")
+	#set ($imageind_client_manager = $image)
+	#set ($sortind_client_manager = $organizationsForm.sortOrderMembers)
+#end
+<div id="wbP6Head" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP6','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP6'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbP6Toggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+      $msg.get("common.ClientMembers")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+<TABLE class=icons cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+      <TD class=commandDesc>
+      <DIV class=rel id=clientListtt>
+      <DIV class=abs id=clientListtti><IMG height=1 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif"  width=350></DIV></DIV>
+	  </TD>
+#if (($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" ))
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formmembers, 'clientList0'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formmembers, 'clientList0'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formmembers, 'clientList0'); if (b) b.click();"><IMG
+      height=23 alt=$msg.get("common.addLabel") src="./themes/$userInfo.getTemplate()/btn_add_norm.gif"
+      width=24 border=0 name=clientList0></A></TD>
+#end
+#if ( $userInfo.getprofile() == "4" )
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formmembers, 'clientList1'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formmembers, 'clientList1'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formmembers, 'clientList1'); if (b) b.click();"><IMG
+      height=23 alt=$msg.get("common.deleteLabel") src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif"
+      width=24 border=0 name=clientList1></A></TD>
+#end
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formmembers, 'clientList2'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formmembers, 'clientList2'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formmembers, 'clientList2'); if (b) b.click();"><IMG
+      height=23 alt=$msg.get("common.viewLabel") src="./themes/$userInfo.getTemplate()/btn_info_norm.gif" width=24
+      border=0 name=clientList2></A></TD>
+#if (($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" ))
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formmembers, 'clientList3'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formmembers, 'clientList3'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formmembers, 'clientList3'); if (b) b.click();"><IMG
+      height=23 alt=$msg.get("common.editLabel") src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif"
+      width=24 border=0 name=clientList3></A></TD>
+#end
+    <TD align=left><IMG height=26 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif" width=5></TD>
+
+	  </TR>
+	  </TBODY>
+	  </TABLE>
+
+
+
+   </nobr>
+   </td>
+  </tr>
+ </table>
+ </div>
+
+<div name="wbP6" id="wbP6" style="display:block" class=formBody>
+
+<form name="formmembers" method="post" action="./members.do">
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+	  <th width="1%" align="center">
+        <a href="javascript:MM_toggleSelectedItems(document.formmembers,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
+      </th>
+<th nowrap $activename ><a href="javascript:document.homeForm.source.value='members';document.homeForm.sortColumnMembers.value='name';document.homeForm.sortOrderMembers.value='$sortname';document.homeForm.operation.value = 'sortChilds';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por name'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Name")</a>$imagename</th>
+<th nowrap $activelogin ><a href="javascript:document.homeForm.source.value='members';document.homeForm.sortColumnMembers.value='login';document.homeForm.sortOrderMembers.value='$sortlogin';document.homeForm.operation.value = 'sortChilds';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por login'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.UserName")</a>$imagelogin</th>
+<th nowrap $activeemail_work ><a href="javascript:document.homeForm.source.value='members';document.homeForm.sortColumnMembers.value='email_work';document.homeForm.sortOrderMembers.value='$sortemail_work';document.homeForm.operation.value = 'sortChilds';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por email_work'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Email")</a>$imageemail_work</th>
+<th nowrap $activework_phone><a href="javascript:document.homeForm.source.value='members';document.homeForm.sortColumnMembers.value='work_phone';document.homeForm.sortOrderMembers.value='$sortwork_phone';document.homeForm.operation.value = 'sortChilds';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por work_phone'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.PhoneWork")</a>$imagework_phone</th>
+<th nowrap $activequotation><a href="javascript:document.homeForm.source.value='members';document.homeForm.sortColumnMembers.value='quotation';document.homeForm.sortOrderMembers.value='$sortquotation';document.homeForm.operation.value = 'sortChilds';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por quotation'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Quote")</a>$imagequotation</th>
+<th nowrap $activereports><a href="javascript:document.homeForm.source.value='members';document.homeForm.sortColumnMembers.value='reports';document.homeForm.sortOrderMembers.value='$sortreports';document.homeForm.operation.value = 'sortChilds';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por reports'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("header.displayReports")</a>$imageprofile</th>
+<th nowrap $activeind_client_manager><a href="javascript:document.homeForm.source.value='members';document.homeForm.sortColumnMembers.value='ind_client_manager';document.homeForm.sortOrderMembers.value='$sortind_client_manager';document.homeForm.operation.value = 'sortChilds';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por reports'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.clientManager")</a>$imageind_client_manager</th>
+
+    </tr>
+
+  #set ($row = 1)
+  #foreach( $lista in $listMembers)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
+	<td align="center">
+	<a href="javascript:document.formmembers.id.value='$lista.getid()';MM_toggleItem(document.formmembers, '$lista.getid()', 'clientListcb$row','$userInfo.getTemplate()');">
+	<img name="clientListcb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3"></a>
+	</td>
+<td > <a href="javascript:document.formmembers.id.value='$lista.getid()';sendDataMembers('view');">$lista.getname()</a></td>
+<td > $lista.getlogin()</td>
+<td ><a href="mailto:$lista.getemail_work()">$!lista.getemail_work()</a></td>
+<td >$!lista.getphone_work()</td>
+
+
+#if ($lista.getquotation() == "1")
+	#set ($label = $msg.get("common.yes"))
+#else
+	#set ($label = $msg.get("common.no"))
+#end
+<td >$label</td>
+
+#if ($lista.getreports() == "1")
+	#set ($label = $msg.get("common.yes"))
+#else
+	#set ($label = $msg.get("common.no"))
+#end
+<td >$label</td>
+
+#if ($lista.getind_client_manager() == "S")
+	#set ($label = $msg.get("common.yes"))
+#else
+	#set ($label = $msg.get("common.no"))
+#end
+<td >$label</td>
+  </tr>
+
+#set ($row = $row + 1)
+#end
+</table>
+  
+<table cellspacing="0" width="100%" border="0" cellpadding="0">
+ <tr>
+   <td nowrap class="footerCell">&#160;&#160;&#160;&#160;
+
+#foreach( $lista in $listPagesMembers)
+	#if ($lista.intValue() == $!$organizationsForm.pageMembers)
+		<b>$lista.intValue()</b>&#160;
+	#else
+<a href="javascript:document.homeForm.source.value='members';document.homeForm.operation.value='paging';document.homeForm.pageMembers.value='$lista.intValue()';document.homeForm.submit();">$lista.intValue()</a>&#160;
+	#end
+#end
+
+   </td>
+ </tr>
+ <tr>
+   <td height="5" colspan="2"><img width="1" height="5" border="0" src="./themes/$userInfo.getTemplate()/spacer.gif" alt="">
+   </td>
+ </tr>
+</table>
+
+  <input type="hidden" name="operation" value="listing">
+  <input type="hidden" name="fromPage" value="organizationsView">
+  <input type="hidden" name="organization" value="$!organizationsForm.id">
+  <input type="hidden" name="id" value="22">
+  <input type="hidden" name="checkedItems" value="$!organizationsForm.id" >
+</form>
+</div>
+<script language="JavaScript">
+
+document.formmembers.buttons = new Array();
+#if (($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" ))
+document.formmembers.buttons[document.formmembers.buttons.length] = new MMCommandButton('clientList0',document.formmembers,"javascript:sendDataMembers('add');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','$msg.get("common.addLabel")',false,'Confirm report deletion');
+#end
+#if ( $userInfo.getprofile() == "4" )
+document.formmembers.buttons[document.formmembers.buttons.length] = new MMCommandButton('clientList1',document.formmembers,"javascript:sendDataMembers('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',false,true,true,'','$msg.get("common.deleteLabel")',false,'Confirm report deletion');
+#end
+document.formmembers.buttons[document.formmembers.buttons.length] = new MMCommandButton('clientList2',document.formmembers,"javascript:sendDataMembers('view');",'./themes/$userInfo.getTemplate()/btn_info_norm.gif','./themes/$userInfo.getTemplate()/btn_info_over.gif','./themes/$userInfo.getTemplate()/btn_info_down.gif','./themes/$userInfo.getTemplate()/btn_info_dim.gif',false,true,false,'','$msg.get("common.viewLabel")',false,'Confirm report deletion');
+#if (($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" ))
+document.formmembers.buttons[document.formmembers.buttons.length] = new MMCommandButton('clientList3',document.formmembers,"javascript:sendDataMembers('edit');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',false,true,false,'','$msg.get("common.editLabel")',false,'Confirm report deletion');
+#end
+MM_updateButtons(document.formmembers, 0);
+
+document.formmembers.checkboxes = new Array();
+#set ($row = 1)
+#foreach( $lista in $listMembers)
+ document.formmembers.checkboxes[document.formmembers.checkboxes.length] = new MMCheckbox('$lista.getid()',document.formmembers,'clientListcb$row');
+#set ($row = $row + 1)   
+#end
+document.formmembers.tt = 'clientListtt';
+
+function getArrayNumbers(theForm) {
+	if (theForm.selectedItems != null)
+		theForm.checkedItems.value = theForm.selectedItems.join(',');
+
+}
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendDataMembers(tipo) {
+	document.formmembers.operation.value = tipo;
+	getArrayNumbers(document.formmembers);
+	document.formmembers.submit();
+}
+</script>

@@ -1,0 +1,336 @@
+<html>
+<head>
+<title>View projects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+
+<script language="JavaScript">
+function getArrayNumbers(theForm) {
+	if (theForm.selectedItems != null)
+		theForm.checkedItems.value = theForm.selectedItems.join(',');
+
+}
+</script>
+$!FILENAME_TASKS_MAP
+$!FILENAME_TASKS_STATUS_MAP
+
+
+<script>
+
+
+#macro (errorMarkup)
+  #if ($errors.exist() )
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1">$e <br>
+    #end
+    </ul>
+  #end
+#end
+</script>
+</head><body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+
+<div id="wbPHead" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbPToggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+      $msg.get("common.Project"):&nbsp;$!projectsForm.name
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+
+#if (($connectedUser == "$project.getparentOwner().getid()") || ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" )
+|| $!projectsForm.getowner() == $userInfo.getid())
+	<table cellpadding="0" cellspacing="0" border="0" class="icons"><tr>
+	<td class="commandDesc"><div id="ecDtt" class="rel"><div id="ecDtti" class="abs"><img height="1" width="350" src="./themes/$userInfo.getTemplate()/spacer.gif" alt=""></div></div></td>
+	<td width="30" class="commandBtn">
+	<a href="javascript:var b = MM_getButtonWithName(document.formView, 'ecD0'); if (b) b.click();"
+	 onMouseOver="var over = MM_getButtonWithName(document.formView, 'ecD0'); if (over) over.over(); return true; "
+	 onMouseOut="var out = MM_getButtonWithName(document.formView, 'ecD0'); if (out) out.out(); return true; ">
+	 <img width=24 height=23 border=0 name=ecD0 src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif" 
+	 alt='$msg.get("common.deleteLabel")'></a></td>
+
+	#if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" || $!projectsForm.getowner() == $userInfo.getid() )
+		<td width=30 class=commandBtn>
+		 <a href="javascript:var b = MM_getButtonWithName(document.formView, 'ecD2'); if (b) b.click();" 
+		   onMouseOver="var over = MM_getButtonWithName(document.formView, 'ecD2'); if (over) over.over(); return true; "
+		   onMouseOut="var out = MM_getButtonWithName(document.formView, 'ecD2'); if (out) out.out(); return true; ">
+		   <img width=24 height=23 border=0 name="ecD2" src="./themes/$userInfo.getTemplate()/btn_copy_norm.gif" 
+		    alt='$msg.get("common.copyLabel")'></a></td>
+		<td width=30 class=commandBtn>
+		 <a href="javascript:var b = MM_getButtonWithName(document.formView, 'ecD3'); if (b) b.click();" 
+		   onMouseOver="var over = MM_getButtonWithName(document.formView, 'ecD3'); if (over) over.over(); return true; "
+		   onMouseOut="var out = MM_getButtonWithName(document.formView, 'ecD3'); if (out) out.out(); return true; ">
+		   <img width=24 height=23 border=0 name="ecD3" src="./themes/$userInfo.getTemplate()/btn_import_norm.gif" 
+		    alt='$msg.get("common.import")'></a></td>
+	#end
+	<td width=30 class=commandBtn>
+	<a href="javascript:var b = MM_getButtonWithName(document.formView, 'ecD1'); if (b) b.click();"
+	  onMouseOver="var over = MM_getButtonWithName(document.formView, 'ecD1'); if (over) over.over(); return true; "
+	  onMouseOut="var out = MM_getButtonWithName(document.formView, 'ecD1'); if (out) out.out(); return true; ">
+	  <img width=24 height=23 border=0 name="ecD1" src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif"
+	    alt='$msg.get("common.editLabel")'></a></td>
+	<td align=left><img height="26" width="5" src="./themes/$userInfo.getTemplate()/spacer.gif" alt=""></td></tr></table>
+#end
+
+   </nobr>
+   </td>
+  </tr>
+ </table>
+</div>
+
+<div name="wbP" id="wbP" style="display:block" class=formBody>
+
+<form method="POST" name="formView" action="./projects.do" >
+
+  <table class="content" cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="3">$msg.get("common.Details")</th>
+    </tr>
+  <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Id") 
+        :</td>
+     
+      <td width="189">$!projectsForm.id</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.name") :</td>
+      <td width="189"> $!projectsForm.name</td>
+      <td width="189" rowspan="19">
+<img src="./servlet/DisplayChart?filename=$FILENAME_TASKS" width=400 height=275 border=0 usemap="#$FILENAME_TASKS">
+     <img src="./servlet/DisplayChart?filename=$FILENAME_TASKS_STATUS"  border=0 usemap="#$FILENAME_TASKS_STATUS">
+      </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Priority") 
+        :</td>
+      #if ($!projectsForm.priority == 0) #set ($label = $msg.get("common.nonePriority")) 
+	  #elseif ($!projectsForm.priority == 1) #set ($label = $msg.get("common.lowestPriority")) 
+	  #elseif ($!projectsForm.priority == 2) #set ($label = $msg.get("common.lowPriority")) 
+      #elseif ($!projectsForm.priority == 3) #set ($label = $msg.get("common.mediumPriority")) 
+      #elseif ($!projectsForm.priority == 4) #set ($label = $msg.get("common.highPriority")) 
+	  #elseif ($!projectsForm.priority == 5) #set ($label = $msg.get("common.highestPriority")) 
+      #end 
+      <td width="189"> $!label</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Description") 
+        :</td>
+      <td width="189"> $!projectsForm.description</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Owner") :</td>
+      <td width="189"><a href="./members.do?id=$!projectsForm.owner&operation=view&project=$projectsForm.id"> 
+        $project.getparentOwner().getname()</a>&nbsp;(<a href="mailto:$project.getparentOwner().getemail_work()"> 
+        $project.getparentOwner().getlogin() </a>) </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Created") 
+        :</td>
+      <td width="189"> $!projectsForm.created</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Modified") 
+        :</td>
+      <td width="189"> $!projectsForm.modified</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Organization") 
+        :</td>
+      <td width="189"> $!project.getparentOrganizations().getname()</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Status") 
+        :</td>
+      #if ($projectsForm.status == 1) #set ($estado = $msg.get("common.statusEnd")) 
+      #elseif ($projectsForm.status == 2) #set ($estado = $msg.get("common.statusNotStarted")) 
+      #elseif ($projectsForm.status == 3) #set ($estado = $msg.get("common.statusStarted")) 
+      #elseif ($projectsForm.status == 4) #set ($estado = $msg.get("common.statusSuspended")) 
+      #elseif ($projectsForm.status == 5) #set ($estado = $msg.get("common.statusQuote")) 
+      #end 
+      <td width="189"> $!estado</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.startDate") 
+        :</td>
+      <td width="189"> $!projectsForm.start_date</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.endDate") 
+        :</td>
+      <td width="189"> $!projectsForm.end_date</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.PublishAssignation") 
+        :</td>
+      #if ($!projectsForm.published_assigned == "1") #set ($tag = $msg.get("common.yes")) 
+      #else #set ($tag = $msg.get("common.no")) #end 
+      <td width="189"> $!tag</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.PublishDueDate") 
+        :</td>
+      #if ($!projectsForm.published_endtask == "1") #set ($tag = $msg.get("common.yes")) 
+      #else #set ($tag = $msg.get("common.no")) #end 
+      <td width="189"> $!tag</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.EstimatedTime") 
+        :</td>
+      <td width="189">$!estimated_hours $msg.get("common.Hours")</td>
+    </tr>
+<tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.EstimatedSub") 
+        :</td>
+      <td width="189">$!estimated_hoursSub $msg.get("common.Hours")</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.RealTime")  (hh:mm)
+        :</td>
+      <td width="189">$real_hours</td>
+    </tr>
+ <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.RealTimeSub")  (hh:mm)
+        :</td>
+      <td width="189">$real_hoursSub</td>
+    </tr>
+   #if ($userInfo.getid() == $!projectsForm.owner || $userInfo.getprofile() == "3") 
+   <!-- <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.performance") 
+        :</td>
+      <td><a href="./performance.do?operation=view&project=$projectsForm.id&type=byProject&member=0">$msg.get("common.View")</a></td>
+    </tr> -->
+    <!--tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">&nbsp;</td>
+      <td><a href="./tms2mpx?id=$projectsForm.id">$msg.get("common.Export")</a></td>
+    </tr-->    
+    #end
+
+    #if ($projectsForm.published == "1") 
+    	#set ($web = ($msg.get("common.yes"))) 
+    #else 
+    	#set ($web = ($msg.get("common.no"))) 
+    #end 
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Published") 
+        :</td>
+      <td width="189"> $!web</td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Costs") :</td>
+      <td width="189"><a href="./projects.do?operation=reportDetail&id=$!projectsForm.id">$msg.get("common.Details")</a></td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue" width="96">$msg.get("report.FilesPerProject") :</td>
+      <td width="189"><a href="./projects.do?operation=reportFile&id=$!projectsForm.id">$msg.get("common.Details")</a></td>
+    </tr>
+  #if ($projectsForm.send_email == "1") 
+    	#set ($web = ($msg.get("common.yes"))) 
+    #else 
+    	#set ($web = ($msg.get("common.no"))) 
+    #end 
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.SendEMail") 
+        :</td>
+      <td width="189"> $!web</td>
+    </tr>
+  </table>
+  <input type="hidden" name="operation" value="$!projectsForm.operation">
+  <input type="hidden" name="id" value="$!projectsForm.id">
+  <input type="hidden" name="created" value="$!projectsForm.created">
+  <input type="hidden" name="checkedItems" value="$!projectsForm.id" >
+   <input type="hidden" name="typeProject" value="$!projectsForm.typeProject"> 
+</form>
+<script type="text/JavaScript">
+#if ($connectedUser == "$!projectsForm.owner" || ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" ) || $!projectsForm.getowner() == $userInfo.getid())
+	document.formView.buttons = new Array();
+	document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD0',document.formView,"javascript:sendDataProjects('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',true,true,false,'','$msg.get("common.deleteLabel")',false,'Confirm report deletion');
+	document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD1',document.formView,"javascript:sendDataProjects('edit');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',true,true,false,'','$msg.get("common.editLabel")',false,'Confirm report deletion');
+	#if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" || $!projectsForm.getowner() == $userInfo.getid())
+		document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD2',document.formView,"javascript:sendDataProjects('copy');",'./themes/$userInfo.getTemplate()/btn_copy_norm.gif','./themes/$userInfo.getTemplate()/btn_copy_over.gif','./themes/$userInfo.getTemplate()/btn_copy_down.gif','./themes/$userInfo.getTemplate()/btn_copy_dim.gif',true,true,false,'','$msg.get("common.copyLabel")',false,'Confirm report deletion');
+                document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD3',document.formView,"javascript:sendDataProjects('importTasks');",'./themes/$userInfo.getTemplate()/btn_import_norm.gif','./themes/$userInfo.getTemplate()/btn_import_over.gif','./themes/$userInfo.getTemplate()/btn_import_down.gif','./themes/$userInfo.getTemplate()/btn_import_dim.gif',true,true,false,'','$msg.get("common.import")',false,'Confirm report deletion');
+	#end
+	MM_updateButtons(document.formView, 0);
+	document.formView.checkboxes = new Array();
+	document.formView.tt = 'ecDtt';
+#end
+
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+
+function sendDataProjects(tipo) {
+	document.formView.operation.value = tipo;
+	document.formView.submit();
+}
+</script>
+
+ #parse ("/vm/listingSubProjects.vm")
+
+ #parse ("/vm/listingtasksProjects.vm")
+
+#parse ("/vm/listingCostsProjects.vm")
+
+#parse ("/vm/listingrisks.vm")
+
+#parse ("/vm/listingtopicsProjects.vm")
+
+#parse ("/vm/listingteams.vm")
+
+#parse ("/vm/listingfilesProjects.vm")
+
+#parse ("/vm/footer.vm")
+<form name="homeForm" method="post" action="./projects.do">
+  	  <input type="hidden" name="sortOrderTasks" value="$!projectsForm.sortOrderTasks">
+  	  <input type="hidden" name="sortColumnTasks" value="$!projectsForm.sortColumnTasks">
+
+          <input type="hidden" name="sortOrderSubProj" value="$!projectsForm.sortOrderSubProj">
+  	  <input type="hidden" name="sortColumnSubProj" value="$!projectsForm.sortColumnSubProj">
+
+	  <input type="hidden" name="sortOrderTopics" value="$!projectsForm.sortOrderTopics">
+	  <input type="hidden" name="sortColumnTopics" value="$!projectsForm.sortColumnTopics">
+
+	  <input type="hidden" name="sortOrderTeams" value="$!projectsForm.sortOrderTeams" >
+	  <input type="hidden" name="sortColumnTeams" value="$!projectsForm.sortColumnTeams" >
+
+	  <input type="hidden" name="sortOrderFiles" value="$!projectsForm.sortOrderFiles">
+	  <input type="hidden" name="sortColumnFiles" value="$!projectsForm.sortColumnFiles">
+
+	  <input type="hidden" name="sortOrderCosts" value="$!projectsForm.sortOrderCosts">
+	  <input type="hidden" name="sortColumnCosts" value="$!projectsForm.sortColumnCosts">
+	  
+	  <input type="hidden" name="sortOrderRisks" value="$!projectsForm.sortOrderRisks">
+	  <input type="hidden" name="sortColumnRisks" value="$!projectsForm.sortColumnRisks">
+	  
+	  <input type="hidden" name="id" value="$!projectsForm.id">
+
+	  <input type="hidden" name="operation" value="sort">
+	  <input type="hidden" name="pageTasks" value="$!projectsForm.pageTasks">
+          <input type="hidden" name="pageSubProj" value="$!projectsForm.pageSubProj">
+	  <input type="hidden" name="pageTopics" value="$!projectsForm.pageTopics">
+	  <input type="hidden" name="pageTeams" value="$!projectsForm.pageTeams">
+	  <input type="hidden" name="pageFiles" value="$!projectsForm.pageFiles">
+	  <input type="hidden" name="pageCosts" value="$!projectsForm.pageCosts">
+	  <input type="hidden" name="pageRisks" value="$!projectsForm.pageRisks">
+
+	  <input type="hidden" name="typeTask" value="$!projectsForm.typeTask">
+	  <input type="hidden" name="typeTopic" value="$!projectsForm.typeTopic">
+  <input type="hidden" name="typeProject" value="$!projectsForm.typeProject">
+	  <input type="hidden" name="source" value="$!projectsForm.source">
+</form>
+
+</body>
+</html>

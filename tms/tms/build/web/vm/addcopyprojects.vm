@@ -1,0 +1,217 @@
+<html>
+<head>
+<title>Copia Proyectos</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/calendar.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+
+<script src="./themes/calendar.js" type=text/javascript></SCRIPT>
+
+#parse("/vm/calendarScript.src")
+
+<script>
+#macro (errorMarkup)
+  #if ($errors.exist() )
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1">$e <br>
+    #end
+    </ul>
+  #end
+#end
+</script>
+
+<script language="JavaScript">
+function checkDate( val) {
+ 
+                separado = val.split("-");
+                out = separado[0] + "-";
+                if (separado[1].length <= 1)
+                        out += "0" + separado[1]+"-";
+                else
+                        out += separado[1]+"-";
+ 
+                if (separado[2].length <= 1)
+                        out += "0" + separado[2];
+                else
+                        out += separado[2];
+                return out;
+        }
+<!-- Funcion de verificacion de fechas -->
+
+ano_actual = 2003;
+
+function sendData() {
+	if (isValidDate(document.add.startDate1.value) && isValidDate(document.add.endDate1.value) ) {
+		        document.add.startDate1.value = checkDate(document.add.startDate1.value);
+                        document.add.endDate1.value = checkDate(document.add.endDate1.value);
+			document.add.submit();
+	}else {
+		alert ('$msg.get("error.datewarning")');
+		return;
+	}
+
+}
+
+</script>
+</head><body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+<p><font color="#CC0000">#errorMarkup()</font></p>
+<form method="POST" name="add" action="./projects.do" >
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("common.copyProject")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+  <TBODY>
+  <TR bgcolor="#99CC00">
+    <TH colSpan=4><div align="left"><span class="style1">$msg.get("common.copyProject.message")</span></div><br></TH></TR>
+  <TR class=odd>
+    <td class=leftvalue vAlign=top>$msg.get("common.Name") :&nbsp;&nbsp;&nbsp;</td>
+    <td class=rightvalue><input size="44" style="width: 400px" id="name" name="name" value="$name"></td>
+    <TD class=leftvalue vAlign=top>$msg.get("common.copyProject.files") :</TD>
+    <TD class=rightvalue>
+    <TABLE cellSpacing=0 cellPadding=2 border=0>
+        <TBODY>
+        <TR>
+          <TD class=infovalue align=middle width=16><INPUT type=radio value=1 name=copyfileproject></TD>
+          <TD align=left width=200>$msg.get("common.yes")</TD></TR>
+        <TR>
+          <TD class=infovalue align=middle width=16>
+	     <INPUT type=radio CHECKED value=0 name=copyfileproject></TD>
+          <TD align=left width=200>$msg.get("common.no")</TD></TR></TBODY>
+      </TABLE>
+</TD>
+ </TR>
+  <TR class=odd>
+    <TD class=leftvalue vAlign=top>$msg.get("common.startDate") :</TD>
+    <TD class=rightvalue>
+      <TABLE cellSpacing=0 cellPadding=2 border=0>
+        <TBODY>
+        <TR>
+          <TD class=infoValue noWrap><INPUT id=startDate1 name=startDate1 value="$startDate1">
+	    <INPUT onclick="return showCalendar('startDate1', 'y-mm-dd');" type=reset value=" ... "></TD></TR></TBODY>
+        </TABLE>
+     </TD>
+
+
+    <TD class=leftvalue vAlign=top>$msg.get("common.endDate") :</TD>
+    <TD class=rightvalue>
+      <TABLE cellSpacing=0 cellPadding=2 border=0>
+        <TBODY>
+        <TR>
+          <TD class=infoValue noWrap><INPUT id=endDate1 name=endDate1 value="$endDate1">
+	    <INPUT onclick="return showCalendar('endDate1', 'y-mm-dd');" type=reset value=" ... "></TD></TR>
+        </TBODY>
+        </TABLE>
+     </TD>
+
+</TR>
+  </TBODY> </table></div>
+ </td></tr></table></div>
+<br>
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("common.copyTask")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+  <TBODY>
+  <TR bgcolor="#99CC00">
+    <TH colSpan=4><div align="left">
+        <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1">
+        <span class="style1"><b>$msg.get("common.importantIssue")</b></span></div>
+    </TH>
+
+</TR>
+  <TR bgcolor="#99CC00">
+    <TH colSpan=4><div align="left"><span class="style1">$msg.get("common.copyTask.message")</span></div><br>
+    </TH>
+</TR>
+
+  <TR class=odd>
+    <TD class=leftvalue vAlign=top>$msg.get("common.assignedTo") : </TD>
+    <TD class=rightvalue>
+    <TABLE cellSpacing=0 cellPadding=2 border=0>
+        <TBODY>
+        <TR>
+          <TD class=infovalue align=middle width=16><INPUT type=radio value=1 name=assignedTo></TD>
+          <TD align=left width=200>$msg.get("common.inherit.assignments")</TD></TR>
+        <TR>
+          <TD class=infovalue align=middle width=16>
+	     <INPUT type=radio CHECKED value=0 name=assignedTo></TD>
+          <TD align=left width=200>$msg.get("common.notAssigned")</TD></TR></TBODY>
+      </TABLE></TD>
+    <TD class=leftvalue vAlign=top>$msg.get("common.copyTask.files") :</TD>
+    <TD class=rightvalue>
+    <TABLE cellSpacing=0 cellPadding=2 border=0>
+        <TBODY>
+        <TR>
+          <TD class=infovalue align=middle width=16><INPUT type=radio value=1 name=copyfiletask></TD>
+          <TD align=left width=200>$msg.get("common.yes")</TD></TR>
+        <TR>
+          <TD class=infovalue align=middle width=16>
+	     <INPUT type=radio CHECKED value=0 name=copyfiletask></TD>
+          <TD align=left width=200>$msg.get("common.no")</TD></TR></TBODY>
+      </TABLE>
+</TD>
+ </TR>
+
+<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.EstimatedTime") :</td>
+		<TD class=rightvalue>
+    <TABLE cellSpacing=0 cellPadding=2 border=0>
+        <TBODY>
+        <TR>
+          <TD class=infovalue align=middle width=16><INPUT type=radio value=1 name=estimatedTime></TD>
+          <TD align=left width=200>$msg.get("common.inherit.estimated")</TD></TR>
+        <TR>
+          <TD class=infovalue align=middle width=16>
+	     <INPUT type=radio CHECKED value=0 name=estimatedTime></TD>
+          <TD align=left width=200>$msg.get("common.inherit.zero")</TD></TR></TBODY>
+      </TABLE></TD>
+                <td valign="top" class="leftvalue">$msg.get("common.Fare") :</td>
+		<TD class=rightvalue>
+    <TABLE cellSpacing=0 cellPadding=2 border=0>
+        <TBODY>
+        <TR>
+          <TD class=infovalue align=middle width=16><INPUT type=radio value=1 name=fare></TD>
+          <TD align=left width=200>$msg.get("common.inherit.fare")</TD></TR>
+        <TR>
+          <TD class=infovalue align=middle width=16>
+	     <INPUT type=radio CHECKED value=0 name=fare></TD>
+          <TD align=left width=200>$msg.get("common.inherit.zero")</TD></TR></TBODY>
+      </TABLE></TD>
+	</tr>
+
+  </TBODY> </table></div>
+ </td></tr></table></div>
+
+</table>
+<table class=title>
+<TR class=odd>
+
+    <TD class=rightvalue><INPUT type=button value='$msg.get("common.save")' name=Save  onClick="sendData();"></TD>
+
+</TR>
+</table>
+  <input type="hidden" name="id" value="$!id">
+  <input type="hidden" name="operation" value="$!projectsForm.operation">
+<input type="hidden" name="sortorder" value="DESC">
+<input type="hidden" name="sortOrder" value="DESC">
+</FORM>
+#parse ("/vm/footer.vm")
+</body>
+</html>

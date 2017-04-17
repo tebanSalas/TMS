@@ -1,0 +1,60 @@
+#parse("/portal/vm/header.vm")
+<script language="JavaScript">
+function sendData() {
+    document.add.save.disabled = true;
+    if(document.add.message.value != "" && document.add.subject.value != ""){
+        document.add.submit();
+    }else{
+        if(document.add.message.value == "")
+        alert('Error: El campo de Mensaje es obligatorio');
+        else
+        alert('Error: El campo de Tema es obligatorio');
+    }
+}
+</script>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+      <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">$msg.get("common.addLabel") $msg.get("common.Topics.name")</h1></font></b></font></div>
+   </tr>
+  <tr>
+
+<form method="POST" name="add" action="./portalTopics.do" >
+  <table class="content" cellspacing="0" cellpadding="0">
+ 
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Subject") :</td>
+      <td>
+
+      <input size="44" value="$!subject" style="width: 400px" name="subject" maxlength="100" type="TEXT" #if( $projectInfo.status  == 4 || $projectInfo.status  == 1 )
+        disabled #end >
+     </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Message") :</td>
+      <td> 
+        <textarea cols="44" style="width: 400px" name="message" rows="10" wrap="VIRTUAL"#if( $projectInfo.status  == 4 || $projectInfo.status  == 1 )
+        disabled #end >N/A</textarea>
+      </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td>
+
+     #if( $projectInfo.status  != 4 )
+
+     #if( $projectInfo.status  != 1 )
+            <input type="button" name="save" value='$msg.get("common.save")' onclick="sendData();">
+     #end
+     #end
+
+      </td>
+    </tr>
+  </table>
+  <input type="hidden" name="operation" value="applyAdd">
+  <input type="hidden" name="project" value="$!portalForm.project">
+
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>Add Risks</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<script>
+#macro (errorMarkup)
+  #if ($errors.exist() )
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1">$e <br>
+    #end
+    </ul>
+  #end
+#end
+</script>
+
+</head><body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+
+<p><font color="#CC0000">#errorMarkup()</font></p>
+<form method="POST" name="post" action="./risks.do" >
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("common.addRisk")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+  <tr><th colspan="2">$msg.get("common.Details")</th></tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Description") :</td>
+		<td>			
+        <textarea style="width: 400px; height: 120px;" name="description" wrap="VIRTUAL">$!risksForm.description</TEXTAREA>       
+      </td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" >$msg.get("common.probability") :</td>
+		<td>
+			<SELECT size="1" name="probability">
+      <OPTION value="10" #if ($risksForm.probability == 10) selected #end> 10</OPTION>
+      <OPTION value="20" #if ($risksForm.probability == 20) selected #end> 20</OPTION>
+      <OPTION value="30" #if ($risksForm.probability == 30) selected #end> 30</OPTION>
+      <OPTION value="40" #if ($risksForm.probability == 40) selected #end> 40</OPTION>
+      <OPTION value="50" #if ($risksForm.probability == 50) selected #end> 50</OPTION>
+      <OPTION value="60" #if ($risksForm.probability == 60) selected #end> 60</OPTION>
+      <OPTION value="70" #if ($risksForm.probability == 70) selected #end> 70</OPTION>
+      <OPTION value="80" #if ($risksForm.probability == 80) selected #end> 80</OPTION>
+      <OPTION value="90" #if ($risksForm.probability == 90) selected #end> 90</OPTION>
+      <OPTION value="100" #if ($risksForm.probability == 100) selected #end>100</OPTION>
+      </SELECT>%</td> 
+	</tr>
+
+    <tr class="odd">
+	<td valign="top" class="leftvalue" >$msg.get("common.impact") :</td>
+		<td>
+			<SELECT size="1" name="impact">
+      <OPTION value="1" #if ($risksForm.impact == 1) selected #end> 1</OPTION>
+      <OPTION value="2" #if ($risksForm.impact == 2) selected #end> 2</OPTION>
+      <OPTION value="3" #if ($risksForm.impact == 3) selected #end> 3</OPTION>
+      <OPTION value="4" #if ($risksForm.impact == 4) selected #end> 4</OPTION>
+      <OPTION value="5" #if ($risksForm.impact == 5) selected #end> 5</OPTION>
+      <OPTION value="6" #if ($risksForm.impact == 6) selected #end> 6</OPTION>
+      <OPTION value="7" #if ($risksForm.impact == 7) selected #end> 7</OPTION>
+      <OPTION value="8" #if ($risksForm.impact == 8) selected #end> 8</OPTION>
+      <OPTION value="9" #if ($risksForm.impact == 9) selected #end> 9</OPTION>
+      <OPTION value="10" #if ($risksForm.impact == 10) selected #end>10</OPTION>
+      </SELECT></td>
+	</tr>
+      <tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.todoaction") :</td>
+		<td>
+			<TEXTAREA rows="3" wrap="VIRTUAL" style="width: 400px; height: 120px;" cols="50" name="todoaction">$!risksForm.todoaction</TEXTAREA></td>
+	</tr>
+       <tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.planb") :</td>
+		<td>
+			<TEXTAREA rows="3" wrap="VIRTUAL" style="width: 400px; height: 120px;" cols="50" maxlength="5" name="planb">$!risksForm.planb</TEXTAREA></td>
+	</tr>
+
+     <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Task") :</td>
+      <td>
+        <select name="task">
+    
+		 #foreach( $lista in $listaTasks)
+		 	<option value="$lista.id" #if ($!risksForm.task == $lista.id) selected #end>$lista.name</option>
+		 #end
+        </select>
+      </td>
+
+<tr class="odd">
+    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td><input type="button" value='$msg.get("common.save")' name="Submit" onClick="sendData();">
+    </td></tr>
+ </table></div>
+ </td></tr></table></div>
+<script type="text/JavaScript">
+function sendData(val) {
+
+	if (document.post.description.value.length== 0)
+	{
+	   alert('$msg.get("common.risk.NullDescription")');	   
+	   return; 			
+	}		
+	if (document.post.todoaction.value.length== 0)
+	{
+	   alert('$msg.get("common.risk.NullAccion")');	   
+	   return; 			
+	}
+	if (document.post.description.value.length> 255)
+	{
+	   alert('$msg.get("common.risk.MaxDescription")');	   
+	   return; 			
+	}		
+	if (document.post.planb.value.length > 255)
+	{
+	   alert('$msg.get("common.risk.MaxPlanB")');	   
+	   return; 			
+	}
+	document.post.submit();
+	
+}
+</script>
+  <input type="hidden" name="operation" value="$!risksForm.operation">
+  <input type="hidden" name="id" value="$!risksForm.id">
+  <input type="hidden" name="project" value="$!risksForm.project">
+  <input type="hidden" name="fromPage" value="$!risksForm.fromPage"> 
+
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

@@ -1,0 +1,470 @@
+<html>
+<head>
+<title>Add Tasks </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/calendar.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<script src="./themes/calendar.js" type=text/javascript></SCRIPT>
+<script>
+#macro (errorMarkup)
+  #if ($errors.exist() )
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1">$e <br>
+    #end
+    </ul>
+  #end
+#end
+</script>
+
+<script language="JavaScript">
+function checkDate( val) {
+ 
+                separado = val.split("-");
+                out = separado[0] + "-";
+                if (separado[1].length <= 1)
+                        out += "0" + separado[1]+"-";
+                else
+                        out += separado[1]+"-";
+ 
+                if (separado[2].length <= 1)
+                        out += "0" + separado[2];
+                else
+                        out += separado[2];
+                return out;
+        }
+<!-- Funcion de verificacion de fechas -->
+
+ano_actual = 2003;
+
+function sendData() {
+	if (isValidDate(document.add.fecha1.value) && isValidDate(document.add.fecha2.value) && 
+	   validateInt(document.add.estimated_time.value) && IsNumeric(document.add.tolerance.value) &&
+	   IsNumeric(document.add.monto_manual.value)) {
+		if (document.add.fecha1.value != null && document.add.fecha2.value != null) {
+                        document.add.fecha1.value = checkDate(document.add.fecha1.value);
+                        document.add.fecha2.value = checkDate(document.add.fecha2.value);
+
+			document.add.start_date.value = document.add.fecha1.value + " 12:00:00.00" ;
+			document.add.due_date.value   = document.add.fecha2.value + " 12:00:00.00" ;
+
+			document.add.completion.disabled=false;
+			document.add.submit();
+		} else {
+			alert ("Debe estipular una fecha inicio y finalizacion.");
+			return;
+		}
+	}
+
+}
+
+
+
+function sendData2() {
+document.add.operation.value = "applyconvert";
+document.add.submit();
+}
+// Funcion que se encarga de activar o no la posibilidad de cambiar el monto fijo de la tarifa
+function setMontoFijo(theObj)
+{
+   if(theObj.checked)
+   { 
+     document.add.fare.selectedIndex=0;
+     document.add.fare.disabled=true;
+     document.add.monto_manual.disabled=false;
+   }
+   else
+    {
+     document.add.fare.disabled=false;
+     document.add.monto_manual.value="0";
+     document.add.monto_manual.disabled=true;
+    }
+}
+
+// Funcion que se encarga de activar o desactivar el nivel de completitud de acuerdo al
+// estatus en el cual se encuentra una tarea dada.
+function changeSt(theObj){
+	if (theObj.selectedIndex==3 ) {
+		document.add.completion.selectedIndex=0;
+		document.add.completion.disabled=false;
+	} else {
+		if (theObj.selectedIndex==0 || theObj.selectedIndex==1) {
+			document.add.completion.selectedIndex=10;
+		} else {
+			document.add.completion.selectedIndex=0;
+		}
+		document.add.completion.disabled=true;
+    } 
+}
+
+// Funcion que se encarga de habilitar o no la opcion de requerido
+function changeRequired(theObj) {
+	if (theObj.selectedIndex == 0) {
+		document.add.predecessor_required.value = "0";
+		document.add.predecessor_required.checked=false;
+		document.add.predecessor_required.disabled=true;
+	} else {
+		document.add.predecessor_required.disabled=false;
+	}
+}
+</script></head><body bgcolor="#FFFFFF" text="#000000">
+
+#parse("/vm/calendarScript.src")
+
+
+#parse ("/vm/header.vm")
+<p><font color="#CC0000">#errorMarkup()</font></p>
+<form method="POST" name="add" action="./tasks.do" >
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$title</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+<tr><th colspan="2">$msg.get("common.Information")</th></tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Project") :</td>
+		<td>$assignedProject.getname()</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Organization") :</td>
+		
+      <td>$!assignedProject.getparentOrganizations().getname()</td>
+	</tr>
+	
+
+<tr><th colspan="2">$msg.get("common.Details")</th></tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.TopicId") :</td>
+		<td>
+			$!tasksForm.topic
+		</td>
+	</tr>
+
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.TaskId") :</td>
+		<td>
+			$!tasksForm.id
+		</td>
+	</tr>
+
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Name") :</td>
+		<td>
+			<input size="44" value="$!tasksForm.name" style="width: 400px" name="name" maxlength="120" type="TEXT">
+		</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Description") :</td>
+		<td>
+			<textarea rows="3" wrap="VIRTUAL" style="width: 400px; height: 120px; margin-bottom: 8px;" name="description" cols="43">$!tasksForm.description</TEXTAREA></td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.assignedTo") :</td>
+		<td>
+			<SELECT size="1" name="assigned_to">
+				<OPTION value="0" #if ($tasksForm.assigned_to == 0) selected #end>$msg.get("common.notAssigned")</OPTION>			
+#foreach( $lista in $listMembers)
+      <OPTION value="$!lista.getid()" #if ($tasksForm.assigned_to == $!lista.getid()) selected #end>$!lista.getname()&nbsp;/&nbsp;$!lista.getlogin()</OPTION>
+#end
+      </SELECT></td>
+	</tr> 
+
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.emailnotifytqa") :</td>
+				<td>
+                                        <SELECT size="1" name="emailNotifyTQA">
+                                                   <OPTION value="0" > Sin Asignar </OPTION>
+                                          #foreach( $lista in $membersList)
+                                                  <OPTION value="$lista.id" #if ($tasksForm.emailNotifyTQA == $lista.id) selected #end>$!lista.name</OPTION>
+                                            #end						
+                                        </SELECT>
+                                </td>
+                   
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.emailnotifyfqa") :</td>
+		
+                   <td>
+                                        <SELECT size="1" name="emailNotifyFQA">
+                                                   <OPTION value="0" > Sin Asignar </OPTION>
+                                            #foreach( $lista2 in $membersList2)
+                                                  <OPTION value="$lista2.id" #if ($tasksForm.emailNotifyFQA == $lista2.id) selected #end>$!lista2.name</OPTION>
+                                            #end						
+                                        </SELECT>
+                                </td>
+	</tr>
+</tr>
+
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Predecessor") :</td>
+		<td>
+			<SELECT size="1" name="predecessor" onchange="changeRequired(this)">
+				<OPTION value="0">$msg.get("common.notApplicable")</OPTION>
+#foreach( $lista in $listTasks)
+      <OPTION value="$!lista.getid()" #if ($tasksForm.predecessor == $!lista.getid()) selected #end>$!lista.getname()</OPTION>
+#end
+      </SELECT></td>
+	</tr>
+#if ($tasksForm.predecessor == 0)
+	#set ($enabled = "disabled")
+#else
+	#set ($enabled = "")
+#end
+
+
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Chargeable") :</td>
+                <td><SELECT size="1" name="collect"> 
+                 <OPTION value="0" #if ($tasksForm.collect == "0") selected  #end>$msg.get("common.NoChargeable")</OPTION>
+                 <OPTION value="1" #if ($tasksForm.collect == "1") selected  #end>$msg.get("common.chargeableEstimate")</OPTION>
+                 <OPTION value="2" #if ($tasksForm.collect == "2") selected  #end>$msg.get("common.ChargeableExecution")</OPTION>
+                 </td>
+
+
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue"  >$msg.get("common.Status") :</td>
+		<td>
+			<SELECT size="1" name="status" onchange="changeSt(this)" >
+      <OPTION value="0" #if ($tasksForm.status == 0) selected #end>$msg.get("common.statusClientEnd")</OPTION>
+      <OPTION value="1" #if ($tasksForm.status == 1) selected #end>$msg.get("common.statusEnd")</OPTION>
+      <OPTION value="2" #if ($tasksForm.status == 2) selected #end>$msg.get("common.statusNotStarted")</OPTION>
+      <OPTION value="3" #if ($tasksForm.status == 3) selected #end>$msg.get("common.statusStarted")</OPTION>
+      <OPTION value="4" #if ($tasksForm.status == 4) selected #end>$msg.get("common.statusSuspended")</OPTION>
+      <OPTION value="5" #if ($tasksForm.status == 5) selected #end>$msg.get("common.statusQuote")</OPTION>
+      <OPTION value="6" #if ($tasksForm.status == 6) selected #end>$msg.get("common.statusQuoteSended")</OPTION>
+      <OPTION value="7" #if ($tasksForm.status == 7) selected #end>$msg.get("common.statusQuoteRejected")</OPTION>
+      <OPTION value="8" #if ($tasksForm.status == 8) selected #end>$msg.get("common.statusQuoteAcepted")</OPTION>
+      <OPTION value="9" #if ($tasksForm.status == 9) selected #end>$msg.get("common.statusCharge")</OPTION>
+      <OPTION value="10" #if ($tasksForm.status == 10) selected #end>$msg.get("common.statusChargeSended")</OPTION>
+      <OPTION value="11" #if ($tasksForm.status == 11) selected #end>$msg.get("common.statusProcessingCharge")</OPTION>
+      <OPTION value="12" #if ($tasksForm.status == 12) selected #end>$msg.get("common.statusRejected")</OPTION>
+      <OPTION value="13" #if ($tasksForm.status == 13) selected #end>$msg.get("common.qualitycontrol")</OPTION>
+      <OPTION value="14" #if ($tasksForm.status == 14) selected #end>$msg.get("common.standBy")</OPTION>
+      </SELECT></td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.completion") :</td>
+		<td>
+			
+        <SELECT size="1" name="completion">
+          <OPTION value="0" #if ($tasksForm.completion == 0) selected #end>0%</OPTION>
+      <OPTION value="10" #if ($tasksForm.completion == 10) selected #end>10 %</OPTION>
+      <OPTION value="20" #if ($tasksForm.completion == 20) selected #end>20 %</OPTION>
+      <OPTION value="30" #if ($tasksForm.completion == 30) selected #end>30 %</OPTION>
+      <OPTION value="40" #if ($tasksForm.completion == 40) selected #end>40 %</OPTION>
+      <OPTION value="50" #if ($tasksForm.completion == 50) selected #end>50 %</OPTION>
+      <OPTION value="60" #if ($tasksForm.completion == 60) selected #end>60 %</OPTION>
+      <OPTION value="70" #if ($tasksForm.completion == 70) selected #end>70 %</OPTION>
+      <OPTION value="80" #if ($tasksForm.completion == 80) selected #end>80 %</OPTION>
+      <OPTION value="90" #if ($tasksForm.completion == 90) selected #end>90 %</OPTION>
+      <OPTION value="100" #if ($tasksForm.completion == 100) selected #end>100 %</OPTION>
+      </SELECT></td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Priority") :</td>
+		<td>
+			<SELECT size="1" name="priority">
+      <OPTION value="0" #if ($tasksForm.priority == 0) selected #end>0 - $msg.get("common.nonePriority")</OPTION>
+      <OPTION value="1" #if ($tasksForm.priority == 1) selected #end>1 - $msg.get("common.lowestPriority")</OPTION>
+      <OPTION value="2" #if ($tasksForm.priority == 2) selected #end>2 - $msg.get("common.lowPriority")</OPTION>
+      <OPTION value="3" #if ($tasksForm.priority == 3) selected #end>3 - $msg.get("common.mediumPriority")</OPTION>
+      <OPTION value="4" #if ($tasksForm.priority == 4) selected #end>4 - $msg.get("common.highPriority")</OPTION>
+      <OPTION value="5" #if ($tasksForm.priority == 5) selected #end>5 - $msg.get("common.highestPriority")</OPTION>
+      </SELECT></td>
+	</tr>
+
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.startDate") :</td>
+		<td>
+		  <input type="text" style="width: 100px" name="fecha1" id="fecha1" size="20" value="$fecha1">
+		  <input type="reset" value=" ... " onclick="return showCalendar('fecha1', 'y-mm-dd');">
+	      </td>
+	</tr>
+
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.deliverDate") :</td>
+#if ($!tasksForm.operation=="applyAdd"  || $userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" || ($userInfo.getid() == $assignedProject.getowner() || $userInfo.getprofile() == "1"))
+
+		<td>
+		  <input type="text" style="width: 100px" name="fecha2" id="fecha2" size="20" value="$fecha2">
+		  <input type="reset" value=" ... " onclick="return showCalendar('fecha2', 'y-mm-dd');">
+	      </td>
+#else
+    
+<td>
+		  <input type="text" style="width: 100px" name="fecha2" id="fecha2" size="20" value="$fecha2" disabled=true>
+	      </td>
+
+
+#end
+
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.EstimatedTime") :</td>
+		<td>
+			<input size="10" value="$!tasksForm.estimated_time" style="width: 40px" name="estimated_time" maxlength="32" type="TEXT">
+    <SELECT size="1" name="estimated_time_min">
+	<OPTION value="0" #if ($tasksForm.estimated_time_min.intValue() == 0) selected #end>00</OPTION>
+        <OPTION value="5" #if ($tasksForm.estimated_time_min.intValue() == 05) selected #end>05</OPTION>
+        <OPTION value="10" #if ($tasksForm.estimated_time_min.intValue() == 10) selected #end>10</OPTION>
+        <OPTION value="15" #if ($tasksForm.estimated_time_min.intValue() == 15) selected #end>15</OPTION>
+        <OPTION value="20" #if ($tasksForm.estimated_time_min.intValue() == 20) selected #end>20</OPTION>
+        <OPTION value="25" #if ($tasksForm.estimated_time_min.intValue() == 25) selected #end>25</OPTION>
+        <OPTION value="30" #if ($tasksForm.estimated_time_min.intValue() == 30) selected #end>30</OPTION>
+        <OPTION value="35" #if ($tasksForm.estimated_time_min.intValue() == 35) selected #end>35</OPTION>
+        <OPTION value="40" #if ($tasksForm.estimated_time_min.intValue() == 40) selected #end>40</OPTION>
+        <OPTION value="45" #if ($tasksForm.estimated_time_min.intValue() == 45) selected #end>45</OPTION>
+        <OPTION value="50" #if ($tasksForm.estimated_time_min.intValue() == 50) selected #end>50</OPTION>
+        <OPTION value="55" #if ($tasksForm.estimated_time_min.intValue() == 55) selected #end>55</OPTION>
+      </SELECT>  $msg.get("common.Hours")
+		</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Tolerance") :</td>
+		<td>
+			<input size="44" value="$!tasksForm.tolerance" style="width: 50px" name="tolerance" maxlength="3" type="TEXT"> %</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.RealTime") :</td>
+		
+      <td> $!tasksForm.actual_time $msg.get("common.Hours")</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Fare") :</td>
+		<td>
+			<SELECT size="1" name="fare">
+#set ($tarifaCombo = false)			
+      <OPTION value="0" #if ($tasksForm.fare.intValue() == 0) selected #set ($tarifaCombo = true) #end>0</OPTION>
+      <OPTION value="35" #if ($tasksForm.fare.intValue() == 35) selected #set ($tarifaCombo = true) #end>35</OPTION>
+      <OPTION value="40" #if ($tasksForm.fare.intValue() == 40) selected #set ($tarifaCombo = true) #end>40</OPTION>
+      <OPTION value="45" #if ($tasksForm.fare.intValue() == 45) selected #set ($tarifaCombo = true) #end>45</OPTION>
+      <OPTION value="50" #if ($tasksForm.fare.intValue() == 50) selected #set ($tarifaCombo = true) #end>50</OPTION>
+      <OPTION value="55" #if ($tasksForm.fare.intValue() == 55) selected #set ($tarifaCombo = true) #end>55</OPTION>
+      <OPTION value="60" #if ($tasksForm.fare.intValue() == 60) selected #set ($tarifaCombo = true) #end>60</OPTION>
+      <OPTION value="70" #if ($tasksForm.fare.intValue() == 70) selected #set ($tarifaCombo = true) #end>70</OPTION>
+      <OPTION value="80" #if ($tasksForm.fare.intValue() == 80) selected #set ($tarifaCombo = true) #end>80</OPTION>
+      <OPTION value="90" #if ($tasksForm.fare.intValue() == 90) selected #set ($tarifaCombo = true) #end>90</OPTION>
+      <OPTION value="110" #if ($tasksForm.fare.intValue() == 110) selected #set ($tarifaCombo = true) #end>110</OPTION>
+      <OPTION value="125" #if ($tasksForm.fare.intValue() == 125) selected #set ($tarifaCombo = true) #end>125</OPTION>
+      <OPTION value="150" #if ($tasksForm.fare.intValue() == 150) selected #set ($tarifaCombo = true) #end>150</OPTION>
+      <OPTION value="175" #if ($tasksForm.fare.intValue() == 175) selected #set ($tarifaCombo = true) #end>175</OPTION>
+      <OPTION value="200" #if ($tasksForm.fare.intValue() == 200) selected #set ($tarifaCombo = true) #end>200</OPTION>
+      </SELECT> 
+	  <INPUT type="checkbox" name="check_monto_fijo" value="1" onClick="setMontoFijo(this);" #if ($tarifaCombo == false) checked #end> $msg.get("common.FixedAmmount")
+	  <INPUT size="20" type="text" name="monto_manual" #if ($tarifaCombo == true) disabled #end) value="$tasksForm.fare">
+        $msg.get("common.dollarHour")</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.predefinedComments") :</td>
+		<td>
+			<SELECT size="1" name="message">
+#foreach( $lista in $listMessages)
+      <OPTION value="$lista.id" #if ($tasksForm.message == $lista.id) selected #end>$!lista.name</OPTION>
+#end						
+      </SELECT></td>
+	</tr>
+
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Comments") :</td>
+		<td>
+			<TEXTAREA rows="8" cols="86"  name="comments">$!tasksForm.comments</TEXTAREA></td>
+	</tr>
+
+
+<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Severity") :</td>
+		<td>
+			<SELECT size="1" name="severity">
+      <OPTION value="0" #if ($tasksForm.severity == '0') selected #end>$msg.get("common.lowSeverity")</OPTION>
+      <OPTION value="1" #if ($tasksForm.severity == '1') selected #end>$msg.get("common.mediumSeverity")</OPTION>
+      <OPTION value="2" #if ($tasksForm.severity == '2') selected #end>$msg.get("common.highSeverity")</OPTION>
+      </SELECT></td>
+</tr>
+
+<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Type_Tasks") :</td>
+		<td><SELECT size="1" name="type_task">
+#foreach( $lista in $list_type_tasks)
+      <OPTION value="$lista.id" #if ($tasksForm.type_task == $lista.id) selected #end>$!lista.description - $!lista.id </OPTION>
+#end	
+	       </SELECT>
+	       </td>
+	<tr class="odd">
+	 <td valign="top" class="leftvalue">$msg.get("common.spreadFix") :</td>
+	 <td>
+#if ($!tasksForm.operation == "applyAdd")
+	--
+#else
+		<SELECT size="1" name="spread_fix">
+		      <OPTION value="S" #if ($tasksForm.spread_fix.equalsIgnoreCase("S")) selected #end>$msg.get("common.yes")</OPTION>
+		      <OPTION value="N" #if ($tasksForm.spread_fix.equalsIgnoreCase("N")) selected #end>$msg.get("common.no")</OPTION>
+		      <OPTION value=" " #if ($tasksForm.spread_fix.equalsIgnoreCase(" ")) selected #end>--</OPTION>
+#if ($userInfo.getprofile() == "3")
+		      <OPTION value="P" #if ($tasksForm.spread_fix.equalsIgnoreCase("P")) selected #end>$msg.get("common.spreadedFix")</OPTION>		      
+#end
+	      </SELECT>
+#end
+	  </td>
+	</tr>
+
+
+<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td>
+<td>
+  <input type="button" value='$msg.get("common.save")' onclick="sendData();">
+
+
+#if ($assignedProject.getowner() == $userInfo.getid() || $userInfo.getprofile() == "3" )
+ #if ($!tasksForm.operation == "applyEdit")
+#if ($tasksForm.assigned_to != 0)
+  <input type="button" value= '$msg.get("common.convert")' onClick="sendData2();">
+#end
+ #end
+#end
+
+</td>
+</tr>
+
+ </table></div>
+ </td></tr></table></div>
+  <input type="hidden" name="operation" value="$!tasksForm.operation">
+  <input type="hidden" name="id" value="$!tasksForm.id">
+  <input type="hidden" name="created" value="$!tasksForm.created">
+  <input type="hidden" name="owner" value="$!tasksForm.owner">
+  <input type="hidden" name="project" value="$!tasksForm.project">
+  <input type="hidden" name="reply_quotation_date" value="$!tasksForm.reply_quotation_date">
+  <input type="hidden" name="modified" value="$!tasksForm.modified">
+  <input type="hidden" name="real_due_date" value="$!tasksForm.real_due_date">
+  <input type="hidden" name="topic" value="$!tasksForm.topic">
+  <input type="hidden" name="reply_quotation_member" value="$!tasksForm.reply_quotation_member">
+  <input type="hidden" name="assigned" value="$!tasksForm.assigned">
+  <input type="hidden" name="published" value="$!tasksForm.published">
+  <input type="hidden" name="send_quotation_date" value="$!tasksForm.send_quotation_date">
+  <input type="hidden" name="start_date" value="$!tasksForm.created">
+#if ($!tasksForm.operation == "applyAdd")
+   <input type="hidden" name="spread_fix" value=" ">
+#end
+
+  #if ($!tasksForm.operation == "applyEdit")
+    <input type="hidden" name="due_date" value="$!tasksForm.due_date">
+  #else
+    <input type="hidden" name="due_date" value="$!tasksForm.created">
+  #end
+  <input type="hidden" name="fromPage" value="$!tasksForm.fromPage">
+  <input type="hidden" name="topic2task" value="$!tasksForm.topic2task">
+  <input type="hidden" name="organization" value="$assignedProject.getparentOrganizations().getid()">
+  <input type="hidden" name="actual_time" value="$!tasksForm.actual_time">
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

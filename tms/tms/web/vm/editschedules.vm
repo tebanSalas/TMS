@@ -1,0 +1,161 @@
+
+<html>
+<head>
+<script src="./javascript/Ajax.js"></script>
+<title>Edit Schedule</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head><body bgcolor="#FFFFFF" text="#000000">
+<script type="text/javascript">
+var ajax;
+
+function funcionCallback()
+{
+	// Comprobamos si la peticion se ha completado (estado 4)
+	if( ajax.readyState == 4 )
+	{
+		// Comprobamos si la respuesta ha sido correcta (resultado HTTP 200)
+		if( ajax.status == 200 )
+		{
+			// Escribimos el resultado en la pagina HTML mediante DHTML                     
+			document.all.salida.innerHTML = "<b>"+ajax.responseText+"</b>";	
+
+		}
+	}
+}
+
+function updateData()
+{
+	// Creamos el control XMLHttpRequest segun el navegador en el que estemos 
+	if( window.XMLHttpRequest )
+		ajax = new XMLHttpRequest(); // No Internet Explorer
+	else
+		ajax = new ActiveXObject("Microsoft.XMLHTTP"); // Internet Explorer
+
+	// Almacenamos en el control al funcion que se invocara cuando la peticion
+	// cambie de estado	
+	ajax.onreadystatechange = funcionCallback;       
+	// Enviamos la peticion
+	ajax.open( "GET", "./vm/ajax/updateData.jsp?id="+document.all.hour_start.value, true );
+	ajax.send( "" );
+}
+
+function changed(idTask) {
+        if (idTask != document.add.taskid.value)
+            alert('Atención, ha cambiado el código de tarea.');
+}
+
+</script>
+
+
+<script>
+#macro (errorMarkup)
+  #if ($errors.exist())
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1"> $e <br>
+    #end
+    </ul>
+  #end
+#end
+
+</script>
+#parse ("/vm/header.vm")
+<p><font color="#CC0000">#errorMarkup()</font></p>
+<form method="POST" name="add" action="./schedules.do" >
+<div class=blockHeader>
+<table class=title width="100%">
+
+<tr><td>&nbsp;#if (($!schedulesForm.getOperation() == "applyAdd"))$msg.get("schedule.add") #else $msg.get("schedule.edit")#end: $username - $date</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=1>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tr>
+      <th colspan="2">$msg.get("common.Details")</th>
+    </tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Task"):</td>
+		<td>
+
+ #if ($task == "")
+	#set($task = "0")
+ #end
+
+ #set($int = 1)
+ #set($auxval = 0)
+ <SELECT size="1" name="taskid" onchange="changed($!selectedTask)">
+	#foreach( $lista in $listTasks)
+	      <OPTION value="$!lista.id" #if ($!selectedTask == "$!lista.id") selected #end>($!lista.parentProject.name) $!lista.getid() - $!lista.getname()</OPTION>
+	#end
+ </SELECT></td>
+</tr>	
+
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Comments") :</td>
+      <td> 
+        <textarea rows="3" wrap="VIRTUAL" style="width: 400px; height: 50px;" name="comments" cols="43">$!comments</TEXTAREA></td>
+      
+    </tr>
+
+</tr>
+<tr class="odd"> 
+	<td valign="top" class="leftvalue">&nbsp;&nbsp;</td>
+	<td> 
+		<input type="button" value=$msg.get("common.save") onClick="sendData();">
+	</td>
+</tr>
+  
+ </table></div>
+ </td></tr></table></div>
+  
+<script type="text/JavaScript">
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+
+
+
+function searchData() {   
+    document.add.operation.value="search";
+    document.add.submit();
+   
+}
+
+function loadEndTimeData() {   
+    document.add.operation.value="loadHour";
+    document.add.submit();
+}
+function loadRealTime() { 
+    document.add.operation.value="loadEndHour";
+    document.add.submit();
+   
+}
+
+function sendData() {
+    document.add.operation.value="applyEdit";
+   document.add.submit();
+   
+}
+
+</script>
+
+  <input type="hidden" name="operation" value="$!schedulesForm.operation">
+  <input type="hidden" name="id" value="$!id">
+  <input type="hidden" name="member" value="$!member">
+  <input type="hidden" name="userid" value="$!schedulesForm.userid">
+  <input type="hidden" name="hourid" value="$!schedulesForm.hourid">
+  <input type="hidden" name="theDate" value="$!schedulesForm.theDate">
+  <input type="hidden" name="username" value="$!username">
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

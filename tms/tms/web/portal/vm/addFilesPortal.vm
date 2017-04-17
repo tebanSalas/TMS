@@ -1,0 +1,79 @@
+#parse("/portal/vm/header.vm")
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+      <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">$msg.get("common.addLabel") $msg.get("common.Files")</h1></font></b></font></div>
+  </tr>
+  <tr>
+<form method="POST" name="add" action="./portalFiles.do" enctype="multipart/form-data">
+  <table class="content" cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="2">$msg.get("common.Details")</th>
+    </tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" > 
+          <input type="radio" name="radiobutton" value="TK" checked onClick="cambiarLista();">
+          $msg.get("common.Task") :</td>
+		<td width="410">
+<SELECT size="1" name="task">
+#foreach( $lista in $listTasks)
+		      <OPTION value="$lista.id">$!lista.id - $!lista.name&nbsp;</OPTION>
+#end
+	      </SELECT>
+	      </td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" > 
+          <input type="radio" name="radiobutton" value="TP" onClick="cambiarLista();">
+          $msg.get("common.Topics.name") :</td>
+		<td width="410">
+<SELECT size="1" name="topic" disabled >
+#foreach( $lista in $listTopics)
+		      <OPTION value="$lista.id">$!lista.subject&nbsp;</OPTION>
+#end
+	      </SELECT>
+	      </td>
+	</tr>	
+    <tr class="odd"> 
+        <td valign="top" class="leftvalue" >* $msg.get("common.UpLoad") 
+          :</td>
+        <td width="410"> 
+          <input size="44" value="$!filesForm.theFile" style="width: 400px" name="theFile" maxlength="100" type="FILE">
+      </td>
+    </tr>
+    <tr class="odd"> 
+        <td valign="top" class="leftvalue" >$msg.get("common.Comments") 
+          :</td>
+        <td width="410"> 
+          <input size="44" value="$!filesForm.comments" rows="3" wrap="VIRTUAL" style="width: 400px; height: 50px;" name="comments" cols="43">
+      </td>
+    </tr>
+    <tr class="odd"> 
+        <td valign="top" class="leftvalue">&nbsp;</td>
+        <td width="410"> 
+     #if( $projectInfo.status  != 4 )
+
+     #if( $projectInfo.status  != 1 )
+          <input type="SUBMIT" value=$msg.get("common.save")>
+#end
+#end
+      </td>
+    </tr>
+  </table>
+  <input type="hidden" name="operation" value="applyAdd">
+  <input type="hidden" name="project" value="$!filesForm.project">
+  <hr />
+</form>
+#parse ("/vm/footer.vm")
+<script language="JavaScript">
+function cambiarLista() {
+	if (document.add.radiobutton[1].checked) {	
+		document.add.task.disabled = true;
+		document.add.topic.disabled = false;
+	} else {
+		document.add.topic.disabled = true;
+		document.add.task.disabled = false;
+	}
+}
+</script>
+
+</body></html>

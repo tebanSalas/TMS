@@ -1,0 +1,40 @@
+
+<body bgcolor="#FFFFFF">
+<table cellspacing=0 cellpadding=0 width=100% align=center 
+background="./images/purple.gif" 
+border=0>
+  <tbody> 
+  <tr> 
+    <td width=185 bgcolor=#eeeeee><img height=10 src="./images/blank_spacer.gif" width=185></td>
+    <td width=1 bgcolor=#ffffff><img height=1 src="./images/blank_spacer.gif" width=1></td>
+    <td width=184 bgcolor=#eeeeee><img height=8 src="./images/blank_spacer.gif" width=184></td>
+    <td width=1 bgcolor=#ffffff><img height=1 src="./images/blank_spacer.gif" width=1></td>
+    <td width=184 bgcolor=#eeeeee><img height=8 src="./images/blank_spacer.gif" width=184></td>
+    <td width=1 bgcolor=#ffffff><img height=1 src="./images/blank_spacer.gif" width=1></td>
+    <td width=205 bgcolor=#eeeeee><img height=8 src="./images/blank_spacer.gif" width=184></td>
+  </tr>
+  </tbody>
+</table>
+<table cellspacing=0 cellpadding=0 width=100% align=center border=0>
+  <tbody> 
+  <tr> 
+    <td><img height=1 src="./images/blank_spacer.gif" width=1></td>
+  </tr>
+  <tr> 
+    <td bgcolor=#667286><img height=6 src="./images/blank_spacer.gif" width=6></td>
+  </tr>
+  <tr> 
+    <td><img height=1 src="./images/blank_spacer.gif" width=1></td>
+  </tr>
+  <tr> 
+    <td background="./images/dotline_horiz.gif"><img height=5 src="./images/blank_spacer.gif" width=5></td>
+  </tr>
+  <tr> 
+    <td><img height=7 src="./images/blank_spacer.gif" width=7></td>
+  </tr>
+  <tr> 
+    <td valign=center align=left><font color=#667286>Copyright (C) 
+      2002-2016, DaytonaSoft Task Management System $version Build 20160302 All Rights Reserved.</font></td>
+  </tr>
+  </tbody>
+</table>

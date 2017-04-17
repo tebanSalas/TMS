@@ -1,0 +1,142 @@
+<html>
+<head>
+<title>Add Costs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+
+<script src="./themes/calendar.js" type=text/javascript></SCRIPT>
+<script type="text/javascript" src="./javascript/general.js"></script>
+
+
+
+<script language="JavaScript">
+function sendData() {
+	if (IsNumeric(document.form1.units.value) && IsNumeric(document.form1.standard_cost.value) && IsNumeric(document.form1.real_cost.value) ) {		
+            document.form1.additional_costs_date.value=checkDate(document.form1.costs_date.value)+ ' 12:00:00.000000000';
+            document.form1.submit();
+	} else {
+		return;
+	}
+}
+
+function checkDate( val) {
+ 
+                separado = val.split("-");
+                out = separado[0] + "-";
+                if (separado[1].length <= 1)
+                        out += "0" + separado[1]+"-";
+                else
+                        out += separado[1]+"-";
+ 
+                if (separado[2].length <= 1)
+                        out += "0" + separado[2];
+                else
+                        out += separado[2];
+                return out;
+        }
+<!-- Funcion de verificacion de fechas -->
+
+ano_actual = 2009;
+
+
+
+</script>
+
+</head>
+#parse("/vm/calendarScript.src")
+#parse ("/vm/header.vm") 
+<body bgcolor="#FFFFFF" text="#000000">
+
+<form name="form1" method="post" action="./costs.do">
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("common.addCosts")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tr class="odd"> 
+      <td>$msg.get("common.Description") :</td>
+      <td>
+        <textarea name="description" style="width: 350px; height: 100px;" cols="43" rows="3" wrap="VIRTUAL">$!costsForm.description</textarea>
+      </td>
+    </tr>
+    <tr class="odd"> 
+      <td>$msg.get("common.Units") :</td>
+      <td>
+        <input size="44" style="width: 250px" type="text" name="units" value="$!costsForm.units">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td>$msg.get("common.StandardCost") :</td>
+      <td>
+        <input size="44" style="width: 250px" type="text" name="standard_cost" value="$!costsForm.getStandard_Cost()">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td>$msg.get("common.RealCost") :</td>
+      <td>
+        <input size="44" style="width: 250px" type="text" name="real_cost" value="$!costsForm.getReal_Cost()">
+      </td>
+    </tr>
+    <tr class="odd"> 
+      <td>$msg.get("common.Task") :</td>
+      <td>
+        <select name="tasks">
+		 #foreach( $lista in $listaTasks)
+		 	<option value="$lista.id" #if ($costsForm.tasks == $lista.id) selected #end>$lista.name</option>
+		 #end
+        </select>
+      </td>
+    </tr>
+    <tr class="odd"> 
+      <td>$msg.get("common.CostDate") :</td>
+   
+    
+		<td>
+		  <input type="text" style="width: 100px" name="costs_date" id="costs_date" size="20" value="$costs_date">
+		  <input type="reset" value=" ... " onclick="return showCalendar('costs_date', 'y-mm-dd');">
+               </td>
+               <td>
+                  <input type="hidden" name="additional_costs_date" id="additional_costs_date" value="">
+               </td>
+
+    </tr>
+    <tr class="odd">
+      <td>$msg.get("common.Chargeable") :</td>
+      <td>
+        <select name="chargeable">
+                  <OPTION value="0" #if ($costsForm.chargeable == "0") selected  #end>No</OPTION>
+                 <OPTION value="1" #if ($costsForm.chargeable == "1") selected  #end>Si</OPTION>
+
+        </select>
+      </td>
+    </tr>
+    <tr> 
+      <td width="19%">&nbsp;</td>
+      <td width="81%"> 
+        <input type="button" name="Submit" value=$msg.get("common.save") onclick="sendData();">
+      </td>
+    </tr>
+
+
+ </table></div>
+ </td></tr></table></div>
+  <input type="hidden" name="id" value="$!costsForm.id">
+  <input type="hidden" name="operation" value="$!costsForm.operation">
+  <input type="hidden" name="project" value="$!costsForm.project">
+<hr />
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>
+
+

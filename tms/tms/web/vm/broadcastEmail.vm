@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>Broadcast Email</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head>
+#parse ("/vm/header.vm")
+<body bgcolor="#FFFFFF" text="#000000">
+<form method="POST" name="add" action="./broadcastEmail.do" >
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("common.sendEmails")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+<tr><th colspan="2">$msg.get("common.Details")</th></tr>
+<tr class="odd">
+   <td valign="top" class="leftvalue">* $msg.get("common.Subject") :</td>
+   <td><input size="44" value="" style="width: 100px" name="subject" maxlength="50"></td>
+</tr>
+<tr class="odd">
+   <td valign="top" class="leftvalue">* $msg.get("common.emailBody") :</td>
+   <td><textarea rows="5" wrap="VIRTUAL" style="width: 600px; height: 50px;" name="body" cols="43"></textarea></td>
+</tr>
+<tr class="odd">
+   <td valign="top" class="leftvalue">$msg.get("common.sendTo") :</td>
+   <td>
+  <input name="sendTo" type="radio" value="ALL" checked> 
+  $msg.get("common.emailAll")
+  <input name="sendTo" type="radio" value="IN"> 
+  $msg.get("common.emailIntern")
+  <input name="sendTo" type="radio" value="EX">
+  $msg.get("common.emailExtern")
+   </td>
+</tr>
+<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><input type="SUBMIT" value=$msg.get("common.send")></td></tr>
+
+ </table></div>
+ </td></tr></table></div>
+ <input type="hidden" name="operation" value="send">
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

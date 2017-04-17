@@ -1,0 +1,121 @@
+<script src="./themes/calendar.js" type=text/javascript></SCRIPT>
+
+#parse("/portal/vm/header.vm")
+#parse("/vm/calendarScript.src")
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+      <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">$msg.get("common.Reports.reportResultsName")</h1></font></b></font></div>
+  </tr>
+  <tr>
+<table class="content" cellspacing="0" cellpadding="0">
+<tr><th colspan="2">$msg.get("common.Reports.reportResultsName")</th></tr>
+<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td>
+<td>$list_report.size()&nbsp;$msg.get("common.Reports.matches")</td>
+</tr>
+</table>
+<hr/>
+<form name="formReports" method="post" action="./reports.do">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="listing">
+ <tr>
+<th>$msg.get("common.Id")</th>
+<th>$msg.get("common.project")</th>
+<th>$msg.get("common.Task")</th>
+<th>$msg.get("common.Description")</th>
+<th>$msg.get("common.Comments")</th>
+<th>$msg.get("common.Priority")</th>
+
+<th>$msg.get("common.Status")</th>
+<th>$msg.get("common.assignedTo")</th>
+
+#if ($FechaMovimiento != "SF")
+<th> $msg.get("common.statusStarted")   </th>
+<th> $msg.get("common.statusEnd")   </th>
+<th> $msg.get("common.statusClientEnd")   </th>
+#end
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $list_report)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+<td >$lista.parentProject.getname()</a></td>
+<td > <a href="./portalTasks.do?operation=viewGroup&id=$lista.getid()&project=$projectInfo.id">$lista.getid()</a></td>
+<td > <a href="./portalTasks.do?operation=viewGroup&id=$lista.getid()&project=$projectInfo.id">$lista.getname()</a></td>
+<td > $lista.getFormatedDescription()</td>
+<td > $lista.getFormatedComments()</td>
+#if ($lista.getpriority() == 0)
+	#set ($tagPriority = $msg.get("common.nonePriority"))
+#elseif ($lista.getpriority() == 1)
+	#set ($tagPriority = $msg.get("common.lowestPriority"))
+#elseif ($lista.getpriority() == 2)
+	#set ($tagPriority = $msg.get("common.lowPriority"))
+#elseif ($lista.getpriority() == 3)
+	#set ($tagPriority = $msg.get("common.mediumPriority"))
+#elseif ($lista.getpriority() == 4)
+	#set ($tagPriority = $msg.get("common.highPriority"))
+#elseif ($lista.getpriority() == 5)
+	#set ($tagPriority = $msg.get("common.highestPriority"))
+#end
+
+<td >$tagPriority</td>
+
+#if ($lista.getstatus() == 0)
+	#set ($tagStatus = $msg.get("common.statusClientEnd"))
+#elseif ($lista.getstatus() == 1)
+	#set ($tagStatus = $msg.get("common.statusEnd"))
+#elseif ($lista.getstatus() == 2)
+	#set ($tagStatus = $msg.get("common.statusNotStarted"))
+#elseif ($lista.getstatus() == 3)
+	#set ($tagStatus = $msg.get("common.statusStarted"))
+#elseif ($lista.getstatus() == 4)
+	#set ($tagStatus = $msg.get("common.statusSuspended"))
+#elseif ($lista.getstatus() == 5)
+	#set ($tagStatus = $msg.get("common.statusQuote"))
+#elseif ($lista.getstatus() == 6)
+	#set ($tagStatus = $msg.get("common.statusQuoteSended"))
+#elseif ($lista.getstatus() == 7)
+	#set ($tagStatus = $msg.get("common.statusQuoteRejected"))
+#elseif ($lista.getstatus() == 8)
+	#set ($tagStatus = $msg.get("common.statusQuoteAcepted"))
+#elseif ($lista.getstatus() == 9)
+	#set ($tagStatus = $msg.get("common.statusCharge"))
+#elseif ($lista.getstatus() == 10)
+	#set ($tagStatus = $msg.get("common.statusChargeSended"))
+#elseif ($lista.getstatus() == 11)
+	#set ($tagStatus = $msg.get("common.statusProcessingCharge"))
+#elseif ($lista.getstatus() == 13)
+	#set ($tagStatus = $msg.get("common.qualitycontrol"))
+#elseif ($lista.getstatus() == 14)
+	#set ($tagStatus = $msg.get("common.standBy"))
+#end
+
+<td >$tagStatus</td>
+<td> <a href="mailto:$lista.getparentAssigned().getemail_work()"> $lista.getparentAssigned().getlogin()</a></td>
+
+#if ($FechaMovimiento != "SF")
+<td >$lista.getFormatedStartStatusDate()</td>
+<td >$lista.getFormatedEndStatusDate()</td>
+<td >$lista.getFormatedEndClientStatusDate()</td>
+#end
+
+#set ($row = $row + 1)
+  </tr>
+
+#end
+
+</table>
+<br/>
+
+  <hr>
+</form>
+</table>
+#parse ("/vm/footer.vm")
+</body>
+</html>

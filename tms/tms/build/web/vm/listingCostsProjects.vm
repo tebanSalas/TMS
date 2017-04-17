@@ -1,0 +1,200 @@
+#set ($activedescription = "")
+#set ($activeunits = "")
+#set ($activestandard_cost = "")
+#set ($activereal_cost = "")
+#set ($activetask = "")
+
+#set ($imagedescription = "")
+#set ($imageunits = "")
+#set ($imagestandard_cost = "")
+#set ($imagereal_cost = "")
+#set ($imagetask = "")
+
+#set ($sortdescription = "ASC")
+#set ($sortunits = "ASC")
+#set ($sortstandard_cost = "ASC")
+#set ($sortreal_cost = "ASC")
+#set ($sorttask = "ASC")
+
+
+#if ($!projectsForm.sortOrderCosts == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+
+#if ($!projectsForm.sortColumnCosts == "units"  || $!projectsForm.sortColumnCosts == "")
+	#set ($activeunits = "class='active'")
+	#set ($imageunits = $image)
+	#set ($sortunits = $!projectsForm.sortOrderCosts)
+#elseif ($!projectsForm.sortColumnCosts == "standard_cost")
+	#set ($activestandard_cost = "class='active'")
+	#set ($imagestandard_cost = $image)
+	#set ($sortstandard_cost = $!projectsForm.sortOrderCosts)
+#elseif ($!projectsForm.sortColumnCosts == "real_cost")
+	#set ($activereal_cost = "class='active'")
+	#set ($imagereal_cost = $image)
+	#set ($sortreal_cost = $!projectsForm.sortOrderCosts)
+#elseif ($!projectsForm.sortColumnCosts == "tasks")
+	#set ($activetask = "class='active'")
+	#set ($imagetask = $image)
+	#set ($sorttask = $!projectsForm.sortOrderCosts)
+#end
+
+<div id="wbP1Head" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP1','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP1'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbP1Toggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+      $msg.get("common.operativeCosts")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+<TABLE class=icons cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD class=commandDesc>
+      <DIV class=rel id=clientCoststt>
+      <DIV class=abs id=clientCoststti><IMG height=1 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif"  width=350></DIV></DIV>
+	  </TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formsCosts, 'clientCosts0'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formsCosts, 'clientCosts0'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formsCosts, 'clientCosts0'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.addLabel")' src="./themes/$userInfo.getTemplate()/btn_add_norm.gif"
+      width=24 border=0 name=clientCosts0></A></TD>
+
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formsCosts, 'clientCosts1'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formsCosts, 'clientCosts1'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formsCosts, 'clientCosts1'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.deleteLabel")' src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif"
+      width=24 border=0 name=clientCosts1></A></TD>
+
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formsCosts, 'clientCosts3'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formsCosts, 'clientCosts3'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formsCosts, 'clientCosts3'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.editLabel")' src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif"
+      width=24 border=0 name=clientCosts3></A></TD>
+
+    <TD align=left><IMG height=26 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif" width=5></TD>
+
+	  </TR>
+	  </TBODY>
+	  </TABLE>
+   </nobr>
+   </td>
+  </tr>
+ </table>
+ </div>
+
+<div name="wbP1" id="wbP1" style="display:block" class=formBody>
+<form name="formsCosts" method="post" action="./costs.do">
+
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+	  <th width="1%" align="center">
+        <a href="javascript:MM_toggleSelectedItems(document.formsCosts,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
+      </th>
+<th nowrap $activedescription >$msg.get("common.Description")</th>	  
+<th nowrap $activestandard_cost ><a href="javascript:document.homeForm.source.value='costs';document.homeForm.sortColumnCosts.value='standard_cost';document.homeForm.sortOrderCosts.value='$sortstandard_cost';document.homeForm.operation.value = 'sort';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por Costo Standard'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.StandardCost")</a>$imagestandard_cost</th>
+<th nowrap $activereal_cost ><a href="javascript:document.homeForm.source.value='costs';document.homeForm.sortColumnCosts.value='real_cost';document.homeForm.sortOrderCosts.value='$sortreal_cost';document.homeForm.operation.value = 'sort';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por Costo Real'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.RealCost")</a>$imagereal_cost</th>
+<th nowrap $activeunits ><a href="javascript:document.homeForm.source.value='costs';document.homeForm.sortColumnCosts.value='units';document.homeForm.sortOrderCosts.value='$sortunits';document.homeForm.operation.value = 'sort';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por Unidades'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Units")</a>$imageunits</th>
+<th nowrap $activetask ><a href="javascript:document.homeForm.source.value='costs';document.homeForm.sortColumnCosts.value='tasks';document.homeForm.sortOrderCosts.value='$sorttask';document.homeForm.operation.value = 'sort';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por Tarea'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Task")</a>$imagetask</th>
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $listCosts)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
+	<td align="center">
+	<a href="javascript:document.formsCosts.id.value='$lista.getId()';MM_toggleItem(document.formsCosts, '$lista.getId()', 'clientCostscb$row','$userInfo.getTemplate()');">
+	<img name="clientCostscb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3"></a>
+	</td>
+  <td><a href="javascript:document.formsCosts.id.value='$lista.getId()';sendDataCosts('edit');">$!lista.getFormatedDescription()</td>
+  <td>$lista.getStandard_Cost()</td> 
+  <td>$lista.getReal_Cost()</td>
+  <td>$lista.units</td>
+  
+ #if ($lista.tasks == 0)
+     #set ($label = "N/A")
+ #else
+     #set ($label = "<a href='./tasks.do?operation=view&id=$lista.tasks'>$lista.tasks</a>" )
+ #end
+  <td>$label</td>
+</tr>
+#set ($row = $row + 1)
+#end
+</table>
+<table cellspacing="0" width="100%" border="0" cellpadding="0">
+ <tr>
+   <td nowrap class="footerCell">&#160;&#160;&#160;&#160;
+
+#foreach( $lista in $listPagesCosts)
+	#if ($lista.intValue() == $!projectsForm.pageCosts)
+		<b>$lista.intValue()</b>&#160;
+	#else
+<a href="javascript:document.homeForm.source.value='costs';document.homeForm.operation.value='paging';document.homeForm.pageCosts.value='$lista.intValue()';document.homeForm.submit();">$lista.intValue()</a>&#160;
+	#end
+#end
+
+   </td>
+    <td nowrap align="right" class="footerCell">
+      <a href="./costs.do?project=$!projectsForm.id&operation=showAll&fromPage=viewProject&sortOrder=DESC&sortColumn=units"> $msg.get("common.ShowAll") </a>&#160;&#160;&#160;&#160;&#160;
+    </td>
+ </tr>
+ <tr>
+   <td height="5" colspan="2"><img width="1" height="5" border="0" src="./themes/$userInfo.getTemplate()/spacer.gif" alt="">
+   </td>
+ </tr>
+</table>
+
+  <input type="hidden" name="operation" value="listing">
+  <input type="hidden" name="id" value="22">
+  <input type="hidden" name="fromPage" value="viewProject">
+  <input type="hidden" name="project" value="$projectsForm.id">
+  <input type="hidden" name="checkedItems" value="22" >
+</form>
+</div>
+</body>
+<script language="JavaScript">
+
+document.formsCosts.buttons = new Array();
+document.formsCosts.buttons[document.formsCosts.buttons.length] = new MMCommandButton('clientCosts0',document.formsCosts,"javascript:sendDataCosts('add');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','$msg.get("common.addLabel")',false,'Confirm report deletion');
+document.formsCosts.buttons[document.formsCosts.buttons.length] = new MMCommandButton('clientCosts1',document.formsCosts,"javascript:sendDataCosts('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',false,true,true,'','$msg.get("common.deleteLabel")',false,'Confirm report deletion');
+document.formsCosts.buttons[document.formsCosts.buttons.length] = new MMCommandButton('clientCosts3',document.formsCosts,"javascript:sendDataCosts('edit');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',false,true,false,'','$msg.get("common.editLabel")',false,'Confirm report deletion');
+
+MM_updateButtons(document.formsCosts, 0);
+
+document.formsCosts.checkboxes = new Array();
+#set ($row = 1)
+#foreach( $lista in $listCosts)
+ document.formsCosts.checkboxes[document.formsCosts.checkboxes.length] = new MMCheckbox('$lista.getId()',document.formsCosts,'clientCostscb$row');
+#set ($row = $row + 1)
+#end
+document.formsCosts.tt = 'clientCoststt';
+
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendDataCosts(tipo) {
+
+	document.formsCosts.operation.value = tipo;
+	getArrayNumbers(document.formsCosts);
+	document.formsCosts.submit();
+}
+</script>

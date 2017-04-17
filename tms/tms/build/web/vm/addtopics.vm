@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>Add topics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+<form method="POST" name="add" action="./topics.do" >
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("common.addLabel") $msg.get("common.Topics.name")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="2">$msg.get("common.Information")</th>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Project") :</td>
+      <td>$!projectdata.getname() </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Client") :</td>
+      <td>$!projectdata.getparentOrganizations().getname() </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Owner") :</td>
+      <td>$!projectdata.parentOwner.getname() </td>
+    </tr>
+    <tr> 
+      <th colspan="2">$msg.get("common.Details")</th>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Subject") :</td>
+      <td> 
+        <input size="44" value="$!topicsForm.subject" style="width: 400px" name="subject" maxlength="600" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Message") :</td>
+      <td> 
+        <textarea cols="44" style="width: 400px" name="message" rows="10" wrap="VIRTUAL">$!topicsForm.message</textarea>
+      </td>
+    </tr>
+
+#if ($!projectdata.getautom_notification() == "0")
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.newticketnotification") :</td>
+		<td><INPUT type="checkbox" name="notified" value="1" #if ($!topicsForm.notified == "1") checked #end>
+			</td>
+	</tr>
+#else
+    <input type="hidden" name="notified" value="1">
+#end
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td> 
+        <input type="SUBMIT" value='$msg.get("common.save")' >
+      </td>
+    </tr>
+ </table></div>
+ </td></tr></table></div>
+  <input type="hidden" name="operation" value="$!topicsForm.operation">
+  <input type="hidden" name="id" value="$!topicsForm.id">
+  <input type="hidden" name="project" value="$!topicsForm.project">
+
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

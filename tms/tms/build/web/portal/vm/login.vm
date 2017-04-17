@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>Task Management System</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./portal/themes/default/stylesheet.css" type="text/css">
+</head>
+<script>
+#macro (errorMarkup)
+  #if ($errors.exist() )
+    <ul>
+    #foreach ($e in $errors.all )
+      $e <br>
+    #end
+    </ul>
+  #end
+#end
+
+	function changeLanguage(val) {
+		document.loginForm.operation.value = "display";
+		document.loginForm.submit();
+	}
+
+</script>
+<body bgcolor="#FFFFFF" text="#000000">
+<p>&nbsp;</p>
+<p><font color="#CC0000">#errorMarkup()</font></p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="1%" align="right"><img src="./portal/themes/default/images/left-corner.gif" width="9" height="30"></td>
+    <td width="16%" background="./portal/themes/default/images/center.gif">    
+      <div align="center"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><img src="./portal/themes/default/images/logout.gif" width="25" height="25" align=center>TMS Log In</font></b></font></div>
+    </td>
+    <td width="37%" align="left"><img src="./portal/themes/default/images/right-corner.gif" width="10" height="30"></td>
+    <td width="46%">&nbsp;</td>
+  </tr>
+  <tr>
+<form method="POST" name=loginForm action="./portalLogin.do">
+  <table class=content cellspacing=0 cellpadding=0 width="332">
+    <tbody> 
+    <tr> 
+      <th colspan=2>$msg.get("loginForm.header.displayname")</th>
+    </tr>
+    <tr class=odd> 
+      <td class=leftvalue valign=top>$msg.get("loginForm.language.displayname"):</td>
+      <td>
+        <select name=language onchange="changeLanguage(this.value)">
+          <option value=en #if( $loginForm.language.equals("en") ) selected #end >Default (English)</option>
+          <option value=es #if( $loginForm.language.equals("es") ) selected #end >Spanish</option>
+        </select>
+      </td>
+    </tr>
+    <tr class=odd> 
+      <td class=leftvalue valign=top>* $msg.get("loginForm.username.displayname"):</td>
+      <td>
+        <input name=username value="$!loginForm.getusername()">
+      </td>
+    </tr>
+    <tr class=odd> 
+      <td class=leftvalue valign=top>* $msg.get("loginForm.password.displayname"):</td>
+      <td>
+        <input type=password name=password>
+      </td>
+    </tr>
+    <tr class=odd> 
+      <td class=leftvalue valign=top>&nbsp;</td>
+      <td> 
+        <input type="SUBMIT" value="Log in">
+        <input type="hidden" name="operation" value="login">
+        <br>
+        <br>
+        <br>
+        <a href="forgot.do">$msg.get("loginForm.forgot.displayname")</a></td>
+    </tr>
+    </tbody>
+  </table>
+</form>
+</table>
+#parse ("/vm/footer.vm")
+</body>
+</html>

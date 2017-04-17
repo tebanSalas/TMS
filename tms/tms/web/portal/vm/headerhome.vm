@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>Client Portal</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./portal/themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/calendar.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<TABLE width="100%">
+<tr> 
+  <td width="49%">  </td>
+  <td width="51%">
+    <div align="right">$msg.get("common.Welcome")&nbsp;$userInfo.gefullname()&nbsp;<a href="./portalLogin.do?operation=logout">$msg.get("common.LogOut")</a>&nbsp;<a href="javascript: myRef =window.open('./helpPortal/index.html','Ayuda','left=20,top=20,width=800,height=600,toolbar=1,resizable=0');myRef.focus()"><font color="#CC0033"><b>$msg.get("common.help")&nbsp;</b></font><img src="images/icon_mini_faq.gif" border="0" ></a> </div>
+  </td>
+</tr>
+</table>
+<table width="100%" border="0" align="center">
+  <tr> 
+  
+    <td>
+<table width="100%">
+<tr>
+<td width="12%">
+	<img src="./downloadImage?id=$userInfo.getId_account()" width=80 height=55 border=0>	  </td>
+    <td valign=center align=left rowspan=2 width="88%"><b><font size="5" face="Arial, Helvetica, sans-serif" color="#333366">$company</font><br>
+      </b> <font size="2" face="Arial, Helvetica, sans-serif" color="#333366">$systemName</font><font color="#333366" size="2"><b> </b></font></td>
+</tr>
+</table>
+	  </td>
+  </tr>
+  <tr>
+        <table id=pageHeader>
+        <tr>
+        <td id=navigation>
+        <nobr>
+            <a href="./portalHome.do">&nbsp;&nbsp;$msg.get("header.displayStart")&nbsp;&nbsp;</a><a href="./portalTasks.do?operation=showClient&sortOrder=ASC&sortColumn=name&project=$projectInfo.getid()">&nbsp;&nbsp;$msg.get("common.ClientTasks")&nbsp;&nbsp;</a><a href = "./portalTeams.do?operation=show&sortOrder=ASC&sortColumn=name&project=$projectInfo.getid()" class="mainmenu">&nbsp;&nbsp;$msg.get("common.Team.group")&nbsp;&nbsp;</a><a href = "./portalTasks.do?operation=showQuote&sortOrder=DESC&sortColumn=created&project=$projectInfo.getid()" class="mainmenu">&nbsp;&nbsp;$msg.get("common.Quote")&nbsp;&nbsp;</a><a href = "./portalTopics.do?operation=show&sortOrder=DESC&sortColumn=status&project=$projectInfo.getid()" class="mainmenu">&nbsp;&nbsp;$msg.get("common.Topics.name")&nbsp;&nbsp;</a><a href = "./portalReports.do?operation=add&project=$projectInfo.getid()" class="mainmenu">&nbsp;&nbsp;$msg.get("header.displayReports")&nbsp;&nbsp;</a><a href = "./portalFiles.do?operation=show&sortOrder=ASC&sortColumn=name&project=$projectInfo.getid()" class="mainmenu">&nbsp;&nbsp;$msg.get("common.Documents")&nbsp;&nbsp;</a><a href = "./portalTasks.do?operation=showGroup&sortOrder=ASC&sortColumn=name&project=$projectInfo.getid()" class="mainmenu">&nbsp;&nbsp;$msg.get("common.GroupTasks")&nbsp;&nbsp;</a><a href = "./portalFiles.do?operation=add&project=$projectInfo.getid()" class="mainmenu">&nbsp;&nbsp;$msg.get("common.UploadFile")&nbsp;&nbsp;</a><a href = "./portalTopics.do?operation=add&project=$projectInfo.getid()" class="mainmenu">&nbsp;&nbsp;$msg.get("common.AddTopic")&nbsp;&nbsp;</a><a href = "./portalMembers.do?operation=edit&id=$userInfo.id&project=$projectInfo.getid()" class="mainmenu">&nbsp;&nbsp;$msg.get("common.EditProfile")&nbsp;&nbsp;</a>
+        </nobr>
+        </td></tr>
+
+        </table>
+  </tr>
+  
+</table>
+<TABLE width="100%">
+<tr> 
+  <td>
+	<h1 class="heading">$msg.get("common.Project"):&nbsp;$projectInfo.getname()</h1>
+	$msg.get("common.Description")&nbsp;:&nbsp;$projectInfo.getFormatedDescription()
+  </td>
+</tr>
+</table>
+<p></p>
+
+

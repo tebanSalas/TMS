@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Search</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+</head>
+
+<script type=text/javascript>
+
+ function changeChecks() {
+ 	if (document.searchForm.all.checked == true) {
+		document.searchForm.projects.disabled = true;
+		document.searchForm.tasks.disabled = true;
+		document.searchForm.members.disabled = true;
+		document.searchForm.files.disabled = true;
+		document.searchForm.topics.disabled = true;
+
+		document.searchForm.projects.checked = false;
+		document.searchForm.tasks.checked = false;
+		document.searchForm.members.checked = false;
+		document.searchForm.files.checked = false;
+		document.searchForm.topics.checked = false;
+
+	} else {
+		document.searchForm.projects.disabled = false;
+		document.searchForm.tasks.disabled = false;
+		document.searchForm.members.disabled = false;
+		document.searchForm.files.disabled = false;
+		document.searchForm.topics.disabled = false;
+	}
+ }
+</script>
+
+<body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+<form method="POST" name=searchForm action="./search.do">
+
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("header.displaySearch")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tbody>
+    <tr>
+      <th colspan=2>$msg.get("common.searchNotice") :</th>
+    </tr>
+    <tr class=odd>
+      <td class=leftvalue valign=top>$msg.get("header.displaySearch"):</td>
+      <td>
+        <input name=query value='$!query'>
+      </td>
+    </tr>
+    <tr class=odd>
+      <td class=leftvalue valign=top></td>
+      <td>
+        $msg.get("common.searchAll")<input type="checkbox" name="all" value="all" checked onclick="changeChecks()"> &nbsp;
+	$msg.get("header.displayProjects") <input type="checkbox" name="projects" value="projects" disabled > &nbsp;
+	$msg.get("common.Tasks.name") <input type="checkbox" name="tasks" value="tasks" disabled> &nbsp;
+	$msg.get("common.Members") <input type="checkbox" name="members" value="members" disabled> &nbsp;
+	$msg.get("common.Files") <input type="checkbox" name="files" value="files" disabled> &nbsp;
+	$msg.get("common.Topics.name") <input type="checkbox" name="topics" value="topics" disabled> &nbsp;
+      </td>
+    </tr>
+    <tr class=odd>
+      <td class=leftvalue valign=top>&nbsp;</td>
+      <td>
+        <input type="SUBMIT" value=$msg.get("header.displaySearch")>
+        <input type="hidden" name="operation" value="execute">
+        <br>
+    </tr>
+    </tbody>
+  </table>
+  <hr>
+</form>
+<table class=content cellspacing=0 cellpadding=0  width="100%" border="0">
+    <tr>
+      <th scope="col">$msg.get("search.operator")</th>
+      <th scope="col">$msg.get("search.description")</th>
+      <th scope="col">$msg.get("search.example")</th>
+    </tr>
+    <tr class=odd>
+      <td><strong>OR</strong></td>
+      <td>$msg.get("search.OR")</td>
+      <td> "jakarta apache" jakarta </td>
+    </tr>
+    <tr class=odd>
+      <td><strong>AND</strong></td>
+      <td>$msg.get("search.AND")</td>
+      <td> "jakarta apache" AND "jakarta lucene" </td>
+    </tr>
+    <tr class=odd>
+      <td><strong>+</strong></td>
+      <td>$msg.get("search.PLUS")</td>
+      <td>+jakarta apache</td>
+    </tr>
+    <tr class=odd>
+      <td><strong>-</strong></td>
+      <td>$msg.get("search.NOT")</td>
+      <td> "jakarta apache" - "jakarta lucene" </td>
+    </tr>
+    <tr class=odd>
+      <td><strong>~</strong></td>
+      <td>$msg.get("search.FUZZY")</td>
+      <td> roam~ </td>
+    </tr>
+ </table></div>
+ </td></tr></table></div>
+#parse ("/vm/footer.vm")
+</body>
+</html>

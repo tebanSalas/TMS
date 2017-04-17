@@ -1,0 +1,12 @@
+Prompt Index PK_MASTER_REPORT;
+--
+-- PK_MASTER_REPORT (Index) 
+--
+--  Dependencies: 
+--   MASTER_REPORT (Table)
+--
+CREATE UNIQUE INDEX PK_MASTER_REPORT ON MASTER_REPORT
+(ID)
+/
+
+

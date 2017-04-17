@@ -1,0 +1,10 @@
+ALTER TABLE TOPICS
+ ADD (ID_ACCOUNT              NUMBER(10)   )
+/
+
+
+update TOPICS set id_account =2;
+
+
+ALTER TABLE TOPICS
+MODIFY(ID_ACCOUNT NOT NULL);

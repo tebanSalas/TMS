@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>System Information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/default/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+</head><body bgcolor="#FFFFFF" text="#000000">
+<p><b><font size="6" face="Arial, Helvetica, sans-serif">TMS</font></b></p>
+<hr>
+<table class=content cellspacing=0 cellpadding=0 width="296" height="40">
+  <tbody> 
+  <tr class=odd> 
+    <td class=leftvalue width="372" height="42" valign="middle"> 
+      <div align="left">$msg.get("forgot.success")<br>
+        <br>
+        <a href="./login.do">$msg.get("forgot.login")</a> </div>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<p>#parse ("/vm/footer.vm") </p>
+</body>
+</html>

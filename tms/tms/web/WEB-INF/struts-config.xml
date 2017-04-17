@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC 
+"-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" 
+"[WWW] http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+
+<!--
+     This is the Struts configuration file for the example application,
+     using the proposed new syntax.
+
+     NOTE:  You would only flesh out the details in the "form-bean"
+     declarations if you had a generator tool that used them to create
+     the corresponding Java classes for you.  Otherwise, you would
+     need only the "form-bean" element itself, with the corresponding
+     "name" and "type" attributes.
+-->
+
+
+<struts-config>
+    
+    
+    <!-- ========== Data Source Configuration =============================== -->
+    <!--
+
+-->
+
+    <!-- ========== Form Bean Definitions =================================== -->
+
+    <form-beans>
+        <form-bean name="homeForm"
+                   type="com.unify.webcenter.form.homeForm"/>        
+        
+        <form-bean name="calendarForm"
+                   type="com.unify.webcenter.form.calendarForm"/>
+        
+        <form-bean name="countriesForm"
+                   type="com.unify.webcenter.form.countriesForm"/>
+        
+        <form-bean name="filesForm"
+                   type="com.unify.webcenter.form.filesForm"/>
+        
+        <form-bean name="membersForm"
+                   type="com.unify.webcenter.form.membersForm"/>
+        
+        <form-bean name="organizationsForm"
+                   type="com.unify.webcenter.form.organizationsForm"/>
+        
+        <form-bean name="postForm"
+                   type="com.unify.webcenter.form.postForm"/>
+        
+        <form-bean name="projectsForm"
+                   type="com.unify.webcenter.form.projectsForm"/>
+        
+        <form-bean name="reportsForm"
+                   type="com.unify.webcenter.form.reportsForm"/>
+        
+        <form-bean name="schedulesForm"
+                   type="com.unify.webcenter.form.schedulesForm"/>
+        
+        <form-bean name="tasksForm"
+                   type="com.unify.webcenter.form.tasksForm"/>
+        
+        <form-bean name="teamsForm"
+                   type="com.unify.webcenter.form.teamsForm"/>
+        
+        <form-bean name="topicsForm"
+                   type="com.unify.webcenter.form.topicsForm"/>
+        
+        <form-bean name="loginForm"
+                   type="com.unify.webcenter.form.loginForm"/>
+        
+        <form-bean name="performanceForm"
+                   type="com.unify.webcenter.form.performanceForm"/>
+        
+        <form-bean name="portalForm"
+                   type="com.unify.webcenter.form.portalForm"/>
+        
+        <form-bean name="personalCalendarForm"
+                   type="com.unify.webcenter.form.personalCalendarForm"/>
+        
+        <form-bean name="mailForm"
+                   type="com.unify.webcenter.form.mailForm"/>
+        
+        <form-bean name="forgotForm"
+                   type="com.unify.webcenter.form.forgotForm"/>
+        
+        <form-bean name="costsForm"
+                   type="com.unify.webcenter.form.costsForm"/>
+        
+        <form-bean name="type_tasksForm"
+                   type="com.unify.webcenter.form.type_tasksForm"/>
+        
+        <form-bean name="risksForm"
+                   type="com.unify.webcenter.form.risksForm"/>  
+        
+        <form-bean name="accountForm"
+                   type="com.unify.webcenter.form.accountsForm"/>
+        
+        <form-bean name="adminForm"
+                   type="com.unify.webcenter.form.adminForm"/>
+        
+        <form-bean name="encryptForm"
+                   type="com.unify.webcenter.form.encryptForm"/>
+        
+        <form-bean name="configForm"
+                   type="com.unify.webcenter.form.configSendReportForm"/>
+        
+        <form-bean name="masterReportsForm"
+                   type="com.unify.webcenter.form.masterReportsForm"/>
+    </form-beans>
+    
+    
+    <!-- ========== Global Forward Definitions ============================== -->
+    <global-forwards>
+        <forward name="login" path="/login.do" redirect="true" />
+        <forward name="portalLogin" path="/portalLogin.do" redirect="true" />
+        <forward name="confirmDelete"  path="/vm/confirmdelete.vm"/>
+    </global-forwards>
+    
+    
+    <!-- ========== Action Mapping Definitions ============================== -->
+    <action-mappings>
+        
+        <!--Actions -->
+        <action    path="/home"
+                   type="com.unify.webcenter.action.homeAction"
+                   name="homeForm"
+                   scope="request"
+                   validate="false">	
+            <forward name="home" path="/vm/home.vm"/>
+        </action>
+        
+        <action    path="/forgot"
+                   type="com.unify.webcenter.action.forgotAction"
+                   name="forgotForm"
+                   scope="request"
+                   validate="false">	
+            <forward name="forgot" path="/vm/forgot.vm"/>
+            <forward name="info" path="/vm/forgotInfo.vm"/>
+        </action>
+        
+        <action    path="/mail"
+                   type="com.unify.webcenter.action.mailAction"
+                   name="mailForm"
+                   scope="request"
+                   validate="false">
+            <forward name="notification-text" path="/vm/email/notification-text.vm"/>
+            <forward name="notification-html" path="/vm/email/notification-html.vm"/>
+            <forward name="notification-close-html" path="/vm/email/notification-close-html.vm"/>	
+            <forward name="quotation-text" path="/vm/email/quotation-text.vm"/>
+            <forward name="quotation-html" path="/vm/email/quotation-html.vm"/>
+            <forward name="newTopicToCreator-html" path="/vm/email/newTopicToCreator-html.vm"/>
+            <forward name="newTopic-text" path="/vm/email/new_topic-text.vm"/>
+            <forward name="newTopic-html" path="/vm/email/new_topic-html.vm"/>
+            <forward name="newUser" path="/vm/email/new_user-html.vm"/>
+            <forward name="alterUser" path="/vm/email/alter_user-html.vm"/>
+            <forward name="alterUserPass" path="/vm/email/alter_userPass-html.vm"/>
+            <forward name="newPost-text" path="/vm/email/new_post-text.vm"/>
+            <forward name="newPost-html" path="/vm/email/new_post-html.vm"/>
+            <forward name="accounting-text" path="/vm/email/accounting-html.vm"/>
+            <forward name="accounting-html" path="/vm/email/accounting-html.vm"/>
+            <forward name="meetingrequest-text" path="/vm/email/meetingrequest-html.vm"/>
+            <forward name="meetingrequest-html" path="/vm/email/meetingrequest-html.vm"/>
+            <forward name="meetingrejected-text" path="/vm/email/meetingrejected-html.vm"/>
+            <forward name="meetingrejected-html" path="/vm/email/meetingrejected-html.vm"/>
+            <forward name="meetingaccepted-html" path="/vm/email/meetingaccepted-html.vm"/>
+            <forward name="meetingaccepted-text" path="/vm/email/meetingaccepted-html.vm"/>
+            <forward name="newAccount" path="/vm/email/new_account-html.vm"/>
+            <forward name="taskreasigned-html" path="/vm/email/taskreasigned-html.vm"/>
+            <forward name="tasksverification-html" path="/vm/email/tasksverification-html.vm"/>
+            
+        </action>
+        
+        
+        
+        <action    path="/organizations"
+                   type="com.unify.webcenter.action.organizationsAction"
+                   name="organizationsForm"
+                   scope="request"
+                   validate="false">
+            <forward name="listing" path="/vm/listingOrganizations.vm"/>
+            <forward name="displayAddForm"  path="/vm/addOrganization.vm"/>
+            <forward name="displayAddFormError"    path="/organizations.do"/>
+            <forward name="displayEditForm" path="/vm/addOrganization.vm"/>
+            <forward name="displayViewForm" path="/vm/viewOrganization.vm"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteOrganization.vm"/>
+            <forward name="displayAll" path="/vm/viewAllProjectsOrg.vm" />
+            <forward name="accessDenied" path="/vm/accessDenied.vm"/>
+        </action>
+        
+        <action    path="/topics"
+                   type="com.unify.webcenter.action.topicsAction"
+                   name="topicsForm"
+                   scope="request"
+                   validate="false">
+            <forward name="displayAddForm"  path="/vm/addtopics.vm"/>
+            <forward name="home" path="/home.do" redirect="true" />
+            <forward name="displayViewForm" path="/vm/viewtopics.vm"/>
+            <forward name="viewProject" path="/projects.do?operation=view" redirect="true"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteTopics.vm"/>
+            <forward name="displayAllTopics"  path="/vm/viewAllTopics.vm"/>
+                     <forward name="accessDenied" path="/vm/accessDenied.vm"/>
+        </action>
+        
+        <action    path="/posts"
+                   type="com.unify.webcenter.action.postAction"
+                   name="postForm"
+                   scope="request"
+                   validate="false">
+            <forward name="displayAddForm"  path="/vm/addpost.vm"/>
+            <forward name="home" path="/home.do" redirect="true" />
+            <forward name="back" path="/topics.do"/>
+            <forward name="displayViewForm" path="/vm/viewpost.vm"/>
+        </action>
+        
+        <action    path="/projects"
+                   type="com.unify.webcenter.action.projectsAction"
+                   name="projectsForm"
+                   scope="request"
+                   validate="false">
+            <forward name="listing" path="/home.do" redirect="true"/>
+            <forward name="listingWithErrors" path="/home.do"/>
+            
+            <forward name="viewProject"  path="/projects.do?operation=view" redirect="true"/>
+            <forward name="displayAddForm"  path="/vm/addprojects.vm"/>
+            <forward name="displayEditForm" path="/vm/addprojects.vm"/>
+            <forward name="displayAddFormErrors"  path="/projects.do"/>
+            <forward name="displayViewForm" path="/vm/viewprojects.vm"/>
+            <forward name="displayDetailReport" path="/vm/reporte_costos.vm"/>
+            <forward name="displayDetailFiles" path="/vm/reporte_files.vm"/>
+            <forward name="displayAllSub"       path="/vm/viewAllSubProj.vm" />
+            <forward name="accessDenied" path="/vm/accessDenied.vm"/>
+            <forward name="displayAll"       path="/vm/viewAllProjects.vm" />
+            <forward name="confirmMoveSub"           path="/vm/confirmmovesub.vm"/>
+            <forward name="confirmMoveProj"           path="/vm/confirmmoveproj.vm"/>
+                         <forward name="displayAllOrg" path="/vm/viewAllProjectsOrg.vm" />
+            <forward name="copyProject" path="/vm/addcopyprojects.vm" />
+            <forward name="importTasks" path="/vm/addMultipleTasks.vm" />
+                         
+
+        </action>
+        
+        <action    path="/logs"
+                   type="com.unify.webcenter.action.logsAction"
+                   scope="request"
+                   validate="false">
+            <forward name="listing" path="/vm/listinglogs.vm"/>
+        </action>
+        
+        <action    path="/files"
+                   type="com.unify.webcenter.action.filesAction"
+                   name="filesForm"
+                   scope="request"
+                   validate="false">
+            <forward name="listing" path="/home.do" redirect="true"/>
+            <forward name="displayAddForm"  path="/vm/addfiles.vm"/>
+            <forward name="displayEditForm" path="/vm/editfiles.vm"/>
+            <forward name="displayViewForm" path="/vm/viewfiles.vm"/>	
+            <forward name="displayAllFilesByProject" path="/vm/viewAllFilesProjects.vm"/>	
+            <forward name="viewProject" path="/projects.do?operation=view" redirect="true"/>
+            <forward name="viewTask" path="/tasks.do?operation=view" redirect="true"/>
+            <forward name="viewTopic" path="/topics.do?operation=view" redirect="true"/>
+                     <forward name="accessDenied" path="/vm/accessDenied.vm"/>
+        </action>
+        
+        <action    path="/teams"
+                   type="com.unify.webcenter.action.teamsAction"
+                   name="teamsForm"
+                   scope="request"
+                   validate="false">
+            <forward name="listing" path="/projects.do" redirect="true"/>
+            <forward name="listingWithErrors" path="/vm/confirmdeleteTeams.vm"/>
+            <!--path="/vm/confirmdeleteTeams.vm"/-->
+            <forward name="viewMember" path="/members.do" />
+            <forward name="displayAddForm"  path="/vm/addteams.vm"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteTeams.vm"/>
+            <forward name="displayAllTeams"  path="/vm/viewAllTeams.vm"/>
+        </action>
+        
+        <action    path="/tasks"
+                   type="com.unify.webcenter.action.tasksAction"
+                   name="tasksForm"
+                   scope="request"
+                   validate="false">
+            <forward name="listing" path="/home.do"/>
+            <forward name="viewingProjects"       path="/projects.do"/>
+            <forward name="viewProject"           path="/projects.do?operation=view" redirect="true"/>
+            <forward name="displayAddForm"        path="/vm/addtasks.vm"/>
+            <forward name="displayEditForm"       path="/vm/edittasks.vm"/>
+            <forward name="displayEditFormOwner"  path="/vm/addtasks.vm"/>
+            <forward name="displayAddEditError"   path="/tasks.do"/>
+            <forward name="displayViewForm"       path="/vm/viewtasks.vm"/>
+            <forward name="displayAllTasks"       path="/vm/viewAllTasks.vm" />
+            <forward name="accessDenied"          path="/vm/accessDenied.vm"/>
+            <forward name="deleteDenied"          path="/vm/deleteDenied.vm"/>
+            <forward name="displayAllMyTasks"     path="/vm/viewAllMyTasks.vm" />	
+            <forward name="confirmMove"           path="/vm/confirmmove.vm"/>
+            <forward name="viewReportChangeTask"  path="/vm/result_report_change_task.vm"/>
+            <forward name="main"                  path="/admin.do"/>
+        </action>
+        
+        <action    path="/members"
+                   type="com.unify.webcenter.action.membersAction"
+                   name="membersForm"
+                   scope="request"
+       
+                   validate="false">
+            <forward name="listing" path="/vm/listingmembers.vm"/>
+            <forward name="home" path="/home.do" redirect="true"/>
+            <forward name="viewingProjects" path="/organizations.do"/>
+            <forward name="displayAddForm"  path="/vm/addmembers.vm"/>
+            <forward name="displayAddFormClient"  path="/vm/addmembersClient.vm"/>
+            <forward name="displayEditForm" path="/vm/addmembers.vm"/>
+            <forward name="displayEditFormClient"  path="/vm/addmembersClient.vm"/>
+            <forward name="displayAddFormError"    path="/members.do"/>
+            <forward name="listingWithErrors" path="/home.do"/>
+            <forward name="displayViewForm" path="/vm/viewmembers.vm"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteMembers.vm"/>
+            <forward name="addemail"  path="/vm/listingemailmembers.vm"/>
+            <forward name="addemailContaing"  path="/calendar.do" redirect="true"/>
+            <forward name="accessDenied" path="/vm/accessDenied.vm"/>
+            <forward name="userListing" path="/vm/listingmembersRenew.vm"/>
+            
+        </action>
+        
+        <action    path="/reports"
+                   type="com.unify.webcenter.action.reportsAction"
+                   name="reportsForm"
+                   scope="request"
+                   validate="false">
+            <forward name="listing" path="/home.do" redirect="true"/>
+            <forward name="displayAddForm"  path="/vm/addreports.vm"/>
+            <forward name="viewReport"  path="/vm/result_report.vm"/>
+            <forward name="main" path="/vm/menuReports.vm"/>
+            <forward name="displayAddQueryTickForm" path="/vm/addTicketReports.vm"/>
+            <forward name="displayAddQueryForm" path="/vm/addTasksReports.vm"/>
+            <forward name="displayAddTaskStatusForm"  path="/vm/addreports_task.vm"/>
+            <forward name="viewReportTask" path="/vm/result_reportTask.vm"/>
+            <forward name="viewReportTick" path="/vm/result_reportTick.vm"/>
+            <forward name="viewReportChangeTask" path="/vm/result_report_change_task.vm"/>
+            
+            
+        </action>
+        
+        <action    path="/schedules"
+                   type="com.unify.webcenter.action.schedulesAction"
+                   name="schedulesForm"
+                   scope="request"
+                   validate="false">
+            <forward name="displaySchedule" path="/vm/displaySchedule.vm"/>
+            <forward name="displayAddForm"  path="/vm/addschedules.vm"/>
+            <forward name="displayUpdateForm"  path="/vm/editschedules.vm"/>
+            <forward name="toDate"          path="/schedules.do"/>
+            <forward name="displayAddFormError"   path="/schedules.do"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteSchedules.vm"/>
+            
+            <forward name="listing" path="/home.do" redirect="true"/>
+            <forward name="listingAll"      path="/vm/viewAllSchedules.vm" />
+            <forward name="listingAllByProject" path="/vm/viewAllSchedulesProject.vm" />	  
+            <forward name="displayEditForm" path="/vm/addschedules.vm"/>
+            <forward name="displayViewForm" path="/vm/viewschedules.vm"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteSchedules.vm"/>
+            <forward name="displayViewByProject" path="/vm/viewschedulesProject.vm"/>
+        </action>
+        
+        <action    path="/login"
+                   type="com.unify.webcenter.action.loginAction"
+                   name="loginForm"
+                   scope="request"
+                   validate="false">
+            <forward name="login" path="/vm/login.vm"/>
+            <forward name="logout" path="/vm/login.vm"/>
+            <forward name="continue" path="/home.do" redirect="true"/>
+            <forward name="back_to_task" path="/tasks.do?operation=view&amp;id="/>
+            <forward name="back_to_topic" path="/topics.do?operation=view&amp;id="/>
+        </action>
+        
+        <action    path="/admin"
+                   type="com.unify.webcenter.action.administrationAction"
+                   name="adminForm"
+                   scope="request"
+                   validate="false">
+            <forward name="main" path="/vm/menuAdmin.vm"/>
+            <forward name="info" path="/vm/systemInfo.vm"/>
+        </action>
+        
+        <action    path="/performance"
+                   type="com.unify.webcenter.action.performanceAction"
+                   name="performanceForm"
+                   scope="request">
+            <forward name="view" path="/vm/paramPerformance.vm"/>
+            <forward name="execute" path="/vm/result_reportPerformance.vm"/>
+            <forward name="viewAdmin" path="/vm/paramPerformanceAdmin.vm"/>
+            <forward name="executeAdmin" path="/vm/result_reportPerformanceAdmin.vm"/>
+            <forward name="viewAdminLoad" path="/vm/paramPerformanceAdminLoad.vm"/>
+            <forward name="executeAdminLoad" path="/vm/result_reportPerformanceAdminLoad.vm"/>
+            
+        </action>
+        
+        
+        <action    path="/calendar"
+                   type="com.unify.webcenter.action.personalCalendarAction"
+                   name="personalCalendarForm"
+                   scope="request">
+            <forward name="displayCalendar" path="/vm/displayCalendar.vm"/>
+            <forward name="addEvent"        path="/vm/addcalendar.vm"/>
+            <forward name="toDate"          path="/calendar.do"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteEvents.vm"/>
+            <forward name="displayConflict"    path="/vm/confirmConflict.vm" />
+            <forward name="displayAddFormError"    path="/calendar.do"/>
+            <forward name="viewEvent"        path="/vm/viewpersonalcalendar.vm"/>	
+        </action>
+        
+        <action    path="/search"
+                   type="com.unify.webcenter.search.searchAction"
+                   scope="request"
+                   validate="false">
+            <forward name="params" path="/vm/search.vm"/>
+            <forward name="results" path="/vm/searchResults.vm"/>
+            <forward name="indexing" path="/vm/indexingStatistics.vm"/>
+        </action>
+        
+        <action    path="/costs"
+                   type="com.unify.webcenter.action.costsAction"
+                   name="costsForm"
+                   scope="request">
+            <forward name="displayAddForm" path="/vm/addCosts.vm"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteCosts.vm"/>
+            <forward name="displayAllCostsByProject" path="/vm/viewAllCostsProjects.vm"/>	
+            <forward name="viewProject" path="/projects.do?operation=view" redirect="true"/>
+        </action>
+        
+        <action    path="/type_tasks"
+                   type="com.unify.webcenter.action.type_tasksAction"
+                   name="type_tasksForm"
+                   scope="request"
+                   validate="false">
+            <forward name="listing" path="/vm/listingtype_tasks.vm"/>
+            <forward name="displayAddForm"  path="/vm/addtype_task.vm"/>
+            <forward name="displayEditForm" path="/vm/addtype_task.vm"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteType_Tasks.vm"/>
+        </action>
+        
+        <action    path="/risks"
+                   type="com.unify.webcenter.action.risksAction"
+                   name="risksForm"
+                   scope="request" validate="false">
+            <forward name="displayAddForm"			 path="/vm/addrisks.vm"/>
+            <forward name="displayEditForm"			 path="/vm/addrisks.vm"/>
+            <forward name="displayAllRisksByProject" path="/vm/viewAllRisksProjects.vm"/>	
+            <forward name="confirmDelete"			 path="/vm/confirmdeleteRisk.vm"/>
+            <forward name="displayViewForm"			 path="/vm/viewrisks.vm"/>
+            <forward name="viewProject"				 path="/projects.do?operation=view" redirect="true"/>
+        </action>
+        
+        
+        
+        <!-- ========== Portal Forward Definitions ============================== -->
+        <action    path="/portalTeams"
+                   type="com.unify.webcenter.action.portal.teamsAction"
+                   name="portalForm"
+                   scope="request"
+                   validate="false">
+            <forward name="display" path="/portal/vm/listTeamsPortal.vm"/>
+        </action>
+        
+        <action    path="/portalFiles"
+                   type="com.unify.webcenter.action.portal.filesAction"
+                   name="filesForm"
+                   scope="request"
+                   validate="false">
+            <forward name="display" path="/portal/vm/listFilesPortal.vm"/>
+            <forward name="add"     path="/portal/vm/addFilesPortal.vm"/>
+            <forward name="listFiles" path="/portalFiles.do"/>
+        </action>
+        
+        
+        <action    path="/portalTasks"
+                   type="com.unify.webcenter.action.portal.tasksAction"
+                   name="portalForm"
+                   scope="request"
+                   validate="false">
+            <forward name="displayGroup"   path="/portal/vm/listTasksPortalGroup.vm"/>
+            <forward name="displayClient"  path="/portal/vm/listTasksPortalClient.vm"/>
+            <forward name="displayQuotes"  path="/portal/vm/listQuotesPortal.vm"/>
+            <forward name="view"           path="/portal/vm/viewTasksPortal.vm"/>
+            <forward name="viewClient"     path="/portal/vm/viewTasksClientPortal.vm"/>
+            <forward name="confirmReject"  path="/portal/vm/confirmRejectQuote.vm"/>
+        </action>
+        
+        <action    path="/portalTopics"
+                   type="com.unify.webcenter.action.portal.topicsAction"
+                   name="portalForm"
+                   scope="request"
+                   validate="false">
+            <forward name="display" path="/portal/vm/listTopicsPortal.vm"/>
+            <forward name="view"    path="/portal/vm/viewTopicsPortal.vm"/>
+            <forward name="add"     path="/portal/vm/addTopicsPortal.vm"/>
+            <forward name="listTopics" path="/portalTopics.do"/>
+        </action>
+        
+        <action    path="/portalPosts"
+                   type="com.unify.webcenter.action.portal.postAction"
+                   name="portalForm"
+                   scope="request"
+                   validate="false">
+            <forward name="displayAddForm" path="/portal/vm/addPostPortal.vm"/>
+            <forward name="listTopics" path="/portalTopics.do"/>
+        </action>
+        
+        <action    path="/portalMembers"
+                   type="com.unify.webcenter.action.portal.membersAction"
+                   name="membersForm"
+                   scope="request"
+                   validate="false">
+            <forward name="edit" path="/portal/vm/editMembersPortal.vm"/>
+            <forward name="home" path="/portalHome.do"/>
+        </action>
+        
+        <action    path="/portalLogin"
+                   type="com.unify.webcenter.action.portal.loginAction"
+                   name="loginForm"
+                   scope="request"
+                   validate="false">
+            <forward name="login" path="/portal/vm/login.vm"/>
+            <forward name="logout" path="/portal/vm/login.vm"/>
+            <forward name="back_to_task_portal" path="/portalTasks.do?operation=viewGroup&amp;id="/>
+            <forward name="back_to_topic_portal" path="&amp;project="/>
+            <forward name="continue" path="/portalHome.do" redirect="true"/>
+        </action>
+        
+        <action    path="/portalHome"
+                   type="com.unify.webcenter.action.portal.homeAction"
+                   name="portalForm"
+                   scope="request"
+                   validate="false">	
+            <forward name="home" path="/portal/vm/home.vm"/>
+            <forward name="displayViewForm" path="/portal/vm/viewportalproject.vm"/>
+        </action>
+        
+        <action    path="/portalReports"
+                   type="com.unify.webcenter.action.portal.reportsAction"
+                   name="reportsForm"
+                   scope="request"
+                   validate="false">
+            <forward name="add"    path="/portal/vm/addReportsPortal.vm"/>
+            <forward name="view"   path="/portal/vm/resultReportsPortal.vm"/>
+            <forward name="denied" path="/portal/vm/deniedReports.vm"/>
+            
+        </action>
+        
+        <action    path="/broadcastEmail"
+                   type="com.unify.webcenter.action.broadcastEmailAction"
+                   scope="request">
+            <forward name="main" path="/vm/broadcastEmail.vm"/>
+            <forward name="info" path="/vm/sendSuccessful.vm"/>
+        </action>
+        
+        
+        <action    path="/superAdmin"
+                   type="com.unify.webcenter.action.superAdminAction"
+                   scope="request">
+            <forward name="main" path="/vm/menuSuperAdmin.vm"/>
+            <forward name="subOptions" path="/vm/subOptionsCromsWorkReport.vm"/>
+              <forward name="options" path="/vm/optionCromsWorkReport.vm"/>
+        </action>
+        
+        <action    path="/account"
+                   type="com.unify.webcenter.action.accountAction"
+                   name="accountForm"
+                   scope="request"
+                   validate="false">
+            <forward name="listing" path="/vm/listingAccounts.vm"/>
+            <forward name="displayAddForm"  path="/vm/addAccount.vm"/>
+            <forward name="displayAddFormError"    path="/account.do"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteAccounts.vm"/>
+            <forward name="displayEditForm" path="/vm/addAccount.vm"/>
+            <forward name="displayViewForm" path="/vm/viewAccount.vm"/>
+            <forward name="view" path="/account.do"/>
+        </action>
+        
+        <action path=""
+                forward="/login.do">
+        </action>
+        
+        
+        <action    path="/encrypt"
+                   type="com.unify.webcenter.action.desencrypterAction"
+                   name = "encryptForm"
+                   scope="request"
+                   validate="false">
+            <forward name="confirmEncrypt" path="/vm/confirmDesEncrypter.vm"/>            
+            <forward name="main" path="/admin.do"/>            
+        </action>
+        
+        <action    path="/configSendReport"
+                   type="com.unify.webcenter.action.configSendReportAction"
+                   name = "configForm"
+                   scope="request"
+                   validate="false">
+            <forward name="view" path="/vm/listingConfigSendReport.vm"/>                 
+            <forward name="main" path="/admin.do"/>            
+        </action>
+        
+        <action    path="/masterReports"
+                   type="com.unify.webcenter.action.masterReportsAction"
+                   name="masterReportsForm"
+                   scope="request"
+                   validate="false">
+            <forward name="listing" path="/home.do" redirect="true"/>
+            <forward name="displayAddForm"  path="/vm/addMasterReports.vm"/>
+            <forward name="viewReport"  path="/vm/result_masterReport.vm"/>
+            <forward name="main" path="/vm/menuReports.vm"/>
+        </action>
+        
+        <action    path="/cronsNotification"
+                   type="com.unify.webcenter.action.cronsNotificationAction"
+                   scope="request">
+            <forward name="main" path="/vm/menuSuperAdmin.vm"/>
+        </action>
+        
+          <action    path="/cromsWork"
+                   type="com.unify.webcenter.action.cronsWorkReportAction"
+                   scope="request">
+            <forward name="main" path="/vm/menuSuperAdmin.vm"/>
+            <forward name="subOptions" path="/vm/subOptionCromsWorkReport.vm"/>
+              <forward name="options" path="/vm/optionCromsWorkReport.vm"/>
+        </action>
+        
+        <action    path="/cromsGlobal"
+                   type="com.unify.webcenter.action.cronsGlobalTasksReportAction"
+                   scope="request">
+            <forward name="main" path="/vm/menuSuperAdmin.vm"/>
+            <forward name="subOptions" path="/vm/subOptionCromsWorkReport.vm"/>
+               <forward name="options" path="/vm/optionCromsWorkReport.vm"/>
+          </action>
+        
+           <action    path="/index"
+                   type="com.unify.webcenter.action.indexAction"
+                   scope="request">
+            <forward name="main" path="/vm/menuSuperAdmin.vm"/>           
+               <forward name="indexing" path="/vm/indexingStatistics.vm"/>
+          </action>
+        
+        
+    </action-mappings>
+    
+    
+    <message-resources parameter="ApplicationResources"/>  
+    
+    <!-- ========================= Validator plugin ================================= -->
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property property="pathnames"
+                      value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+    
+</struts-config>

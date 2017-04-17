@@ -1,0 +1,133 @@
+#parse("/portal/vm/header.vm")
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+  <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">$msg.get("common.EditProfile")</h1></font></b></font></div>
+ </tr>
+  <tr>
+<form method="POST" name="add" action="./portalMembers.do" >
+  <table class="content" cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="2">$msg.get("common.Details")</th>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("loginForm.username.displayname") :</td>
+      <td>
+        <input size="44" value="$!membersForm.login" style="width: 250px" name="login" maxlength="100" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.PersonalTitle") :</td>
+      <td>
+        <select name=personal_title>
+		<option value="Sr" #if ($membersForm.personal_title == "Sr") selected #end >Sr</option>
+		<option value="Srta" #if ($membersForm.personal_title == "Srta") selected #end >Srta</option>
+		<option value="Sra" #if ($membersForm.personal_title == "Sra") selected #end >Sra</option>
+		<option value="Lic" #if ($membersForm.personal_title == "Lic") selected #end >Lic</option>
+		<option value="Ing" #if ($membersForm.personal_title == "Ing") selected #end >Ing</option>
+		<option value="Doc" #if ($membersForm.personal_title == "Doc") selected #end >Doc</option>
+	</select>
+      </td>
+    </tr>
+
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Name") :</td>
+      <td>
+        <input size="44" value="$!membersForm.name" style="width: 250px" name="name" maxlength="128" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Title") :</td>
+      <td>
+        <input size="44" value="$!membersForm.title" style="width: 250px" name="title" maxlength="100" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Email") :</td>
+      <td>
+        <input size="44" value="$!membersForm.email_work" style="width: 250px" name="email_work" maxlength="100" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.PhoneWork") :</td>
+      <td>
+        <input size="44" value="$!membersForm.phone_work" style="width: 150px" name="phone_work" maxlength="32" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.PhoneHome") :</td>
+      <td> 
+        <input size="44" value="$!membersForm.phone_home" style="width: 150px" name="phone_home" maxlength="32" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.PhoneMobile") :</td>
+      <td>
+        <input size="44" value="$!membersForm.mobile" style="width: 150px" name="mobile" maxlength="32" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Fax") :</td>
+      <td>
+        <input size="44" value="$!membersForm.fax" style="width: 150px" name="fax" maxlength="32" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Template") :</td>
+      <td>
+         <select name="template">
+		<option value="default" #if ($membersForm.template == "default") selected #end >Default</option>
+		<option value="yellow" #if ($membersForm.template == "yellow") selected #end >Yellow</option>
+         </select>
+      </td>
+    </tr>
+<tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.TimeZone") :</td>
+      <td>
+        <select name="time_zone">
+#foreach( $listaTZ in $listTimeZone)
+		<option value="$listaTZ"  #if ($listaTZ == $membersForm.time_zone ) selected #end>$listaTZ</option>
+#end
+	</select>
+      </td>
+    </tr>
+
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Comments") :</td>
+      <td>
+        <textarea style="width: 350px; height: 60px;" name="comments" cols="45" rows="5">$!membersForm.comments</textarea>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2">$msg.get("common.Password.specify")</th>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("loginForm.password.displayname") :</td>
+      <td>
+        <input size="44" value="$!membersForm.password" style="width: 250px" name="password" maxlength="50" type="password">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Password.retype") :</td> 
+      <td>
+        <input size="44" value="$!membersForm.password" style="width: 250px" name="repassword" maxlength="50" type="password">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td>
+        <input type="SUBMIT" value=$msg.get("common.save")>
+      </td>
+    </tr>
+  </table>
+  <input type="hidden" name="operation" value="applyEdit">
+  <input type="hidden" name="id" value="$!membersForm.id">
+  <input type="hidden" name="created" value="$!membersForm.created">
+  <input type="hidden" name="organization" value="$!membersForm.organization">
+  <input type="hidden" name="reports" value="$!membersForm.reports">
+  <input type="hidden" name="quotation" value="$!membersForm.quotation">
+  <input type="hidden" name="project" value="$!membersForm.quotation">
+  <hr />
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

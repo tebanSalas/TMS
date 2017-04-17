@@ -1,0 +1,86 @@
+<#parse("/portal/vm/header.vm")
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+      <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">Topic: $topicInfo.subject</h1></font></b></font></div>
+  </tr>
+  <tr>
+<form method="POST" name="add" action="./portalPosts.do" >
+  <table class="content" cellspacing="0" cellpadding="0">
+    <tr>
+      <th colspan="2">$msg.get("common.Information")</th>
+    </tr>
+ <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Id") :</td>
+      <td>$topicInfo.getid() </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Owner") :</td>
+      <td>$topicInfo.parentOwner.getname() </td>
+    </tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" width="96">$msg.get("common.Status") :</td>
+#if ($topicInfo.getstatus() == "1")
+	#set ($label = $msg.get("common.open"))
+#else
+	#set ($label = $msg.get("common.closed"))
+#end
+
+      <td width="189"> $label </td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" width="96">$msg.get("common.Messages") :</td>
+
+      <td width="189"> $lista.size()</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" width="96">$msg.get("common.LastPost") :</td>
+		<td width="189"> $topicInfo.last_post</td>
+	</tr>
+	<tr><th colspan="2">$msg.get("common.Details")</th></tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Message") :</td>
+      <td> 
+        <textarea rows="10" wrap="VIRTUAL" style="width: 400px; height: 150px;" name="message" cols="43">$!postForm.message</textarea>
+      </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td> 
+        <input type="SUBMIT" value=$msg.get("common.save") >
+      </td>
+    </tr>	
+    <tr> 
+      <th colspan="2">$msg.get("common.Messages")</th>
+    #set ($row = 1) 
+	#foreach( $list in $lista) 
+	#if (($row % 2) == 0) 
+		#set ($type = "even") 
+		#set ($color = "#EFEFEF") 
+	#else 
+		#set ($type = "odd") 
+		#set ($color = "#F5F5F5") 
+	#end 
+    <tr class="$type">
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.CreatedBy") :</td>
+      <td width="189"><a href="mailto:$list.getparentMember().getemail_work()"> $!list.getparentMember().getname()</a></td>
+    </tr>
+    <tr class="$type"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Created") :</td>
+      <td width="189"> $!list.getcreated()</td>
+    </tr>
+    <tr class="$type"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Message") :</td>
+      <td width="189"> $!list.getmessage()</td>
+    </tr>
+    #set ($row = $row + 1) 
+	#end 
+  </table>
+  <table class="content" cellspacing="0" cellpadding="0">
+  </table>
+  <input type="hidden" name="operation" value="applyAdd">
+  <input type="hidden" name="id" value="$topicInfo.id">
+  <hr />
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

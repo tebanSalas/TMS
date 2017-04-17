@@ -1,0 +1,82 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>$systemName</title>
+<meta name="robots" content="none">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<script type="text/javascript" src="swc.js"></script>
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<script type="text/Javascript">
+<!--
+var gBrowserOK = true;
+var gOSOK = true;
+var gCookiesOK = true;
+var gFlashOK = true;
+// -->
+
+function sendData(tipo) {
+    var x = document.form0.account.selectedIndex;
+    tipo= tipo+document.form0.account.options[x].value;
+    document.form0.action=tipo;
+    document.form0.submit();
+}
+</script>
+
+<link rel="stylesheet" href="themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+</head>
+<body >
+#parse ("/vm/header.vm")
+
+<table class="content" cellspacing="0" cellpadding="0">
+<tr>
+  <th colspan="2">$msg.get("common.Config")</th>
+</tr>
+ <tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td>
+<td>
+<form  method="POST" name="form0" action="" >
+
+#if ($userInfo.profile == "4" )
+    &nbsp;$msg.get("common.Accounts")
+    <select name="account" id="account" onChange="javascript:sendData('./admin.do?operation=changeData&account=');">
+        #foreach( $listA in $listAccount)
+
+        <OPTION value="$listA.getId()" #if ($adminForm.selected == $listA.getId() || $userInfo.id_account == $listA.getId()) selected #end> $!listA.getName()&nbsp;/&nbsp;$!listA.getDescription()</OPTION>    
+        #end
+    </select>
+    <br><br>
+ <a href="javascript:sendData('./members.do?page=admin&account=');"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.UserAdmin")</a><br><br>
+ <a href="javascript:sendData('./type_tasks.do?account=');"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.Type_Tasks")</a><br><br>
+ <a href="javascript:sendData('./search.do?operation=index&account=');"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.Indexer")</a><br><br>
+ <a href="javascript:sendData('./encrypt.do?operation=confirm&account=');"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.Encrypt")</a><br><br>
+ <a href="javascript:sendData('./broadcastEmail.do?account=');"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.sendEmails")</a><br><br>
+ <a href="javascript:sendData('./configSendReport.do?operation=view&account=');"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.ConfigSendReport")</a><br><br>
+ #if ($activeAccount == "0")
+<a href="./members.do?operation=userlisting1"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.UserRenew")</a><br><br>
+ #end
+<a href="./reports.do?operation=addTaskChange2"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("header.displayTaskChange")</a><br><br>
+
+
+#else
+ <a href="./account.do?operation=view&account=$userInfo.id_account"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.account")</a><br><br>
+ <a href="./members.do?page=admin"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.UserAdmin")</a><br><br>
+ <a href="./type_tasks.do"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.Type_Tasks")</a><br><br>
+ <a href="./broadcastEmail.do"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.sendEmails")</a><br><br>
+ <a href="./configSendReport.do?operation=view"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.ConfigSendReport")</a><br><br>
+ <a href="./members.do?operation=userlisting1"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.UserRenew")</a><br><br>
+ <a href="./reports.do?operation=addTaskChange2"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("header.displayTaskChange")</a><br><br>
+
+
+#end
+</form>
+ </tr>
+</table>
+#parse ("/vm/footer.vm")
+</body>
+</html>

@@ -1,0 +1,87 @@
+<html>
+<head>
+<title>My Home Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+
+<script language="JavaScript">
+function getArrayNumbers(theForm) {
+	if (theForm.selectedItems != null)
+		theForm.checkedItems.value = theForm.selectedItems.join(',');
+
+}
+</script>
+<script>
+
+
+#macro (errorMarkup)
+  #if ($errors.exist() )
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1">$e <br>
+    #end
+    </ul>
+  #end
+#end
+</script>
+
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+
+#parse ("/vm/listingprojectsHome.vm")
+#if ($userInfo.getprofile() =="3" || $userInfo.getprofile() =="4")
+	
+
+	#parse ("/vm/listingreportsHome.vm")
+#else
+        #parse ("/vm/listingtasksHome.vm")
+
+	#parse ("/vm/listingtopicsHome.vm")
+
+	#parse ("/vm/listingreportsHome.vm")
+
+#end
+
+#parse ("/vm/footer.vm")
+
+<form name="homeForm" method="post" action="./home.do">
+  <input type="hidden" name="sortOrderProjects" value="$!homeForm.sortOrderProjects">
+  <input type="hidden" name="sortColumnProjects" value="$!homeForm.sortColumnProjects">
+
+  <input type="hidden" name="sortOrderTasks" value="$!homeForm.sortOrderTasks">
+  <input type="hidden" name="sortColumnTasks" value="$!homeForm.sortColumnTasks">
+
+  <input type="hidden" name="sortOrderTopics" value="$!homeForm.sortOrderTopics">
+  <input type="hidden" name="sortColumnTopics" value="$!homeForm.sortColumnTopics">
+
+  <input type="hidden" name="sortOrderReports" value="$!homeForm.sortOrderReports">
+  <input type="hidden" name="sortColumnReports" value="$!homeForm.sortColumnReports">
+
+  <input type="hidden" name="sortOrderSchedules" value="$!homeForm.sortOrderSchedules">
+  <input type="hidden" name="sortColumnSchedules" value="$!homeForm.sortColumnSchedules">
+
+  <input type="hidden" name="sortOrderMembers" value="$!homeForm.sortOrderMembers">
+  <input type="hidden" name="sortColumnMembers" value="$!homeForm.sortColumnMembers">
+
+  <input type="hidden" name="operation" value="sort">
+  <input type="hidden" name="pageTasks" value="$!homeForm.pageTasks">
+  <input type="hidden" name="pageTopics" value="$!homeForm.pageTopics">
+  <input type="hidden" name="pageProjects" value="$!homeForm.pageProjects">  
+  <input type="hidden" name="pageReports" value="$!homeForm.pageReports">  
+  <input type="hidden" name="pageSchedules" value="$!homeForm.pageSchedules">  
+  <input type="hidden" name="pageMembers" value="$!homeForm.pageMembers">  
+  <input type="hidden" name="typeProject" value="$!homeForm.typeProject">    
+  <input type="hidden" name="typeTask" value="$!homeForm.typeTask">    
+  <input type="hidden" name="source" value="$!homeForm.source">
+</form>
+</body>
+</html>

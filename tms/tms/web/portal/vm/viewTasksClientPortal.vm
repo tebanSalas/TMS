@@ -1,0 +1,75 @@
+<body bgcolor="#FFFFFF" text="#000000">#parse("/portal/vm/header.vm")
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+      <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">$msg.get("common.Task") $taskInfo.name</h1></font></b></font></div>
+  </tr>
+  <tr>
+
+  <table class="content" cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="2">$msg.get("common.Information") </th>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.TopicId") :</td>
+      <td width="189"> $taskInfo.topic</td>
+    </tr>
+<tr class="odd">
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.TaskId") :</td>
+      <td width="189"> $taskInfo.id</td>
+    </tr>
+
+    <tr class="odd">
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Name") :</td>
+      <td width="189"> $taskInfo.name</td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Description") :</td>
+      <td width="189"> $taskInfo.getFormatedDescription()</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Comments") :</td>
+      <td width="189"> $taskInfo.getFormatedComments()</td>
+    </tr>
+#if ($projectInfo.getpublished_assigned() == "1")
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.assignedTo") :</td>
+      <td width="189"> $!taskInfo.getparentAssigned().getname()</td>
+    </tr>
+
+#end
+  </table>
+#if ($taskInfo.getparentAssigned().getind_end_tasks() == "S" && $!taskInfo.getstatus() != 0)
+<form name="formTasks" method="post" action="./portalTasks.do">
+  <table  class="content" cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="2">$msg.get("common.closedByClientMsg")</th>
+    </tr>
+    <tr class="odd">
+      <td width="15%" class="leftvalue">$msg.get("common.Status") :</td>
+      <td width="85%"> 
+        <input type="checkbox" name="closeIt" value="1">$msg.get("common.statusClientEnd")</td>
+    </tr>
+    <tr class="odd">
+      <td width="15%" class="leftvalue">$msg.get("common.Comments") :</td>
+      <td width="85%"> 
+        <input size="44" value="" rows="3" wrap="VIRTUAL" style="width: 400px; height: 50px;" name="reason_for_close" cols="43">
+      </td>
+    </tr>
+
+    <tr class="odd">
+      <td width="15%">&nbsp;</td>
+      <td width="85%"> 
+        <input type="submit" name="Submit" value=$msg.get("common.save")>
+      </td>
+    </tr>
+  </table>
+<input type="hidden" name="operation" value="applyCloseClient">  
+<input type="hidden" name="project" value="$taskInfo.project">  
+<input type="hidden" name="id" value="$taskInfo.id">
+<input type="hidden" name="sortColumn" value="name">
+<input type="hidden" name="sortOrder" value="DESC">
+</form>
+#end
+#parse ("/vm/footer.vm")
+</table></body>
+</html>

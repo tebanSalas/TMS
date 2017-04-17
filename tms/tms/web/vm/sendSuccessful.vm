@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>TMS</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head>
+#parse ("/vm/header.vm")
+
+<body bgcolor="#FFFFFF" text="#000000">
+<form method="POST" name="confirmDelete" action="$do">
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("common.sendEmails")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+<tr>
+<th colspan="2">Envio Exitoso</th>
+</tr>  
+  <tr class="odd">
+      <td valign="top" class="leftvalue" >&nbsp;</td>
+      <td>&nbsp;</td>
+  </tr> 
+</table></div>
+ </td></tr></table></div>
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

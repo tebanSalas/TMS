@@ -1,0 +1,199 @@
+<html>
+<head>
+<title>Config Send Report</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+</head><body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+
+<form name="formconfig" method="post" action="./configSendReport.do">
+
+<div id="wbPHead" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbPToggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+      $msg.get("common.ConfigSendReport")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+<TABLE class=icons cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD class=commandDesc>
+      <DIV class=rel id=clientListtt>
+      <DIV class=abs id=clientListtti><IMG height=1 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif"  width=350></DIV></DIV>
+	  </TD>
+    <TD class=commandBtn width=30>
+ <input type="button"  value=$msg.get("common.save") id ="submit1" onclick="sendData('applyAdd');">
+
+</TD>
+    <TD class=commandBtn width=30>
+ &nbsp;&nbsp;&nbsp;
+</TD>
+	  </TR>
+	  </TBODY>
+	  </TABLE>
+
+
+   </nobr>
+   </td>
+  </tr>
+    <tr>
+
+
+  <td class=toggle>    
+ &nbsp;
+      $msg.get("header.displayMasterReport")
+  
+<SELECT size="1" name="reports" onchange="sendData2('./configSendReport.do?reports=');">
+#foreach( $listRep in $listReport)
+      <OPTION value="$!listRep.getId()" #if ($!report == $!listRep.getId()) selected #end> $!listRep.getName()</OPTION>
+#end
+      </SELECT>
+</td>
+   
+  </tr>
+ </table>
+ </div>
+
+<div name="wbP" id="wbP" style="display:block" class=formBody>
+
+
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+	  <th width="1%" align="center">
+        <a href="javascript:MM_toggleSelectedItems(document.formconfig,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
+      </th>
+<th nowrap>$msg.get("common.Members")</th>
+<th nowrap>$msg.get("common.Periodicity")</th>
+<th nowrap>$msg.get("common.Notification")</th>
+<th nowrap>$msg.get("common.Format")</th>
+
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $list)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+<tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
+	<td align="center">
+	<a href="javascript:document.formconfig.id.value='$!lista.getParentMember().getid()'; enableFields(document.formconfig, '$!lista.getParentMember().getid()', 'clientListcb$row','$userInfo.getTemplate()');">
+	<img name="clientListcb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3"></a>
+	</td>
+
+<td > $!lista.getParentMember().getlogin()</td>
+
+<td > <SELECT size="1" name="periodicity" id="periodicity$!lista.getParentMember().getid()" disabled onchange="changeValue(document.formconfig,'$!lista.getParentMember().getid()');">
+      <OPTION value="N" #if ($!lista.getPeriodicity() == "N") selected #end>$msg.get("common.notApplicable")</OPTION>
+      <OPTION value="D"  #if ($!lista.getPeriodicity() == "D") selected #end>$msg.get("common.Daily")</OPTION>
+      <OPTION value="S"  #if ($!lista.getPeriodicity() == "S") selected #end>$msg.get("common.Weekly")</OPTION>
+      <OPTION value="Q"  #if ($!lista.getPeriodicity() == "Q") selected #end>$msg.get("common.Biweekly")</OPTION>
+      <OPTION value="M" #if ($!lista.getPeriodicity() == "M") selected #end>$msg.get("common.Monthly")</OPTION>
+      <OPTION value="A"  #if ($!lista.getPeriodicity() == "A") selected #end>$msg.get("common.Annual")</OPTION>
+      </SELECT></td>
+<td > 
+
+<SELECT size="1" name="notification" id="notification$!lista.getParentMember().getid()" disabled onchange="changeValue(document.formconfig,'$!lista.getParentMember().getid()');">
+ <OPTION value="0" selected>$msg.get("common.select")</OPTION>
+#foreach( $listMem in $listMember)
+#if ($!lista.getParentMember().getlogin() != $!listMem.getlogin())
+      <OPTION value="$!listMem.getid()" #if ($!lista.getNotificationMember().getlogin() == $!listMem.getlogin()) selected #end> $!listMem.getlogin()</OPTION>
+#end
+#end
+      </SELECT>
+</td>
+<td > <SELECT size="1" name="format" id="format$!lista.getParentMember().getid()"  disabled onchange="changeValue(document.formconfig,'$!lista.getParentMember().getid()');">
+<!-- 
+      <OPTION value="N" #if ($!lista.getFormat() == "N") selected #end>$msg.get("common.notApplicable")</OPTION>
+-->
+      <OPTION value="E" #if ($!lista.getFormat() == "E") selected #end>$msg.get("common.Excel")</OPTION>
+<!--
+      <OPTION value="P"  #if ($!lista.getFormat() == "P") selected #end>$msg.get("common.Pdf")</OPTION>
+      <OPTION value="H"  #if ($!lista.getFormat() == "H") selected #end>$msg.get("common.Html")</OPTION>-->
+      </SELECT></td>
+
+</td>
+  </tr>
+#set ($row = $row + 1)
+#end
+
+<TR class="$type">
+  
+    <TD class=commandBtn width=30 colspan=5 align="right">
+ <input type="button" value=$msg.get("common.save") onclick="sendData('applyAdd');">
+
+</TD>
+    
+	  </TR>
+</table>
+<table cellspacing="0" width="100%" border="0" cellpadding="0">
+ <tr>
+   <td height="5" colspan="2"><img width="1" height="5" border="0" src="./themes/$userInfo.getTemplate()/spacer.gif" alt="">
+   </td>
+ </tr>
+</table>
+
+  <input type="hidden" name="operation" value="$!configForm.operation">
+  <input type="hidden" name="id" value="22">
+  <input type="hidden" name="selected" value="22" >
+  <input type="hidden" name="checkedItems" value="" >
+
+</div>
+</form>
+#parse ("/vm/footer.vm")
+</body>
+<script language="JavaScript">
+
+document.formconfig.buttons = new Array();
+document.formconfig.buttons[document.formconfig.buttons.length] = new MMCommandButton('clientList0',document.formconfig,"javascript:sendData('add');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','$msg.get("common.save")',false,'Confirm report deletion');
+MM_updateButtons(document.formconfig, 0);
+
+document.formconfig.checkboxes = new Array();
+#set ($row = 1)
+#foreach( $lista in $list) 
+ document.formconfig.checkboxes[document.formconfig.checkboxes.length] = new MMCheckbox('$!lista.getParentMember().getid()',document.formconfig,'clientListcb$row');
+#set ($row = $row + 1)   
+#end
+document.formconfig.tt = 'clientListtt';
+
+function getArrayNumbers(theForm) {
+	if (theForm.selectedItems != null)
+		theForm.checkedItems.value = theForm.selectedItems.join(',');
+}
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendData(tipo) {
+	document.formconfig.operation.value = tipo;
+	getArrayNumbers(document.formconfig);
+	document.formconfig.submit();
+}
+function sendData2(tipo) {
+document.formconfig.operation.value='view'; 
+    var x = document.formconfig.reports.selectedIndex;
+
+    tipo= tipo+document.formconfig.reports.options[x].value;
+ document.formconfig.action=tipo;
+    document.formconfig.submit();
+}
+ 
+ 
+</script>
+</html>

@@ -1,0 +1,255 @@
+<html>
+<head>
+<title>Agregar Reporte</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/calendar.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+
+
+
+<script type="text/Javascript">
+
+function checkDate( val) {
+ 
+                separado = val.split("-");
+                out = separado[0] + "-";
+                if (separado[1].length <= 1)
+                        out += "0" + separado[1]+"-";
+                else
+                        out += separado[1]+"-";
+ 
+                if (separado[2].length <= 1)
+                        out += "0" + separado[2];
+                else
+                        out += separado[2];
+                return out;
+        }
+
+function sendData(tipo) {
+if (isValidDate(document.add.startDate1.value,'$msg.get("error.task.invalidFormat")','$msg.get("error.task.invalidMonth")') && isValidDate(document.add.startDate2.value,'$msg.get("error.task.invalidFormat")','$msg.get("error.task.invalidMonth")')) {
+		if (document.add.startDate1.value != null && document.add.startDate2.value != null) {
+                        document.add.startDate1.value = checkDate(document.add.startDate1.value);
+                        document.add.startDate2.value = checkDate(document.add.startDate2.value);
+    document.add.operation.value=tipo;
+    document.add.submit();
+}
+}
+}
+</script>
+
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+
+<script src="./themes/calendar.js" type=text/javascript></SCRIPT>
+#parse("/vm/calendarScript.src")
+
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+
+
+    
+
+
+<form method="POST" name="add" action="./reports.do" >
+<div class=blockHeader>
+<table align="center" class=title with="100%">
+<tr><td>&nbsp;$msg.get("common.Reports.addReport")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0" width="100%">
+  <TBODY>
+  <TR bgcolor="#99CC00">
+    <TH colSpan=4><div align="left"><span class="style1">$msg.get("common.Reports.saveMessage")</span></div><br></TH></TR>
+	<TR class=odd>
+    
+    <TD height="131" colspan="4" class=rightvalue>	
+	      <TABLE border=0 align="center" cellPadding=2 cellSpacing=0>
+		  <TD width="38%" height="70" align="center" vAlign=middle style="text-align:right;color:#808080;font-size:90%">$msg.get("common.ScheduleDate") :</TD>
+   
+		  <TD width="62%">
+		        <TABLE cellSpacing=0 cellPadding=2 border=0>
+        <TBODY>
+        <TR>
+          <TD class=infovalue align=middle width=16><INPUT type=radio value=ALL name=FechaInicio onClick="document.add.startDate1.disabled='true';document.add.startDate2.disabled='true'; "></TD>
+          <TD align=left width=200>$msg.get("common.allDate")</TD></TR>
+        <TR>
+          <TD class=infovalue align=middle width=16>
+	     <INPUT type=radio value=DATERANGE name=FechaInicio onClick="document.add.startDate1.disabled=false;document.add.startDate2.disabled=false;" CHECKED></TD>
+          <TD align=left width=200>$msg.get("common.betweenDates")</TD></TR></TBODY>
+      </TABLE>
+      <TABLE cellSpacing=0 cellPadding=2 border=0>
+        <TBODY>
+        <TR>
+          <TD width=18><IMG height=8 alt="" src="./themes/$userInfo.getTemplate()/spacer.gif"
+            width=18></TD>
+          <TD class=infoValue noWrap><INPUT id=startDate1 name=startDate1 value="$startDate1">
+	    <INPUT onClick="return showCalendar('startDate1', 'y-mm-dd');" type=reset value=" ... "></TD></TR>
+        <TR>
+          <TD width=18>&nbsp;$msg.get("common.and")&nbsp;
+          <TD class=infoValue noWrap><INPUT id=startDate2 name=startDate2 value="$startDate2">
+	    <INPUT onClick="return showCalendar('startDate2', 'y-mm-dd');" type=reset value=" ... "></TD></TR></TBODY></TABLE>
+		</TD>
+</TABLE>
+	</TD>
+ </TR>
+
+  <TR class=odd>
+    <TD width="22%" height="70" align="center" style="text-align:right;color:#808080;font-size:90%">$msg.get("common.Project") :</TD>
+    <TD width="26%" class=rightvalue>
+       <SELECT multiple size=4 name=projects[]>  
+ #if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")
+        <OPTION value=ALL selected>$msg.get("common.selectAll")</OPTION> 
+  #end     
+  #foreach( $lista in $list_projects)
+  #if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")
+      <OPTION value=$!lista.getid()>$!lista.getname()</OPTION>
+    #else
+	  <OPTION value=$!lista.getid() selected>$!lista.getname()</OPTION>
+   #end
+  #end
+
+       </SELECT></TD>
+    <TD width="21%"   style="text-align:right;color:#808080;font-size:90%">$msg.get("common.assignedTo") : </TD>
+    <TD width="31%" class=rightvalue><SELECT multiple size=4 name=members[]>
+  #if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")
+        <OPTION value=ALL selected>$msg.get("common.selectAll")</OPTION> 
+  #end
+  #foreach( $lista in $list_members)
+  #if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")
+      <OPTION value=$!lista.getid()>$!lista.getname()</OPTION>
+    #else
+	  <OPTION value=$lista.getid() selected>$!lista.getname()</OPTION>
+    #end
+  #end
+       </SELECT></TD>
+	   
+ </TR>
+
+  <TR class=odd>
+
+   <TD height="70" vAlign=middle style="text-align:right;color:#808080;font-size:90%">$msg.get("common.Priority") :</TD>
+    <TD class=rightvalue><SELECT multiple size=4 name=priorities[]> 
+	<OPTION value=ALL selected>$msg.get("common.selectAll")</OPTION>
+        <OPTION value="0">$msg.get("common.nonePriority")</OPTION>
+        <OPTION value="1">$msg.get("common.lowestPriority")</OPTION>
+        <OPTION value="2">$msg.get("common.lowPriority")</OPTION>
+        <OPTION value="3">$msg.get("common.mediumPriority")</OPTION>
+        <OPTION value="4">$msg.get("common.highPriority")</OPTION>
+        <OPTION value="5">$msg.get("common.highestPriority")</OPTION>
+
+        </SELECT></TD> 
+    <TD vAlign=middle style="text-align:right;color:#808080;font-size:90%">$msg.get("common.Status") :</TD>
+    <TD class=rightvalue><SELECT multiple size=4 name=status[]> 
+         <OPTION value=ALL selected>$msg.get("common.selectAll")</OPTION>
+         <OPTION value="0" >$msg.get("common.statusClientEnd")</OPTION>
+         <OPTION value="1" >$msg.get("common.statusEnd")</OPTION>
+         <OPTION value="2" >$msg.get("common.statusNotStarted")</OPTION>
+         <OPTION value="3" >$msg.get("common.statusStarted")</OPTION>
+         <OPTION value="4" >$msg.get("common.statusSuspended")</OPTION>
+         <OPTION value="5" >$msg.get("common.statusQuote")</OPTION>
+         <OPTION value="6" >$msg.get("common.statusQuoteSended")</OPTION>
+         <OPTION value="7" >$msg.get("common.statusQuoteRejected")</OPTION>
+         <OPTION value="8" >$msg.get("common.statusQuoteAcepted")</OPTION>
+         <OPTION value="9" >$msg.get("common.statusCharge")</OPTION>
+         <OPTION value="10">$msg.get("common.statusChargeSended")</OPTION>
+         <OPTION value="11">$msg.get("common.statusProcessingCharge")</OPTION>
+	 <OPTION value="12">$msg.get("common.statusRejected")</OPTION>
+	 <OPTION value="13">$msg.get("common.qualitycontrol")</OPTION>
+         <OPTION value="14">$msg.get("common.standBy")</OPTION>
+      </SELECT></TD>
+  </TR>
+
+ 
+
+  <TR class=odd>
+    <TD height="70" vAlign=middle style="text-align:right;color:#808080;font-size:90%">$msg.get("common.Type_Tasks") :</TD>
+    <TD class=rightvalue><SELECT multiple size=4 name=typetasks[]> 
+	<OPTION value=ALL selected>$msg.get("common.selectAll")</OPTION>
+
+#foreach( $lista in $listTypeTasks)
+      <OPTION value="$!lista.getid()">$!lista.getdescription()</OPTION>
+#end
+
+        </SELECT></TD>
+
+   <TD style="text-align:right;color:#808080;font-size:90%;vertical-align:middle">$msg.get("common.Query") :</TD>
+    <TD style="vertical-align:middle"><INPUT id=query name=query value="$query"></TD>
+   </TR>
+
+
+
+
+
+   <tr class=odd>
+    <TD style="text-align:right;color:#808080;font-size:90%;vertical-align:middle">$msg.get("common.chargeabletask") :</TD>
+     <td>
+
+    <input type="radio" name="tareaCobrable" value="ALL" checked> $msg.get("common.selectAll")<br>
+    <input type="radio" name="tareaCobrable" value="0"> $msg.get("common.NoChargeable")<br>
+    <input type="radio" name="tareaCobrable" value="1"> $msg.get("common.chargeableEstimate")<br>
+    <input type="radio" name="tareaCobrable" value="2">$msg.get("common.chargeableExecution")
+
+    </td
+#if ($typeOf == "1")
+    <TD style="text-align:right;color:#808080;font-size:90%;vertical-align:middle">$msg.get("common.chargeableCost") :</TD>
+     <td>
+
+    <input type="radio" name="costoCobrable" value="ALL" checked> $msg.get("common.chargeableBoth")<br>
+    <input type="radio" name="costoCobrable" value="0"> $msg.get("common.NoChargeable")<br>
+    <input type="radio" name="costoCobrable" value="1">$msg.get("common.Chargeable")
+
+    </td
+#end
+
+#if ($typeOf == "0")
+    <tr class=odd>
+        <td style="text-align:right;color:#808080;font-size:90%;vertical-align:middle">$msg.get("common.orderBy") :</TD>
+            
+        <td>
+            <input type="radio" name="tipoReporte" value="day" checked onClick="document.getElementById('excel2').disabled=false;document.getElementById('excel1').disabled=false;"> $msg.get("common.dayWeek")<br>
+           <input type="radio" name="tipoReporte" value="id"  onClick="document.getElementById('excel2').disabled=true;document.getElementById('excel1').disabled=true;"> $msg.get("common.Task")<br>
+         
+        </td>
+    <tr>
+    <tr class=odd>
+    <td></td><td></td>
+
+    <td style="text-align:right;color:#808080;font-size:90%;vertical-align:middle"> $msg.get("common.generateFile") </TD>
+        <td>
+            <input type="radio" name="excel" id="excel2" value="0" checked > $msg.get("common.no")<br>
+            <input type="radio" name="excel" id="excel1" value="1"> $msg.get("common.yes")<br>
+        </td>
+    </tr>    
+#end
+
+  <TR class=odd>
+    <TD height="53" colspan="4" class=rightvalue><div align="center">
+#if ($typeOf == "0")
+      <INPUT type=button value='$msg.get("common.execute")' name=Save onClick=sendData('executeQuery')>
+#else
+#if ($typeOf== "1")
+    <INPUT type=button value='$msg.get("common.generateExcel")' name=Save onClick=sendData('executeQuery1')>
+#else
+    <INPUT type=button value='$msg.get("common.generateExcel")' name=Save onClick=sendData('executeQuery2')>
+#end
+#end
+    </div></TD>
+    
+   </TR>
+  </TBODY> </table></div>
+ </td></tr></table></div>
+<br>
+<input type="hidden" name="operation" value="execute">
+</FORM>
+#parse ("/vm/footer.vm")
+</body>
+</html>

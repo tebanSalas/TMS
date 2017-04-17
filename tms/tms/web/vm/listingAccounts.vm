@@ -1,0 +1,222 @@
+<html>
+<head>
+<title>Accounts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head><body bgcolor="#FFFFFF" text="#000000">
+
+#set ($activeid = "")
+#set ($activename = "")
+#set ($activedescription = "")
+#set ($activeaddress = "")
+#set ($activephone_1 = "")
+#set ($activephone_2 = "")
+#set ($activeemail = "")
+#set ($activeaccount_logo = "")
+#set ($activeuser_fare = "")
+#set ($activeaccount_email = "")
+#set ($activeaccount_manager = "")
+
+#set ($imageid = "")
+#set ($imagename = "")
+#set ($imagedescription = "")
+#set ($imageaddress = "")
+#set ($imagephone_1 = "")
+#set ($imagephone_2 = "")
+#set ($imageemail = "")
+#set ($imageaccount_logo = "")
+#set ($imageuser_fare = "")
+#set ($imageaccount_email = "")
+#set ($imageaccount_manager = "")
+
+#set ($sortid = "ASC")
+#set ($sortname = "ASC")
+
+#if ($!accountForm.sortOrder == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+
+
+#if ($!accountForm.sortColumn == "id" || $!accountForm.sortColumn == "")
+	#set ($activeid = "class='active'")
+	#set ($imageid = $image)
+	#set ($sortid = $accountForm.sortOrder)
+#elseif ($!accountForm.sortColumn == "name")
+	#set ($activename = "class='active'")
+	#set ($imagename = $image)
+	#set ($sortname = $accountForm.sortOrder)
+#end
+
+#parse ("/vm/header.vm")
+<div id="wbPHead" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbPToggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+      $msg.get("common.Accounts")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+<TABLE class=icons cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD class=commandDesc>
+      <DIV class=rel id=clientListtt>
+      <DIV class=abs id=clientListtti><IMG height=1 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif"  width=350></DIV></DIV>
+	  </TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formaccounts, 'clientList0'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formaccounts, 'clientList0'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formaccounts, 'clientList0'); if (b) b.click();"><IMG
+      height=23 alt=$msg.get("common.addLabel") src="./themes/$userInfo.getTemplate()/btn_add_norm.gif"
+      width=24 border=0 name=clientList0></A></TD>
+
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formaccounts, 'clientList1'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formaccounts, 'clientList1'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formaccounts, 'clientList1'); if (b) b.click();"><IMG
+      height=23 alt=$msg.get("common.deleteLabel") src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif"   
+      width=24 border=0 name=clientList1></A></TD>
+    
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formaccounts, 'clientList2'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formaccounts, 'clientList2'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formaccounts, 'clientList2'); if (b) b.click();"><IMG
+      height=23 alt=$msg.get("common.viewLabel") src="./themes/$userInfo.getTemplate()/btn_info_norm.gif" width=24
+      border=0 name=clientList2></A></TD>
+    
+<TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formaccounts, 'clientList3'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formaccounts, 'clientList3'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formaccounts, 'clientList3'); if (b) b.click();"><IMG
+      height=23 alt=$msg.get("common.editLabel") src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif"
+      width=24 border=0 name=clientList3></A></TD>
+    <TD align=left><IMG height=26 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif" width=5></TD>
+
+	  </TR>
+	  </TBODY>
+	  </TABLE>
+
+
+   </nobr>
+   </td>
+  </tr>
+ </table>
+ </div>
+
+<div name="wbP" id="wbP" style="display:block" class=formBody>
+
+<form name="formaccounts" method="post" action="./account.do">
+
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+	  <th width="1%" align="center">
+        <a href="javascript:MM_toggleSelectedItems(document.formaccounts,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
+      </th>
+
+<th nowrap $activeid><a href="javascript:document.formaccounts.sortColumn.value='id';document.formaccounts.sortOrder.value='$sortid';document.formaccounts.operation.value = 'sort';document.formaccounts.submit();" onMouseOver="javascript:window.status='Ordenar por Id'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Id")</a>$imageid</th>
+<th nowrap $activename><a href="javascript:document.formaccounts.sortColumn.value='name';document.formaccounts.sortOrder.value='$sortname';document.formaccounts.operation.value = 'sort';document.formaccounts.submit();" onMouseOver="javascript:window.status='Ordenar por Nombre'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Name")</a>$imagename</th>
+<th nowrap >$msg.get("common.diminutivo")</th>
+<th nowrap >$msg.get("common.Description")</th>
+<th nowrap>$msg.get("common.Address")</th>
+<th nowrap >$msg.get("common.phone_1")</th>
+<th nowrap >$msg.get("common.phone_2")</th>
+<th nowrap>$msg.get("common.email")</th>
+<th nowrap>$msg.get("common.user_fare")</th>
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $list)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
+	<td align="center">
+	<a href="javascript:document.formaccounts.id.value='$lista.getId()';MM_toggleItem(document.formaccounts, '$lista.getId()', 'clientListcb$row','$userInfo.getTemplate()');">
+	<img name="clientListcb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3"></a>
+	</td>
+<td > <a href="javascript:document.formaccounts.id.value='$lista.getId()';sendData('view');">$!lista.getId()</a></td>
+<td > <a href="javascript:document.formaccounts.id.value='$lista.getId()';sendData('view');">$!lista.getName()</a></td>
+<td > $!lista.getShortname()</td>
+<td > $!lista.getDescription()</td>
+<td > $!lista.getAddress()</td>
+<td > $!lista.getPhone_1()</td>
+<td > $!lista.getPhone_2()</td>
+<td ><a href="mailto:$lista.getEmail()">$!lista.getEmail()</a></td>
+<td> $!lista.getUser_fare()</td>
+
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+
+<table cellspacing="0" width="100%" border="0" cellpadding="0">
+ <tr>
+   <td height="5" colspan="2"><img width="1" height="5" border="0" src="./themes/$userInfo.getTemplate()/spacer.gif" alt="">
+   </td>
+ </tr>
+</table>
+  <input type="hidden" name="operation" value="listing">
+  <input type="hidden" name="id" value="22">
+  <input type="hidden" name="sortOrder" value="$!formaccounts.sortOrder">
+  <input type="hidden" name="sortColumn" value="$!formaccounts.sortColumn">
+  <input type="hidden" name="fromPage" value="$!formaccounts.fromPage">
+  <input type="hidden" name="selected" value="22" >
+  <input type="hidden" name="checkedItems" value="" >
+</form>
+</div>
+#parse ("/vm/footer.vm")
+</body>
+<script language="JavaScript">
+
+document.formaccounts.buttons = new Array();
+document.formaccounts.buttons[document.formaccounts.buttons.length] = new MMCommandButton('clientList0',document.formaccounts,"javascript:sendData('add');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','$msg.get("common.addLabel")',false,'Confirm report deletion');
+document.formaccounts.buttons[document.formaccounts.buttons.length] = new MMCommandButton('clientList1',document.formaccounts,"javascript:sendData('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',false,true,true,'','$msg.get("common.deleteLabel")',false,'Confirm report deletion');
+document.formaccounts.buttons[document.formaccounts.buttons.length] = new MMCommandButton('clientList2',document.formaccounts,"javascript:sendData('view');",'./themes/$userInfo.getTemplate()/btn_info_norm.gif','./themes/$userInfo.getTemplate()/btn_info_over.gif','./themes/$userInfo.getTemplate()/btn_info_down.gif','./themes/$userInfo.getTemplate()/btn_info_dim.gif',false,true,false,'','$msg.get("common.viewLabel")',false,'Confirm report deletion');
+document.formaccounts.buttons[document.formaccounts.buttons.length] = new MMCommandButton('clientList3',document.formaccounts,"javascript:sendData('edit');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',false,true,false,'','$msg.get("common.editLabel")',false,'Confirm report deletion');
+MM_updateButtons(document.formaccounts, 0);
+
+document.formaccounts.checkboxes = new Array();
+#set ($row = 1)
+#foreach( $lista in $list) 
+ document.formaccounts.checkboxes[document.formaccounts.checkboxes.length] = new MMCheckbox('$lista.getId()',document.formaccounts,'clientListcb$row');
+#set ($row = $row + 1)   
+#end
+document.formaccounts.tt = 'clientListtt';
+
+function getArrayNumbers(theForm) {
+	if (theForm.selectedItems != null)
+		theForm.checkedItems.value = theForm.selectedItems.join(',');
+}
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendData(tipo) {
+	document.formaccounts.operation.value = tipo;
+	getArrayNumbers(document.formaccounts);
+	document.formaccounts.submit();
+}
+
+</script>
+</html>

@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>Add countries</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<form method="POST" name="add" action="/webcenter/countries.do" >
+  <h1 class="heading">$title</h1>
+<table class="content" cellspacing="0" cellpadding="0">
+<tr><th colspan="2">Detalles</th></tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">description :</td>
+		<td>
+			<input size="44" value="$!countriesForm.description" style="width: 400px" name="description" maxlength="100" type="TEXT">
+		</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">cod_pais :</td>
+		<td>
+			<input size="44" value="$!countriesForm.cod_pais" style="width: 400px" name="cod_pais" maxlength="100" type="TEXT">
+		</td>
+	</tr>
+
+<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><input type="SUBMIT" value="Guardar"></td></tr></table>
+  <input type="hidden" name="operation" value="$!countriesForm.operation">
+  <input type="hidden" name="id" value="$!countriesForm.id">
+  <input type="hidden" name="created" value="$!countriesForm.created">
+  <hr />
+</form>
+
+</body>
+</html>

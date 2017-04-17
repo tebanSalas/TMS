@@ -1,0 +1,36 @@
+\i Tables\auxhour.sql
+\i Tables\accounts.sql
+\i Tables\tasks.sql
+\i Tables\post.sql
+\i Tables\risks.sql
+\i Tables\files.sql
+\i Tables\master_report.sql
+\i Tables\type_tasks.sql
+\i Tables\calendar.sql
+\i Tables\members.sql
+\i Tables\logs.sql
+\i Tables\reports.sql
+\i Tables\topics.sql
+\i Tables\schedules.sql
+\i Tables\teams.sql
+\i Tables\team_lock.sql
+\i Tables\organizations.sql
+\i Tables\predefined_messages.sql
+\i Tables\projects.sql
+\i Tables\config_send_report.sql
+\i Tables\auxminute.sql
+\i Tables\costs.sql
+\i Tables\assignments.sql
+\i Tables\countries.sql
+\i Tables\access_log
+\i Tables\chat_session
+\i Tables\members_per_session
+\i Tables\task_status_log
+
+\i Trigger_Functions\pg_fct_tms_acc_bud.sql
+\i Trigger_Functions\pg_fct_teams_bid.sql
+
+\i Functions\getrealtimehour.sql
+\i Functions\getprojectinfo.sql
+\i Functions\getrealtimeminutes.sql
+\i Functions\isconflict.sql

@@ -1,0 +1,85 @@
+<html>
+<head>
+<title>Edit Linked Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+
+#parse ("/vm/header.vm")
+<script>
+#macro (errorMarkup)
+  #if ($errors.exist() )
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1">$e <br>
+    #end
+    </ul>
+  #end
+#end
+</script>
+
+<p><font color="#CC0000">#errorMarkup()</font></p>
+<form method="POST" name="add" action="./files.do" >
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("common.editLabel") $msg.get("common.LinkedContent.name")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="2">$msg.get("common.Details")</th>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Type") :</td>
+      <td> $!filesForm.type</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Name") :</td>
+      <td> $!filesForm.name</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Date") :</td>
+      <td> $!filesForm.date</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Size") :</td>
+      <td> $!filesForm.size</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Owner")  :</td>
+      <td>$owner.getname()&nbsp;(<a href="mailto:$owner.getemail_work()">$owner.getlogin()</a>)</td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Comments")  :</td>
+      <td> 
+        <textarea cols="55" style="width: 400px" name="comments" wrap="VIRTUAL" rows="4">$!filesForm.comments</textarea>
+      </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td> 
+        <input type="SUBMIT" value=$msg.get("common.save")>
+      </td>
+    </tr>
+ </table></div>
+ </td></tr></table></div>
+  <input type="hidden" name="operation" value="$!filesForm.operation">
+  <input type="hidden" name="id" value="$!filesForm.id">
+  <input type="hidden" name="published" value="$!filesForm.published">
+  <input type="hidden" name="date" value="$!filesForm.date">
+  <input type="hidden" name="topics" value="$!topics">
+  <hr />
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

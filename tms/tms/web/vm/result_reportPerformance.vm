@@ -1,0 +1,214 @@
+<html>
+<head>
+<title>Reports</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+</head><body bgcolor="#FFFFFF" text="#000000">
+
+#set ($activetask = "")
+#set ($activereal_due_date = "")
+#set ($activeestimated_time = "")
+#set ($activestartdate = "")
+#set ($activedeliverdate = "")
+#set ($activeactual_time = "")
+#set ($activereal_performance = "")
+#set ($activetolerance = "")
+#set ($activedeficit = "")
+
+#set ($imagetask = "")
+#set ($imagereal_due_date = "")
+#set ($imageestimated_time = "")
+#set ($imagestartdate = "")
+#set ($imagedeliverdate = "")
+#set ($imageactual_time = "")
+#set ($imagereal_performance = "")
+#set ($imagetolerance = "")
+#set ($imagedeficit = "")
+
+#set ($sorttask = "")
+#set ($sortreal_due_date = "")
+#set ($sortestimated_time = "")
+#set ($sortstartdate = "")
+#set ($sortdeliverdate = "")
+#set ($sortactual_time = "")
+#set ($sortreal_performance = "")
+#set ($sorttolerance = "")
+#set ($sortdeficit = "")
+
+
+#if ($!performanceForm.sortOrder == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+
+#if ($!performanceForm.sortColumn == "name" || $!performanceForm.sortColumn == "")
+	#set ($activetask = "class='active'")
+	#set ($imagetask = $image)
+	#set ($sorttask = $performanceForm.sortOrder)
+#elseif ($!performanceForm.sortColumn == "real_due_date")
+	#set ($activereal_due_date = "class='active'")
+	#set ($imagereal_due_date = $image)
+	#set ($sortreal_due_date = $performanceForm.sortOrder)
+#elseif ($!performanceForm.sortColumn == "estimated_time")
+	#set ($activeestimated_time = "class='active'")
+	#set ($imageestimated_time = $image)
+	#set ($sortestimated_time = $performanceForm.sortOrder)
+#elseif ($!performanceForm.sortColumn == "start_date")
+	#set ($activestartdate = "class='active'")
+	#set ($imagestartdate = $image)
+	#set ($sortstartdate = $performanceForm.sortOrder)
+#elseif ($!performanceForm.sortColumn == "due_date")
+	#set ($activedeliverdate = "class='active'")
+	#set ($imagedeliverdate = $image)
+	#set ($sortdeliverdate = $performanceForm.sortOrder)
+#elseif ($!performanceForm.sortColumn == "actual_time")
+	#set ($activeactual_time = "class='active'")
+	#set ($imageactual_time = $image)
+	#set ($sortactual_time = $performanceForm.sortOrder)
+#elseif ($!performanceForm.sortColumn == "real_performance")
+	#set ($activereal_performance = "class='active'")
+	#set ($imagereal_performance = $image)
+	#set ($sortreal_performance = $performanceForm.sortOrder)
+#elseif ($!performanceForm.sortColumn == "tolerance")
+	#set ($activetolerance = "class='active'")
+	#set ($imagetolerance = $image)
+	#set ($sorttolerance = $performanceForm.sortOrder)
+#elseif ($!performanceForm.sortColumn == "deficit")
+	#set ($activedeficit = "class='active'")
+	#set ($imagedeficit = $image)
+	#set ($sortdeficit = $performanceForm.sortOrder)
+
+#end
+
+
+#parse ("/vm/header.vm")
+
+<table class="content" cellspacing="0" cellpadding="0">
+#if ($performanceForm.type == "byMember")
+<H1 class=heading>$msg.get("common.Performance.myPerformance"):&nbsp;$memberName</H1>
+#else
+ <H1 class=heading>$msg.get("common.performance")</h1>
+#end
+<H1 class=heading>$msg.get("common.Project"):&nbsp;$projectName</H1>
+$msg.get("common.betweenDates")&nbsp;:&nbsp;$!performanceForm.getstart_date() - $!performanceForm.getend_date()
+<form name="formReports" method="post" action="./performance.do">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+<th nowrap $activetask ><a href="javascript:document.formReports.sortColumn.value='name';document.formReports.sortOrder.value='$sorttask';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.estimated_time='Ordenar por name'; return true;" onMouseOut="javascript:window.estimated_time=''; return true">$msg.get("common.Task")</a>$imagetask</th>
+<th nowrap $activestartdate ><a href="javascript:document.formReports.sortColumn.value='start_date';document.formReports.sortOrder.value='$sortstartdate';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.estimated_time='Ordenar por login'; return true;" onMouseOut="javascript:window.estimated_time=''; return true">$msg.get("common.startDate")</a>$imagestartdate</th>
+<th nowrap $activedeliverdate ><a href="javascript:document.formReports.sortColumn.value='due_date';document.formReports.sortOrder.value='$sortdeliverdate';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.estimated_time='Ordenar por login'; return true;" onMouseOut="javascript:window.estimated_time=''; return true">$msg.get("common.deliverDate")</a>$imagedeliverdate</th>
+<th nowrap $activereal_due_date><a href="javascript:document.formReports.sortColumn.value='real_due_date';document.formReports.sortOrder.value='$sortreal_due_date';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.estimated_time='Ordenar por title'; return true;" onMouseOut="javascript:window.estimated_time=''; return true">$msg.get("common.real_due_date")</a>$imagereal_due_date</th>
+<th nowrap $activeestimated_time ><a href="javascript:document.formReports.sortColumn.value='estimated_time';document.formReports.sortOrder.value='$sortestimated_time';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.estimated_time='Ordenar por login'; return true;" onMouseOut="javascript:window.estimated_time=''; return true">$msg.get("common.EstimatedTime") (hh:mm)</a>$imageestimated_time</th>
+<th nowrap $activeactual_time ><a href="javascript:document.formReports.sortColumn.value='actual_time';document.formReports.sortOrder.value='$sortactual_time';document.formReports.operation.value = 'sort';document.formReports.submit();" onMouseOver="javascript:window.estimated_time='Ordenar por login'; return true;" onMouseOut="javascript:window.estimated_time=''; return true">$msg.get("common.RealTime") (hh:mm)</a>$imageactual_time</th>
+<th nowrap $activereal_performance >$msg.get("common.realPerformance")</th>
+<th nowrap $activetolerance >$msg.get("common.Tolerance")</th>
+<th nowrap $activedeficit >$msg.get("common.deficit")</th>
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $list_report)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onMouseOver="this.style.backgroundColor='#DEE7EB'" onMouseOut="this.style.backgroundColor='$color'">
+ <td > <a href="./tasks.do?operation=view&id=$lista.getid()">$lista.getname()</a></td>
+ <td >$lista.getFormatedStartDate()</td>
+ <td >$lista.getFormatedDueDate()</td>
+ <td >$lista.getFormatedRealDueDate()</td>
+ <td >$lista.formatRealHour($lista.estimated_time)</td>
+ <td >$lista.formatRealHour($lista.getTotalScheduledHours())</td>
+ <td >$lista.getperformance()&nbsp;%</td>
+ <td >$lista.tolerance&nbsp;%</td>
+ <td >$lista.getdeficit()&nbsp;%</td>
+</tr>
+#set ($row = $row +1)
+#end
+<tr>
+  <td colspan=4></td>
+  <td><b>$msg.get("common.EstimatedTime") (hh:mm)&nbsp;:&nbsp;$total_estimated_hours</b></td>
+  <td><b>$msg.get("common.totalHours") (hh:mm)&nbsp;:&nbsp;$total_real_hours</b></td>
+  <td><b>$msg.get("common.performance")&nbsp;:&nbsp;$total_performance&nbsp;%</b></td>
+</tr>
+
+<tr>
+  <td colspan=7></td>
+ 
+</tr>
+
+</table>
+<br>
+
+<hr>
+<table class="content" cellspacing="0" cellpadding="0">
+<tr>
+   <th colspan="2">$msg.get("common.deficit"):&nbsp;$total_deficit&nbsp;%</th>
+</tr>
+<tr><td></td></tr>
+#if ($performanceForm.type == "byProject")
+<tr><th colspan="2">$msg.get("common.deficitPerMember")</th></tr>
+ #set ($row = 1)
+  #foreach( $lista in $list_members)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+#if ($lista.getValue() >=70) 
+   #set ($tag = $msg.get("common.level.veryBad"))
+#elseif ($lista.getValue() >=50) 
+   #set ($tag = $msg.get("common.level.Bad"))
+#elseif ($lista.getValue() >=30) 
+   #set ($tag = $msg.get("common.level.Regular"))
+#elseif ($lista.getValue()  >= 10) 
+   #set ($tag = $msg.get("common.level.Good"))
+#elseif ($lista.getValue()  < 10) 
+   #set ($tag = $msg.get("common.level.veryGood"))
+#end   
+<tr class="$type" onMouseOver="this.style.backgroundColor='#DEE7EB'" onMouseOut="this.style.backgroundColor='$color'">
+	<td>$lista.name&nbsp;<b>$lista.value</b>%&nbsp;&nbsp;$tag</td>
+	<td></td>
+<tr>
+
+  #end
+#end
+
+</table>
+  <hr>
+  <input type="hidden" name="operation" value="$performanceForm.operation">
+  <input type="hidden" name="sortOrder" value="$!performanceForm.sortOrder">
+  <input type="hidden" name="sortColumn" value="$!performanceForm.sortColumn">
+  <input type="hidden" name="project" value="$!performanceForm.project">
+  <input type="hidden" name="member" value="$!performanceForm.member">
+  <input type="hidden" name="start_date" value="$!performanceForm.getstart_date()">
+  <input type="hidden" name="end_date" value="$!performanceForm.getend_date()">
+  <input type="hidden" name="type" value="$performanceForm.type">
+</form>
+#parse ("/vm/footer.vm")
+</body>
+<script language="JavaScript">
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendData(tipo) {
+	document.formReports.operation.value = tipo;
+	document.formReports.submit();
+}
+</script>
+</html>

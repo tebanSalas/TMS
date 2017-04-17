@@ -1,0 +1,229 @@
+<html>
+<head>
+<title>$systemName</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/default/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+#include ("/vm/header.vm")
+<p><font color="#CC0000">#errorMarkup()<br>
+  </font></p>
+<table border="0" width="100%" height="682">
+  <tr> 
+    <td align=left height="798"> 
+      <table width="100%">
+        <tr> 
+          <td valign="top"> 
+            <form method="POST" action="Statistics.asp" name="EditProject">
+              <input type="hidden" name="COMPANY_ID" value="113"/>
+              <input type="hidden" name="PROJECT_ID" value="75"/>
+              <input type="hidden" name="PK_PROJECT_ID" value="75"/>
+              <input type="hidden" name="Trn_PROJECT_ID" value=""/>
+              <input type="hidden" name="FormName" value="EditProject"/>
+              <input type="hidden" value="update" name="FormAction"/>
+              <input type="hidden" value="insert" name="FormAction">
+              <table width="100%" cellspacing="1" cellpadding="2">
+                <tr> 
+                  <td class="DataTD"><font class="FieldCaptionFONT">Project ID</font></td>
+                  <td class="DataTD"> 
+                    <p class="DataFONT">$!project_id</p>
+                  </td>
+                  <td class="DataTD"><font class="FieldCaptionFONT">Project Name</font></td>
+                  <td class="DataTD"> 
+                    <p class="DataFONT">$!project_name
+                  </td>
+                </tr>
+                <tr> 
+                  <td class="DataTD"><font class="FieldCaptionFONT">This project 
+                    is completed</font></td>
+                  <td class="DataTD"> 
+                    <p class="DataFONT">$!completed
+                  </td>
+                  <td class="DataTD"><font class="FieldCaptionFONT">Project over 
+                    Time </font></td>
+                  <td class="DataTD"> 
+                    <p class="DataFONT">$!over_time</p>
+                  </td>
+                </tr>
+                <tr> 
+                  <td class="DataTD"><font class="FieldCaptionFONT">File Attachments</font></td>
+                  <td class="DataTD"> 
+                    <p class="DataFONT">$!num_files file(s), $!mb_files MB
+                  </td>
+                  <td class="DataTD"><font class="FieldCaptionFONT">Total Extra 
+                    Costs</font></td>
+                  <td class="DataTD"> 
+                    <p class="DataFONT">$!extra_costs</p>
+                  </td>
+                </tr>
+                <tr> 
+                  <td class="DataTD"><font class="FieldCaptionFONT">Total Actual 
+                    Hours</font></td>
+                  <td class="DataTD"> 
+                    <p class="DataFONT">$!total_actual_hours
+                  </td>
+                  <td class="DataTD"><font class="FieldCaptionFONT">Total Estimated 
+                    Hours</font></td>
+                  <td class="DataTD"> 
+                    <p class="DataFONT">$!total_estimated_hours</p>
+                  </td>
+                </tr>
+                <tr> 
+                  <td class="DataTD"><font class="FieldCaptionFONT">Total Tasks</font></td>
+                  <td class="DataTD"> 
+                    <p class="DataFONT">$!total_tasks
+                  </td>
+                  <td class="DataTD"><font class="FieldCaptionFONT">Estimated 
+                    % Done</font></td>
+                  <td class="DataTD"> 
+                    <p class="DataFONT">$!stamated_done
+                  </td>
+                </tr>
+                <tr> 
+                  <td class="DataTD"><font class="FieldCaptionFONT">Created Date</font></td>
+                  <td class="DataTD"><font class="DataFONT">$created</font></td>
+                  <td class="DataTD"><font class="FieldCaptionFONT">Project Creator</font></td>
+                  <td class="DataTD"> 
+                    <p class="DataFONT"><font class="EditProjectDataFONT">$!owner</font></p>
+                  </td>
+                </tr>
+              </table>
+            </form>
+          </td>
+        </tr>
+      </table>
+      &nbsp; <a name="ProjectUsers"></a> 
+      <table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td class="titreSection"><img src="images/spacer.gif" width="1" height="1">Project 
+            Users Statistics</td>
+          <td class="titreSection"> </td>
+        </tr>
+        <tr> 
+          <td background="images/ligne.gif" colspan="3" width="1090"><img src="images/spacer.gif" width="1" height="1"></td>
+        </tr>
+      </table>
+      &nbsp; 
+      <table width="100%">
+        <tr> 
+          <td valign="top"> 
+            <table width="100%" border="0" cellspacing="1" cellpadding="2">
+              <tr> 
+                <td><font class="ColumnFONT">Username</font></td>
+                <td><font class="ColumnFONT">Project Manager</font></td>
+                <td><font class="ColumnFONT">Created Tasks</font></td>
+                <td><font class="ColumnFONT">Assigned Tasks</font></td>
+                <td><font class="ColumnFONT">Actual Hours</font></td>
+              </tr>
+              <tr> 
+                <td class="DataTD"><font class="DataFONT">$login</font></td>
+                <td class="DataTD" align="right">
+                  <div align="center"><font class="DataFONT">$ismanager</font></div>
+                </td>
+                <td class="DataTD" align="right"><font class="DataFONT"><a href="ReportGlobal.asp?PROJECT_ID=75&s_USER_CREATOR_ID=158">$!numtasks</a>&nbsp;</font></td>
+                <td class="DataTD" align="right"><font class="DataFONT"><a href="ReportGlobal.asp?PROJECT_ID=75&s_USER_DOING_ID=158">$!assigned_numtasks</a>&nbsp;</font></td>
+                <td class="DataTD" align="right">$!actual_hours</td>
+              </tr>
+            </table>
+            <p> <a name="TaskGroups"></a> 
+          </td>
+        </tr>
+      </table>
+      <p> &nbsp;<a name="TaskStatuses"></a> 
+      <table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td class="titreSection"><img src="images/spacer.gif" width="1" height="1">Task 
+            Statuses Statistics</td>
+          <td class="titreSection"> </td>
+        </tr>
+        <tr> 
+          <td background="images/ligne.gif" colspan="3" width="1090"><img src="images/spacer.gif" width="1" height="1"></td>
+        </tr>
+      </table>
+      &nbsp; 
+      <table width="100%" border="0" cellspacing="1" cellpadding="2">
+        <tr> 
+          <td><font class="ColumnFONT">Name</font></td>
+          <td><font class="ColumnFONT">Total Tasks</font></td>
+          <td><font class="ColumnFONT">Total Estimated Hours</font></td>
+          <td><font class="ColumnFONT">Completed Status</font></td>
+          <td><font class="ColumnFONT">Description</font></td>
+        </tr>
+        <tr> 
+          <td class="DataTD"><font class="DataFONT">$taskname</font>&nbsp;</td>
+          <td class="DataTD" align="right"><font class="DataFONT"><a href="ReportGlobal.asp?PROJECT_ID=75&s_STATUS_TYPE_ID=91">$!total</a>&nbsp;</font></td>
+          <td class="DataTD" align="right"><font class="DataFONT">$!total_estimated&nbsp;</font></td>
+          <td class="DataTD">
+            <div align="center"><font class="DataFONT">$!completed&nbsp;</font></div>
+          </td>
+          <td class="DataTD"><font class="DataFONT">&nbsp;$!description</font></td>
+        </tr>
+      </table>
+      <p> &nbsp; <a name="TaskPriorities"></a> 
+      <table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td class="titreSection"><img src="images/spacer.gif" width="1" height="1">Task 
+            Priorities Statistics</td>
+          <td class="titreSection"> </td>
+        </tr>
+        <tr> 
+          <td background="images/ligne.gif" colspan="3" width="1090"><img src="images/spacer.gif" width="1" height="1"></td>
+        </tr>
+      </table>
+      &nbsp; 
+      <table width="100%" border="0" cellspacing="1" cellpadding="2">
+        <tr> 
+          <td><font class="ColumnFONT">Name</font></td>
+          <td><font class="ColumnFONT">Total Tasks</font></td>
+          <td> 
+            <div align="left"><font class="ColumnFONT"> Completed</font></div>
+          </td>
+          <td><font class="ColumnFONT">Total Estimated Hours</font></td>
+        </tr>
+        <tr> 
+          <td class="DataTD"><font class="DataFONT">Urgent</font>&nbsp;</td>
+          <td class="DataTD" align="right"><font class="DataFONT"><a href="ReportGlobal.asp?PROJECT_ID=75&s_PRIORITY_TYPE_ID=82">$total_urgent</a>&nbsp;</font></td>
+          <td class="DataTD"> 
+            <div align="right"><font class="DataFONT">&nbsp;$completed_urgent</font></div>
+          </td>
+          <td class="DataTD" align="right"><font class="DataFONT">$!estimated_urgent&nbsp;</font></td>
+        </tr>
+        <tr> 
+          <td class="DataTD"><font class="DataFONT">High</font>&nbsp;</td>
+          <td class="DataTD" align="right"><font class="DataFONT"><a href="ReportGlobal.asp?PROJECT_ID=75&s_PRIORITY_TYPE_ID=79">$</a><a href="ReportGlobal.asp?PROJECT_ID=75&s_PRIORITY_TYPE_ID=82">total_</a><a href="ReportGlobal.asp?PROJECT_ID=75&s_PRIORITY_TYPE_ID=79">high</a>&nbsp;</font></td>
+          <td class="DataTD"> 
+            <div align="right"><font class="DataFONT">&nbsp;$completed_high</font></div>
+          </td>
+          <td class="DataTD" align="right"><font class="DataFONT">$!estimated_high&nbsp;</font></td>
+        </tr>
+        <tr> 
+          <td class="DataTD"><font class="DataFONT">Normal</font>&nbsp;</td>
+          <td class="DataTD" align="right"><font class="DataFONT"><a href="ReportGlobal.asp?PROJECT_ID=75&s_PRIORITY_TYPE_ID=80">$</a><a href="ReportGlobal.asp?PROJECT_ID=75&s_PRIORITY_TYPE_ID=82">total_</a><a href="ReportGlobal.asp?PROJECT_ID=75&s_PRIORITY_TYPE_ID=80">normal</a>&nbsp;</font></td>
+          <td class="DataTD"> 
+            <div align="right"><font class="DataFONT">&nbsp;$completed_normal</font></div>
+          </td>
+          <td class="DataTD" align="right"><font class="DataFONT">$!estimated_normal&nbsp;</font></td>
+        </tr>
+        <tr> 
+          <td class="DataTD"><font class="DataFONT">Low</font>&nbsp;</td>
+          <td class="DataTD" align="right"><font class="DataFONT"><a href="ReportGlobal.asp?PROJECT_ID=75&s_PRIORITY_TYPE_ID=81">$</a><a href="ReportGlobal.asp?PROJECT_ID=75&s_PRIORITY_TYPE_ID=82">total_</a><a href="ReportGlobal.asp?PROJECT_ID=75&s_PRIORITY_TYPE_ID=81">low</a>&nbsp;</font></td>
+          <td class="DataTD"> 
+            <div align="right"><font class="DataFONT">&nbsp;$completed_low</font></div>
+          </td>
+          <td class="DataTD" align="right"><font class="DataFONT">$!estimated_low&nbsp;</font></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+#parse ("/vm/footer.vm") 
+</body>
+</html>

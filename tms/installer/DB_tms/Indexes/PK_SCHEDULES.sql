@@ -1,0 +1,12 @@
+Prompt Index PK_SCHEDULES;
+--
+-- PK_SCHEDULES  (Index) 
+--
+--  Dependencies: 
+--   SCHEDULES (Table)
+--
+CREATE UNIQUE INDEX PK_SCHEDULES ON SCHEDULES
+(HOURID, USERID, DAY,ID_ACCOUNT)
+/
+
+

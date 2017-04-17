@@ -1,0 +1,32 @@
+#parse("/portal/vm/header.vm")
+
+<body bgcolor="#FFFFFF" text="#000000">
+<form method="POST" name="confirmDelete" action="./portalTasks.do">
+  <h1 class=heading>$msg.get("common.reject"): &nbsp;$taskInfo.name</h1>
+
+  <table class=content cellspacing=0 cellpadding=0 >
+<tr>
+<th colspan="2">$msg.get("common.rejectQuestion")</th>
+</tr>
+<tr class="odd">
+   <td colspan="2">
+	<input size="44" value="" rows="3" wrap="VIRTUAL" style="width: 400px; height: 50px;" name="reason_for_rejected" cols="43">
+   </td>
+</tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td>
+<input type="submit" name="Reject" value=$msg.get("common.reject")>
+<input type="hidden" name="operation" value="applyRejected">
+<input type="hidden" name="id" value="$id">
+<input type="hidden" name="project" value="$project">
+<input type="hidden" name="sortColumn" value="name">
+<input type="hidden" name="sortOrder" value="DESC">
+      </td>
+    </tr>
+  </table>
+  <hr>
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

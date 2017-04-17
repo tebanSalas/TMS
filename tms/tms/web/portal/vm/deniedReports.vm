@@ -1,0 +1,16 @@
+#parse("/portal/vm/header.vm")
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">$msg.get("header.displayReports")</h1></font></b></font></div>
+    <td width="37%" align="left"><img src="./portal/themes/$userInfo.getTemplate()/images/right-corner.gif" width="10" height="23"></td>
+    <td width="46%">&nbsp;</td>
+  </tr>
+</table>  
+<h2>$msg.get("common.deniedReports")</h2>
+
+
+#parse ("/vm/footer.vm")
+</body>
+</html>
+

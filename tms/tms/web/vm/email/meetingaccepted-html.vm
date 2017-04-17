@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>Email</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<style type="text/css">
+A.LinkText {
+	COLOR: #006666; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 12px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+A.LinkText:hover {
+	COLOR: #ff6600; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 12px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+A.LinkText2 {
+	COLOR: #006666; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 14px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+A.LinkText2:hover {
+	COLOR: #ff6600; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 14px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table cellspacing=0 cellpadding=0 width=90% border=0 height="399">
+  <tbody> 
+  <tr valign=top bgcolor="#006666"> 
+    <td colspan=3 height="16" width="483" bgcolor="#006666"><font size="4"><b><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">Task Management System (TMS)</font></b></font></td>
+  </tr>
+  <tr valign=top> 
+    <td width=483 background=""> <br>
+      <font 
+            face="Verdana, Arial, Helvetica, &#13;&#10;sans-serif" color=#006666 
+            size=2><b><img 
+                  src="$mainURL/images/arrow.gif" 
+                  border=0 nosend="1"> $message_line<br>
+      </b></font> 
+      <hr size="1">
+      <br>
+      <hr size="1">
+      <table width="90%" border="0" cellspacing="0" cellpadding="2" align="left" height="43">
+        <tr> 
+          <td height="15"><font face="Verdana, Arial, Helvetica, &#13;&#10;sans-serif" color="#333333" size="2"></font></td>
+        </tr>
+        <tr> 
+        <td>$hostmember : </td>
+
+	<td>$name $msg.get("email.meetingacepted.message") </td>
+	<td> $meetingdate $msg.get("email.meetinginithour.message") $meetinginithour $msg.get("email.meetingendhour.message") $meetingendhour </td>
+        <td> $msg.get("email.meetingsubject.message") $meetingsubject.</td>
+
+	<td> </td>
+	<td>$msg.get("email.meetinggreeting.message") </td>
+	<td>$name </td>
+
+
+	<td> </td>	 
+        </tr>
+      </table>
+      <p><br>
+        <br>
+        <br>
+      </p>
+      <table width="90%" border="0" cellspacing="0" cellpadding="0" height="56">
+        <tr> 
+          <td height="64"><font face="Arial, Helvetica, sans-serif" size="2" color="#333333">Esta 
+            notificaci&oacute;n fue generada por $company.<br>
+            <br>
+            Para ver su $creator - Home Page, visite:<br>
+            <div align="left"><a class="LinkText" href="$mainURL/login.do">$mainURL/login.do</a></div>
+            </font> </td>
+        </tr>
+      </table>
+      <p>&nbsp; </p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<html>
+<head>
+<title>Email</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<style type="text/css">
+A.LinkText {
+	COLOR: #006666; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 12px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+A.LinkText:hover {
+	COLOR: #ff6600; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 12px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+A.LinkText2 {
+	COLOR: #006666; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 14px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+A.LinkText2:hover {
+	COLOR: #ff6600; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 14px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table width="600" border="0" cellspacing="1" cellpadding="1">
+  <tr> 
+    <td bgcolor="#000099" height="432" valign="top" align="center"> 
+      <table width="598" border="0" cellspacing="2" cellpadding="2" bgcolor="#FFFFFF" align="center">
+        <tr> 
+          <td valign="top" align="center" height="445"> 
+            <table width="100%" border="0" cellspacing="2" cellpadding="0" align="center">
+              <tr> 
+                <td valign="bottom" align="left" height="16"> 
+                  <div align="left"> </div>
+                  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#333333">Fecha: 
+                    $today</font></div>
+                </td>
+              </tr>
+              <tr> 
+                <td bgcolor="#FFFFFF" height="6" valign="top"><font face="Arial, Helvetica, sans-serif" color="#FFFFFF"><b><font size="2" color="#333333" face="Verdana, Arial, Helvetica, sans-serif">Sr 
+                  Credito y Cobro</font><font size="3" color="#333333" face="Verdana, Arial, Helvetica, sans-serif"> 
+                  </font></b></font> </td>
+              </tr>
+              <tr> 
+                <td bgcolor="#FFFFFF" height="6" valign="top"> 
+                  <hr size="1" color="#3366CC">
+                </td>
+              </tr>
+              <tr> 
+                <td height="50"> 
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr> 
+                      <td width="12%"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Proyecto 
+                        :</font></td>
+                      <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#333333">$project</font></td>
+                    </tr>
+                    <tr> 
+                      <td width="12%" valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Cliente:</font></td>
+                      <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>$client</b></font></td>
+                    </tr>
+                    <tr> 
+                      <td width="12%" valign="top"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Tel&eacute;fono:</font></td>
+                      <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">$phone</font></td>
+                    </tr>
+                    <tr> 
+                      <td width="12%" valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Email:</font></td>
+                      <td width="88%"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">$email</font></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr> 
+                <td valign="top" height="10"> 
+                  <hr size="1" color="#3366CC">
+                </td>
+              </tr>
+              <tr> 
+                <td height="103"> 
+                  <table width="100%" border="0" cellspacing="2" cellpadding="2" height="95">
+                    <tr> 
+                      <td valign="top" width="23%" height="15"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Trabajo 
+                        Solicitado</font>:</td>
+                      <td width="77%" bgcolor="#eeeeee" valign="top" height="15">$taskname</td>
+                    </tr>
+                    <tr> 
+                      <td valign="top" width="23%" height="11"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Descripci&oacute;n:</font></td>
+                      <td width="77%" bgcolor="#eeeeee" valign="top" height="11"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">$description</font></td>
+                    </tr>
+                    <tr> 
+                      <td valign="top" width="23%" height="12"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Fecha 
+                        de entrega:</font></td>
+                      <td width="77%" bgcolor="#eeeeee" valign="top" height="12"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">$duedate</font></td>
+                    </tr>
+                    <tr> 
+                      <td valign="top" width="23%" height="9"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Tiempo 
+                        invertido:</font></td>
+                      <td width="77%" bgcolor="#eeeeee" valign="top" height="9"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">$estimated_time 
+                        horas</font></td>
+                    </tr>
+                    <tr> 
+                      <td valign="top" width="23%" height="9"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Tarifa:</font></td>
+                      <td width="77%" bgcolor="#eeeeee" valign="top" height="9"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">$ 
+                        $fare</font></td>
+                    </tr>
+                    <tr> 
+                      <td valign="top" width="23%" height="15"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Total:</font></td>
+                      <td width="77%" bgcolor="#eeeeee" valign="top" height="15"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">$ 
+                        $total</font></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr> 
+                <td valign="top"> 
+                  <hr size="1" color="#3366CC">
+                </td>
+              </tr>
+              <tr> 
+                <td valign="top" align="left" height="60"><font face="Arial, Helvetica, sans-serif" size="2" color="#996600"><b><font color="#000099" size="3">Favor 
+                  agilizar el cobro <br>
+                  <font color="#666666">Forma de pago 50% al recibir la orden de compra y 50% al recibir el trabajo contratado.<br><br></font>
+                  <font color="#666666">Cuando el cobro sea efectivo o se encuentre 
+                  en tramite, visite el site del proyecto y acepte el cobro.<br>
+                  </font></font><font color="#000099" size="3" face="Verdana, Arial, Helvetica, sans-serif"><font color="#666666"> 
+                  </font></font></b></font></td>
+              </tr>
+              <tr> 
+                <td valign="top" bgcolor="#eeeeee" align="left" height="78"> 
+                  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000">Cordialmente 
+                    $from_name<br>
+                    E-mail: $from_email_work</font></p>
+                  <p><font color="#006699"><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000099">$company <br>
+                    $website</font></b></font><font color="#000099"><br>
+                    </font><font color="#3366CC"> </font> </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

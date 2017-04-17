@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>View post</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<div id="wbPHead" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbPToggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+      View post
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+<table cellpadding="0" cellspacing="0" border="0" class="icons"><tr>
+<td class="commandDesc"><div id="ecDtt" class="rel"><div id="ecDtti" class="abs"><img height="1" width="350" src="./themes/$userInfo.getTemplate()/spacer.gif" alt=""></div></div></td>
+<td width="30" class="commandBtn"><a href="javascript:var b = MM_getButtonWithName(document.formView, 'ecD0'); if (b) b.click();" onMouseOver="var over = MM_getButtonWithName(document.formView, 'ecD0'); if (over) over.over(); return true; " onMouseOut="var out = MM_getButtonWithName(document.formView, 'ecD0'); if (out) out.out(); return true; "><img width="24" height="23" border="0" name="ecD0" src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif" alt='$msg.get("common.deleteLabel")'></a></td>
+<td width="30" class="commandBtn"><a href="javascript:var b = MM_getButtonWithName(document.formView, 'ecD1'); if (b) b.click();" onMouseOver="var over = MM_getButtonWithName(document.formView, 'ecD1'); if (over) over.over(); return true; " onMouseOut="var out = MM_getButtonWithName(document.formView, 'ecD1'); if (out) out.out(); return true; "><img width="24" height="23" border="0" name="ecD1" src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif" alt='$msg.get("common.editLabel")'></a></td>
+<td align=left><img height="26" width="5" src="./themes/$userInfo.getTemplate()/spacer.gif" alt=""></td></tr></table>
+
+
+   </nobr>
+   </td>
+  </tr>
+ </table>
+ </div>
+
+<div name="wbP" id="wbP" style="display:block" class=formBody>
+
+<form method="POST" name="formView" action="/webcenter/organizations.do" >
+
+  
+  <table class="content" cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="2">$msg.get("common.Details")</th>
+    </tr>
+    	<tr class="odd">
+		<td valign="top" class="leftvalue" width="96">topic :</td>
+		<td width="189"> $!postForm.topic</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" width="96">message :</td>
+		<td width="189"> $!postForm.message</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" width="96">created :</td>
+		<td width="189"> $!postForm.created</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" width="96">member :</td>
+		<td width="189"> $!postForm.member</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" width="96">id :</td>
+		<td width="189"> $!postForm.id</td>
+	</tr>
+
+  </table>
+  <input type="hidden" name="operation" value="$!organizationsForm.operation">
+  <input type="hidden" name="id" value="$!organizationsForm.id">
+  <input type="hidden" name="created" value="$!organizationsForm.created">
+  <hr />
+</form>
+</div>
+<script type="text/JavaScript">
+<!--
+document.formView.buttons = new Array();
+document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD0',document.formView,"javascript:sendData('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',true,true,false,'','Eliminar',false,'Confirm report deletion');
+document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD1',document.formView,"javascript:sendData('edit');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',true,true,false,'','Editar',false,'Confirm report deletion');
+MM_updateButtons(document.formView, 0);
+document.formView.checkboxes = new Array();
+document.formView.tt = 'ecDtt';
+// -->
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendData(tipo) {
+	document.formView.operation.value = tipo;	
+	document.formView.submit();
+}
+</script>
+</body>
+</html>

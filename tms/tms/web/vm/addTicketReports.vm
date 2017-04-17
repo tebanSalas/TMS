@@ -1,0 +1,114 @@
+<html>
+<head>
+<title>Agregar Reporte Tickets</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/calendar.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+
+
+
+<script type="text/Javascript">
+
+function checkDate( val) {
+ 
+                separado = val.split("-");
+                out = separado[0] + "-";
+                if (separado[1].length <= 1)
+                        out += "0" + separado[1]+"-";
+                else
+                        out += separado[1]+"-";
+ 
+                if (separado[2].length <= 1)
+                        out += "0" + separado[2];
+                else
+                        out += separado[2];
+                return out;
+        }
+
+function sendData(tipo) {
+    document.add.operation.value=tipo;
+    document.add.submit();
+}
+
+</script>
+
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+
+<script src="./themes/calendar.js" type=text/javascript></SCRIPT>
+#parse("/vm/calendarScript.src")
+
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+    
+<form method="POST" name="add" action="./reports.do" >
+<div class=blockHeader>
+<table align="center" class=title with="100%">
+<tr><td>&nbsp;$msg.get("common.Reports.addReport")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0" width="100%">
+  <TBODY>  
+  <TR bgcolor="#99CC00">
+    <TH colSpan=4><div align="left"><span class="style1">$msg.get("common.Reports.saveMessage")</span></div><br></TH></TR>
+
+  <TR class=odd>
+    <TD width="22%" height="70" align="center" style="text-align:right;color:#808080;font-size:90%">$msg.get("common.Project") :</TD>
+    <TD width="26%" class=rightvalue>
+       <SELECT multiple size=4 name=projects[]>  
+ #if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")
+        <OPTION value=ALL selected>$msg.get("common.selectAll")</OPTION> 
+  #end     
+  #foreach( $lista in $list_projects)
+  #if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")
+      <OPTION value=$!lista.getid()>$!lista.getname()</OPTION>
+    #else
+	  <OPTION value=$!lista.getid() selected>$!lista.getname()</OPTION>
+   #end
+  #end
+
+       </SELECT></TD>
+ </TR>
+
+  <TR class=odd>
+
+    <TD vAlign=middle style="text-align:right;color:#808080;font-size:90%">$msg.get("common.projectStatus") :</TD>
+      <td>
+            <input type="radio" name="projStatus" id="projAll" value="2" checked> Todos<br>
+            <input type="radio" name="projStatus" id="projinProgess" value="0"> $msg.get("common.TasksInProgress")<br>
+            <input type="radio" name="projStatus" id="projEnded" value="1"> $msg.get("common.TasksEnded")<br>
+      </td>
+  </TR>
+  <TR class=odd>
+    <TD width="22%" height="70" align="center" style="text-align:right;color:#808080;font-size:90%"> $msg.get("common.ticketStatus") </TD>
+        <td>
+            <input type="radio" name="tickStatus" id="statusAll" value="2" checked> Todos<br>
+            <input type="radio" name="tickStatus" id="statusOpen" value="1" > $msg.get("common.ticketOpen")<br>
+            <input type="radio" name="tickStatus" id="statusClosed" value="0"> $msg.get("common.ticketClosed")<br>
+        </td>
+    </tr>    
+
+
+  <TR class=odd>
+    <TD height="53" colspan="4" class=rightvalue><div align="center">
+      <INPUT type=button value='$msg.get("common.execute")' name=Save onClick=sendData('executeQueryTick')>
+    </TD>
+    
+   </TR>
+  </TBODY> </table></div>
+ </td></tr></table></div>
+<br>
+<input type="hidden" name="operation" value="execute">
+</FORM>
+#parse ("/vm/footer.vm")
+</body>
+</html>

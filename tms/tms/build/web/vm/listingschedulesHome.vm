@@ -1,0 +1,156 @@
+#set ($activedate = "")
+
+#set ($imagedate = "")
+
+#set ($sortdate = "ASC")
+
+
+#if ($!homeForm.sortOrderSchedules == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+#set ($activedate = "class='active'")
+#set ($imagedate = $image)
+#set ($sortdate = $!homeForm.sortOrderSchedules)
+
+<div id="wbP12Head" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP12','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP12'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbP12Toggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+      $msg.get("common.schedules")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+
+<TABLE class=icons cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD class=commandDesc>
+      <DIV class=rel id=schedulesListtt>
+      <DIV class=abs id=schedulesListtti><IMG height=1 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif"  width=350></DIV></DIV>
+	  </TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formschedules, 'schedulesList0'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formschedules, 'schedulesList0'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formschedules, 'schedulesList0'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.addLabel")' src="./themes/$userInfo.getTemplate()/btn_add_norm.gif"
+      width=24 border=0 name=schedulesList0></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formschedules, 'schedulesList1'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formschedules, 'schedulesList1'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formschedules, 'schedulesList1'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.deleteLabel")' src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif"
+      width=24 border=0 name=schedulesList1></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formschedules, 'schedulesList3'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formschedules, 'schedulesList3'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formschedules, 'schedulesList3'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.editLabel")' src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif"
+      width=24 border=0 name=schedulesList3></A></TD>
+    <TD align=left><IMG height=26 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif" width=5></TD>
+
+	  </TR>
+	  </TBODY>
+	  </TABLE>
+
+   </nobr>
+   </td>
+  </tr>
+ </table>
+ </div>
+
+<div name="wbP12" id="wbP12" style="display:block" class=formBody>
+
+<form name="formschedules" method="post" action="./schedules.do">
+
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+	  <th width="1%" align="center">
+        <a href="javascript:MM_toggleSelectedItems(document.formschedules,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
+      </th>
+<th nowrap $activedate><a href="javascript:document.homeForm.source.value='schedules';document.homeForm.sortColumnSchedules.value='day';document.homeForm.sortOrderSchedules.value='$sortdate';document.homeForm.operation.value = 'sort';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por date'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Date")</a>$imagedate</th>
+
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $listSchedules)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
+	<td align="center">
+	<a href="javascript:document.formschedules.date.value='$lista';MM_toggleItem(document.formschedules, '$lista', 'schedulesListcb$row','$userInfo.getTemplate()');">
+	<img name="schedulesListcb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3"></a>
+	</td>
+<td ><a href="javascript:document.formschedules.date.value='$lista';sendDataSchedules('view');"> $lista</a></td>
+
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+
+<table cellspacing="0" width="100%" border="0" cellpadding="0">
+ <tr>
+   <td nowrap class="footerCell">&#160;&#160;&#160;&#160;
+
+#foreach( $lista in $listPagesSchedules)
+	#if ($lista.intValue() == $!homeForm.pageSchedules)
+		<b>$lista.intValue()</b>&#160;
+	#else
+<a href="javascript:document.homeForm.source.value='schedules';document.homeForm.operation.value='paging';document.homeForm.pageSchedules.value='$lista.intValue()';document.homeForm.submit();">$lista.intValue()</a>&#160;
+	#end
+#end
+ <td nowrap align="right" class="footerCell">
+      <a href="javascript:document.homeForm.source.value='schedules';document.homeForm.operation.value='paging';document.homeForm.pageSchedules.value='0';document.homeForm.submit();"> $msg.get("common.ShowAll") </a>&#160;&#160;&#160;&#160;&#160;
+    </td>
+   </td>
+ </tr>
+ <tr>
+   <td height="5" colspan="2"><img width="1" height="5" border="0" src="./themes/$userInfo.getTemplate()/spacer.gif" alt="">
+   </td>
+ </tr>
+</table>
+
+  <input type="hidden" name="operation" value="listing">
+  <input type="hidden" name="date" value="">
+  <input type="hidden" name="checkedItems" value="" >
+</form>
+</div>
+<script language="JavaScript">
+
+document.formschedules.buttons = new Array();
+document.formschedules.buttons[document.formschedules.buttons.length] = new MMCommandButton('schedulesList0',document.formschedules,"javascript:sendDataSchedules('add');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','Agregar',false,'Confirm report deletion');
+document.formschedules.buttons[document.formschedules.buttons.length] = new MMCommandButton('schedulesList1',document.formschedules,"javascript:sendDataSchedules('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',false,true,true,'','Eliminar',false,'Confirm report deletion');
+document.formschedules.buttons[document.formschedules.buttons.length] = new MMCommandButton('schedulesList3',document.formschedules,"javascript:sendDataSchedules('edit');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',false,true,false,'','Editar',false,'Confirm report deletion');
+MM_updateButtons(document.formschedules, 0);
+
+document.formschedules.checkboxes = new Array();
+#set ($row = 1)
+#foreach( $lista in $listSchedules)
+ document.formschedules.checkboxes[document.formschedules.checkboxes.length] = new MMCheckbox('$row',document.formschedules,'schedulesListcb$row');
+#set ($row = $row + 1)
+#end
+document.formschedules.tt = 'schedulesListtt';
+
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendDataSchedules(tipo) {
+	document.formschedules.operation.value = tipo;
+	getArrayNumbers(document.formschedules);
+	document.formschedules.submit();
+}
+</script> 

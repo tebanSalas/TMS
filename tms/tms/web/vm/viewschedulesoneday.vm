@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>View schedules</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<form method="POST" name="formView" action="/webcenter/organizations.do" >
+
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;View schedules</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="3">$msg.get("common.Details")</th>
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $oneday)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end	
+    <tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'"> 
+      <td align="center" width="20%" bgcolor="#999999"> <font color="#FFFFFF"><b>$lista</b></font></td>
+      <td width="30%"> $!lista.task()</td>
+      <td width="50%"> $!lista.getFormatedComments()</td>
+    </tr>
+#set ($row = $row + 1)
+#end
+	
+ </table></div>
+ </td></tr></table></div>
+  <input type="hidden" name="operation" value="$!organizationsForm.operation">
+  <input type="hidden" name="id" value="$!organizationsForm.id">
+  <input type="hidden" name="created" value="$!organizationsForm.created">
+  <hr />
+</form>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Add members</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/calendar.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+
+<script src="./themes/calendar.js" type=text/javascript></SCRIPT>
+<script>
+#macro (errorMarkup)
+  #if ($errors.exist() )
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1">$e <br>
+    #end
+    </ul>
+  #end
+#end
+</script>
+<script language="JavaScript">
+function checkDate( val) {
+ 
+                separado = val.split("-");
+                out = separado[0] + "-";
+                if (separado[1].length <= 1)
+                        out += "0" + separado[1]+"-";
+                else
+                        out += separado[1]+"-";
+ 
+                if (separado[2].length <= 1)
+                        out += "0" + separado[2];
+                else
+                        out += separado[2];
+                return out;
+        }
+<!-- Funcion de verificacion de fechas -->
+
+ano_actual = 2009;
+
+function sendData() {
+
+
+if (document.add.cost.value==''){
+document.add.cost.value=0;
+}
+if (document.add.sale_cost.value==''){
+document.add.sale_cost.value=0;
+}
+
+	if (isValidDate(document.add.fecha1.value,'$msg.get("error.task.invalidFormat")','$msg.get("error.task.invalidMonth")')) {
+
+                if (document.add.fecha1.value != null) {
+
+                        document.add.fecha1.value = checkDate(document.add.fecha1.value);
+                        
+			document.add.expired_date.value   = document.add.fecha1.value + " 12:00:00.00" ;
+        		document.add.submit();
+		} else {
+			alert ('$msg.get("common.member.expirationDate")');
+			return;
+		}
+}
+}
+
+</script>
+</head>
+#parse("/vm/calendarScript.src")
+#parse ("/vm/header.vm")
+<body bgcolor="#FFFFFF" text="#000000">
+
+<p><font color="#CC0000">#errorMarkup()</font></p>
+<form method="POST" name="add" action="./members.do" >
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$title</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tr>
+      <th colspan="2">$msg.get("common.DetailsNewAccount")</th>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("loginForm.username.displayname") :</td>
+  
+      <td>
+      
+#if (($userInfo.profile == "3")  || ($userInfo.profile == "4"))
+       $!acc <input size="44" value="$!membersForm.login" style="width: 250px" name="login" maxlength="100" type="TEXT" >
+
+      
+  
+#else
+  $!membersForm.login
+   <input size="44" value="$!membersForm.login" style="width: 250px" name="login" maxlength="100" type="hidden" >
+#end
+      </td>
+    </tr>
+      <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Name") :</td>
+      <td>
+#if (($userInfo.profile == "3")  || ($userInfo.profile == "4"))
+        <input size="44" value="$!membersForm.name" style="width: 250px" name="name" maxlength="128" type="TEXT">
+#else
+   $!membersForm.name
+<input size="44" value="$!membersForm.name" style="width: 250px" name="name" maxlength="128" type="hidden">
+#end
+
+      </td>
+
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Title") :</td>
+      <td>
+#if (($userInfo.profile == "3")  || ($userInfo.profile == "4"))
+        <input size="44" value="$!membersForm.title" style="width: 250px" name="title" maxlength="100" type="TEXT">
+#else
+    $!membersForm.title
+<input size="44" value="$!membersForm.title" style="width: 250px" name="title" maxlength="100" type="hidden">
+#end
+      </td>
+    </tr>
+
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Organization") :</td>
+      <td>
+        <select name="organization" #if (($userInfo.profile == "3")  || ($userInfo.profile == "4")) enabled #else disabled #end>
+#foreach( $lista in $listOrganizations)
+		<option value="$lista.id"  #if ($lista.id == $membersForm.organization ) selected #end>$lista.name</option>
+#end
+	</select>
+      </td>
+    </tr>
+ <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.TimeZone") :</td>
+      <td>
+        <select name="time_zone">
+#foreach( $listaTZ in $listTimeZone)
+		<option value="$listaTZ"  #if ($listaTZ == $membersForm.time_zone ) selected #end >$listaTZ</option>
+#end
+	</select>
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Email") :</td>
+      <td>
+#if (($userInfo.profile == "3")  || ($userInfo.profile == "4"))
+        <input size="44" value="$!membersForm.email_work" style="width: 250px" name="email_work" maxlength="100" type="TEXT">
+#else
+       $!membersForm.email_work
+<input size="44" value="$!membersForm.email_work" style="width: 250px" name="email_work" maxlength="100" type="hidden">
+#end
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.PhoneWork") :</td>
+      <td>
+
+        <input size="44" value="$!membersForm.phone_work" style="width: 150px" name="phone_work" maxlength="32" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.PhoneHome") :</td>
+      <td>
+        <input size="44" value="$!membersForm.phone_home" style="width: 150px" name="phone_home" maxlength="32" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.PhoneMobile") :</td>
+      <td>
+        <input size="44" value="$!membersForm.mobile" style="width: 150px" name="mobile" maxlength="32" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Fax") :</td>
+      <td>
+        <input size="44" value="$!membersForm.fax" style="width: 150px" name="fax" maxlength="32" type="TEXT">
+      </td>
+    </tr>
+#if ($membersForm.getfromPage() != "preference")
+#if (($userInfo.profile == "3")  || ($userInfo.profile == "4"))
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Cost") :</td>
+      <td>
+  <input size="10" value="$!membersForm.cost" style="width: 40px" name="cost" maxlength="10" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Comments") :</td>
+      <td>
+    <textarea style="width: 350px; height: 60px;" name="comments" cols="45" rows="5" >$!membersForm.comments</textarea>
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Template") :</td>
+      <td>
+         <select name="template" >
+			<option value="default" #if ($membersForm.template == "default") selected #end >Default</option>
+			<option value="ordinarylife" #if ($membersForm.template == "ordinarylife") selected #end >Ordinary Life</option>
+         </select>
+      </td>
+    </tr>	
+#end
+#end
+
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.CheckSchedule") :</td>
+      <td>
+        <input type="checkbox" #if($membersForm.ind_check_schedules == "1") checked #end name="ind_check_schedules" value="1" #if (($userInfo.profile != "3")  && ($userInfo.profile != "4")) disabled #end>
+      </td>
+    </tr>
+#if (($userInfo.profile == "3" || $userInfo.profile == "4") && $!membersForm.operation == "applyEdit")
+ <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.user_fare") :</td>
+    #if ($userInfo.getprofile() == "4")
+      <td>
+        <input size="44" value="$!membersForm.sale_cost" style="width: 150px" name="sale_cost" maxlength="14" type="TEXT">
+	</td>
+    #else
+ <td>
+    $!membersForm.sale_cost
+ <input size="44" value="$!membersForm.sale_cost" style="width: 150px" name="sale_cost" maxlength="14" type="hidden">
+ </td>
+    #end
+    </tr>	
+#else
+<input type="hidden" name="sale_cost" value="$!membersForm.sale_cost">
+#end
+
+	<tr class="odd">
+	<td valign="top" class="leftvalue">$msg.get("common.expiredDate") :</td>
+         #if ($userInfo.getprofile() == "4" && $expiration_date == " ")
+            <td>
+		  <input type="text" style="width: 100px" name="fecha1" id="fecha1" size="20" value=$!fecha1>
+		  <input type="reset" value=" ... " onclick="return showCalendar('fecha1', 'y-mm-dd');">
+            </td>
+        #else 
+	<td>
+             <input type="text" style="width: 100px" name="fecha1" id="fecha1" size="20" value=$!fecha1 disabled>
+	</td>
+        #end
+
+	</tr>
+#if (($userInfo.profile == "3")  || ($userInfo.profile == "4")) 
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.executeReport") :</td>
+      <td>
+        <input type="checkbox" #if($membersForm.ind_exec_report == "S") checked #end name="ind_exec_report" value="S">
+      </td>
+    </tr>
+#end
+    <tr>
+      <th colspan="2">$msg.get("common.Password.specify")</th>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("loginForm.password.displayname") :</td>  
+      <td>
+        <input size="44" value="$!membersForm.password" style="width: 250px" name="password" maxlength="50" type="password">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Password.retype") :</td>
+      <td>
+        <input size="44" value="$!membersForm.password" style="width: 250px" name="repassword" maxlength="50" type="password">
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2">$msg.get("common.Permission.specify")</th>
+    </tr>
+#set ($show = true)
+
+#if ($userInfo.id == $!membersForm.id && ($userInfo.profile != "3" || $userInfo.profile != "4"))
+	#set ($show = false)
+#end
+
+#if (($userInfo.profile == "3" ||$userInfo.profile == "4") && $!membersForm.operation == "applyEdit" && $userInfo.id == $!membersForm.id)
+	#set ($show = false)
+#end
+
+#if ($show == true)
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Profile") :</td>
+      <td>
+#if ($userInfo.profile == "4" || $userInfo.profile == "3")
+  <input type="radio" name="profile" value="3"  #if ($membersForm.profile == "3") checked #end>
+        $msg.get("common.Permission.Admin")<br>
+#end
+        <input type="radio" name="profile" value="1"  #if ($membersForm.profile == "1") checked #end>
+        $msg.get("common.Permission.manager")<br>
+        <input type="radio" name="profile" value="0" #if ($membersForm.profile == "0") checked #end>
+        $msg.get("common.Permission.user")
+	  </td>		
+    </tr>
+#end
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td> 
+        <input type="button" value='$msg.get("common.save")' onclick="sendData();">
+      </td>
+    </tr>
+ </table></div>
+ </td></tr></table></div>
+  <input type="hidden" name="operation" value="$!membersForm.operation">
+  <input type="hidden" name="id" value="$!membersForm.id">
+<input type="hidden" name="id_account" value="$!membersForm.id_account">
+  <input type="hidden" name="created" value="$!membersForm.created">
+  <input type="hidden" name="fromPage" value="$membersForm.fromPage">
+  <input type="hidden" name="expired_date" value="$!membersForm.expired_date">
+<input type="hidden" name="cost" value="$!membersForm.cost" >
+#if ($show == false)
+  <input type="hidden" name="profile" value="$userInfo.profile">
+#end
+  
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

@@ -1,0 +1,92 @@
+ 
+<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table height=60 cellspacing=0 cellpadding=0 width=100% align=center border=0>
+  <tbody> 
+
+  <tr> 
+<td>
+<table width="100%">
+<tr>
+<td width="12%">
+	<img src="./downloadImage?id=$login.getId_account()" width=80 height=55 border=0>	  </td>
+    <td valign=center align=left rowspan=2 width="88%"><b><font size="5" face="Arial, Helvetica, sans-serif" color="#333366">$company</font><br>
+      </b> <font size="2" face="Arial, Helvetica, sans-serif" color="#333366">$systemName</font><font color="#333366" size="2"><b> </b></font></td>
+</tr>
+</table>
+    <td class=tsmenu valign=bottom align=right width="56%" height=60 
+      rowspan=2> 
+      <table cellspacing=0 cellpadding=0 width=220 border=0>
+        <tbody> 
+        <tr> 
+          <td class=tsmenu valign=center align=right colspan=3 height=28><font color=#667286> 
+
+            $userInfo.getDate()
+    
+
+
+            </font></td> </tr>
+#if ($userInfo.getprofile()=="3" || $userInfo.getprofile()=="4")
+  <tr> 
+
+  <td class=tsmenu valign=center align=right colspan=2 height=28>
+    <font color=#667286> 
+
+        #if ($days != "")
+            <a href="./login.do?operation=logout"><font color="#CC0033">$msg.get("common.expired")</font></a><img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1"><br>
+
+        #else
+            $msg.get("common.renewals") <img height="15" width="15" border="0" src="./images/checkmark.gif" alt="" vspace="1" hspace="1" ><br>
+
+        #end    
+        </font></td>
+        </tr>
+    #end
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  <tr></tr>
+  </tbody>
+</table>
+<table cellspacing=0 cellpadding=0 width=100% align=center border=0>
+  <tbody> 
+  <tr> 
+    <td colspan=2><img height=1 src="./images/blank_spacer.gif" 
+      width=1></td>
+  </tr>
+  <tr valign=center align=left> 
+    <td class=tsmenu noWrap >&nbsp;</td>
+    <td class=tsmenu noWrap align=right id="account">&nbsp;$msg.get("header.displayName"): $userInfo.gefullname()
+<a href="javascript: myRef =window.open('./help/sampleWebMain.html','Ayuda','left=20,top=20,width=800,height=600,toolbar=1,resizable=0');myRef.focus()"><font color="#CC0033"><b>$msg.get("common.help")&nbsp;</b></font><img src="images/icon_mini_faq.gif" border="0" ></a> 
+<a href="./login.do?operation=logout">$msg.get("header.displayExit")</a>
+<a href="./members.do?operation=view&id=$userInfo.getid()&page=preference">$msg.get("header.displayPreferences")</a></td>
+  </tr>
+  <tr>
+    <td colspan=2><img height=1 src="./images/blank_spacer.gif" 
+      width=1></td>
+  </tr>
+  <tr> 
+    <td colspan=2><img height=1 src="./images/blank_spacer.gif" 
+      width=1></td>
+  </tr>
+  </tbody>
+</table>
+
+
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+<table id=pageHeader>
+<tr>
+<td id=navigation>
+<nobr>
+    <a  #if ($!current == "home") class=current #end href="./home.do?userId=$userInfo.getid()&home">&nbsp;&nbsp;$msg.get("header.displayStart")&nbsp;&nbsp;</a><a #if ($!current == "project") class=current #end href="./home.do?userId=$userInfo.getid()">&nbsp;&nbsp;$msg.get("header.displayProjects")&nbsp;&nbsp;</a><a #if ($!current == "calendar") class=current #end href="./calendar.do?userId=$userInfo.getid()">&nbsp;&nbsp;$msg.get("header.displayCalendar")&nbsp;&nbsp;</a><a #if ($!current == "schedules") class=current #end href="./schedules.do?userid=$userInfo.getid()">&nbsp;&nbsp;$msg.get("common.schedules")&nbsp;&nbsp;</a><a #if ($!current == "organizations") class=current #end href="./organizations.do?userId=$userInfo.getid()">&nbsp;&nbsp;$msg.get("header.displayClients")&nbsp;&nbsp;</a><a #if ($!current == "reports") class=current #end href="./reports.do">&nbsp;&nbsp;$msg.get("header.displayReports")&nbsp;&nbsp;</a><a #if ($!current == "search") class=current #end href="./search.do?userId=$userInfo.getid()">&nbsp;&nbsp;$msg.get("header.displaySearch")&nbsp;&nbsp;</a>#if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")<a #if ($!current == "admin") class=current #end href="./admin.do">&nbsp;&nbsp;$msg.get("header.displayAdmin")&nbsp;&nbsp;</a>#end#if ($userInfo.getprofile() == "4")<a #if ($!current == "superadmin") class=current #end href="./superAdmin.do">&nbsp;&nbsp;$msg.get("header.displaySuperAdmin")&nbsp;&nbsp;</a>#end
+</nobr>
+</td></tr>
+</table>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td> 
+    <div id="breadcrumbs"><img src="./themes/default/brdcmb_carrat.gif" alt="" align="absmiddle"> $menuRoute</div>
+    </td> 
+  </tr>
+</table>

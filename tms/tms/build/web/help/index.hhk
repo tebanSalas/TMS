@@ -1,0 +1,89 @@
+<html>
+<!-- Sitemap 1.0 -->
+<object type="text/site properties">
+  <param name="FrameName" value="bsscright">
+  <param name="SiteType" value="index">
+</object>
+<ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Agenda">
+    <param name="Name" value="Menú Agenda">
+    <param name="Local" value="Men__Agenda.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="contactos">
+    <param name="Name" value="Creando los contactos de la cuenta">
+    <param name="Local" value="Creando_los_contactos_de_la_cuenta.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="cuenta">
+    <param name="Name" value="Creando los contactos de la cuenta">
+    <param name="Local" value="Creando_los_contactos_de_la_cuenta.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="cuenta nueva">
+    <param name="Name" value="Creando una cuenta nueva (Sospechoso)">
+    <param name="Local" value="Creando_una_cuenta_nueva_(Sospechoso).htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Licencia">
+    <param name="Name" value="Licencia de Uso">
+    <param name="Local" value="Licencia_de_Uso.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Mis gestiones administrativas">
+    <param name="Name" value="Mis gestiones administrativas">
+    <param name="Local" value="Mis_gestiones_administrativas.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Mis Tareas">
+    <param name="Name" value="Mis Tareas">
+    <param name="Local" value="Mis_Tareas.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Obteniendo Ayuda">
+    <param name="Name" value="Obteniendo Ayuda">
+    <param name="Local" value="Obteniendo_Ayuda.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Oficinas Corporativas">
+    <param name="Name" value="Oficinas Corporativas">
+    <param name="Local" value="Oficinas_Corporativas.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="oportunidad">
+    <param name="Name" value="Creando una oportunidad desde CERO">
+    <param name="Local" value="Creando_una_oportunidad_desde_CERO.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Preguntas frecuentes">
+    <param name="Name" value="Preguntas frecuentes">
+    <param name="Local" value="Preguntas_frecuentes.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Reportes">
+    <param name="Name" value="Menú Reportes">
+    <param name="Local" value="Men__Reportes.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Requerimientos del Sistema">
+    <param name="Name" value="Requerimientos del Sistema">
+    <param name="Local" value="Requerimientos_del_Sistema.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Soporte Técnico">
+    <param name="Name" value="Soporte Técnico">
+    <param name="Local" value="Soporte_T_cnico.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Sospechoso">
+    <param name="Name" value="Creando una cuenta nueva (Sospechoso)">
+    <param name="Local" value="Creando_una_cuenta_nueva_(Sospechoso).htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Usando mi S.O.S.">
+    <param name="Name" value="Usando mi S.O.S. por Primera Vez">
+    <param name="Local" value="Usando_mi_T.M.S._por_Primera_Vez.htm">
+  </object>
+</ul>
+</html>

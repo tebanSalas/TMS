@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>Search Results</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+</head>
+
+<style>
+body,td,div,.p,a{font-family:arial,sans-serif }
+div,td{color:#000}
+.f,.fl:link{color:#6f6f6f}
+a:link,.w,a.w:link,.w a:link{color:#00c}
+a:visited,.fl:visited{color:#551a8b}
+a:active,.fl:active{color:#f00}
+.t a:link,.t a:active,.t a:visited,.t{color:#ffffff}
+.t{background-color:#3366cc}
+.h{color:#3366cc}
+.i,.i:link{color:#a90a08}
+.a,.a:link{color:#008000}
+.z{display:none}
+div.n {margin-top: 1ex}
+.n a{font-size:10pt; color:#000}
+.n .i{font-size:10pt; font-weight:bold}
+.q a:visited,.q a:link,.q a:active,.q {text-decoration: none; color: #00c;}
+.b{font-size: 12pt; color:#00c; font-weight:bold}
+.ch{cursor:pointer;cursor:hand}
+.e{margin-top: .75em; margin-bottom: .75em}
+.g{margin-top: 1em; margin-bottom: 1em}
+</style>
+
+<script type=text/javascript>
+
+ function changeChecks() {
+ 	if (document.searchForm.all.checked == true) {
+		document.searchForm.projects.disabled = true;
+		document.searchForm.tasks.disabled = true;
+		document.searchForm.members.disabled = true;
+		document.searchForm.files.disabled = true;
+		document.searchForm.topics.disabled = true;
+
+		document.searchForm.projects.checked = false;
+		document.searchForm.tasks.checked = false;
+		document.searchForm.members.checked = false;
+		document.searchForm.files.checked = false;
+		document.searchForm.topics.checked = false;
+
+	} else {
+		document.searchForm.projects.disabled = false;
+		document.searchForm.tasks.disabled = false;
+		document.searchForm.members.disabled = false;
+		document.searchForm.files.disabled = false;
+		document.searchForm.topics.disabled = false;
+	}
+ }
+</script>
+
+<body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+<h1 class=heading>$msg.get("common.searchResults")&nbsp;:&nbsp;$!lista.size()&nbsp;$msg.get("common.hits")</h1>
+#foreach( $lista in $lista)
+  #if ($lista.getCategory() == "1")
+  	#set ($linked = "./projects.do?operation=view&id=$lista.getId()")
+	#set ($tag = $msg.get("header.displayProjects"))	
+  #elseif ($lista.getCategory() == "2")
+	#set ($tag = $msg.get("common.Members"))
+	#set ($linked = "./members.do?operation=view&id=$lista.getId()&page=search")
+  #elseif ($lista.getCategory() == "3")
+	#set ($tag = $msg.get("common.calendar"))
+	#set ($linked = "./calendar.do?operation=goTo&theDate=$lista.getId()&userId=$lista.getUserId()")
+  #elseif ($lista.getCategory() == "4")
+	#set ($tag = $msg.get("common.schedules"))
+	#set ($linked = "./schedules.do?userid=$lista.getUserId()&operation=listing&sortColumn=date&sortOrder=DESC")
+  #elseif ($lista.getCategory() == "5")
+	#set ($tag = $msg.get("common.Topics.name"))
+	#set ($linked = "./topics.do?operation=view&id=$lista.getId()")
+  #elseif ($lista.getCategory() == "6")
+	#set ($tag = $msg.get("common.Tasks.name"))
+	#set ($linked = "./tasks.do?operation=view&id=$lista.getId()")
+  #elseif ($lista.getCategory() == "7")
+	#set ($tag = $msg.get("common.Files"))
+	#set ($linked = "./files.do?operation=view&id=$lista.getId()&fromPage=viewProject")
+ #end
+
+
+  <p class=g>$lista.getScore()% 
+  <a href='$linked'>$lista.getHeader()</a>
+    <br><font size=-1>$lista.getSummary()</font>
+    <br> <span class=f><font size=-1>$msg.get("common.Category"):</font></span> $tag
+    <br>
+#end
+<br>
+
+<form method="POST" name="searchForm" action="./search.do">
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("header.displaySearch")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tbody>
+    <tr>
+      <th colspan=2>$msg.get("common.searchNotice") :</th>
+    </tr>
+    <tr class=odd>
+      <td class=leftvalue valign=top>$msg.get("header.displaySearch"):</td>
+      <td>
+        <input name=query value='$query'>
+      </td>
+    </tr>
+    <tr class=odd>
+      <td class=leftvalue valign=top></td>
+      <td>
+        $msg.get("common.searchAll")<input type="checkbox" name="all" value="all" checked onclick="changeChecks()"> &nbsp;
+	$msg.get("header.displayProjects") <input type="checkbox" name="projects" value="projects" disabled > &nbsp;
+	$msg.get("common.Tasks.name") <input type="checkbox" name="tasks" value="tasks" disabled> &nbsp;
+	$msg.get("common.Members") <input type="checkbox" name="members" value="members" disabled> &nbsp;
+	$msg.get("common.Files") <input type="checkbox" name="files" value="files" disabled> &nbsp;
+	$msg.get("common.Topics.name") <input type="checkbox" name="topics" value="topics" disabled> &nbsp;
+      </td>
+    </tr>
+    <tr class=odd>
+      <td class=leftvalue valign=top>&nbsp;</td>
+      <td>
+        <input type="SUBMIT" value=$msg.get("header.displaySearch")>
+        <input type="hidden" name="operation" value="execute">
+        <br>
+    </tr>
+    </tbody>
+ </table></div>
+ </td></tr></table></div>
+  <hr>
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

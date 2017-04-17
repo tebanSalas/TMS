@@ -1,0 +1,144 @@
+#parse("/portal/vm/header.vm")
+
+#set ($activeowner = "")
+#set ($activesubject = "")
+#set ($activelast_post = "")
+#set ($activeposts = "")
+#set ($activetotasks = "")
+#set ($activestatus = "")
+#set ($activeid = "")
+
+#set ($imageowner = "")
+#set ($imagesubject = "")
+#set ($imagelast_post = "")
+#set ($imageposts = "")
+#set ($imagetotasks = "")
+#set ($imagestatus = "")
+#set ($imageid = "")
+
+
+#set ($sortowner = "ASC")
+#set ($sortsubject = "ASC")
+#set ($sortlast_post = "ASC")
+#set ($sortposts = "ASC")
+#set ($sorttotasks = "ASC")
+#set ($sortstatus = "ASC")
+#set ($sortid = "ASC")
+
+
+
+#if ($!portalForm.sortOrder == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+#if ($!portalForm.sortColumn == "last_post" || $!portalForm.sortColumn == "")
+	#set ($activelast_post = "class='active'")
+	#set ($imagelast_post = $image)
+	#set ($sortlast_post = $!portalForm.sortOrder)
+#elseif ($!portalForm.sortColumn == "owner")
+	#set ($activeowner = "class='active'")
+	#set ($imageowner = $image)
+	#set ($sortowner = $!portalForm.sortOrder)
+#elseif ($!portalForm.sortColumn == "subject")
+	#set ($activesubject = "class='active'")
+	#set ($imagesubject = $image)
+	#set ($sortsubject = $!portalForm.sortOrder)
+#elseif ($!portalForm.sortColumn == "posts")
+	#set ($activeposts = "class='active'")
+	#set ($imageposts = $image)
+	#set ($sortposts = $!portalForm.sortOrder)
+#elseif ($!portalForm.sortColumn == "status")
+	#set ($activestatus = "class='active'")
+	#set ($imagestatus = $image)
+	#set ($sortstatus = $!portalForm.sortOrder)
+
+#elseif ($!portalForm.sortColumn == "totasks")
+	#set ($activetotasks = "class='active'")
+	#set ($imagetotasks = $image)
+	#set ($sorttotasks = $!portalForm.sortOrder)
+#elseif ($!portalForm.sortColumn == "id")
+	#set ($activeid = "class='active'")
+	#set ($imageid = $image)
+	#set ($sortid = $!portalForm.sortOrder)
+#end
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+      <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">$msg.get("common.Topics.name")</h1></font></b></font></div>
+  </tr>
+  <tr>
+
+<form name="formtopics" method="post" action="./portalTopics.do">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="listing">
+<tr>
+<th nowrap colspan="7">
+<input name="typeOp" type="radio" value="0" #if ($!portalForm.type_topic == 0) checked #end onClick="javascript:document.formtopics.type_topic.value='0';document.formtopics.operation.value = 'show';document.formtopics.submit();">
+$msg.get("common.ShowAll")
+<input name="typeOp" type="radio" value="1" #if ($!portalForm.type_topic == 1) checked #end onClick="javascript:document.formtopics.type_topic.value='1';document.formtopics.operation.value = 'show';document.formtopics.submit();">
+$msg.get("common.closed")
+<input name="typeOp" type="radio" value="2" #if ($!portalForm.type_topic == 2) checked #end onClick="javascript:document.formtopics.type_topic.value='2';document.formtopics.operation.value = 'show';document.formtopics.submit();">
+$msg.get("common.open")
+
+</th>
+  </tr>
+  <tr>
+<th nowrap $activeid><a href="javascript:document.formtopics.sortColumn.value='id';document.formtopics.sortOrder.value='$sortid';document.formtopics.operation.value = 'sort';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por Id'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Id")</a>$imageid</th>
+<th nowrap $activesubject><a href="javascript:document.formtopics.sortColumn.value='subject';document.formtopics.sortOrder.value='$sortsubject';document.formtopics.operation.value = 'sort';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por subject'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Subject")</a>$imagesubject</th>
+<th nowrap $activestatus><a href="javascript:document.formtopics.sortColumn.value='status';document.formtopics.sortOrder.value='$sortstatus';document.formtopics.operation.value = 'sort';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por status'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Status")</a>$imagestatus</th>
+<th nowrap $activeposts><a href="javascript:document.formtopics.sortColumn.value='posts';document.formtopics.sortOrder.value='$sortposts';document.formtopics.operation.value = 'sort';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por Posts'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Post")</a>$imageposts</th>
+<th nowrap $activeowner><a href="javascript:document.formtopics.sortColumn.value='owner';document.formtopics.sortOrder.value='$sortowner';document.formtopics.operation.value = 'sort';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por owner'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Owner")</a>$imageowner</th>
+<th nowrap $activelast_post><a href="javascript:document.formtopics.sortColumn.value='last_post';document.formtopics.sortOrder.value='$sortlast_post';document.formtopics.operation.value = 'sort';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por last_post'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.LastPost")</a>$imagelast_post</th>
+<th nowrap $activetotasks><a href="javascript:document.formtopics.sortColumn.value='totasks';document.formtopics.sortOrder.value='$sorttotasks';document.formtopics.operation.value = 'sort';document.formtopics.submit();" onMouseOver="javascript:window.status='Ordenar por Task'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Task")</a>$imagetotasks</th>
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $listTopics)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+<td><a href="javascript:document.formtopics.id.value='$lista.getid()';document.formtopics.operation.value='view';document.formtopics.submit();"> $lista.getid()</a></td>
+<td><a href="javascript:document.formtopics.id.value='$lista.getid()';document.formtopics.operation.value='view';document.formtopics.submit();"> $lista.getsubject()</a></td>
+#if ($lista.getstatus() == "1")
+	#set ($label = $msg.get("common.open"))
+#else
+	#set ($label = $msg.get("common.closed"))
+#end
+
+<td> $label</td>
+<td> $lista.getdetailPost().size()</td>
+<td>$!lista.getparentOwner().getname()</td>
+<td> $lista.getlast_post()</td>
+
+#if ($lista.gettotasks() == "1")
+	#set ($label = $msg.get("common.yes"))
+#else
+	#set ($label = $msg.get("common.no"))
+#end
+<td>$label</td>
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+  <br>
+
+  <input type="hidden" name="id" value="">
+  <input type="hidden" name="operation" value="">
+  <input type="hidden" name="project" value="$!portalForm.project">
+  <input type="hidden" name="sortColumn" value="$!portalForm.sortColumn">
+  <input type="hidden" name="sortOrder" value="$portalForm.sortOrder">
+ <input type="hidden" name="type_topic" value="$!portalForm.type_topic">
+</form>
+</table>
+#parse ("/vm/footer.vm")
+</body>
+</html>
+
+

@@ -1,0 +1,93 @@
+#parse("/portal/vm/header.vm")
+<body bgcolor="#FFFFFF" text="#000000">#set ($activename = "")
+#set ($activename = "")
+#set ($activetitle = "")
+#set ($activeemail_work = "")
+#set ($activeorganization = "")
+
+#set ($imagename = "")
+#set ($imagetitle = "")
+#set ($imageemail_work = "")
+#set ($imageorganization = "")
+
+#set ($sortauthorized = "ASC")
+#set ($sorttitle = "ASC")
+#set ($sortemail_work = "ASC")
+#set ($sortorganization = "ASC")
+
+
+#if ($!portalForm.sortOrder == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+
+#if ($!portalForm.sortColumn == "name" || $!portalForm.sortColumn == "")
+	#set ($activename = "class='active'")
+	#set ($imagename = $image)
+	#set ($sortname = $portalForm.sortOrder)
+#elseif ($!portalForm.sortColumn == "title")
+	#set ($activetitle = "class='active'")
+	#set ($imagetitle = $image)
+	#set ($sorttitle = $portalForm.sortOrder)
+#elseif ($!portalForm.sortColumn == "organization")
+	#set ($activeorganization = "class='active'")
+	#set ($imageorganization = $image)
+	#set ($sortorganization = $portalForm.sortOrder)
+#end
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+      <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">$msg.get("common.Team.group")</h1></font></b></font></div>
+  </tr>
+  <tr>
+
+
+<form name="formteams" method="post" action="./portalTeams.do">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+
+<th nowrap $activename><a href="javascript:document.formteams.sortColumn.value='name';document.formteams.sortOrder.value='$sortname';document.formteams.operation.value = 'sort';document.formteams.submit();" onMouseOver="javascript:window.status='Ordenar por name'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Name")</a>$imagename</th>
+<th nowrap $activetitle><a href="javascript:document.formteams.sortColumn.value='title';document.formteams.sortOrder.value='$sorttitle';document.formteams.operation.value = 'sort';document.formteams.submit();" onMouseOver="javascript:window.status='Ordenar por title'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Title")</a>$imagetitle</th>
+<th nowrap $activeorganization><a href="javascript:document.formteams.sortColumn.value='organization';document.formteams.sortOrder.value='$sortorganization';document.formteams.operation.value = 'sort';document.formteams.submit();" onMouseOver="javascript:window.status='Ordenar por organization'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Cia")</a>$imageorganization</th>
+<th nowrap $activeemail_work><a href="javascript:document.formteams.sortColumn.value='email_work';document.formteams.sortOrder.value='$sortemail_work';document.formteams.operation.value = 'sort';document.formteams.submit();" onMouseOver="javascript:window.status='Ordenar por email_work'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Email")</a>$imageemail_work</th>
+<th>$msg.get("common.PhoneWork")</th>
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $list_teams)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+
+<td> $lista.getparentMember().getname()</td>
+<td> $lista.getparentMember().gettitle()</td>
+<td> $lista.getparentMember().getparentOrganization().getname()</td>
+<td> <a href="mailto:$lista.getparentMember().getemail_work()"> $lista.getparentMember().getemail_work()</a></td>
+<td> $lista.getparentMember().getphone_work()</td>
+
+
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+  <br>
+
+  <input type="hidden" name="operation" value="listing">
+  <input type="hidden" name="project" value="$portalForm.project">
+  <input type="hidden" name="sortOrder" value="$portalForm.sortOrder">
+  <input type="hidden" name="sortColumn" value="$portalForm.sortColumn">
+</form>
+
+  </tr>
+</table>
+#parse ("/vm/footer.vm")
+</body>
+</html>

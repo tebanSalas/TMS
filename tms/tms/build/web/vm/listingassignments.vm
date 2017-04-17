@@ -1,0 +1,113 @@
+#set ($activeowner = "")
+#set ($activeassigned = "")
+#set ($activecomments = "")
+#set ($activeassigned_to = "")
+
+#set ($imageowner = "")
+#set ($imageassigned = "")
+#set ($imagecomments = "")
+#set ($imageassigned_to = "")
+
+#set ($sortowner = "ASC")
+#set ($sortassigned = "ASC")
+#set ($sortcomments = "ASC")
+#set ($sortassigned_to = "ASC")
+
+#if ($!tasksForm.sortOrderAssignments == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+#if ($!tasksForm.sortColumnAssignments == "owner" || $!tasksForm.sortColumnAssignments == "")
+	#set ($activeowner = "class='active'")
+	#set ($imageowner = $image)
+	#set ($sortowner = $tasksForm.sortOrderAssignments)
+#elseif ($!tasksForm.sortColumnAssignments == "assigned")
+	#set ($activeassigned = "class='active'")
+	#set ($imageassigned = $image)
+	#set ($sortassigned = $tasksForm.sortOrderAssignments)
+#elseif ($!tasksForm.sortColumnAssignments == "comments")
+	#set ($activecomments = "class='active'")
+	#set ($imagecomments = $image)
+	#set ($sortcomments = $tasksForm.sortOrderAssignments)
+#elseif ($!tasksForm.sortColumnAssignments == "assigned_to")
+	#set ($activeassigned_to = "class='active'")
+	#set ($imageassigned_to = $image)
+	#set ($sortassigned_to = $tasksForm.sortOrderAssignments)
+#end
+
+<div id="wbPHead" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbPToggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+      $msg.get("common.HistoryAssignments")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+   </nobr>
+   </td>
+  </tr>
+ </table>
+ </div>
+
+<div name="wbP" id="wbP" style="display:block" class=formBody>
+<form name="formassignments" method="post" action="./assignments.do">
+
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+
+<th nowrap $activecomments><a href="javascript:document.homeForm.source.value='assigments';document.homeForm.sortColumnAssignments.value='comments';document.homeForm.sortOrderAssignments.value='$sortcomments';document.homeForm.operation.value = 'sort';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por comments'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Comments")</a>$imagecomments</th>
+<th nowrap $activeowner><a href="javascript:document.homeForm.source.value='assigments';document.homeForm.sortColumnAssignments.value='owner';document.homeForm.sortOrderAssignments.value='$sortowner';document.homeForm.operation.value = 'sort';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por owner'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.assignedBy")</a>$imageowner</th>
+<th nowrap $activeassigned_to><a href="javascript:document.homeForm.source.value='assigments';document.homeForm.sortColumnAssignments.value='assigned_to';document.homeForm.sortOrderAssignments.value='$sortassigned_to';document.homeForm.operation.value = 'sort';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por assigned_to'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.assignedTo")</a>$imageassigned_to</th>
+<th nowrap $activeassigned><a href="javascript:document.homeForm.source.value='assigments';document.homeForm.sortColumnAssignments.value='assigned';document.homeForm.sortOrderAssignments.value='$sortassigned';document.homeForm.operation.value = 'sort';document.homeForm.submit();" onMouseOver="javascript:window.status='Ordenar por assigned'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.assignedOn")</a>$imageassigned</th>
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $listAssignments)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
+<td> $msg.get("common.assignedTo") $!lista.getparentAssigned().getname()&nbsp;($!lista.getparentAssigned().getlogin())</td>
+<td> <a href="mailto:$!lista.getparentOwner().getemail_work()">$!lista.getparentOwner().getlogin()</a></td>
+<td> <a href="mailto:$!lista.getparentAssigned().getemail_work()">$!lista.getparentAssigned().getlogin()</a></td>
+<td> $lista.getassigned()</td>
+
+
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+  <br>
+
+<table cellspacing="0" width="100%" border="0" cellpadding="0">
+ <tr>
+   <td nowrap class="footerCell">&#160;&#160;&#160;&#160;
+
+#foreach( $lista in $listPagesAssignments)
+	#if ($lista.intValue() == $!tasksForm.pageAssignments)
+		<b>$lista.intValue()</b>&#160;
+	#else
+<a href="javascript:document.homeForm.source.value='assignments';document.homeForm.operation.value='paging';document.homeForm.pageAssignments.value='$lista.intValue()';document.homeForm.submit();">$lista.intValue()</a>&#160;
+	#end
+#end
+
+   </td>
+ </tr>
+ <tr>
+   <td height="5" colspan="2"><img width="1" height="5" border="0" src="./themes/$userInfo.getTemplate()/spacer.gif" alt="">
+   </td>
+ </tr>
+</table>
+</form>
+</div>

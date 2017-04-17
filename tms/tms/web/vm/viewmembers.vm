@@ -1,0 +1,203 @@
+<html>
+<head>
+<title>View members</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+</head>
+#parse ("/vm/header.vm")
+
+<body bgcolor="#FFFFFF" text="#000000">
+
+<div id="wbPHead" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbPToggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+   $msg.get("common.viewMember")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+
+<table cellpadding="0" cellspacing="0" border="0" class="icons">
+<tr>
+<td class=commandDesc>
+   <div id=ecDtt class=rel><div id=ecDtti class=abs><img height=1 width=350 
+   src="./themes/$userInfo.getTemplate()/spacer.gif" alt=""> </div></div></td>
+
+#if ($userInfo.getprofile() == "4")
+<td width=30 class=commandBtn><A
+    onMouseOver="var over = MM_getButtonWithName(document.formView, 'ecD0'); if (over) over.over(); return true; " 
+    onMouseOut="var out = MM_getButtonWithName(document.formView, 'ecD0'); if (out) out.out(); return true; "
+    href="javascript:var b = MM_getButtonWithName(document.formView, 'ecD0'); if (b) b.click();">
+    <img width=24 height=23 border=0  src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif" 
+    alt='$msg.get("common.deleteLabel")' name=ecD0></a></td>
+#end
+#if ($userInfo.getid() == $!membersForm.id || ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4"))
+<td width=30 class=commandBtn>
+   <a href="javascript:var b = MM_getButtonWithName(document.formView, 'ecD1'); if (b) b.click();"
+   onMouseOver="var over = MM_getButtonWithName(document.formView, 'ecD1'); if (over) over.over(); return true; " 
+   onMouseOut="var out = MM_getButtonWithName(document.formView, 'ecD1'); if (out) out.out(); return true; ">
+   <img width=24 height=23 border=0 name=ecD1 src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif" 
+   alt='$msg.get("common.editLabel")'></a></td>
+#end
+ 
+<td align=left><img height=26 width=5 src="./themes/$userInfo.getTemplate()/spacer.gif" alt=""></td>
+
+</tr>
+</table>
+
+   </nobr>
+   </td>
+  </tr>
+ </table>
+ </div>
+
+<div name="wbP" id="wbP" style="display:block" class=formBody>
+
+<form method="POST" name="formView" action="./members.do" >
+  <table class="content" cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="2">$msg.get("common.Details")</th>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("loginForm.username.displayname") :</td>
+      <td width="189"> $!membersForm.login</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Name") :</td>
+      <td width="189"> $!membersForm.name</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Title") :</td>
+      <td width="189"> $!membersForm.title</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Email") :</td>
+      <td width="189"> $!membersForm.email_work</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.PhoneWork") :</td>
+      <td width="189"> $!membersForm.phone_work</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.PhoneHome") :</td>
+      <td width="189"> $!membersForm.phone_home</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.PhoneMobile") :</td>
+      <td width="189"> $!membersForm.mobile</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Fax") :</td>
+      <td width="189"> $!membersForm.fax</td>
+    </tr>
+
+#if ($membersForm.getfromPage() != "organizationsView")
+	#if ($membersForm.getprofile() == "3")
+		#set ($label = $msg.get("common.Permission.Admin") )
+	#elseif ($membersForm.getprofile() == "1")
+
+		#set ($label = $msg.get("common.Permission.user"))
+        #else
+            #set ($label = $msg.get("common.Permission.manager") )
+	#end
+	<tr class="odd">
+	<td valign="top" class="leftvalue" width="96">$msg.get("common.Profile") :</td>
+	<td width="189"> $label</td>
+	</tr>
+#end
+
+
+    <tr class="odd">
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.CheckSchedule") :</td>
+#if ($!membersForm.ind_check_schedules == "1")
+	#set ($label = $msg.get("common.yes"))
+#else
+  #set ($label = $msg.get("common.no"))
+#end
+
+<td width="189">$label</td>
+</tr>
+
+ <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.TimeZone") :</td>
+      <td width="189"> $!membersForm.time_zone</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Created") :</td>
+      <td width="189"> $createdDate</td>
+    </tr>
+
+#if ($userInfo.getprofile() == "4")	
+ <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.user_fare") :</td>
+      <td  width="189">
+        $!membersForm.sale_cost
+      </td>
+    </tr>
+
+ <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.expiredDate") :</td>
+      <td  width="189">
+        $!fecha1
+      </td>
+    </tr>
+#end	
+
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.load") :</td>
+      <td width="189"><a href="./performance.do?operation=viewAdminLoad&member=$!membersForm.id">$msg.get("common.View")</a></td>
+    </tr>
+  </table>
+  <input type="hidden" name="operation" value="listing">
+  <input type="hidden" name="id" value="$!membersForm.id">
+  <input type="hidden" name="sortOrder" value="$!membersForm.sortOrder">
+  <input type="hidden" name="sortColumn" value="$!membersForm.sortColumn">
+   <input type="hidden" name="fromPage" value="$!membersForm.fromPage">
+   <input type="hidden" name="checkedItems" value="$!membersForm.id" >
+</form>
+</div>
+
+<script type="text/JavaScript">
+
+document.formView.buttons = new Array();
+#if ($userInfo.getprofile() == "4")
+document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD0',document.formView,"javascript:sendData('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',true,true,false,'','$msg.get("common.deleteLabel")',false,'Confirm report deletion');
+#end
+#if ($userInfo.getid() == $!membersForm.id || ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4"))
+document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD1',document.formView,"javascript:sendData('edit');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',true,true,false,'','$msg.get("common.editLabel")',false,'Confirm report deletion');
+#end
+MM_updateButtons(document.formView, 0);
+document.formView.checkboxes = new Array();
+document.formView.tt = 'ecDtt';
+
+function getArrayNumbers(theForm) {
+	if (theForm.selectedItems != null)
+		theForm.checkedItems.value = theForm.selectedItems.join(',');
+
+}
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendData(tipo) {
+	document.formView.operation.value = tipo;
+	
+	document.formView.submit();
+}
+</script>
+#parse ("/vm/footer.vm")
+</body>
+</html>
+
+

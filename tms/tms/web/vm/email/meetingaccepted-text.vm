@@ -1,0 +1,15 @@
+$hostmember :
+
+$name $msg.get("email.meetingacepted.message")
+
+$meetingdate $msg.get("email.meetinginithour.message") $meetinginithour $msg.get("email.meetingendhour.message") $meetingendhour
+$msg.get("email.meetingsubject.message") $meetingsubject.
+
+$msg.get("email.meetinggreeting.message")
+$name
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+Prompt Index PK_ASSIGNMENTS;
+--
+-- PK_ASSIGNMENTS  (Index) 
+--
+--  Dependencies: 
+--   ASSIGNMENTS (Table)
+--
+CREATE UNIQUE INDEX PK_ASSIGNMENTS ON ASSIGNMENTS
+(ID,ID_ACCOUNT)
+/
+
+

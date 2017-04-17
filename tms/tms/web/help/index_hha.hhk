@@ -1,0 +1,28 @@
+<html>
+<!-- Sitemap 1.0 -->
+<object type="text/site properties">
+  <param name="SiteType" value="index">
+</object>
+<ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Accesando la Ayuda del CRM/SOS">
+    <param name="Name" value="Accesando la Ayuda T.M.S.">
+    <param name="Local" value="Accesando_la_Ayuda_T.M.S.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Buscando información en la Ayuda">
+    <param name="Name" value="Buscando información en la Ayuda">
+    <param name="Local" value="Buscando_informaci_n_en_la_Ayuda.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Imprimiendo la Ayuda">
+    <param name="Name" value="Imprimiendo la Ayuda">
+    <param name="Local" value="Imprimiendo_la_Ayuda.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Moviéndonos dentro de la Ayuda">
+    <param name="Name" value="Moviéndonos dentro de la Ayuda">
+    <param name="Local" value="Movi_ndonos_dentro_de_la_Ayuda.htm">
+  </object>
+</ul>
+</html>

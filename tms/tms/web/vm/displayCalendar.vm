@@ -1,0 +1,248 @@
+<html>
+<head>
+<title>Personal Calendar</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head><body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+
+<table width="100%" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="53%" align="center" valign="top">
+      <table border="1" bordercolor="#CCCCCC" cellspacing="0" cellpadding="0">
+        <td width="100%">
+      <table width="35%" border="0" >
+        <tr>
+          <td width="8%">
+            <div align="center"><a href="./calendar.do?userId=$personalCalendarForm.userId&operation=goTo&theDate=$calendar.getPrevMonth()">
+	    <img src="./images/left-arrow.gif" width=13 height=13 border=0></a></div>
+          </td>
+          <td colspan="5">
+            <div align="center"><h1 class="heading">$calendar.getMonth() - $calendar.getYear()</h1></div>
+          </td>
+          <td width="10%">
+            <div align="center"><a href="./calendar.do?userId=$personalCalendarForm.userId&operation=goTo&theDate=$calendar.getNextMonth()">
+	    <img src="./images/right-arrow.gif" width=13 height=13 border=0></a></div>
+          </td>
+        </tr>
+        <tr>
+          <th width="14%">
+			$msg.get("common.Sunday")
+          </th>
+          <th width="14%" >
+			$msg.get("common.Monday")
+          </th>
+          <th width="14%" >
+			$msg.get("common.Tuesday")
+          </th>
+          <th width="14%" >
+			$msg.get("common.Wednesday")
+          </th>
+          <th width="14%" >
+			$msg.get("common.Thursday")
+          </th>
+          <th width="14%" >
+			$msg.get("common.Friday")
+          </th>
+          <th width="14%" >
+			$msg.get("common.Saturday")
+          </th>
+        </tr>
+#set ($row = 1)
+#foreach( $lista in $calendar.getDays())
+    #if ($row == 1)
+		<tr>
+    #end
+    	   #set ($image = "")
+           #if ($lista.isCurrentMonth() == true)
+                #if ($lista.hasEvents() == true)
+	   		#set ($type = "hasEvents")
+			#set ($image = '<img src="./images/info_a.gif" width=10 height=10 border=0>')
+	        #else
+ 		        #set ($type = "odd")
+	        #end
+
+	   #else
+	   		#set ($type = "even")
+	   #end
+	   #if ($lista.isToday() == true)
+	   		#set ($type = "old")
+	   #end
+
+			<td width="14%" class=$type  #if ($type != "even") onmouseover="this.style.backgroundColor='#DEE7EB'"  onmouseout="this.style.backgroundColor=''" vAlign=top align=left #end >
+			  <table width="100%" border="0" >
+			     <td width="50%"><DIV align=right><a href="./calendar.do?userId=$personalCalendarForm.userId&operation=goTo&theDate=$lista.getTime()">$image</a></div></td>
+			     <td width="50%"><DIV align=right>
+			     <a href="./calendar.do?userId=$personalCalendarForm.userId&operation=goTo&theDate=$lista.getTime()">$lista.getDayLabel()</a></DIV>
+			     </td>
+			  </table>
+			</td>
+	#set ($row = $row + 1)
+	#if ($row > 7)
+		#set ($row = 1)
+		</tr>
+	#end
+#end
+		<tr>
+		  <td colspan="7" class=calendDays>
+            <div align="center"><a href="./calendar.do?userId=$personalCalendarForm.userId&operation=goTo&theDate=$calendar.getTodayTime()">$msg.get("common.TODAY")</a></div>
+          </td>
+	</tr>
+      </table>
+    </td></table>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="47%" valign="top">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class=listing>
+        <tr>
+
+          <td colspan="8">
+            <div align="center"><h1 class="heading">$username - $calendar.getFormatedDate()</h1></div>
+          </td>
+        </tr>
+<tr> <td colspan="4">
+
+
+<TABLE class=icons cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+  #if (($userInfo.getid() == $personalCalendarForm.getuserId()) || ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" ))
+    <TD class=commandBtn width=30 ><A
+      onmouseover="var over = MM_getButtonWithName(document.calendar, 'clientFiles0'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.calendar, 'clientFiles0'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.calendar, 'clientFiles0'); if (b) b.click();"><IMG
+      height=23 alt=$msg.get("common.addLabel") src="./themes/$userInfo.getTemplate()/btn_add_norm.gif"
+      width=24 border=0 name=clientFiles0></A></TD>
+#end
+
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.calendar, 'clientFiles1'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.calendar, 'clientFiles1'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.calendar, 'clientFiles1'); if (b) b.click();"><IMG
+      height=23 alt=$msg.get("common.deleteLabel") src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif"
+      width=24 border=0 name=clientFiles1></A></TD>
+    <TD align=left><IMG height=26 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif" width=5></TD>
+    <TD class=commandDesc>
+      <DIV class=rel id=clientFilestt>
+      <DIV class=abs id=clientFilestti><IMG height=1 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif"  width=350></DIV></DIV>
+  </TD>
+  </TR>
+  </TBODY>
+</TABLE>
+</td></tr>
+        <tr>
+	  <th width="1%" align="center">
+              <a href="javascript:MM_toggleSelectedItems(document.calendar,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
+          </th>
+          <th width="10%">$msg.get("common.Hour")</th>
+          <th width="15%">$msg.get("common.Subject")</th>
+	  <th width="15%">$msg.get("common.Task")</th>
+  	  <th width="10%">$msg.get("common.startDate")</th>
+	  <th width="10%">$msg.get("common.endDate")</th>
+  	  <th width="10%">$msg.get("common.project")</th>
+	  <th width="10%">$msg.get("common.Owner")</th>	 
+        </tr>
+<form name="calendar" method="post" action="./calendar.do">
+#set ($row = 1)
+#foreach( $tarea in $appointments)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+	<tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+	<td align="center">
+	<a href="javascript:document.calendar.id.value='$tarea.getid()';MM_toggleItem(document.calendar, '$tarea.getid()', 'clientFilescb$row','$userInfo.getTemplate()');">
+	<img name="clientFilescb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3"></a>
+	</td>
+	#if (($userInfo.getid() == $!personalCalendarForm.getuserId()) || ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" ))
+		<td width="12%"><a href="./calendar.do?userId=$personalCalendarForm.userId&operation=editEvent&theDate=$calendar.getDateTime()&id=$tarea.id">$tarea.getHourStart():$tarea.getMinStart() &nbsp;-&nbsp;$tarea.getHourEnd():$tarea.getMinEnd()</a></td>
+	        <td width="15%"><a href="./calendar.do?userId=$personalCalendarForm.userId&operation=editEvent&theDate=$calendar.getDateTime()&id=$tarea.id">$tarea.subject</a></td>
+	#else
+		<td width="12%"><a href="./calendar.do?userId=$personalCalendarForm.userId&operation=viewEvent&theDate=$calendar.getDateTime()&id=$tarea.id">$tarea.getHourStart():$tarea.getMinStart() &nbsp;-&nbsp;$tarea.getHourEnd():$tarea.getMinEnd()</a></td>
+	        <td width="15%"><a href="./calendar.do?userId=$personalCalendarForm.userId&operation=viewEvent&theDate=$calendar.getDateTime()&id=$tarea.id">$tarea.subject</a></td>
+	#end
+          <td width="15%"><a href="./tasks.do?operation=view&id=$tarea.task">$!tarea.gettaskdesc()</a></td>
+	
+	#if ($userInfo.getlanguage() == "es")
+		#set ($StartDate = $tarea.getFormatedStartDate_es())
+		#set ($EndDate = $tarea.getFormatedEndDate_es())
+	#else
+		#set ($StartDate = $tarea.getFormatedStartDate())
+		#set ($EndDate = $tarea.getFormatedEndDate())
+	#end
+	<td width="10%">$StartDate</td> 
+	<td width="10%">$EndDate</td> 
+	  
+	  <td width="10%"><a href="./projects.do?operation=view&id=$tarea.projectId&$msg.get("common.editProject")">$!tarea.getprojectName()</a></td> 
+	  <td width="8%"><a href="mailto:$tarea.owneremail">$tarea.projectowner</a></td> 
+        </tr>
+#set ($row = $row + 1)
+#end
+     </table>
+    </td>
+</tr>
+
+
+  <input type="hidden" name="operation" value="listing">
+  <input type="hidden" name="theDate" value="$calendar.getDateTime()">
+  <input type="hidden" name="id" value="22">
+  <input type="hidden" name="userId" value="$personalCalendarForm.userId">
+  <input type="hidden" name="fromPage" value="calendar">
+  <input type="hidden" name="checkedItems" value="" >
+  <input type="hidden" name="username" value="$username">
+</form>
+
+
+<script language="JavaScript">
+#if (($userInfo.getid() == $!personalCalendarForm.getuserId()) || ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" ))
+document.calendar.buttons = new Array();
+document.calendar.buttons[document.calendar.buttons.length] = new MMCommandButton('clientFiles0',document.calendar,"javascript:sendDataCal('addEvent');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','$msg.get("common.addLabel")',false,'Confirm report deletion');
+document.calendar.buttons[document.calendar.buttons.length] = new MMCommandButton('clientFiles1',document.calendar,"javascript:sendDataCal('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',false,true,true,'','$msg.get("common.deleteLabel")',false,'Confirm report deletion');
+MM_updateButtons(document.calendar, 0);
+#end
+
+document.calendar.checkboxes = new Array();
+#set ($row = 1)
+#foreach( $tarea in $content)
+ document.calendar.checkboxes[document.calendar.checkboxes.length] = new MMCheckbox('$tarea.getid()',document.calendar,'clientFilescb$row');
+#set ($row = $row + 1)
+#end
+document.calendar.tt = 'clientFilestt';
+
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendDataCal(tipo) {
+	document.calendar.operation.value = tipo;
+	getArrayNumbers();
+	document.calendar.submit();
+}
+
+function getArrayNumbers() {
+if (document.calendar.selectedItems != null)
+	document.calendar.checkedItems.value = document.calendar.selectedItems.join(',');
+
+}
+
+</script>
+</table>
+#parse ("/vm/footer.vm")
+</body>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE attributes PUBLIC "-//NetBeans//DTD DefaultAttributes 1.0//EN" "http://www.netbeans.org/dtds/attributes-1_0.dtd">
+<attributes version="1.0">
+    <fileobject name="homeAction.java">
+        <attr name="class_dependency_org.apache.struts.action.Action" stringvalue="homeAction"/>
+    </fileobject>
+    <fileobject name="loginAction.java">
+        <attr name="class_dependency_org.apache.struts.action.Action" stringvalue="loginAction"/>
+    </fileobject>
+    <fileobject name="membersAction.java">
+        <attr name="class_dependency_org.apache.struts.action.Action" stringvalue="membersAction"/>
+    </fileobject>
+    <fileobject name="postAction.java">
+        <attr name="class_dependency_org.apache.struts.action.Action" stringvalue="postAction"/>
+    </fileobject>
+    <fileobject name="reportsAction.java">
+        <attr name="class_dependency_org.apache.struts.action.Action" stringvalue="reportsAction"/>
+    </fileobject>
+    <fileobject name="tasksAction.java">
+        <attr name="class_dependency_org.apache.struts.action.Action" stringvalue="tasksAction"/>
+    </fileobject>
+    <fileobject name="teamsAction.java">
+        <attr name="class_dependency_org.apache.struts.action.Action" stringvalue="teamsAction"/>
+    </fileobject>
+    <fileobject name="topicsAction.java">
+        <attr name="class_dependency_org.apache.struts.action.Action" stringvalue="topicsAction"/>
+    </fileobject>
+</attributes>

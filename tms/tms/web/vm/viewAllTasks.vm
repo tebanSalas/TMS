@@ -1,0 +1,385 @@
+<html>
+<head>
+<title>All Tasks</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+<script language="JavaScript">
+function getArrayNumbers(theForm) {
+	if (theForm.selectedItems != null)
+		theForm.checkedItems.value = theForm.selectedItems.join(',');
+
+}
+</script>
+
+</head><body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+
+#set ($activeid = "")
+#set ($activename = "")
+#set ($activeassigned_to = "")
+#set ($activecompletion = "")
+#set ($activestatus = "")
+#set ($activedue_date = "")
+#set ($activestart_date = "")
+#set ($activepriority = "")
+#set ($activepublished = "")
+
+#set ($imageassigned_to = "")
+#set ($imagecompletion = "")
+#set ($imagestatus = "")
+#set ($imagedue_date = "")
+#set ($imagestart_date = "")
+#set ($imagepriority = "")
+#set ($imagepublished = "")
+#set ($imagename = "")
+#set ($imageid = "")
+
+#set ($sortassigned_to = "ASC")
+#set ($sortcompletion = "ASC")
+#set ($sortstatus = "ASC")
+#set ($sortdue_date = "ASC")
+#set ($sortstart_date = "ASC")
+#set ($sortpriority = "ASC")
+#set ($sortpublished = "ASC")
+#set ($sortname = "ASC")
+#set ($sortid = "ASC")
+
+
+#if ($!tasksForm.sortOrder == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+#if ($!tasksForm.sortColumn == "name" || $!tasksForm.sortColumn == "")
+	#set ($activename = "class='active'")
+	#set ($imagename = $image)
+	#set ($sortname = $!tasksForm.sortOrder)
+#elseif ($!tasksForm.sortColumn == "assigned_to")
+	#set ($activeassigned_to = "class='active'")
+	#set ($imageassigned_to = $image)
+	#set ($sortassigned_to = $!tasksForm.sortOrder)
+#elseif ($!tasksForm.sortColumn == "completion")
+	#set ($activecompletion = "class='active'")
+	#set ($imagecompletion = $image)
+	#set ($sortcompletion = $!tasksForm.sortOrder)
+#elseif ($!tasksForm.sortColumn == "status")
+	#set ($activestatus = "class='active'")
+	#set ($imagestatus = $image)
+	#set ($sortstatus = $!tasksForm.sortOrder)
+#elseif ($!tasksForm.sortColumn == "due_date")
+	#set ($activedue_date = "class='active'")
+	#set ($imagedue_date = $image)
+	#set ($sortdue_date = $!tasksForm.sortOrder)
+#elseif ($!tasksForm.sortColumn == "start_date")
+	#set ($activestart_date = "class='active'")
+	#set ($imagestart_date = $image)
+	#set ($sortstart_date = $!tasksForm.sortOrder)
+#elseif ($!tasksForm.sortColumn == "priority")
+	#set ($activepriority = "class='active'")
+	#set ($imagepriority = $image)
+	#set ($sortpriority = $!tasksForm.sortOrder)
+#elseif ($!tasksForm.sortColumn == "published")
+	#set ($activepublished = "class='active'")
+	#set ($imagepublished = $image)
+	#set ($sortpublished = $!tasksForm.sortOrder)
+#elseif ($!tasksForm.sortColumn == "id")
+	#set ($activeid = "class='active'")
+	#set ($imageid = $image)
+	#set ($sortid = $!tasksForm.sortOrder)
+#end
+
+
+<div id="wbPHead" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbPToggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+     $msg.get("common.Tasks.name")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+
+<TABLE class=icons cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD class=commandDesc>
+      <DIV style="white-space:nowrap;" class=rel id=tasksListtt>
+      <DIV class=abs id=tasksListtti><IMG height=1 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif"  width=350></DIV></DIV>
+	  </TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtasks, 'tasksList0'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtasks, 'tasksList0'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtasks, 'tasksList0'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.addLabel")' src="./themes/$userInfo.getTemplate()/btn_add_norm.gif"
+      width=24 border=0 name=tasksList0></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtasks, 'tasksList1'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtasks, 'tasksList1'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtasks, 'tasksList1'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.deleteLabel")' src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif"
+      width=24 border=0 name=tasksList1></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtasks, 'tasksList4'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtasks, 'tasksList4'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtasks, 'tasksList4'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.copyLabel")' src="./themes/$userInfo.getTemplate()/btn_copy_norm.gif.gif"
+      width=24 border=0 name=tasksList4></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtasks, 'tasksList5'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtasks, 'tasksList5'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtasks, 'tasksList5'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.addToSiteLabel")' src="./themes/$userInfo.getTemplate()/btn_add_projectsite_norm.gif"
+      width=24 border=0 name=tasksList5></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtasks, 'tasksList6'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtasks, 'tasksList6'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtasks, 'tasksList6'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.removeFromSiteLabel")' src="./themes/$userInfo.getTemplate()/btn_remove_projectsite_norm.gif.gif"
+      width=24 border=0 name=tasksList6></A></TD>
+
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtasks, 'tasksList2'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtasks, 'tasksList2'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtasks, 'tasksList2'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.viewLabel")' src="./themes/$userInfo.getTemplate()/btn_info_norm.gif" width=24
+      border=0 name=tasksList2></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtasks, 'tasksList3'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtasks, 'tasksList3'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtasks, 'tasksList3'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.editLabel")' src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif"
+      width=24 border=0 name=tasksList3></A></TD>
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formtasks, 'tasksList7'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formtasks, 'tasksList7'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formtasks, 'tasksList7'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.moveTask")' src="./themes/$userInfo.getTemplate()/btn_export_norm.gif"
+      width=24 border=0 name=tasksList7></A></TD>
+    <TD align=left><IMG height=26 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif" width=5></TD>
+
+	  </TR>
+	  </TBODY>
+	  </TABLE>
+
+   </nobr>
+   </td>
+  </tr>
+
+ <tr>
+<input name="typeOp" type="radio" value="0" #if ($!tasksForm.type_task == 0) checked #end onClick="javascript:document.formtasks.type_task.value='0';document.formtasks.operation.value='showAll';document.formtasks.submit();">
+$msg.get("common.ShowAll")
+<input name="typeOp" type="radio" value="1" #if ($!tasksForm.type_task == 1) checked #end onClick="javascript:document.formtasks.type_task.value='1';document.formtasks.operation.value='showAll';document.formtasks.submit();">
+$msg.get("common.TasksInProgress")
+<input name="typeOp" type="radio" value="2" #if ($!tasksForm.type_task == 2) checked #end onClick="javascript:document.formtasks.type_task.value='2';document.formtasks.operation.value='showAll';document.formtasks.submit();">
+$msg.get("common.TasksQuotes")
+<input name="typeOp" type="radio" value="3" #if ($!tasksForm.type_task == 3) checked #end onClick="javascript:document.formtasks.type_task.value='3';document.formtasks.operation.value='showAll';document.formtasks.submit();">
+$msg.get("common.TasksCharges")
+<input name="typeOp" type="radio" value="4" #if ($!tasksForm.type_task == 4) checked #end onClick="javascript:document.formtasks.type_task.value='4';document.formtasks.operation.value='showAll';document.formtasks.submit();">
+$msg.get("common.TasksEnded")
+<input name="typeOp" type="radio" value="5" #if ($!tasksForm.type_task == 5) checked #end onClick="javascript:document.formtasks.type_task.value='5';document.formtasks.operation.value='showAll';document.formtasks.submit();">
+$msg.get("common.TasksClientEnded")
+
+  </tr>
+ </table>
+ </div>
+
+<div name="wbP" id="wbP" style="display:block" class=formBody>
+
+
+<form name="formtasks" method="post" action="./tasks.do">
+
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+	  <th width="1%" align="center">
+        <a href="javascript:MM_toggleSelectedItems(document.formtasks,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
+      </th>
+<th nowrap $activeid ><a href="javascript:document.formtasks.sortColumn.value='id';document.formtasks.sortOrder.value='$sortid';document.formtasks.operation.value = 'sortAll';document.formtasks.submit();" onMouseOver="javascript:window.status='Ordenar por Id'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Id")</a>$imageid</th>
+<th nowrap $activename ><a href="javascript:document.formtasks.sortColumn.value='name';document.formtasks.sortOrder.value='$sortname';document.formtasks.operation.value = 'sortAll';document.formtasks.submit();" onMouseOver="javascript:window.status='Ordenar por Nombre'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.name")</a>$imagename</th>
+<th nowrap $activepriority ><a href="javascript:document.formtasks.sortColumn.value='priority';document.formtasks.sortOrder.value='$sortpriority';document.formtasks.operation.value = 'sortAll';document.formtasks.submit();" onMouseOver="javascript:window.status='Ordenar por Priority'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Priority")</a>$imagepriority</th>
+<th nowrap $activestatus ><a href="javascript:document.formtasks.sortColumn.value='status';document.formtasks.sortOrder.value='$sortstatus';document.formtasks.operation.value = 'sortAll';document.formtasks.submit();" onMouseOver="javascript:window.status='Ordenar por Status'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Status")</a>$imagestatus</th>
+<th nowrap $activecompletion><a href="javascript:document.formtasks.sortColumn.value='completion';document.formtasks.sortOrder.value='$sortcompletion';document.formtasks.operation.value = 'sortAll';document.formtasks.submit();" onMouseOver="javascript:window.status='Ordenar por Completion'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.completion")</a>$imagecompletion</th>
+<th nowrap $activestart_date><a href="javascript:document.formtasks.sortColumn.value='start_date';document.formtasks.sortOrder.value='$sortstart_date';document.formtasks.operation.value = 'sortAll';document.formtasks.submit();" onMouseOver="javascript:window.status='Ordenar por Due Date'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.startDate")</a>$imagestart_date</th>
+<th nowrap $activedue_date><a href="javascript:document.formtasks.sortColumn.value='due_date';document.formtasks.sortOrder.value='$sortdue_date';document.formtasks.operation.value = 'sortAll';document.formtasks.submit();" onMouseOver="javascript:window.status='Ordenar por Due Date'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.deliverDate")</a>$imagedue_date</th>
+<th nowrap $activeassigned_to><a href="javascript:document.formtasks.sortColumn.value='assigned_to';document.formtasks.sortOrder.value='$sortassigned_to';document.formtasks.operation.value = 'sortAll';document.formtasks.submit();" onMouseOver="javascript:window.status='Ordenar por Assigned'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.assignedTo")</a>$imageassigned_to</th>
+<th nowrap $activepublished><a href="javascript:document.formtasks.sortColumn.value='published';document.formtasks.sortOrder.value='$sortpublished';document.formtasks.operation.value = 'sortAll';document.formtasks.submit();" onMouseOver="javascript:window.status='Ordenar por Published'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.published")</a>$imagepublished</th>
+<th nowrap>$msg.get("common.send")</th>
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $listTasks)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+	<td align="center">
+	<a href="javascript:document.formtasks.id.value='$lista.getid()';MM_toggleItem(document.formtasks, '$lista.getid()', 'tasksListcb$row','$userInfo.getTemplate()');">
+	<img name="tasksListcb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3"></a>
+	</td>
+<td> <a href="javascript:document.formtasks.id.value='$lista.getid()';sendDataTasks('view');">$lista.getid()</a></td>
+<td> <a href="javascript:document.formtasks.id.value='$lista.getid()';sendDataTasks('view');">$lista.getname()</a></td>
+#if ($lista.getpriority() == 0)
+	#set ($tagPriority = $msg.get("common.nonePriority"))
+	#set ($imageTag = "")
+#elseif ($lista.getpriority() == 1)
+	#set ($tagPriority = $msg.get("common.lowestPriority"))
+	#set ($imageTag = "<img src='./images/lowest_prio.gif' width=12 height=13 align='middle'  border=0>")
+#elseif ($lista.getpriority() == 2)
+	#set ($tagPriority = $msg.get("common.lowPriority"))
+	#set ($imageTag = "<img src='./images/low_prio.gif' width=13 height=9 align='middle'  border=0>")
+#elseif ($lista.getpriority() == 3)
+	#set ($tagPriority = $msg.get("common.mediumPriority"))
+	#set ($imageTag = "<img src='./images/med_prio.gif' width=12 height=9 align='middle'  border=0>")
+#elseif ($lista.getpriority() == 4)
+	#set ($tagPriority = $msg.get("common.highPriority"))
+	#set ($imageTag = "<img src='./images/high_prio.gif' width=12 height=9 align='middle'  border=0>")
+#elseif ($lista.getpriority() == 5)
+	#set ($tagPriority = $msg.get("common.highestPriority"))
+	#set ($imageTag = "<img src='./images/highest_prio.gif' width=12 height=13 align='middle'  border=0>")
+#end
+
+
+<td>$imageTag $tagPriority</td>
+#if ($lista.getstatus() == 0)
+	#set ($tagStatus = $msg.get("common.statusClientEnd"))
+#elseif ($lista.getstatus() == 1)
+	#set ($tagStatus = $msg.get("common.statusEnd"))
+#elseif ($lista.getstatus() == 2)
+	#set ($tagStatus = $msg.get("common.statusNotStarted"))
+#elseif ($lista.getstatus() == 3)
+	#set ($tagStatus = $msg.get("common.statusStarted"))
+#elseif ($lista.getstatus() == 4)
+	#set ($tagStatus = $msg.get("common.statusSuspended"))
+#elseif ($lista.getstatus() == 5)
+	#set ($tagStatus = $msg.get("common.statusQuote"))
+#elseif ($lista.getstatus() == 6)
+	#set ($tagStatus = $msg.get("common.statusQuoteSended"))
+#elseif ($lista.getstatus() == 7)
+	#set ($tagStatus = $msg.get("common.statusQuoteRejected"))
+#elseif ($lista.getstatus() == 8)
+	#set ($tagStatus = $msg.get("common.statusQuoteAcepted"))
+#elseif ($lista.getstatus() == 9)
+	#set ($tagStatus = $msg.get("common.statusCharge"))
+#elseif ($lista.getstatus() == 10)
+	#set ($tagStatus = $msg.get("common.statusChargeSended"))
+#elseif ($lista.getstatus() == 11)
+	#set ($tagStatus = $msg.get("common.statusProcessingCharge"))
+#elseif ($lista.getstatus() == 12)
+	#set ($tagStatus = $msg.get("common.statusRejected"))
+#elseif ($lista.getstatus() == 13)
+	#set ($tagStatus = $msg.get("common.qualitycontrol"))
+#elseif ($lista.getstatus() == 14)
+	#set ($tagStatus = $msg.get("common.standBy"))
+
+#end
+
+<td>$tagStatus</td>
+
+<td>$lista.getcompletion() %</td>
+#set ($StartDate = $lista.getFormatedStartDate())
+#if ($userInfo.getlanguage() == "es")
+	#set ($StartDate = $lista.getFormatedStartDate_es())
+#end
+
+<td>$StartDate</td>
+
+#if ($lista.expired() == true)
+	#set ($bold = "<b>")
+	#set ($end_bold = "</b>")
+#else
+	#set ($bold = "")
+	#set ($end_bold = "")
+#end
+#if ($userInfo.getlanguage() == "es")
+	#set ($DueDate = $lista.getFormatedDueDate_es())
+#else
+	#set ($DueDate = $lista.getFormatedDueDate())
+#end
+
+<td>$bold $DueDate $end_bold</td>
+
+<td> #if ($lista.getassigned_to() > 0) <a href="mailto:$lista.getparentAssigned().getemail_work()"> $lista.getparentAssigned().getlogin()</a> #else $msg.get("common.notAssigned") #end</td>
+
+#if ($lista.getpublished() == "1")
+	#set ($indicador = $msg.get("common.yes"))
+#else
+	#set ($indicador = $msg.get("common.no"))
+#end
+<td>$indicador</td>
+#if ($lista.canSendQuote())
+	#set ($send = "<a href='./tasks.do?id=$lista.getid()&operation=sendQuote&project=$!tasksForm.project'>$msg.get('common.yes')</a>")
+#else
+	#set ($send = "")
+#end
+<td>$send</td>
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+  <br>
+  <hr>
+
+  <input type="hidden" name="sortColumn" value="$tasksForm.sortColumn">
+  <input type="hidden" name="sortOrder" value="$tasksForm.sortOrder">
+  <input type="hidden" name="operation" value="$tasksForm.operation">
+  <input type="hidden" name="project" value="$!tasksForm.project">
+  <input type="hidden" name="id" value="22">
+  <input type="hidden" name="fromPage" value="viewProject">
+  <input type="hidden" name="checkedItems" value="" >
+  <input type="hidden" name="type_task" value="$!tasksForm.type_task">
+</form>
+</div>
+<p>
+
+<script language="JavaScript">
+
+document.formtasks.buttons = new Array();
+document.formtasks.buttons[document.formtasks.buttons.length] = new MMCommandButton('tasksList0',document.formtasks,"javascript:sendDataTasks('add');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','$msg.get("common.addLabel")',false,'Confirm report deletion');
+document.formtasks.buttons[document.formtasks.buttons.length] = new MMCommandButton('tasksList1',document.formtasks,"javascript:sendDataTasks('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',false,true,true,'','$msg.get("common.deleteLabel")',false,'Confirm report deletion');
+document.formtasks.buttons[document.formtasks.buttons.length] = new MMCommandButton('tasksList2',document.formtasks,"javascript:sendDataTasks('view');",'./themes/$userInfo.getTemplate()/btn_info_norm.gif','./themes/$userInfo.getTemplate()/btn_info_over.gif','./themes/$userInfo.getTemplate()/btn_info_down.gif','./themes/$userInfo.getTemplate()/btn_info_dim.gif',false,true,false,'','$msg.get("common.viewLabel")',false,'Confirm report deletion');
+document.formtasks.buttons[document.formtasks.buttons.length] = new MMCommandButton('tasksList3',document.formtasks,"javascript:sendDataTasks('edit');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',false,true,false,'','$msg.get("common.editLabel")',false,'Confirm report deletion');
+document.formtasks.buttons[document.formtasks.buttons.length] = new MMCommandButton('tasksList4',document.formtasks,"javascript:sendDataTasks('copy');",'./themes/$userInfo.getTemplate()/btn_copy_norm.gif','./themes/$userInfo.getTemplate()/btn_copy_over.gif','./themes/$userInfo.getTemplate()/btn_copy_down.gif','./themes/$userInfo.getTemplate()/btn_copy_dim.gif',false,true,false,'','$msg.get("common.copyLabel")',false,'Confirm report deletion');
+document.formtasks.buttons[document.formtasks.buttons.length] = new MMCommandButton('tasksList5',document.formtasks,"javascript:sendDataTasks('addToSite');",'./themes/$userInfo.getTemplate()/btn_add_projectsite_norm.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_over.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_down.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_dim.gif',false,true,true,'','$msg.get("common.addToSiteLabel")',false,'Confirm report deletion');
+document.formtasks.buttons[document.formtasks.buttons.length] = new MMCommandButton('tasksList6',document.formtasks,"javascript:sendDataTasks('removeFromSite');",'./themes/$userInfo.getTemplate()/btn_remove_projectsite_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_projectsite_over.gif','./themes/$userInfo.getTemplate()/btn_remove_projectsite_down.gif','./themes/$userInfo.getTemplate()/btn_remove_projectsite_dim.gif',false,true,true,'','$msg.get("common.removeFromSiteLabel")',false,'Confirm report deletion');
+document.formtasks.buttons[document.formtasks.buttons.length] = new MMCommandButton('tasksList7',document.formtasks,"javascript:sendDataTasks('moveTask');",'./themes/$userInfo.getTemplate()/btn_export_norm.gif','./themes/$userInfo.getTemplate()/btn_export_over.gif','./themes/$userInfo.getTemplate()/btn_export_down.gif','./themes/$userInfo.getTemplate()/btn_export_dim.gif',false,true,true,'','$msg.get("common.moveTask")',false,'Confirm move deletion');
+MM_updateButtons(document.formtasks, 0);
+
+document.formtasks.checkboxes = new Array();
+#set ($row = 1)
+#foreach( $lista in $listTasks)
+ document.formtasks.checkboxes[document.formtasks.checkboxes.length] = new MMCheckbox('$lista.getid()',document.formtasks,'tasksListcb$row');
+#set ($row = $row + 1)
+#end
+document.formtasks.tt = 'tasksListtt';
+
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendDataTasks(tipo) {
+	document.formtasks.operation.value = tipo;
+	getArrayNumbers(document.formtasks);
+	document.formtasks.submit();
+}
+</script>
+
+#parse ("/vm/footer.vm")
+</body>
+</html>

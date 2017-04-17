@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is a sample metadata repository for the ObJectBridge System.
+     Use this file as a template for building your own mappings-->
+
+<!-- defining entities for include-files -->
+<!DOCTYPE descriptor-repository PUBLIC
+       "-//Apache Software Foundation//DTD OJB Repository//EN"
+       "repository.dtd" 
+[
+
+<!ENTITY database SYSTEM "repository_database.xml">
+<!ENTITY internal SYSTEM "repository_internal.xml">
+<!-- here the junit include files begin  -->
+<!ENTITY junit SYSTEM "repository_junit.xml">
+<!ENTITY junit_odmg SYSTEM "repository_junit_odmg.xml">
+<!ENTITY junit_otm SYSTEM "repository_junit_otm.xml">
+<!ENTITY junit_ref SYSTEM "repository_junit_reference.xml">
+<!ENTITY junit_meta_seq SYSTEM "repository_junit_meta_seq.xml">
+<!ENTITY junit_cache SYSTEM "repository_junit_cache.xml">
+<!ENTITY junit_model SYSTEM "repository_junit_model.xml">
+<!ENTITY junit_cloneable SYSTEM "repository_junit_cloneable.xml">
+<!ENTITY junit_pathClass SYSTEM "repository_junit_pathClass.xml">
+
+<!ENTITY user SYSTEM "repository_user.xml">
+<!ENTITY ejb SYSTEM "repository_ejb.xml">
+]>
+
+<descriptor-repository version="1.0" isolation-level="read-uncommitted">
+<!-- The Default JDBC Connection. If a class-descriptor does not specify its own JDBC Connection,
+     the Connection specified here will be used. -->
+
+   <jdbc-connection-descriptor
+		jcd-alias="default"
+		default-connection="true"
+   		platform="Oracle"
+   		jdbc-level="2.0"
+   		driver="oracle.jdbc.driver.OracleDriver"		
+   		protocol="jdbc"
+   		subprotocol="oracle"
+   		dbalias="thin:@barley.flecharoja.com:1522:xe"
+   		username="tmsinterno"
+   		password="123456"
+        eager-release="false"
+        useAutoCommit="0"
+        ignoreAutoCommitExceptions="false"
+	>
+        <connection-pool
+            maxActive="40"
+	    whenExhaustedAction="2"
+	    testOnBorrow="true"
+            validationQuery="select 1 from dual" />
+
+        <sequence-manager className="org.apache.ojb.broker.util.sequence.SequenceManagerInMemoryImpl">
+            <attribute attribute-name="grabSize" attribute-value="5"/>
+        </sequence-manager>
+
+    </jdbc-connection-descriptor>
+
+    <!-- include user defined mappings here -->
+    &user; 
+
+    <!-- include ojb internal mappings here -->
+    &internal;
+
+</descriptor-repository>

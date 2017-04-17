@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>Reportes de Carga</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+</head><body bgcolor="#FFFFFF" text="#000000">
+
+
+#parse ("/vm/header.vm")
+
+<table class="content" cellspacing="0" cellpadding="0">
+<H1 class=heading>$msg.get("common.load"):&nbsp;$memberName</H1>
+#foreach ($project in $list_projects)
+
+<H1 class=heading>$msg.get("common.Project"):&nbsp;$project.name</H1>
+$msg.get("common.betweenDates")&nbsp;:&nbsp;$!performanceForm.getstart_date() - $!performanceForm.getend_date()
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="listing">
+<tr>
+<th>&nbsp;</th>
+<th>&nbsp;</th>
+<th>$msg.get("common.Date")</th>
+<th>$msg.get("common.Date")</th>
+<th>$msg.get("common.Date")</th>
+<th>&nbsp;</th>
+<th>&nbsp;</th>
+</tr>
+  <tr>
+<th></th>
+<th>$msg.get("common.Task")</th>
+<th>$msg.get("common.start")</th>
+<th>$msg.get("common.deliver")&nbsp;&nbsp;&nbsp;</th>
+<th>$msg.get("common.real")&nbsp;&nbsp;&nbsp;</th>
+<th>$msg.get("common.RealTime")&nbsp;&nbsp;&nbsp;</th>
+<th>$msg.get("common.ScheduledTime")</th>
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $project.getlistTasks())
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+	<tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+	<td>#if ($lista.status != 1 && $lista.status != 0)<img src="./images/campana.gif">#end
+	#if ($lista.isLate() == true) <img src="./images/late.gif"> #end
+	</td>
+	<td ><a href="./tasks.do?operation=view&id=$lista.getid()">$!lista.getname()</a></td>
+	<td >$!lista.getFormatedStartDate()</td>
+	<td >$!lista.getFormatedDueDate()</td>
+	<td >$!lista.getFormatedRealDueDate()</td>	
+	<td>$!lista.getestimated_time().longValue()</td>
+	<td>$!lista.getCalendarTime()</td>  
+	</tr>
+	#set ($row = $row +1)
+ #end
+<tr>
+  <td colspan=4></td> 
+  <td><b>$msg.get("common.Subtotals")</b></td> 
+  <td><b>$!project.total_estimated_hours.longValue()</b></td>
+  <td><b>$!project.total_real_hours</b></td>
+</tr>
+</table>
+#end
+<br>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="listing">
+<tr  class="odd">
+   <td><b>$msg.get("common.totalTasks")&nbsp;:&nbsp;$!totalTasks</b></td>
+   <td><b>$msg.get("common.totalDelayedTasks")&nbsp;:&nbsp;$!totalDelayedTasks</b></td>
+   <td><b>$msg.get("common.EstimatedTime")&nbsp;:&nbsp;$!total_estimated_hours.longValue()</b></td>
+   <td><b>$msg.get("common.ScheduledTime")&nbsp;:&nbsp;$!total_real_hours</b></td>
+   
+</tr>
+</table>
+<br>
+
+<img src="./images/campana.gif">$msg.get("common.TransitTask")<br>
+<img src="./images/late.gif">$msg.get("common.DueTask")
+  
+  <input type="hidden" name="member" value="$!performanceForm.member">
+  <input type="hidden" name="start_date" value="$!performanceForm.getstart_date()">
+  <input type="hidden" name="end_date" value="$!performanceForm.getend_date()">
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

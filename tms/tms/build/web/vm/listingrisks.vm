@@ -1,0 +1,233 @@
+#set ($activedescription = "")
+#set ($activeprobability = "")
+#set ($activeimpact = "")
+#set ($activetodoaction = "")
+#set ($activeplanb = "")
+#set ($activetask = "")
+
+#set ($imagedescription = "")
+#set ($imageprobability = "")
+#set ($imageimpact = "")
+#set ($imagetodoaction = "")
+#set ($imageplanb = "")
+#set ($imagetask = "")
+
+#set ($sortdescription = "ASC")
+#set ($sortprobability = "ASC")
+#set ($sortimpact = "ASC")
+#set ($sorttodoaction = "ASC")
+#set ($sortplanb = "ASC")
+#set ($sorttask = "ASC")
+
+
+#if ($!projectsForm.sortOrderRisks == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+#if ($!projectsForm.sortColumnRisks == "description" || $!projectsForm.sortColumnRisks == "")
+	#set ($activedescription = "class='active'")
+	#set ($imagedescription = $image)
+	#set ($sortdescription = $!projectsForm.sortOrderRisks)
+#elseif ($!projectsForm.sortColumnRisks == "probability")
+	#set ($activeprobability = "class='active'")
+	#set ($imageprobability = $image)
+	#set ($sortprobability = $!projectsForm.sortOrderRisks)
+#elseif ($!projectsForm.sortColumnRisks == "impact")
+	#set ($activeimpact = "class='active'")
+	#set ($imageimpact = $image)
+	#set ($sortimpact = $!projectsForm.sortOrderRisks)
+#elseif ($!projectsForm.sortColumnRisks == "todoaction")
+	#set ($activetodoaction = "class='active'")
+	#set ($imagetodoaction = $image)
+	#set ($sorttodoaction = $!projectsForm.sortOrderRisks)
+#elseif ($!projectsForm.sortColumnTasks == "planb")
+	#set ($activeplanb = "class='active'")
+	#set ($imageplanb = $image)
+	#set ($sortplanb = $!projectsForm.sortOrderRisks)
+#elseif ($!projectsForm.sortColumnRisks == "task")
+	#set ($activetask = "class='active'")
+	#set ($imagetask = $image)
+	#set ($sorttask = $!projectsForm.sortOrderRisks)
+#end
+
+<div id="wbP11Head" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP11','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP11'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbP11Toggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+      $msg.get("common.risks")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+
+<TABLE class=icons cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD class=commandDesc>
+      <DIV class=rel id=risksListtt>
+      <DIV class=abs id=risksListtti><IMG height=1 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif"  width=350></DIV></DIV>
+	  </TD>
+  #if (($connectedUser == "$!projectsForm.owner") || ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" ))
+    <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formrisks, 'risksList0'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formrisks, 'risksList0'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formrisks, 'risksList0'); if (b) b.click();">
+      <IMG height=23 alt='$msg.get("common.addLabel")' src="./themes/$userInfo.getTemplate()/btn_add_norm.gif"
+      width=24 border=0 name=risksList0></A></TD>
+    
+      <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formrisks, 'risksList1'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formrisks, 'risksList1'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formrisks, 'risksList1'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.deleteLabel")' src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif"
+      width=24 border=0 name=risksList1></A></TD>
+
+      <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formrisks, 'risksList3'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formrisks, 'risksList3'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formrisks, 'risksList3'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.editLabel")' src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif"
+      width=24 border=0 name=risksList3></A></TD>
+#end
+     <TD class=commandBtn width=30><A
+      onmouseover="var over = MM_getButtonWithName(document.formrisks, 'risksList2'); if (over) over.over(); return true; "
+      onmouseout="var out = MM_getButtonWithName(document.formrisks, 'risksList2'); if (out) out.out(); return true; "
+      href="javascript:var b = MM_getButtonWithName(document.formrisks, 'risksList2'); if (b) b.click();"><IMG
+      height=23 alt='$msg.get("common.viewLabel")' src="./themes/$userInfo.getTemplate()/btn_info_norm.gif"
+      width=24 border=0 name=risksList2></A></TD>
+
+    <TD align=left><IMG height=26 alt=""
+      src="./themes/$userInfo.getTemplate()/spacer.gif" width=5></TD>
+
+	  </TR>
+	  </TBODY>
+	  </TABLE>
+
+   </nobr>
+   </td>
+  </tr>
+ </table>
+ </div>
+
+<div name="wbP11" id="wbP11" style="display:block" class=formBody>
+
+<form name="formrisks" method="post" action="./risks.do">
+
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+<tr>
+	  <th width="1%" align="center">
+        <a href="javascript:MM_toggleSelectedItems(document.formrisks,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
+      </th>
+
+<th nowrap $activedescription><a href="javascript:document.projectsForm.source.value='risks';document.projectsForm.sortColumnRisks.value='description';document.projectsForm.sortOrderRisks.value='$sortdescription';document.projectsForm.operation.value = 'sort';document.projectsForm.submit();" onMouseOver="javascript:window.status='Ordenar por Description'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Description")</a>$imagedescription</th>
+<th nowrap $activeprobability><a href="javascript:document.projectsForm.source.value='risks';document.homeForm.sortColumnRisks.value='probability';document.projectsForm.sortOrderRisks.value='$sortprobability';document.projectsForm.operation.value = 'sort';document.projectsForm.submit();" onMouseOver="javascript:window.status='Ordenar por Probabilidad'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.probability")</a>$imageprobability</th>
+<th nowrap $activeimpact><a href="javascript:document.projectsForm.source.value='risks';document.homeForm.sortColumnRisks.value='impact';document.projectsForm.sortOrderRisks.value='$sortimpact';document.projectsForm.operation.value = 'sort';document.projectsForm.submit();" onMouseOver="javascript:window.status='Ordenar por Impacto'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.impact")</a>$imageimpact</th>
+<th nowrap $activetodoaction><a href="javascript:document.projectsForm.source.value='risks';document.homeForm.sortColumnRisks.value='todoaction';document.projectsForm.sortOrderRisks.value='$sorttodoaction';document.projectsForm.operation.value = 'sort';document.projectsForm.submit();" onMouseOver="javascript:window.status='Ordenar por Accion'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.todoaction")</a>$imagetodoaction</th>
+<th nowrap $activeplanb><a href="javascript:document.projectsForm.source.value='risks';document.homeForm.sortColumnRisks.value='planb';document.projectsForm.sortOrderRisks.value='$sortplanb';document.projectsForm.operation.value = 'sort';document.projectsForm.submit();" onMouseOver="javascript:window.status='Ordenar por Plan B'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.planb")</a>$imageplanb</th>
+<th nowrap $activetask><a href="javascript:document.projectsForm.source.value='risks';document.homeForm.sortColumnRisks.value='task';document.projectsForm.sortOrderRisks.value='$sorttask';document.projectsForm.operation.value = 'sort';document.projectsForm.submit();" onMouseOver="javascript:window.status='Ordenar por Tarea'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Task")</a>$imagetask</th>
+
+</tr>
+  #set ($row = 1)
+  #foreach( $lista in $listrisks)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
+    <td align="center">
+	<a href="javascript:document.formrisks.id.value='$lista.getid()';MM_toggleItem(document.formrisks, '$lista.getid()', 'risksListcb$row','$userInfo.getTemplate()');">
+	<img name="risksListcb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3"></a>
+</td>
+      <td> <a href="./risks.do?project=$!projectsForm.id&operation=view&id=$lista.getid()">$!lista.getdescription()</a></td>
+      <td> $!lista.getprobability()</td>      <td> $!lista.getimpact()</td>
+      <td><a href="./risks.do?project=$!projectsForm.id&operation=view&id=$lista.getid()"> 
+        $!lista.getFormatedTodoAction()</a></td>
+      <td><a href="./risks.do?project=$!projectsForm.id&operation=view&id=$lista.getid()"> 
+        $!lista.getplanb()</a></td>
+
+ #if ($lista.gettask() == 0)
+     #set ($label = "N/A")
+ #else
+     #set ($label = "<a href='./tasks.do?operation=view&id=$lista.gettask()'>$lista.gettaskdesc()</a>")
+ #end
+      <td>$!label</td>
+
+ </tr>
+
+#set ($row = $row + 1)
+#end
+</table>
+
+<table cellspacing="0" width="100%" border="0" cellpadding="0">
+ <tr>
+   <td nowrap class="footerCell">&#160;&#160;&#160;&#160;
+
+#foreach( $lista in $listPagesRisks)
+	#if ($lista.intValue() == $!projectsForm.pageRisks)
+		<b>$lista.intValue()</b>&#160;
+	#else
+		<a href="javascript:document.homeForm.source.value='risks';document.homeForm.operation.value='paging';document.homeForm.pageRisks.value='$lista.intValue()';document.homeForm.submit();">$lista.intValue()</a>&#160;
+	#end
+#end
+ </td> 
+     <td nowrap align="right" class="footerCell">
+      <a href="./risks.do?project=$!projectsForm.id&operation=showAll&fromPage=viewProject&sortOrder=DESC&sortColumn=description"> $msg.get("common.ShowAll")</a>&#160;&#160;&#160;&#160;&#160;
+    </td>
+
+ </tr>
+ <tr>
+   <td height="5" colspan="2"><img width="1" height="5" border="0" src="./themes/$userInfo.getTemplate()/spacer.gif" alt="">
+   </td>
+ </tr>
+</table>
+
+
+  <input type="hidden" name="operation" value="$projectsForm.operation">
+  <input type="hidden" name="project" value="$projectsForm.id">
+  <input type="hidden" name="id" value="22">
+  <input type="hidden" name="checkedItems" value="22" >
+  <input type="hidden" name="fromPage" value="viewProject"> 
+
+  </form>
+ </div>
+<script language="JavaScript">
+document.formrisks.buttons = new Array();
+document.formrisks.buttons[document.formrisks.buttons.length] = new MMCommandButton('risksList2',document.formrisks,"javascript:sendDataRicks('view');",'./themes/$userInfo.getTemplate()/btn_info_norm.gif','./themes/$userInfo.getTemplate()/btn_info_over.gif','./themes/$userInfo.getTemplate()/btn_info_down.gif','./themes/$userInfo.getTemplate()/btn_info_dim.gif',false,true,false,'','$msg.get("common.viewLabel")',false,'Confirm report deletion');
+#if (($connectedUser == "$!projectsForm.owner") || ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4" ))
+	document.formrisks.buttons[document.formrisks.buttons.length] = new MMCommandButton('risksList0',document.formrisks,"javascript:sendDataRicks('add');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','$msg.get("common.addLabel")',false,'Confirm report deletion');
+	document.formrisks.buttons[document.formrisks.buttons.length] = new MMCommandButton('risksList1',document.formrisks,"javascript:sendDataRicks('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',false,true,true,'','$msg.get("common.deleteLabel")',false,'Confirm report deletion');
+	document.formrisks.buttons[document.formrisks.buttons.length] = new MMCommandButton('risksList3',document.formrisks,"javascript:sendDataRicks('edit');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',false,true,false,'','$msg.get("common.editLabel")',false,'Confirm report deletion');
+#end
+MM_updateButtons(document.formrisks, 0);
+
+document.formrisks.checkboxes = new Array();
+#set ($row = 1)
+#foreach( $lista in $listrisks)
+ document.formrisks.checkboxes[document.formrisks.checkboxes.length] = new MMCheckbox('$lista.getid()',document.formrisks,'risksListcb$row');
+#set ($row = $row + 1)
+#end
+document.formrisks.tt = 'risksListtt';
+
+function getArrayNumbers(theForm) {
+	if (theForm.selectedItems != null)
+		theForm.checkedItems.value = theForm.selectedItems.join(',');
+}
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendDataRicks(tipo) {
+	document.formrisks.operation.value = tipo;
+	getArrayNumbers(document.formrisks);
+	document.formrisks.submit();
+}
+</script>

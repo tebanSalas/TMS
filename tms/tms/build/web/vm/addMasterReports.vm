@@ -1,0 +1,312 @@
+<html>
+<head>
+<title>Add Reports</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/calendar.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+
+
+
+<script type="text/Javascript">
+
+function checkDate( val) {
+ 
+                separado = val.split("-");
+                out = separado[0] + "-";
+                if (separado[1].length <= 1)
+                        out += "0" + separado[1]+"-";
+                else
+                        out += separado[1]+"-";
+ 
+                if (separado[2].length <= 1)
+                        out += "0" + separado[2];
+                else
+                        out += separado[2];
+                return out;
+        }
+
+function sendData(tipo) {
+if (isValidDate(document.add.startDate1.value,'$msg.get("error.task.invalidFormat")','$msg.get("error.task.invalidMonth")') && isValidDate(document.add.startDate2.value,'$msg.get("error.task.invalidFormat")','$msg.get("error.task.invalidMonth")') &&
+isValidDate(document.add.dueDate1.value,'$msg.get("error.task.invalidFormat")','$msg.get("error.task.invalidMonth")') && isValidDate(document.add.dueDate2.value,'$msg.get("error.task.invalidFormat")','$msg.get("error.task.invalidMonth")') &&
+isValidDate(document.add.endDate1.value,'$msg.get("error.task.invalidFormat")','$msg.get("error.task.invalidMonth")') && isValidDate(document.add.endDate2.value,'$msg.get("error.task.invalidFormat")','$msg.get("error.task.invalidMonth")')) {
+		if (document.add.startDate1.value != null && document.add.startDate2.value != null &&
+                    document.add.dueDate1.value != null && document.add.dueDate2.value != null &&
+                    document.add.endDate1.value != null && document.add.endDate2.value != null) {
+                        document.add.startDate1.value = checkDate(document.add.startDate1.value);
+                        document.add.startDate2.value = checkDate(document.add.startDate2.value);
+
+                        document.add.dueDate1.value = checkDate(document.add.dueDate1.value);
+                        document.add.dueDate2.value = checkDate(document.add.dueDate2.value);
+
+                        document.add.endDate1.value = checkDate(document.add.endDate1.value);
+                        document.add.endDate2.value = checkDate(document.add.endDate2.value);
+
+                        document.add.operation.value=tipo;
+                        document.add.submit();
+}
+}
+}
+
+function changeValue() {
+document.add.operation.value='add'; 
+    var x = document.add.members.selectedIndex;
+    var tipo =document.add.action;
+    tipo= tipo+'?member='+document.add.members.options[x].value;
+ document.add.action=tipo;
+    document.add.submit();
+}
+ 
+</script>
+
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+
+<script src="./themes/calendar.js" type=text/javascript></SCRIPT>
+#parse("/vm/calendarScript.src")
+
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+
+
+    
+
+
+<form method="POST" name="add" action="./masterReports.do" >
+<div class=blockHeader>
+<table align="center" class=title with="100%">
+<tr><td>&nbsp;$msg.get("common.Reports.addReport")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0" width="100%">
+  <TBODY>
+   <TR class=odd>
+  
+    <TD height="75" colspan="4" class=rightvalue><div align="center">
+ <input type="checkbox" name="global" #if($!global == "1") checked #end value="1">$msg.get("common.GlobalTasks")</td>
+     
+    </div></TD>
+    
+   </TR>
+
+	<TR class=odd>
+    
+    <TD height="75" colspan="4" class=rightvalue>	
+	      <TABLE border=0 align="center" cellPadding=2 cellSpacing=0>
+		  <TD width="38%" height="70" align="center" vAlign=middle style="text-align:right;color:#808080;font-size:90%">$msg.get("common.ScheduleDate") :&nbsp;</TD>
+   
+		  <TD width="62%">
+      <TABLE cellSpacing=0 cellPadding=2 border=0>
+        <TBODY>
+
+        <TR>
+          <TD width=18><IMG height=8 alt="" src="./themes/$userInfo.getTemplate()/spacer.gif"
+            width=18></TD>
+          <TD class=infoValue noWrap><INPUT id=startDate1 name=startDate1 value="$startDate1">
+	    <INPUT onClick="return showCalendar('startDate1', 'y-mm-dd');" type=reset value=" ... "></TD></TR>
+        <TR>
+          <TD width=18>&nbsp;$msg.get("common.and")&nbsp;
+          <TD class=infoValue noWrap><INPUT id=startDate2 name=startDate2 value="$startDate2">
+	    <INPUT onClick="return showCalendar('startDate2', 'y-mm-dd');" type=reset value=" ... "></TD></TR></TBODY></TABLE>
+		</TD>
+</TABLE>
+	</TD>
+ </TR>
+
+  <TR class=odd>
+
+  <TD height="131" colspan="4" class=rightvalue>	   <TABLE border=0 align="center" cellPadding=2 cellSpacing=0>
+<TD width="21%"   style="text-align:right;color:#808080;font-size:90%">$msg.get("common.assignedTo") : &nbsp;</TD>
+    <TD width="29%" class=rightvalue><SELECT name=members onChange="changeValue();">
+  #foreach( $lista in $list_members)
+  #if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")
+      <OPTION value=$!lista.getid()  #if ($!member == $!lista.getid()) selected #end>$!lista.getname()</OPTION>
+    #else
+	  <OPTION value=$lista.getid()  #if ($!member == $!lista.getid()) selected #end>$!lista.getname()</OPTION>
+    #end
+  #end
+       </SELECT></TD>
+       
+    <TD width="18%" height="70" align="center" style="text-align:right;color:#808080;font-size:90%">$msg.get("common.Project") :&nbsp;</TD>
+    <TD width="32%" class=rightvalue>
+       <SELECT multiple size=4 name=projects[]>  
+        <OPTION value=ALL selected>$msg.get("common.selectAll")</OPTION> 
+  #foreach( $lista in $list_projects)  
+      <OPTION value=$!lista.getid()>$!lista.getname()</OPTION>   
+  #end
+       </SELECT></TD>
+	</TABLE>   
+</TD>
+ </TR>
+  <TR class=odd>
+    <TH colSpan=4 class="title"><div align="left">&nbsp;$msg.get("common.Reports.Plan")</div></TH>
+	
+ </TR>
+ 
+<TR class=odd>
+    
+    <TD height="131" colspan="4" class=rightvalue>	
+	      <TABLE border=0 align="center" cellPadding=2 cellSpacing=0>
+		  <TD width="38%" height="70" align="center" vAlign=middle style="text-align:right;color:#808080;font-size:90%">$msg.get("common.deliverDate") :&nbsp;</TD>
+   
+		  <TD width="62%">
+	
+      <TABLE cellSpacing=0 cellPadding=2 border=0>
+        <TBODY>
+		
+    <TR>
+          <TD class=infovalue align=middle width=16><input type=radio checked value=ALL name=FechaEntrega></TD>
+          <TD align=left>$msg.get("common.allDate")</TD></TR>
+		  <TR>
+          <TD class=infovalue align=middle width=16>
+	     <INPUT type=radio value=DATERANGE name=FechaEntrega></TD>
+          <TD align=left>$msg.get("common.betweenDates")</TD></TR>  
+		  
+        <TR>
+        <TR>
+          <TD class=infovalue align=middle width=16><IMG height=8 alt="" src="./themes/$userInfo.getTemplate()/spacer.gif"
+            width=18></TD>
+          <TD class=infoValue noWrap><INPUT id=dueDate1 name=dueDate1 value="$dueDate1">
+	    <INPUT onClick="return showCalendar('dueDate1', 'y-mm-dd');" type=reset value=" ... "></TD></TR>
+        <TR>
+          <TD class=infovalue align=middle width=16>&nbsp;$msg.get("common.and")&nbsp;
+          <TD class=infoValue noWrap><INPUT id=dueDate2 name=dueDate2 value="$dueDate2">
+	    <INPUT onClick="return showCalendar('dueDate2', 'y-mm-dd');" type=reset value=" ... "></TD></TR></TBODY></TABLE>
+		</TD>
+</TABLE>
+
+</TD>
+
+</TR>
+  <TR class=odd>
+    <TH colSpan=4 class="title"><div align="left">&nbsp;$msg.get("common.Reports.Ejecucion")</div></TH>
+ </TR>
+
+
+  <TR class=odd>
+  <TD height="131" colspan="4" class=rightvalue>	  
+   <TABLE  border=0 align="center" cellPadding=2 cellSpacing=0>
+   <TD width="21%"   style="text-align:right;color:#808080;font-size:90%">$msg.get("common.avance") :&nbsp;</TD>
+    <TD width="250" class=rightvalue>
+        <TABLE cellSpacing=0 cellPadding=2 border=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=infoValue noWrap>&nbsp;$msg.get("common.of")<IMG height=8 alt="" src="./themes/$userInfo.getTemplate()/spacer.gif"
+            width=18><SELECT name=completionI> 
+             <OPTION value="0" selected>0%</OPTION>
+      <OPTION value="10" >10 %</OPTION>
+      <OPTION value="20">20 %</OPTION>
+      <OPTION value="30">30 %</OPTION>
+      <OPTION value="40">40 %</OPTION>
+      <OPTION value="50" >50 %</OPTION>
+      <OPTION value="60">60 %</OPTION>
+      <OPTION value="70">70 %</OPTION>
+      <OPTION value="80">80 %</OPTION>
+      <OPTION value="90">90 %</OPTION>
+      <OPTION value="100">100 %</OPTION>
+            </SELECT>
+          </TD>
+        </TR>
+        <TR>
+        <TD class=infoValue noWrap>&nbsp;&nbsp;&nbsp;$msg.get("common.to")<IMG height=8 alt="" src="./themes/$userInfo.getTemplate()/spacer.gif"
+            width=18><SELECT name=completionF> 
+	    <OPTION value="0">0%</OPTION>
+      <OPTION value="10" >10 %</OPTION>
+      <OPTION value="20">20 %</OPTION>
+      <OPTION value="30">30 %</OPTION>
+      <OPTION value="40">40 %</OPTION>
+      <OPTION value="50" >50 %</OPTION>
+      <OPTION value="60">60 %</OPTION>
+      <OPTION value="70">70 %</OPTION>
+      <OPTION value="80">80 %</OPTION>
+      <OPTION value="90">90 %</OPTION>
+      <OPTION value="100"  selected>100 %</OPTION>
+        </SELECT>
+        </TD></TR></TBODY></TABLE>
+		</TD>
+    <TD width="18%" height="70" align="center" style="text-align:right;color:#808080;font-size:90%">$msg.get("common.Status") :&nbsp;</TD>
+    <TD width="32%"  class=rightvalue><SELECT multiple size=4 name=status[]> 
+         <OPTION value=ALL selected>$msg.get("common.selectAll")</OPTION>
+         <OPTION value="0" >$msg.get("common.statusClientEnd")</OPTION>
+         <OPTION value="1" >$msg.get("common.statusEnd")</OPTION>
+         <OPTION value="2" >$msg.get("common.statusNotStarted")</OPTION>
+         <OPTION value="3" >$msg.get("common.statusStarted")</OPTION>
+         <OPTION value="4" >$msg.get("common.statusSuspended")</OPTION>
+         <OPTION value="5" >$msg.get("common.statusQuote")</OPTION>
+         <OPTION value="6" >$msg.get("common.statusQuoteSended")</OPTION>
+         <OPTION value="7" >$msg.get("common.statusQuoteRejected")</OPTION>
+         <OPTION value="8" >$msg.get("common.statusQuoteAcepted")</OPTION>
+         <OPTION value="9" >$msg.get("common.statusCharge")</OPTION>
+         <OPTION value="10">$msg.get("common.statusChargeSended")</OPTION>
+         <OPTION value="11">$msg.get("common.statusProcessingCharge")</OPTION>
+	 <OPTION value="12">$msg.get("common.statusRejected")</OPTION>
+	 <OPTION value="13">$msg.get("common.qualitycontrol")</OPTION>
+         <OPTION value="14">$msg.get("common.standBy")</OPTION>
+      </SELECT></TD>
+	  </TABLE>
+	  </TD>
+  </TR>
+
+
+<TR class=odd>
+    <TH colSpan=4 class="title"><div align="left">&nbsp;$msg.get("common.Reports.Resultado")</div></TH>
+ </TR>
+ 
+
+  	<TR class=odd>
+    
+    <TD height="131" colspan="4" class=rightvalue>	
+	      <TABLE border=0 align="center" cellPadding=2 cellSpacing=0>
+		  <TD width="38%" height="70" align="center" vAlign=middle style="text-align:right;color:#808080;font-size:90%">$msg.get("common.finalization") :&nbsp;</TD>
+   
+		  <TD width="62%">
+		        <TABLE cellSpacing=0 cellPadding=2 border=0>
+        <TBODY>
+        <TR>
+          <TD class=infovalue align=middle width=16><INPUT type=radio CHECKED value=ALL name=FechaFinal></TD>
+          <TD align=left>$msg.get("common.allDate")</TD></TR>
+        <TR>
+          <TD class=infovalue align=middle width=16>
+	     <INPUT type=radio value=DATERANGE name=FechaFinal></TD>
+          <TD align=left>$msg.get("common.betweenDates")</TD></TR>
+        <TR>
+          <TD class=infovalue align=middle width=16><IMG height=8 alt="" src="./themes/$userInfo.getTemplate()/spacer.gif"
+            width=18></TD>
+          <TD class=infoValue noWrap><INPUT id=endDate1 name=endDate1 value="$endDate1">
+	    <INPUT onClick="return showCalendar('endDate1', 'y-mm-dd');" type=reset value=" ... "></TD></TR>
+        <TR>
+          <TD class=infovalue align=middle width=16>&nbsp;$msg.get("common.and")&nbsp;
+          <TD class=infoValue noWrap><INPUT id=endDate2 name=endDate2 value="$endDate2">
+	    <INPUT onClick="return showCalendar('endDate2', 'y-mm-dd');" type=reset value=" ... "></TD></TR></TBODY></TABLE>
+		</TD>
+</TABLE>
+	</TD>
+ </TR>
+
+ 
+
+  <TR class=odd>
+  
+    <TD height="53" colspan="4" class=rightvalue><div align="center">
+      <INPUT type=button value='$msg.get("common.generateExcel")' name=Save onClick="sendData('execute');">
+    </div></TD>
+    
+   </TR>
+  
+
+  </TBODY> </table></div>
+ </td></tr></table></div>
+<br>
+<input type="hidden" name="operation" value="execute">
+</FORM>
+#parse ("/vm/footer.vm")
+</body>
+</html>

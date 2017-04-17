@@ -1,0 +1,1581 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Started on 2009-07-14 18:43:28 CST
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+
+CREATE FUNCTION getprojectinfo(projectid numeric, OUT totaltasks numeric, OUT totalended numeric, OUT totalnotassigned numeric, OUT totalsuspended numeric, OUT totalrejected numeric, OUT totallate numeric) RETURNS record
+    AS $$
+DECLARE
+  tmp numeric ( 10 );
+BEGIN
+-- Todas las tareas
+  SELECT COUNT( * )
+  INTO   tmp
+  FROM tasks
+  WHERE project = projectid AND status IN( 1, 2, 3, 4, 12 );
+  totaltasks := tmp;
+-- Todas las terminadas
+  SELECT COUNT( * )
+  INTO   tmp
+  FROM tasks
+  WHERE project = projectid AND status = 1;
+  totalended := tmp;
+-- Tareas no asignadas
+  SELECT COUNT( * )
+  INTO   tmp
+  FROM tasks
+  WHERE project = projectid AND status IN( 2, 3, 4, 12 ) AND assigned_to = 0;
+  totalnotassigned := tmp;
+-- Tareas suspendidas
+  SELECT COUNT( * )
+  INTO   tmp
+  FROM tasks
+  WHERE project = projectid AND status = 4;
+  totalsuspended := tmp;
+  totalsuspended := 0;
+-- Tareas rechazadas
+  SELECT COUNT( * )
+  INTO   tmp
+  FROM tasks
+  WHERE project = projectid AND status = 12;
+  totalrejected := tmp;
+  totalrejected := 0;
+-- Tareas atrazadas
+  SELECT COUNT( * )
+  INTO   tmp
+  FROM tasks
+  WHERE project = projectid AND status IN( 2, 3, 4, 12 ) AND(    due_date IS NULL
+                                                              OR due_date < CURRENT_DATE );
+  totallate := tmp;
+END; 
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION tms.getprojectinfo(projectid numeric, OUT totaltasks numeric, OUT totalended numeric, OUT totalnotassigned numeric, OUT totalsuspended numeric, OUT totalrejected numeric, OUT totallate numeric) OWNER TO tms;
+
+--
+-- TOC entry 34 (class 1255 OID 17714)
+-- Dependencies: 667 6
+-- Name: getrealtimehour(character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: tms; Owner: tms
+--
+
+CREATE FUNCTION getrealtimehour(starttime character varying, endtime character varying, ampmstart character varying, ampmend character varying) RETURNS numeric
+    AS $$
+DECLARE
+  auxhour numeric ;
+BEGIN
+
+	  SELECT     date_part('HOURS',  (TO_TIMESTAMP(TO_CHAR(TIMESTAMP 'now', 'YYYY-MM-DD') || endtime, 'YYYY-MM-DDHH:MI ' || ampmend )-
+  TO_TIMESTAMP(TO_CHAR(TIMESTAMP 'now', 'YYYY-MM-DD') || starttime, 'YYYY-MM-DDHH:MI ' || ampmstart ) ))  INTO   auxhour;
+
+  RETURN auxhour;
+END; 
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION tms.getrealtimehour(starttime character varying, endtime character varying, ampmstart character varying, ampmend character varying) OWNER TO tms;
+
+--
+-- TOC entry 36 (class 1255 OID 17718)
+-- Dependencies: 667 6
+-- Name: getrealtimeminutes(character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: tms; Owner: tms
+--
+
+CREATE FUNCTION getrealtimeminutes(starttime character varying, endtime character varying, ampmstart character varying, ampmend character varying) RETURNS numeric
+    AS $$
+DECLARE
+  auxminute numeric ;
+BEGIN
+ SELECT      date_part('MINUTES', TO_TIMESTAMP(TO_CHAR(TIMESTAMP 'now', 'YYYY-MM-DD') || endtime, 'YYYY-MM-DDHH:MI ' || ampmend )-
+   TO_TIMESTAMP(TO_CHAR(TIMESTAMP 'now', 'YYYY-MM-DD') || starttime, 'YYYY-MM-DDHH:MI ' || ampmstart )) 
+  INTO   auxminute
+  ;
+  RETURN auxminute;
+END; 
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION tms.getrealtimeminutes(starttime character varying, endtime character varying, ampmstart character varying, ampmend character varying) OWNER TO tms;
+
+--
+-- TOC entry 262 (class 1255 OID 17779)
+-- Dependencies: 667 6
+-- Name: isconflict(numeric, character varying, numeric, character varying, character varying); Type: FUNCTION; Schema: tms; Owner: tms
+--
+
+CREATE FUNCTION isconflict(userid_p numeric, day_p character varying, accountid_p numeric, hourini_p character varying, hourend_p character varying) RETURNS numeric
+    AS $$
+DECLARE
+  conflict numeric ;
+BEGIN
+SELECT s.hourid 
+FROM schedules s 
+WHERE s.userid = userid_p AND 
+s.DAY = day_p AND 
+s.id_account = accountid_p AND 
+(TO_TIMESTAMP(day_p || hourini_p,'YYYY-MM-DDHH:MI am' ) 
+ BETWEEN TO_TIMESTAMP( s.DAY || s.hour_start  ,'YYYY-MM-DDHH:MI am') 
+ AND( TO_TIMESTAMP( s.DAY || s.hour_end  ,'YYYY-MM-DDHH:MI am') - interval '1 second') 
+ OR ( TO_TIMESTAMP( day_p || hourend_p, 'YYYY-MM-DDHH:MI am' ) - interval '1 second' )
+  
+BETWEEN TO_TIMESTAMP( s.DAY || s.hour_start, 'YYYY-MM-DDHH:MI am' )  AND
+(TO_TIMESTAMP( s.DAY || s.hour_end, 'YYYY-MM-DDHH:MI am' )  - interval '1 second'  )  OR 
+TO_TIMESTAMP( s.DAY || s.hour_start, 'YYYY-MM-DDHH:MI am' ) BETWEEN TO_TIMESTAMP( day_p || hourini_p ,'YYYY-MM-DDHH:MI am') AND
+(TO_TIMESTAMP( day_p || hourend_p,'YYYY-MM-DDHH:MI am') - interval '1 second'  ))
+
+ 
+  INTO   conflict
+  ;
+  RETURN conflict;
+END; 
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION tms.isconflict(userid_p numeric, day_p character varying, accountid_p numeric, hourini_p character varying, hourend_p character varying) OWNER TO tms;
+
+--
+-- TOC entry 35 (class 1255 OID 16669)
+-- Dependencies: 6 667
+-- Name: pg_fct_teams_bid(); Type: FUNCTION; Schema: tms; Owner: tms
+--
+
+CREATE FUNCTION pg_fct_teams_bid() RETURNS trigger
+    AS $$
+DECLARE
+   id_v            numeric;
+   nomacc_v        varchar (150);
+   nomorg_v        varchar (150);
+   idorg_v         numeric;
+   nomproy_v       varchar (155);
+   nom_user_v      varchar (155);
+   action_v        varchar (1);
+   id_account_v    numeric;
+   nom_account_v   varchar (155);
+   members_v	   numeric;
+   project_v	   numeric;
+/******************************************************************************
+   NAME:       TEAMS_BIU
+   PURPOSE:
+
+   REVISIONS:
+   Ver        Date        Author           Description
+   ---------  ----------  ---------------  ------------------------------------
+   1.0        05/12/2008             1. Created this trigger.
+
+   NOTES:
+
+   Automatically available Auto Replace Keywords:
+      Object Name:     TEAMS_BIU
+      CURRENT_TIMESTAMP:         05/12/2008
+      Date and Time:   05/12/2008, 11:26:50 a.m., and 05/12/2008 11:26:50 a.m.
+      Username:         (set in TOAD Options, Proc Templates)
+      Table Name:      TEAMS (set in the "New PL/SQL Object" dialog)
+      Trigger Options:  (set in the "New PL/SQL Object" dialog)
+******************************************************************************/
+BEGIN
+   --take the max id
+   SELECT COUNT (ID) + 1
+     INTO id_v
+     FROM team_lock;
+   
+   IF (TG_OP = 'INSERT') THEN
+      members_v := NEW.members;
+      project_v := NEW.projects;
+      action_v := 'I';
+   END IF;
+
+   IF (TG_OP = 'UPDATE') THEN
+     members_v := NEW.members;
+     project_v := NEW.projects;
+     action_v := 'U';
+   END IF;
+
+   IF (TG_OP = 'DELETE') THEN
+      members_v := OLD.members;
+      project_v := OLD.projects;
+      action_v := 'D';
+   END IF;
+      
+   --take the name of the account
+   --  select name from account in to nomAcc_v where id = new.account;
+   --take the name of the project
+   SELECT NAME, ORGANIZATION
+     INTO nomproy_v, idorg_v
+     FROM projects p
+    WHERE p.ID =  project_v;
+		
+   --take the name of the organization
+   SELECT NAME
+     INTO nomorg_v
+     FROM organizations
+    WHERE ID = idorg_v;
+
+   --take the name of the user
+   SELECT NAME, id_account
+     INTO nom_user_v, id_account_v
+     FROM members
+    WHERE ID = members_v;
+
+   --take the name of the account
+   SELECT NAME
+     INTO nom_account_v
+     FROM accounts
+    WHERE ID = id_account_v;
+
+   INSERT INTO team_lock
+        VALUES (id_v, id_account_v, nom_account_v, idorg_v, nomorg_v,
+                 project_v, nomproy_v,  members_v, nom_user_v, action_v,
+                CURRENT_TIMESTAMP);
+   return null;
+EXCEPTION
+   WHEN raise_exception THEN
+      -- Consider logging the error and then re-raise
+      RAISE EXCEPTION 'Error %', SQLERRM;
+END;
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION tms.pg_fct_teams_bid() OWNER TO tms;
+
+--
+-- TOC entry 37 (class 1255 OID 17887)
+-- Dependencies: 667 6
+-- Name: pg_fct_acc_bud(); Type: FUNCTION; Schema: tms; Owner: tms
+--
+
+CREATE FUNCTION pg_fct_acc_bud() RETURNS trigger
+    AS $$
+DECLARE
+/******************************************************************************
+   NAME:       TMS_ACC_BUD
+   PURPOSE:    Validar que el campo de Key no sea ni modificado ni borrado 
+
+******************************************************************************/
+BEGIN   
+   if OLD.key_encriptation <> NEW.key_encriptation then     
+     RAISE EXCEPTION 'No se puedo modificar el campo de la key de la cuenta';      
+   end if;
+   if NEW.key_encriptation is null then
+    RAISE EXCEPTION 'No se puedo modificar el campo de la key de la cuenta';      
+   end if;
+   EXCEPTION
+   WHEN raise_exception THEN
+      -- Consider logging the error and then re-raise
+      RAISE EXCEPTION 'No se puedo modificar el campo de la key de la cuenta';
+END;
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION tms.pg_fct_acc_bud() OWNER TO tms;
+
+SET default_tablespace = tms_data;
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 1869 (class 1259 OID 17361)
+-- Dependencies: 6
+-- Name: accounts; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE accounts (
+    id integer NOT NULL,
+    name character varying(150),
+    description character varying(150),
+    address character varying(150),
+    phone_1 character varying(25),
+    phone_2 character varying(25),
+    email character varying(155),
+    account_logo character varying(255),
+    user_fare numeric(10,2),
+    account_email character varying(155),
+    company character varying(150),
+    creator character varying(150),
+    website character varying(150),
+    active character(1),
+    shortname character varying(5),
+    key_encriptation character varying(100),
+  final_trial_date timestamp without time zone
+);
+
+
+ALTER TABLE tms.accounts OWNER TO tms;
+
+--
+-- TOC entry 1877 (class 1259 OID 17444)
+-- Dependencies: 2169 6
+-- Name: assignments; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE assignments (
+    id integer NOT NULL,
+    task integer NOT NULL,
+    owner integer NOT NULL,
+    assigned_to integer NOT NULL,
+    assigned timestamp without time zone NOT NULL,
+    id_account integer DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE tms.assignments OWNER TO tms;
+
+--
+-- TOC entry 1884 (class 1259 OID 17722)
+-- Dependencies: 6
+-- Name: auxhour; Type: TABLE; Schema: tms; Owner: tms; Tablespace: 
+--
+
+CREATE TABLE auxhour (
+    floor double precision
+);
+
+
+ALTER TABLE tms.auxhour OWNER TO tms;
+
+--
+-- TOC entry 1883 (class 1259 OID 17719)
+-- Dependencies: 6
+-- Name: auxminute; Type: TABLE; Schema: tms; Owner: tms; Tablespace: 
+--
+
+CREATE TABLE auxminute (
+    "?column?" double precision
+);
+
+
+ALTER TABLE tms.auxminute OWNER TO tms;
+
+--
+-- TOC entry 1876 (class 1259 OID 17435)
+-- Dependencies: 2168 6
+-- Name: calendar; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE calendar (
+    id integer NOT NULL,
+    member integer NOT NULL,
+    subject character varying(255) NOT NULL,
+    description text,
+    day timestamp without time zone NOT NULL,
+    hour_start integer NOT NULL,
+    hour_end integer NOT NULL,
+    min_start integer NOT NULL,
+    min_end integer NOT NULL,
+    task integer,
+    guests character varying(150),
+    id_account integer DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE tms.calendar OWNER TO tms;
+
+--
+-- TOC entry 1887 (class 1259 OID 17851)
+-- Dependencies: 6
+-- Name: config_send_report; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE config_send_report (
+    id_account integer NOT NULL,
+    id_master_report integer NOT NULL,
+    members integer NOT NULL,
+    periodicity character(1),
+    notification integer,
+    format character(1)
+);
+
+
+ALTER TABLE tms.config_send_report OWNER TO tms;
+
+--
+-- TOC entry 1885 (class 1259 OID 17789)
+-- Dependencies: 2174 6
+-- Name: costs; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE costs (
+    id integer NOT NULL,
+    project integer NOT NULL,
+    description text NOT NULL,
+    units integer NOT NULL,
+    standard_cost numeric(12,2) NOT NULL,
+    real_cost numeric(12,2) NOT NULL,
+    tasks integer NOT NULL,
+    id_account integer DEFAULT 1 NOT NULL,
+    chargeable character(1) NOT NULL,
+    additional_costs_date timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE tms.costs OWNER TO tms;
+
+--
+-- TOC entry 1867 (class 1259 OID 17347)
+-- Dependencies: 6
+-- Name: countries; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE countries (
+    cod_pais integer NOT NULL,
+    description character varying(155) NOT NULL
+);
+
+
+ALTER TABLE tms.countries OWNER TO tms;
+
+--
+-- TOC entry 1879 (class 1259 OID 17458)
+-- Dependencies: 2171 6
+-- Name: files; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE files (
+    id integer NOT NULL,
+    owner integer NOT NULL,
+    project integer NOT NULL,
+    task integer NOT NULL,
+    name character varying(255) NOT NULL,
+    day timestamp without time zone NOT NULL,
+    length bigint NOT NULL,
+    type character varying(100) NOT NULL,
+    comments character varying(155) NOT NULL,
+    upload timestamp without time zone NOT NULL,
+    published character(1) NOT NULL,
+    status integer NOT NULL,
+    topic integer,
+    id_account integer DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE tms.files OWNER TO tms;
+
+--
+-- TOC entry 1866 (class 1259 OID 17339)
+-- Dependencies: 6
+-- Name: logs; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE logs (
+    id integer NOT NULL,
+    login character varying(155) NOT NULL,
+    password character varying(155) NOT NULL,
+    ip character varying(155),
+    session_id character varying(155),
+    compt integer,
+    last_visite timestamp without time zone,
+    connected character varying(255)
+);
+
+
+ALTER TABLE tms.logs OWNER TO tms;
+
+--
+-- TOC entry 1886 (class 1259 OID 17843)
+-- Dependencies: 6
+-- Name: master_report; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE master_report (
+    id integer NOT NULL,
+    name character varying(155) NOT NULL,
+    description text
+);
+
+
+ALTER TABLE tms.master_report OWNER TO tms;
+
+--
+-- TOC entry 1872 (class 1259 OID 17388)
+-- Dependencies: 2163 2164 6
+-- Name: members; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE members (
+    id integer NOT NULL,
+    organization integer NOT NULL,
+    login character varying(50) NOT NULL,
+    password character varying(100) NOT NULL,
+    name character varying(155) NOT NULL,
+    title character varying(155),
+    email_work character varying(155) NOT NULL,
+    email_home character varying(155),
+    phone_work character varying(25),
+    phone_home character varying(25),
+    mobile character varying(25),
+    fax character varying(25),
+    comments text,
+    profile character(1) NOT NULL,
+    created timestamp without time zone NOT NULL,
+    logout_time integer NOT NULL,
+    last_page character varying(255),
+    quotation character(1),
+    personal_title character varying(155),
+    reports character(1) NOT NULL,
+    template character varying(50),
+    cost numeric(12,2),
+    ind_check_schedules character(1),
+    ind_end_tasks character(1),
+    ind_client_manager character(1),
+    time_zone character varying(45),
+    id_account integer DEFAULT 1 NOT NULL,
+    expired_date timestamp without time zone,
+    renew_date timestamp without time zone,
+    sale_cost numeric(10,2),
+    ind_exec_report character(1) DEFAULT 'N'::bpchar,
+    ind_chat_available character(1) DEFAULT '0'::bpchar
+);
+
+
+ALTER TABLE tms.members OWNER TO tms;
+
+--
+-- TOC entry 1873 (class 1259 OID 17406)
+-- Dependencies: 2165 6
+-- Name: organizations; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE organizations (
+    id integer NOT NULL,
+    cod_pais integer NOT NULL,
+    name character varying(150) NOT NULL,
+    address1 character varying(255) NOT NULL,
+    address2 character varying(255),
+    zip_code character varying(10),
+    city character varying(155),
+    phone character varying(20) NOT NULL,
+    url character varying(255),
+    email character varying(155) NOT NULL,
+    comments text,
+    created timestamp without time zone NOT NULL,
+    email_collect character varying(155),
+    id_account integer DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE tms.organizations OWNER TO tms;
+
+--
+-- TOC entry 1875 (class 1259 OID 17426)
+-- Dependencies: 2167 6
+-- Name: post; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE post (
+    id integer NOT NULL,
+    topic integer NOT NULL,
+    member integer NOT NULL,
+    created timestamp without time zone NOT NULL,
+    message text NOT NULL,
+    id_account integer DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE tms.post OWNER TO tms;
+
+--
+-- TOC entry 1871 (class 1259 OID 17379)
+-- Dependencies: 2162 6
+-- Name: predefined_messages; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE predefined_messages (
+    id integer NOT NULL,
+    text text NOT NULL,
+    name character varying(20),
+    id_account integer DEFAULT 1
+);
+
+
+ALTER TABLE tms.predefined_messages OWNER TO tms;
+
+--
+-- TOC entry 1880 (class 1259 OID 17468)
+-- Dependencies: 2172 2173 6
+-- Name: projects; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE projects (
+    id integer NOT NULL,
+    organization integer NOT NULL,
+    owner integer NOT NULL,
+    priority integer NOT NULL,
+    status integer NOT NULL,
+    name character varying(155) NOT NULL,
+    description text NOT NULL,
+    created timestamp without time zone NOT NULL,
+    modified timestamp without time zone NOT NULL,
+    published character(1) NOT NULL,
+    upload_max character varying(155) NOT NULL,
+    published_assigned character(1) NOT NULL,
+    published_endtask character(1) NOT NULL,
+    start_date timestamp without time zone,
+    end_date timestamp without time zone,
+    id_account integer DEFAULT 1 NOT NULL,
+    project_id integer,
+    sec_projects character varying(100),
+    send_email character(1) DEFAULT '2'::bpchar,
+  autom_notification  character(1) DEFAULT '1'
+);
+
+
+ALTER TABLE tms.projects OWNER TO tms;
+
+--
+-- TOC entry 1868 (class 1259 OID 17352)
+-- Dependencies: 2160 6
+-- Name: reports; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE reports (
+    id integer NOT NULL,
+    owner integer NOT NULL,
+    name character varying(155),
+    projects character varying(255),
+    members character varying(255),
+    priorities character varying(255),
+    status character varying(255),
+    start_date_start timestamp without time zone,
+    end_date_start timestamp without time zone,
+    start_date_due timestamp without time zone,
+    end_date_due timestamp without time zone,
+    ind_range_start_date character varying(10),
+    ind_range_due_date character varying(10),
+    created timestamp without time zone NOT NULL,
+    spreadfix character varying(3),
+    ind_range_end_date character varying(10),
+    start_date_end timestamp without time zone,
+    end_date_end timestamp without time zone,
+    typetasks character varying(255),
+    id_account integer DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE tms.reports OWNER TO tms;
+
+--
+-- TOC entry 1865 (class 1259 OID 17329)
+-- Dependencies: 2159 6
+-- Name: risks; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE risks (
+    id integer NOT NULL,
+    description character varying(255) NOT NULL,
+    probability integer,
+    impact integer,
+    todoaction text,
+    planb character varying(255),
+    task integer,
+    project integer,
+    id_account integer DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE tms.risks OWNER TO tms;
+
+--
+-- TOC entry 1882 (class 1259 OID 17487)
+-- Dependencies: 6
+-- Name: schedules; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE schedules (
+    hourid integer NOT NULL,
+    userid integer NOT NULL,
+    day character varying(20) NOT NULL,
+    id_account integer NOT NULL,
+    taskid integer NOT NULL,
+    comments text,
+    last_update timestamp without time zone,
+    hour_start character varying(8) NOT NULL,
+    hour_end character varying(8) NOT NULL,
+    realtime_hours integer NOT NULL,
+    realtime_minutes integer NOT NULL
+);
+
+
+ALTER TABLE tms.schedules OWNER TO tms;
+
+
+--
+-- TOC entry 1874 (class 1259 OID 17415)
+-- Dependencies: 2166 6
+-- Name: tasks; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE tasks (
+    id integer NOT NULL,
+    project integer NOT NULL,
+    priority integer NOT NULL,
+    status integer NOT NULL,
+    message integer NOT NULL,
+    owner integer NOT NULL,
+    assigned_to integer NOT NULL,
+    name character varying(155) NOT NULL,
+    description text,
+    start_date timestamp without time zone NOT NULL,
+    due_date timestamp without time zone,
+    real_due_date timestamp without time zone NOT NULL,
+    estimated_time numeric(10,2) NOT NULL,
+    actual_time numeric(10,2) NOT NULL,
+    completion integer NOT NULL,
+    created timestamp without time zone NOT NULL,
+    modified timestamp without time zone NOT NULL,
+    assigned timestamp without time zone NOT NULL,
+    published character(1) NOT NULL,
+    collect character(1) NOT NULL,
+    send_quotation_date timestamp without time zone,
+    reply_quotation_date timestamp without time zone,
+    reply_quotation_member integer,
+    tolerance integer NOT NULL,
+    fare numeric(12,2) NOT NULL,
+    predecessor integer,
+    predecessor_required character(1),
+    severity character(1),
+    type_task integer,
+    spread_fix character(1),
+    comments text NOT NULL,
+    topic integer NOT NULL,
+    id_account integer DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE tms.tasks OWNER TO tms;
+
+-- Table: tms.task_status_log
+
+-- DROP TABLE tms.task_status_log;
+
+CREATE TABLE TASK_STATUS_LOG (
+  ID        integer ,
+  ID_ACCOUNT     integer ,
+  TASK        integer ,
+  MEMBER        integer ,
+  STATUS        integer ,
+  CREATED        timestamp
+);
+
+
+ALTER TABLE tms.TASK_STATUS_LOG OWNER TO tms;
+
+--
+-- TOC entry 1864 (class 1259 OID 17321)
+-- Dependencies: 6
+-- Name: team_lock; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE team_lock (
+    id integer NOT NULL,
+    account_id integer NOT NULL,
+    account_name character varying(155),
+    org_id integer,
+    org_name character varying(155),
+    project_id integer,
+    project_name character varying(155),
+    user_id integer,
+    user_name character varying(155),
+    action character(1),
+    action_date timestamp without time zone
+);
+
+
+ALTER TABLE tms.team_lock OWNER TO tms;
+
+--
+-- TOC entry 1878 (class 1259 OID 17450)
+-- Dependencies: 2170 6
+-- Name: teams; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE teams (
+    id integer NOT NULL,
+    projects integer NOT NULL,
+    members integer NOT NULL,
+    published character(1) NOT NULL,
+    authorized character(1) NOT NULL,
+    id_account integer DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE tms.teams OWNER TO tms;
+
+--
+-- TOC entry 1870 (class 1259 OID 17369)
+-- Dependencies: 2161 6
+-- Name: topics; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE topics (
+    id integer NOT NULL,
+    project integer NOT NULL,
+    owner integer NOT NULL,
+    subject character varying(600) NOT NULL,
+    status character(1) NOT NULL,
+    last_post timestamp without time zone NOT NULL,
+    posts integer NOT NULL,
+    published character(1) NOT NULL,
+    tasks integer NOT NULL,
+    totasks character(1) NOT NULL,
+    id_account integer DEFAULT 1 NOT NULL,
+  notified  character(1) DEFAULT '0'
+);
+
+
+ALTER TABLE tms.topics OWNER TO tms;
+
+--
+-- TOC entry 1863 (class 1259 OID 17315)
+-- Dependencies: 2158 6
+-- Name: type_tasks; Type: TABLE; Schema: tms; Owner: tms; Tablespace: tms_data
+--
+
+CREATE TABLE type_tasks (
+    id integer NOT NULL,
+    description character varying(155) NOT NULL,
+    prefix character varying(7),
+    consecutive integer,
+    use_prefix character(1),
+    id_account integer DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE tms.type_tasks OWNER TO tms;
+
+--aleiton 20120102 INI
+CREATE TABLE access_log (
+	id_registry integer NOT NULL,
+	id_member integer NOT NULL,
+	login_date timestamp NOT NULL,
+	id_account integer NOT NULL,
+	login varchar(30) NOT NULL,
+	logout_date timestamp,
+	portal varchar(30) NOT NULL
+);
+
+
+ALTER TABLE tms.access_log OWNER TO tms;
+
+CREATE TABLE chat_session (
+	id_session numeric NOT NULL,
+	start_date timestamp NOT NULL,
+	end_date timestamp
+);
+
+
+ALTER TABLE tms.chat_session OWNER TO tms;
+
+CREATE TABLE members_per_session (
+	date_ended timestamp,
+	session_id numeric NOT NULL,
+	member_id numeric NOT NULL,
+	date_created timestamp
+);
+
+
+ALTER TABLE tms.members_per_session OWNER TO tms;
+
+
+ALTER TABLE access_log ADD PRIMARY KEY (id_registry);
+
+
+ALTER TABLE chat_session ADD PRIMARY KEY (id_session);
+
+
+ALTER TABLE members_per_session ADD PRIMARY KEY (session_id,member_id);
+
+ALTER TABLE members_per_session ADD CONSTRAINT fk_chat_session FOREIGN KEY (session_id) REFERENCES chat_session (id_session) ON DELETE NO ACTION DEFERRABLE INITIALLY IMMEDIATE;
+
+--aleiton 20120102 FIN
+
+--
+-- TOC entry 2189 (class 2606 OID 17368)
+-- Dependencies: 1869 1869
+-- Name: accounts_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY accounts
+    ADD CONSTRAINT accounts_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2208 (class 2606 OID 17449)
+-- Dependencies: 1877 1877 1877
+-- Name: assignments_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY assignments
+    ADD CONSTRAINT assignments_pkey PRIMARY KEY (id, id_account);
+
+
+--
+-- TOC entry 2206 (class 2606 OID 17443)
+-- Dependencies: 1876 1876 1876
+-- Name: calendar_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY calendar
+    ADD CONSTRAINT calendar_pkey PRIMARY KEY (id, id_account);
+
+
+--
+-- TOC entry 2228 (class 2606 OID 17855)
+-- Dependencies: 1887 1887 1887 1887
+-- Name: config_send_report_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY config_send_report
+    ADD CONSTRAINT config_send_report_pkey PRIMARY KEY (id_account, members, id_master_report);
+
+
+--
+-- TOC entry 2224 (class 2606 OID 17797)
+-- Dependencies: 1885 1885 1885
+-- Name: costs_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY costs
+    ADD CONSTRAINT costs_pkey PRIMARY KEY (id, id_account);
+
+
+--
+-- TOC entry 2185 (class 2606 OID 17351)
+-- Dependencies: 1867 1867
+-- Name: countries_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY countries
+    ADD CONSTRAINT countries_pkey PRIMARY KEY (cod_pais);
+
+
+--
+-- TOC entry 2214 (class 2606 OID 17466)
+-- Dependencies: 1879 1879 1879
+-- Name: files_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY files
+    ADD CONSTRAINT files_pkey PRIMARY KEY (id, id_account);
+
+
+--
+-- TOC entry 2183 (class 2606 OID 17346)
+-- Dependencies: 1866 1866
+-- Name: logs_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY logs
+    ADD CONSTRAINT logs_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2226 (class 2606 OID 17850)
+-- Dependencies: 1886 1886
+-- Name: master_report_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY master_report
+    ADD CONSTRAINT master_report_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2196 (class 2606 OID 17396)
+-- Dependencies: 1872 1872 1872
+-- Name: members_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY members
+    ADD CONSTRAINT members_pkey PRIMARY KEY (id, id_account);
+
+
+--
+-- TOC entry 2198 (class 2606 OID 17414)
+-- Dependencies: 1873 1873 1873
+-- Name: organizations_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY organizations
+    ADD CONSTRAINT organizations_pkey PRIMARY KEY (id, id_account);
+
+
+--
+-- TOC entry 2204 (class 2606 OID 17434)
+-- Dependencies: 1875 1875 1875
+-- Name: post_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY post
+    ADD CONSTRAINT post_pkey PRIMARY KEY (id, id_account);
+
+
+--
+-- TOC entry 2194 (class 2606 OID 17387)
+-- Dependencies: 1871 1871
+-- Name: predefined_messages_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY predefined_messages
+    ADD CONSTRAINT predefined_messages_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2218 (class 2606 OID 17477)
+-- Dependencies: 1880 1880 1880
+-- Name: projects_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY projects
+    ADD CONSTRAINT projects_pkey PRIMARY KEY (id, id_account);
+
+
+--
+-- TOC entry 2187 (class 2606 OID 17360)
+-- Dependencies: 1868 1868 1868
+-- Name: reports_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT reports_pkey PRIMARY KEY (id, id_account);
+
+
+--
+-- TOC entry 2181 (class 2606 OID 17337)
+-- Dependencies: 1865 1865 1865
+-- Name: risks_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY risks
+    ADD CONSTRAINT risks_pkey PRIMARY KEY (id, id_account);
+
+
+--
+-- TOC entry 2220 (class 2606 OID 17486)
+-- Dependencies: 1881 1881 1881 1881
+-- Name: schedules_copy_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY schedules_copy
+    ADD CONSTRAINT schedules_copy_pkey PRIMARY KEY (hourid, userid, day);
+
+
+--
+-- TOC entry 2222 (class 2606 OID 17494)
+-- Dependencies: 1882 1882 1882 1882 1882
+-- Name: schedules_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY schedules
+    ADD CONSTRAINT schedules_pkey PRIMARY KEY (hourid, userid, day, id_account);
+
+
+--
+-- TOC entry 2202 (class 2606 OID 17423)
+-- Dependencies: 1874 1874 1874
+-- Name: tasks_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY TASK_STATUS_LOG
+    ADD CONSTRAINT pk_task_status_log PRIMARY KEY (id);
+
+--
+-- TOC entry 2178 (class 2606 OID 17328)
+-- Dependencies: 1864 1864 1864
+-- Name: team_lock_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY team_lock
+    ADD CONSTRAINT team_lock_pkey PRIMARY KEY (id, account_id);
+
+
+--
+-- TOC entry 2212 (class 2606 OID 17455)
+-- Dependencies: 1878 1878 1878
+-- Name: teams_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY teams
+    ADD CONSTRAINT teams_pkey PRIMARY KEY (id_account, id);
+
+
+--
+-- TOC entry 2192 (class 2606 OID 17377)
+-- Dependencies: 1870 1870 1870
+-- Name: topics_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY topics
+    ADD CONSTRAINT topics_pkey PRIMARY KEY (id, id_account);
+
+
+--
+-- TOC entry 2176 (class 2606 OID 17320)
+-- Dependencies: 1863 1863 1863
+-- Name: type_tasks_pkey; Type: CONSTRAINT; Schema: tms; Owner: tms; Tablespace: 
+--
+
+ALTER TABLE ONLY type_tasks
+    ADD CONSTRAINT type_tasks_pkey PRIMARY KEY (id, id_account);
+
+
+--
+-- TOC entry 2215 (class 1259 OID 17467)
+-- Dependencies: 1879 1879
+-- Name: fk_files_projects; Type: INDEX; Schema: tms; Owner: tms; Tablespace: 
+--
+
+CREATE INDEX fk_files_projects ON files USING btree (project, id_account);
+
+
+--
+-- TOC entry 2216 (class 1259 OID 17478)
+-- Dependencies: 1880
+-- Name: idx_projects1; Type: INDEX; Schema: tms; Owner: tms; Tablespace: 
+--
+
+CREATE INDEX idx_projects1 ON projects USING btree (owner);
+
+
+--
+-- TOC entry 2179 (class 1259 OID 17338)
+-- Dependencies: 1865
+-- Name: idx_risks1; Type: INDEX; Schema: tms; Owner: tms; Tablespace: 
+--
+
+CREATE INDEX idx_risks1 ON risks USING btree (project);
+
+
+--
+-- TOC entry 2199 (class 1259 OID 17424)
+-- Dependencies: 1874 1874
+-- Name: idx_tasks1; Type: INDEX; Schema: tms; Owner: tms; Tablespace: 
+--
+
+CREATE INDEX idx_tasks1 ON tasks USING btree (project, status);
+
+
+--
+-- TOC entry 2200 (class 1259 OID 17425)
+-- Dependencies: 1874 1874
+-- Name: idx_tasks_2; Type: INDEX; Schema: tms; Owner: tms; Tablespace: 
+--
+
+CREATE INDEX idx_tasks_2 ON tasks USING btree (assigned_to, status);
+
+
+--
+-- TOC entry 2209 (class 1259 OID 17456)
+-- Dependencies: 1878
+-- Name: idx_teams1; Type: INDEX; Schema: tms; Owner: tms; Tablespace: 
+--
+
+CREATE INDEX idx_teams1 ON teams USING btree (projects);
+
+
+--
+-- TOC entry 2190 (class 1259 OID 17378)
+-- Dependencies: 1870
+-- Name: idx_topics1; Type: INDEX; Schema: tms; Owner: tms; Tablespace: 
+--
+
+CREATE INDEX idx_topics1 ON topics USING btree (owner);
+
+
+--
+-- TOC entry 2210 (class 1259 OID 17457)
+-- Dependencies: 1878
+-- Name: pk_teams; Type: INDEX; Schema: tms; Owner: tms; Tablespace: 
+--
+
+CREATE UNIQUE INDEX pk_teams ON teams USING btree (id);
+
+
+--
+-- TOC entry 2265 (class 2620 OID 17710)
+-- Dependencies: 35 1878
+-- Name: teams_bid; Type: TRIGGER; Schema: tms; Owner: tms
+--
+
+CREATE TRIGGER teams_bid
+    AFTER INSERT OR DELETE OR UPDATE ON teams
+    FOR EACH ROW
+    EXECUTE PROCEDURE pg_fct_teams_bid();
+
+--
+-- TOC entry 2264 (class 2620 OID 17888)
+-- Dependencies: 1869 37
+-- Name: tms_acc_bud; Type: TRIGGER; Schema: tms; Owner: tms
+--
+
+CREATE TRIGGER tms_acc_bud
+    BEFORE DELETE OR UPDATE ON accounts
+    FOR EACH ROW
+    EXECUTE PROCEDURE pg_fct_acc_bud();
+
+--
+-- TOC entry 2261 (class 2606 OID 17856)
+-- Dependencies: 2188 1869 1887
+-- Name: fk_account; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY config_send_report
+    ADD CONSTRAINT fk_account FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2248 (class 2606 OID 17605)
+-- Dependencies: 2201 1874 1877 1877 1874
+-- Name: fk_assig_tasks; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY assignments
+    ADD CONSTRAINT fk_assig_tasks FOREIGN KEY (task, id_account) REFERENCES tasks(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2247 (class 2606 OID 17600)
+-- Dependencies: 1877 1869 2188
+-- Name: fk_assigments; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY assignments
+    ADD CONSTRAINT fk_assigments FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2246 (class 2606 OID 17595)
+-- Dependencies: 1872 1876 1876 2195 1872
+-- Name: fk_cal_members; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY calendar
+    ADD CONSTRAINT fk_cal_members FOREIGN KEY (member, id_account) REFERENCES members(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2245 (class 2606 OID 17590)
+-- Dependencies: 1869 1876 2188
+-- Name: fk_calendar; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY calendar
+    ADD CONSTRAINT fk_calendar FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2258 (class 2606 OID 17798)
+-- Dependencies: 2188 1869 1885
+-- Name: fk_costs; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY costs
+    ADD CONSTRAINT fk_costs FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2259 (class 2606 OID 17803)
+-- Dependencies: 1885 2217 1880 1885 1880
+-- Name: fk_costs_project; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY costs
+    ADD CONSTRAINT fk_costs_project FOREIGN KEY (project, id_account) REFERENCES projects(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2260 (class 2606 OID 17808)
+-- Dependencies: 1885 1874 2201 1885 1874
+-- Name: fk_costs_tasks; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY costs
+    ADD CONSTRAINT fk_costs_tasks FOREIGN KEY (tasks, id_account) REFERENCES tasks(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2251 (class 2606 OID 17620)
+-- Dependencies: 1879 1869 2188
+-- Name: fk_files; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY files
+    ADD CONSTRAINT fk_files FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2252 (class 2606 OID 17625)
+-- Dependencies: 2217 1880 1879 1879 1880
+-- Name: fk_files_project; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY files
+    ADD CONSTRAINT fk_files_project FOREIGN KEY (project, id_account) REFERENCES projects(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2263 (class 2606 OID 17866)
+-- Dependencies: 1887 1886 2225
+-- Name: fk_master_report; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY config_send_report
+    ADD CONSTRAINT fk_master_report FOREIGN KEY (id_master_report) REFERENCES master_report(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2262 (class 2606 OID 17861)
+-- Dependencies: 2195 1872 1872 1887 1887
+-- Name: fk_member; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY config_send_report
+    ADD CONSTRAINT fk_member FOREIGN KEY (members, id_account) REFERENCES members(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2236 (class 2606 OID 17530)
+-- Dependencies: 1869 1872 2188
+-- Name: fk_members; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY members
+    ADD CONSTRAINT fk_members FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2237 (class 2606 OID 17535)
+-- Dependencies: 1872 2197 1873 1873 1872
+-- Name: fk_members_org; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY members
+    ADD CONSTRAINT fk_members_org FOREIGN KEY (organization, id_account) REFERENCES organizations(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2239 (class 2606 OID 17560)
+-- Dependencies: 1873 2184 1867
+-- Name: fk_org_cod_pais; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY organizations
+    ADD CONSTRAINT fk_org_cod_pais FOREIGN KEY (cod_pais) REFERENCES countries(cod_pais) DEFERRABLE;
+
+
+--
+-- TOC entry 2238 (class 2606 OID 17555)
+-- Dependencies: 2188 1873 1869
+-- Name: fk_organizations; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY organizations
+    ADD CONSTRAINT fk_organizations FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2242 (class 2606 OID 17575)
+-- Dependencies: 1875 1869 2188
+-- Name: fk_post; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY post
+    ADD CONSTRAINT fk_post FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2244 (class 2606 OID 17585)
+-- Dependencies: 1872 1875 1875 2195 1872
+-- Name: fk_post_member; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY post
+    ADD CONSTRAINT fk_post_member FOREIGN KEY (member, id_account) REFERENCES members(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2243 (class 2606 OID 17580)
+-- Dependencies: 1870 2191 1870 1875 1875
+-- Name: fk_post_topic; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY post
+    ADD CONSTRAINT fk_post_topic FOREIGN KEY (topic, id_account) REFERENCES topics(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2253 (class 2606 OID 17630)
+-- Dependencies: 1880 2188 1869
+-- Name: fk_projects; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY projects
+    ADD CONSTRAINT fk_projects FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2254 (class 2606 OID 17635)
+-- Dependencies: 1880 1873 1873 1880 2197
+-- Name: fk_projects_org; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY projects
+    ADD CONSTRAINT fk_projects_org FOREIGN KEY (organization, id_account) REFERENCES organizations(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2233 (class 2606 OID 17515)
+-- Dependencies: 2188 1868 1869
+-- Name: fk_reports; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT fk_reports FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2230 (class 2606 OID 17500)
+-- Dependencies: 1865 1869 2188
+-- Name: fk_risks; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY risks
+    ADD CONSTRAINT fk_risks FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2232 (class 2606 OID 17510)
+-- Dependencies: 1865 2217 1880 1880 1865
+-- Name: fk_risks_project; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY risks
+    ADD CONSTRAINT fk_risks_project FOREIGN KEY (project, id_account) REFERENCES projects(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2231 (class 2606 OID 17505)
+-- Dependencies: 1874 1865 1865 1874 2201
+-- Name: fk_risks_tasks; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY risks
+    ADD CONSTRAINT fk_risks_tasks FOREIGN KEY (task, id_account) REFERENCES tasks(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2255 (class 2606 OID 17640)
+-- Dependencies: 2188 1869 1882
+-- Name: fk_schedules; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY schedules
+    ADD CONSTRAINT fk_schedules FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2257 (class 2606 OID 17650)
+-- Dependencies: 1882 1882 1872 1872 2195
+-- Name: fk_schedules_member; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY schedules
+    ADD CONSTRAINT fk_schedules_member FOREIGN KEY (userid, id_account) REFERENCES members(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2256 (class 2606 OID 17645)
+-- Dependencies: 1874 2201 1882 1882 1874
+-- Name: fk_schedules_tasks; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY schedules
+    ADD CONSTRAINT fk_schedules_tasks FOREIGN KEY (taskid, id_account) REFERENCES tasks(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2240 (class 2606 OID 17565)
+-- Dependencies: 2188 1869 1874
+-- Name: fk_tasks; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY tasks
+    ADD CONSTRAINT fk_tasks FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2241 (class 2606 OID 17570)
+-- Dependencies: 1880 1874 1874 2217 1880
+-- Name: fk_tasks_project; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY tasks
+    ADD CONSTRAINT fk_tasks_project FOREIGN KEY (project, id_account) REFERENCES projects(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2249 (class 2606 OID 17610)
+-- Dependencies: 1872 1878 2195 1878 1872
+-- Name: fk_teams_members; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY teams
+    ADD CONSTRAINT fk_teams_members FOREIGN KEY (members, id_account) REFERENCES members(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2250 (class 2606 OID 17615)
+-- Dependencies: 1880 1878 1878 1880 2217
+-- Name: fk_teams_projects; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY teams
+    ADD CONSTRAINT fk_teams_projects FOREIGN KEY (projects, id_account) REFERENCES projects(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2234 (class 2606 OID 17520)
+-- Dependencies: 1870 2188 1869
+-- Name: fk_topics; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY topics
+    ADD CONSTRAINT fk_topics FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2235 (class 2606 OID 17525)
+-- Dependencies: 2217 1880 1870 1870 1880
+-- Name: fk_topics_project; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY topics
+    ADD CONSTRAINT fk_topics_project FOREIGN KEY (project, id_account) REFERENCES projects(id, id_account) DEFERRABLE;
+
+
+--
+-- TOC entry 2229 (class 2606 OID 17495)
+-- Dependencies: 1863 1869 2188
+-- Name: fk_type_tasks; Type: FK CONSTRAINT; Schema: tms; Owner: tms
+--
+
+ALTER TABLE ONLY type_tasks
+    ADD CONSTRAINT fk_type_tasks FOREIGN KEY (id_account) REFERENCES accounts(id) DEFERRABLE;
+
+
+-- Completed on 2009-07-14 18:43:28 CST
+
+--
+-- PostgreSQL database dump complete
+--
+

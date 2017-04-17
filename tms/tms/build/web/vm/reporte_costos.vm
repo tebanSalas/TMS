@@ -1,0 +1,194 @@
+<html>
+<head>
+<title>Reporte de Costos</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("common.report.CostReport")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+  <tr> 
+    <td><h1 class="heading">$msg.get("common.operativeCosts")&nbsp;($listTasks.size())</h1></td>
+  </tr>
+  <tr> 
+    <td> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="listing">
+        <tr> 
+          <th><div align="left"><B>$msg.get("common.Task")</B></div></th>
+          <th><div align="center"><B>$msg.get("common.Priority")</B></div></th>
+          <th><div align="center"><B>$msg.get("common.Status")</B></div></th>
+          <th><div align="center"><B>$msg.get("common.assignedTo")</B></div></th>
+          <th><div align="center"><B>$msg.get("tasksForm.estimatedTime.displayName") (hh:mm)</B></div></th>
+          <th><div align="center"><B>$msg.get("tasksForm.actualTime.displayName") (hh:mm)</B></div></th>
+          <th><div align="right"><B>$msg.get("common.report.HourCost")</B></div></th>
+          <th><div align="right"><B>$msg.get("common.report.EstimatedCost")</B></div></th>
+		  <th><div align="right"><B>$msg.get("common.report.RealCost")</B></div></th>
+        </tr>
+  #set ($row = 1)
+  #foreach( $lista in $listTasks)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+#if ($lista.getstatus() == 0)
+	#set ($tagStatus = $msg.get("common.statusClientEnd"))
+#elseif ($lista.getstatus() == 1)
+	#set ($tagStatus = $msg.get("common.statusEnd"))
+#elseif ($lista.getstatus() == 2)
+	#set ($tagStatus = $msg.get("common.statusNotStarted"))
+#elseif ($lista.getstatus() == 3)
+	#set ($tagStatus = $msg.get("common.statusStarted"))
+#elseif ($lista.getstatus() == 4)
+	#set ($tagStatus = $msg.get("common.statusSuspended"))
+#elseif ($lista.getstatus() == 5)
+	#set ($tagStatus = $msg.get("common.statusQuote"))
+#elseif ($lista.getstatus() == 6)
+	#set ($tagStatus = $msg.get("common.statusQuoteSended"))
+#elseif ($lista.getstatus() == 7)
+	#set ($tagStatus = $msg.get("common.statusQuoteRejected"))
+#elseif ($lista.getstatus() == 8)
+	#set ($tagStatus = $msg.get("common.statusQuoteAcepted"))
+#elseif ($lista.getstatus() == 9)
+	#set ($tagStatus = $msg.get("common.statusCharge"))
+#elseif ($lista.getstatus() == 10)
+	#set ($tagStatus = $msg.get("common.statusChargeSended"))
+#elseif ($lista.getstatus() == 11)
+	#set ($tagStatus = $msg.get("common.statusProcessingCharge"))
+#end
+   
+#if ($lista.getpriority() == 0)
+	#set ($tagPriority = $msg.get("common.nonePriority"))
+#elseif ($lista.getpriority() == 1)
+	#set ($tagPriority = $msg.get("common.lowestPriority"))
+#elseif ($lista.getpriority() == 2)
+	#set ($tagPriority = $msg.get("common.lowPriority"))
+#elseif ($lista.getpriority() == 3)
+	#set ($tagPriority = $msg.get("common.mediumPriority"))
+#elseif ($lista.getpriority() == 4)
+	#set ($tagPriority = $msg.get("common.highPriority"))
+#elseif ($lista.getpriority() == 5)
+	#set ($tagPriority = $msg.get("common.highestPriority"))
+#end
+     
+        <tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+          <td>$lista.name</td>
+          <td>$tagPriority</td>
+          <td>$tagStatus</td>
+	  <td> #if ($lista.getassigned_to() > 0) <a href="mailto:$lista.getparentAssigned().getemail_work()"> $lista.getparentAssigned().getlogin()</a> #else $msg.get("common.notAssigned") #end</td>	            
+          <td align="center">$lista.formatRealHour($lista.estimated_time)</td>
+          <td align="center">$lista.formatRealHour($lista.actual_time)</td>
+          <td align="right">$!lista.getparentAssigned().getCost()</td>
+          <td align="right">$lista.getFormatedEstimatedCost()</td>
+		  <td align="right">$lista.getFormatedRealCost()</td>
+        </tr>
+	#set ($row = $row + 1)
+	#end
+        <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td align="center"><b>$totalHorasEstimadas</b></td>
+        <td align="center"><b>$totalHorasReales</b></td>
+        <td></td>
+        <td align="right"><b>$costoTotalEstimado</b></td>
+        <td align="right"><b>$costoTotalReal</b></td>        
+		</tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><h1 class="heading">$msg.get("common.additionalCosts")&nbsp;($listCosts.size())</h1></td>
+  </tr>
+  <tr> 
+    <td> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="listing">
+        <tr> 
+          <th><div align="right"><B>$msg.get("common.Description")</B></div></th>
+          <th><div align="right"><B>$msg.get("common.Units")</B></div></th>
+          <th><div align="right"><B>$msg.get("common.StandardCost")</B></div></th>
+          <th><div align="right"><B>$msg.get("common.RealCost")</B></div></th>
+          <th><div align="right"><B>$msg.get("common.report.StandardCost")</B></div></th>
+		  <th><div align="right"><B>$msg.get("common.report.RealCost")</B></div></th>
+        </tr>
+  #set ($row = 1)
+  #foreach( $lista in $listCosts)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end		
+		<tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+          <td>$lista.getFormatedDescription()</td>
+          <td align="right">$lista.units</td>
+          <td align="right">$lista.getStandard_Cost()</td>
+          <td align="right">$lista.getReal_Cost()</td>
+          <td align="right">$lista.getFormatedTotalStandard_Cost()</td>
+		  <td align="right">$lista.getFormatedTotalReal_Cost()</td>
+        </tr>
+	#set ($row = $row + 1)
+	#end
+		<tr>
+         <td>&nbsp;</td>
+        <td>&nbsp;</td>
+
+            <td colspan="2" align="right" ><b>$msg.get("common.totalAdditionalCosts")</b</td>
+          <td align="right"><b>$costosSumEstandard</b></td>
+		  <td align="right"><b>$costosSumReal</b></td>
+        </tr>	
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><h1 class="heading">$msg.get("common.report.Summary")</h1></td>
+  </tr>
+ <tr> 
+    <td><h1 class="heading">$msg.get("common.report.TotalCosts")</h1></td>
+  </tr>
+  <tr>
+    <td>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr> 
+          <td><b>&nbsp; $msg.get("common.report.StandardCost")</b></td>
+          <td><b>$costoProyectoProyectado</b></td>
+          <td><b>&nbsp;</b></td>
+          <td><b>&nbsp;</b></td>
+          <td align="right"><b>$msg.get("common.report.RealCost")</b></td>
+          <td align="right"><b>$costoProyectoReal &nbsp;</b></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+ </table></div>
+ </td></tr></table></div>
+#parse ("/vm/footer.vm")
+</body>
+</html>

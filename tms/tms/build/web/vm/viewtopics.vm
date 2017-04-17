@@ -1,0 +1,184 @@
+<html>
+<head>
+<title>View Topics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+
+<script language="JavaScript">
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+function sendDataTopics(tipo) {
+	document.formtopics.operation.value = tipo;
+	getArrayNumbers(document.formtopics);
+	document.formtopics.submit();
+}
+</script>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+<form method="POST" name="formView" action="./topics.do" >
+
+<div class=blockHeader>
+<table class=title>
+<tr><td>$msg.get("common.Topics.name"): $!topicsForm.subject</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="2">$msg.get("common.Information")</th>
+    </tr>
+	<tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.TopicId") :</td>
+      <td>$!topicsForm.id </td>
+    </tr>
+
+
+	<tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Project") :</td>
+      <td>$projectdata.getname() </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Client") :</td>
+      <td>$projectdata.parentOrganizations.getname() </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Owner") :</td>
+      <td>$projectdata.parentOwner.getname() </td>
+    </tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" width="96">$msg.get("common.Published") :</td>
+
+      <td width="189"> #if ($topicsForm.published == '0') $msg.get("common.no") #else $msg.get("common.yes") #end </td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" width="96">$msg.get("common.Messages") :</td>
+		
+      <td width="189"> $lista.size()</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue" width="96">$msg.get("common.LastPost") :</td>
+		<td width="189"> $!topicsForm.getFormattedLastPost()</td>
+	</tr>
+      #if ($topicsForm.gettotasks().equalsIgnoreCase("1"))
+	<tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.TaskId") :</td>
+      <td><a href="./tasks.do?operation=view&id=$taskdata.getid()">$taskdata.getid()</a></td>
+    </tr>
+<tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Name") :</td>
+      <td><a href="./tasks.do?operation=view&id=$taskdata.getid()">$taskdata.getname()</a> </td>
+    </tr>
+	#end
+
+    <tr> 
+      <th colspan="2">$msg.get("common.MessagesFrom") :  <select name="member">
+
+                #if ($!list.getid().toString().equals('0'))
+                      <option  SELECTED onClick="document.formView.idM.value=0;document.formView.submit();"  >
+$msg.get("common.topics.allmembers")
+                    </option>
+                #else
+                      <option onClick="document.formView.idM.value=0;document.formView.submit();"  >
+$msg.get("common.topics.allmembers")
+                    </option>
+                #end
+
+                #set ($row = 1)
+                    #foreach( $list in $listaMiembros)
+                       #if (($row % 2) == 0)
+                        #set ($type = "even")
+                            #set ($color = "#EFEFEF")
+                       #else
+                            #set ($type = "odd")
+                            #set ($color = "#F5F5F5")
+                       #end    
+                #if ($!list.getid().toString().equals($idM))
+                    <option  SELECTED onClick="document.formView.idM.value=$!list.getid();document.formView.submit();"  >
+                       $!list.getname() ($!list.getlogin()) 
+                    </option>
+                #else
+                    <option onClick="document.formView.idM.value=$!list.getid();document.formView.submit();"  >
+                       $!list.getname() ($!list.getlogin()) 
+                    </option>
+                #end
+                
+                #set ($row = $row + 1)
+                #end
+            </select>
+    </th>
+
+  #if ($topicsForm.getstatus().equalsIgnoreCase("1"))
+            <tr class="odd">		
+              <td valign="top" class="leftvalue" width="96">&nbsp;</td>
+                #if($projectdata.autom_notification.equals("1"))
+                    <td width="189"> <a href="./posts.do?operation=add&topic=$topicsForm.id">$msg.get("common.Reply")</a></td>
+                #else
+                        #if ($topicsForm.notified.equals("1"))
+                            <td width="189"> <a href="./posts.do?operation=add&topic=$topicsForm.id">$msg.get("common.Reply")</a></td>
+                        #else
+                            <td width="189"></td>
+                        #end
+                #end
+            </tr>
+        
+  #end
+	
+        #if ($topicsForm.getstatus().equalsIgnoreCase("1"))
+	<tr class="odd">		
+		<td valign="top" class="leftvalue" width="96">&nbsp;</td>
+		<td width="189"> <a href="./tasks.do?operation=add&topic2task=$!topicsForm.id&project=$!topicsForm.project">$msg.get("common.TopicToTask") </a></td>
+	</tr>
+	#end
+
+#set ($row = 1)
+#foreach( $list in $lista)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+	<tr class="$type">
+		<td valign="top" class="leftvalue" width="96">$msg.get("common.CreatedBy") :</td>
+		
+      <td width="189"> $!list.getparentMember().getname()</td>
+	</tr>
+	<tr class="$type">
+		<td valign="top" class="leftvalue" width="96">$msg.get("common.Created"):</td>
+		<td width="189"> $!list.getFormattedCreated()</td>
+	</tr>
+	<tr class="$type">
+		<td valign="top" class="leftvalue" width="96">$msg.get("common.Message") :</td>
+		<td width="189"> $!list.getFormatedMessage()</td>
+	</tr>
+
+#set ($row = $row + 1)
+#end
+
+</table></div>
+ </td></tr></table></div>
+  <input type="hidden" name="operation" value="$!topicsForm.operation">
+  <input type="hidden" name="idM" value="0">
+  <input type="hidden" name="id" value="$!topicsForm.id">
+  <input type="hidden" name="sortOrder" value="$!topicsForm.sortOrder">
+  <input type="hidden" name="sortColumn" value="$!topicsForm.sortColumn">
+
+</form>
+#parse ("/vm/listingfilesTopics.vm")
+
+#parse ("/vm/footer.vm")
+</body>
+</html>

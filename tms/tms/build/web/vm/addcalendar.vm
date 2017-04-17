@@ -1,0 +1,244 @@
+<html>
+<head>
+<title>Add Event</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head><body bgcolor="#FFFFFF" text="#000000">
+<script>
+#macro (errorMarkup)
+  #if ($errors.exist())
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1"> $e <br>
+    #end
+    </ul>
+  #end
+#end
+</script>
+<script language="JavaScript">
+function evaluarTask(a,b,obj) 
+	{
+	alert(a);
+	alert(b);
+	alert(obj);
+	obj=document.getElementById(obj);
+	var option = document.createElement('option');
+	var html;
+	
+	option.innerText = a;
+	option.value=a;
+	option.text = a; 
+	 if(obj)
+	  {   
+		if(a==b) {
+		 option.selected="true";
+		}
+		  obj.appendChild(option)
+	
+	  }
+	  }
+</script>
+#parse ("/vm/header.vm")
+<p><font color="#CC0000">#errorMarkup()</font></p>
+<form method="POST" name="add" action="./calendar.do" >
+
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;#if (($!personalCalendarForm.getOperation() == "applyAdd"))$msg.get("common.addEvent") #else$msg.get("common.editEvent")#end: $username - $date</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="2">$msg.get("common.Details")</th>
+    </tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Task"):</td>
+		<td>
+
+ #if ($task == "")
+	#set($task = "0")
+ #end
+
+ #set($int = 1)
+ #set($val = $int.parseInt("$task"))
+ #set($auxval = 0)
+ <SELECT size="1" name="task">
+	#foreach( $lista in $listaTasks)
+	      <OPTION value="$!lista.id" #if ($val == $!lista.id) selected #end>$!lista.getname()</OPTION>
+	#end
+ </SELECT>
+ 
+ </td>
+</tr>	
+	
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Subject") :</td>
+      <td> 
+        <input size="44" value="$!subject" style="width: 400px" name="subject" maxlength="100" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Description") :</td>
+      <td> 
+        <textarea rows="3" wrap="VIRTUAL" style="width: 400px; height: 50px;" name="description" cols="43">$!description</TEXTAREA></td>
+      
+    </tr>
+
+
+
+  <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.startHour") :</td>
+      <td>
+        <select name="hour_start">
+          <option value="1" #if ($hour_start == "1") selected #end>01</option>
+          <option value="2" #if ($hour_start == "2") selected #end>02</option>
+          <option value="3" #if ($hour_start == "3") selected #end>03</option>
+          <option value="4" #if ($hour_start == "4") selected #end>04</option>
+          <option value="5" #if ($hour_start == "5") selected #end>05</option>
+          <option value="6" #if ($hour_start == "6") selected #end>06</option>
+          <option value="7" #if ($hour_start == "7") selected #end>07</option>
+          <option value="8" #if ($hour_start == "8") selected #end>08</option>
+          <option value="9" #if ($hour_start == "9") selected #end>09</option>
+          <option value="10" #if ($hour_start == "10") selected #end>10</option>
+          <option value="11" #if ($hour_start == "11") selected #end>11</option>
+          <option value="12" #if ($hour_start == "12") selected #end>12</option>
+          <option value="13" #if ($hour_start == "13") selected #end>13</option>
+          <option value="14" #if ($hour_start == "14") selected #end>14</option>
+          <option value="15" #if ($hour_start == "15") selected #end>15</option>
+          <option value="16" #if ($hour_start == "16") selected #end>16</option>
+          <option value="17" #if ($hour_start == "17") selected #end>17</option>
+          <option value="18" #if ($hour_start == "18") selected #end>18</option>
+          <option value="19" #if ($hour_start == "19") selected #end>19</option>
+          <option value="20" #if ($hour_start == "20") selected #end>20</option>
+          <option value="21" #if ($hour_start == "21") selected #end>21</option>
+          <option value="22" #if ($hour_start == "22") selected #end>22</option>
+          <option value="23" #if ($hour_start == "23") selected #end>23</option>
+          <option value="24" #if ($hour_start == "24") selected #end>24</option>
+        </select>
+        <select name="min_start">
+          <option value="0"selected>00</option>
+        </select>
+      </td>
+<tr>
+<tr class="odd"> 
+      <td valign="top" class="leftvalue"> $msg.get("common.endHour") :</td>
+      <td>
+        <select name="hour_end">
+          <option value="1" #if ($hour_end == "1") selected #end>01</option>
+          <option value="2" #if ($hour_end == "2") selected #end>02</option>
+          <option value="3" #if ($hour_end == "3") selected #end>03</option>
+          <option value="4" #if ($hour_end == "4") selected #end>04</option>
+          <option value="5" #if ($hour_end == "5") selected #end>05</option>
+          <option value="6" #if ($hour_end == "6") selected #end>06</option>
+          <option value="7" #if ($hour_end == "7") selected #end>07</option>
+          <option value="8" #if ($hour_end == "8") selected #end>08</option>
+          <option value="9" #if ($hour_end == "9") selected #end>09</option>
+          <option value="10" #if ($hour_end == "10") selected #end>10</option>
+          <option value="11" #if ($hour_end == "11") selected #end>11</option>
+          <option value="12" #if ($hour_end == "12") selected #end>12</option>
+          <option value="13" #if ($hour_end == "13") selected #end>13</option>
+          <option value="14" #if ($hour_end == "14") selected #end>14</option>
+          <option value="15" #if ($hour_end == "15") selected #end>15</option>
+          <option value="16" #if ($hour_end == "16") selected #end>16</option>
+          <option value="17" #if ($hour_end == "17") selected #end>17</option>
+          <option value="18" #if ($hour_end == "18") selected #end>18</option>
+          <option value="19" #if ($hour_end == "19") selected #end>19</option>
+          <option value="20" #if ($hour_end == "20") selected #end>20</option>
+          <option value="21" #if ($hour_end == "21") selected #end>21</option>
+          <option value="22" #if ($hour_end == "22") selected #end>22</option>
+          <option value="23" #if ($hour_end == "23") selected #end>23</option>
+          <option value="24" #if ($hour_end == "24") selected #end>24</option>
+        </select>
+        <select name="min_end">
+          <option value="00" selected>00</option>
+        </select> 
+</td>
+</tr >
+
+ <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.meetingrequest") :</td>
+      <td>         
+		<textarea rows="1" wrap="VIRTUAL" cols="44" style="width: 400px; height: 100px;" name="displayemails" maxlength="2500" readonly="true">#foreach($valor in $listContacts)$!valor&#10#end</textarea>
+		#if (($!personalCalendarForm.getOperation() == "applyAdd"))
+            <input type="button" value=' ... ' onClick="obtainEmail()"> 		
+		#end  
+		<input size="44" value="$!emails" style="width: 0px" name="emails" maxlength="2500" type="TEXT">      
+      </td>       
+      
+    </tr>
+    
+<tr>
+</tr>
+<tr class="odd"> 
+	<td valign="top" class="leftvalue">&nbsp;&nbsp;</td>
+	<td> 
+		<input type="button" value=$msg.get("common.save") onClick="sendData();" #if($!personalCalendarForm.operation == "applyEdit" && ($userInfo.getprofile() != "3" || $userInfo.getprofile() != "4")) disabled=true #end>
+	</td>
+</tr>
+  
+ </table></div>
+ </td></tr></table></div>
+  
+<script type="text/JavaScript">
+function paramSend() {
+	var params = "";
+	params = params + "hour_end="+ document.add.hour_end.value + "&";
+	params = params + "hour_start=" + document.add.hour_start.value + "&";
+	params = params + "min_start=" + document.add.min_start.value + "&";
+	params = params + "min_end=" + document.add.min_end.value + "&";
+	params = params + "description=" + document.add.description.value + "&";
+	params = params + "subject=" + document.add.subject.value + "&";
+	params = params + "task=" + document.add.task.value + "&";
+	params = params + "emails=" + document.add.emails.value + "&"; 
+	params = params + "checkedItems=22";
+	return params;
+}
+
+function obtainEmail() {
+
+        top.location.href='./members.do?operation=addmail&userId=$!personalCalendarForm.userId&theDate=$!personalCalendarForm.theDate' + "&" + paramSend();
+}
+
+function retrievetask () {
+	
+	return document.add.task.options[document.add.task.selectedIndex].value;
+}
+
+
+<!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
+<!-- que ha sido seleccionada. -->
+
+
+function sendData() {   
+   /* p = 1 * document.add.hour_start.value ;
+	p2 = 1 * document.add.hour_end.value ;
+	if (p > p2)
+	{	    
+	    alert('$msg.get("errors.personalcalendar.hourNotSuperior")');
+		return 0;
+	}	
+    else*/
+		document.add.submit();
+   
+}
+</script>
+
+  <input type="hidden" name="operation" value="$!personalCalendarForm.operation">
+  <input type="hidden" name="id" value="$!id">
+  <input type="hidden" name="member" value="$!member">
+  <input type="hidden" name="userId" value="$!personalCalendarForm.userId">
+  <input type="hidden" name="theDate" value="$!personalCalendarForm.theDate">
+  <input type="hidden" name="username" value="$!username">
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

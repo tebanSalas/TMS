@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE attributes PUBLIC "-//NetBeans//DTD DefaultAttributes 1.0//EN" "http://www.netbeans.org/dtds/attributes-1_0.dtd">
+<attributes version="1.0">
+    <fileobject name="calendarData.java">
+        <attr name="class_dependency_com.unify.webcenter.data.mainData" stringvalue="calendarData"/>
+    </fileobject>
+    <fileobject name="postData.java">
+        <attr name="class_dependency_com.unify.webcenter.data.mainData" stringvalue="postData"/>
+    </fileobject>
+    <fileobject name="predefined_messagesData.java">
+        <attr name="class_dependency_com.unify.webcenter.data.mainData" stringvalue="predefined_messagesData"/>
+    </fileobject>
+    <fileobject name="projectsData.java">
+        <attr name="class_dependency_com.unify.webcenter.data.mainData" stringvalue="projectsData"/>
+        <attr name="class_dependency_java.lang.Comparable" stringvalue="projectsData"/>
+    </fileobject>
+    <fileobject name="reportsData.java">
+        <attr name="class_dependency_com.unify.webcenter.data.mainData" stringvalue="reportsData"/>
+    </fileobject>
+    <fileobject name="risksData.java">
+        <attr name="class_dependency_com.unify.webcenter.data.mainData" stringvalue="risksData"/>
+    </fileobject>
+    <fileobject name="schedulesData.java">
+        <attr name="class_dependency_com.unify.webcenter.data.mainData" stringvalue="schedulesData"/>
+    </fileobject>
+    <fileobject name="tasksData.java">
+        <attr name="class_dependency_com.unify.webcenter.data.mainData" stringvalue="tasksData"/>
+    </fileobject>
+    <fileobject name="teamsData.java">
+        <attr name="class_dependency_com.unify.webcenter.data.mainData" stringvalue="teamsData"/>
+    </fileobject>
+    <fileobject name="topicsData.java">
+        <attr name="class_dependency_com.unify.webcenter.data.mainData" stringvalue="topicsData"/>
+    </fileobject>
+    <fileobject name="type_tasksData.java">
+        <attr name="class_dependency_com.unify.webcenter.data.mainData" stringvalue="type_tasksData"/>
+    </fileobject>
+</attributes>

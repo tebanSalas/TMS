@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>Performance</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/calendar.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<script src="./themes/calendar.js" type=text/javascript></SCRIPT>
+<script language="JavaScript">
+function checkDate( val) {
+ 
+                separado = val.split("-");
+                out = separado[0] + "-";
+                if (separado[1].length <= 1)
+                        out += "0" + separado[1]+"-";
+                else
+                        out += separado[1]+"-";
+ 
+                if (separado[2].length <= 1)
+                        out += "0" + separado[2];
+                else
+                        out += separado[2];
+                return out;
+        }
+<!-- Funcion de verificacion de fechas -->
+
+ano_actual = 2003;
+
+function sendData() {
+	
+		if (document.add.start_date.value != null && document.add.end_date.value != null) {
+                        document.add.start_date.value = checkDate(document.add.start_date.value);
+                        document.add.end_date.value = checkDate(document.add.end_date.value);
+
+
+			document.add.submit();
+		} else {
+			alert ('$msg.get("common.member.initialFinalDate")');
+			return;
+	}
+}
+
+</script></head><body bgcolor="#FFFFFF" text="#000000">
+
+#parse("/vm/calendarScript.src")
+
+</head><body bgcolor="#FFFFFF" text="#000000">
+#parse ("/vm/header.vm")
+
+<form method="POST" name="add" action="./performance.do" >
+
+<H1 class=heading>$msg.get("common.Project"):&nbsp;$projectName</H1>
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp
+#if ($performanceForm.type == "byMember")
+  $msg.get("common.Performance.myPerformance"):&nbsp;$memberName&nbsp;$msg.get("common.Project"):&nbsp;$projectName
+#else
+ $msg.get("common.performance")&nbsp;$msg.get("common.Project"):&nbsp;$projectName
+#end
+</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+  <TBODY>
+  	<tr><th colspan="2">$msg.get("common.betweenDates")</th></tr>
+        <TR>
+          <TD>$msg.get("common.startDate")</TD>
+          <TD class=infoValue noWrap><INPUT id=start_date name=start_date value="$performanceForm.start_date">
+	    <INPUT onClick="return showCalendar('start_date', 'y-mm-dd');" type=reset value=" ... "></TD></TR>
+        <TR>
+          <TD>$msg.get("common.endDate")</td>
+          <TD class=infoValue noWrap><INPUT id=end_date name=end_date value="$performanceForm.end_date">
+	    <INPUT onClick="return showCalendar('end_date', 'y-mm-dd');" type=reset value=" ... "></TD>
+  </TR>
+  <TR class=odd>
+    <TD class=leftvalue vAlign=top>&nbsp;</TD>
+    <TD><INPUT type= "button" value='$msg.get("common.execute")' onClick="sendData();"></TD></TR></TBODY>
+ </table></div>
+ </td></tr></table></div>
+<HR>
+<input type="hidden" name="operation" value="execute">
+<input type="hidden" name="project" value="$performanceForm.project">
+<input type="hidden" name="member" value="$performanceForm.member">
+<input type="hidden" name="type" value="$performanceForm.type">
+</FORM>
+#parse ("/vm/footer.vm")
+</body>
+</html>

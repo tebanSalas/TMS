@@ -1,0 +1,219 @@
+<html>
+<head>
+<title>View schedules</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+<SCRIPT>
+function changeDay() {
+	document.formSchedules.operation.value = "view";
+	year = document.formSchedules.ano.options[document.formSchedules.ano.selectedIndex].value;
+	month = document.formSchedules.mes.options[document.formSchedules.mes.selectedIndex].value;
+	day = document.formSchedules.dia.options[document.formSchedules.dia.selectedIndex].value;
+	document.formSchedules.year.value = year;
+	document.formSchedules.month.value = month;
+	document.formSchedules.day.value = day;	
+	
+	if (month.length == 1) month = "0" + month;
+	if (day.length == 1) day = "0" + day; 		
+	document.formSchedules.date.value = year + "-" + month + "-" + day;
+	document.formSchedules.submit();
+}
+
+function select() {
+	document.formSchedules.ano.selectedIndex = $schedulesForm.year - 2003;
+	document.formSchedules.mes.selectedIndex = $schedulesForm.month - 1;
+	document.formSchedules.dia.selectedIndex = $schedulesForm.day - 1;
+	lb_fecha_onchange();
+}
+
+function lb_fecha_onchange () {
+    var l_aux, l_dias_mes, l_dia, l_mes, l_ano, b_bisiesto;
+    var LB_DIA_AUX = document.formSchedules.dia;
+    var LB_MES_AUX = document.formSchedules.mes;
+    var LB_ANO_AUX = document.formSchedules.ano;
+    l_dia = LB_DIA_AUX.options[LB_DIA_AUX.selectedIndex].value;
+    l_mes = LB_MES_AUX.options[LB_MES_AUX.selectedIndex].value;
+    l_ano = LB_ANO_AUX.options[LB_ANO_AUX.selectedIndex].value;
+	
+    if ((l_ano / 4) - Math.floor(l_ano / 4) == 0)
+        b_bisiesto = true;
+    else
+        b_bisiesto = false;
+    switch(l_mes){
+        case "4":
+        case "6":
+        case "9":
+        case "11": l_dias_mes = 30; break;
+        case "2": if (b_bisiesto)
+                    l_dias_mes = 29;
+                else
+                    l_dias_mes = 28;
+                break;
+        $userInfo.getTemplate(): l_dias_mes = 31; break;
+    } 
+	LB_DIA_AUX.options.length = 0;
+    for (l_aux = 1; l_aux <= l_dias_mes; l_aux++){
+        LB_DIA_AUX.options[l_aux-1] = new Option (l_aux, l_aux);
+    }
+    if (l_dia > l_dias_mes)
+        l_dia = l_dias_mes;
+    LB_DIA_AUX.selectedIndex = l_dia - 1;
+}
+
+</SCRIPT>
+</head><body bgcolor="#FFFFFF" text="#000000" onload="select();">
+#parse ("/vm/header.vm")
+
+<form method="POST" name="formSchedules" action="./schedules.do" >
+
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$msg.get("common.viewSchedules")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tr>
+      <th colspan="2">$msg.get("common.Information")</th>
+    </tr>
+    <tr>
+		<td>
+
+        <table border=0 cellpadding=0 cellspacing=0 width="264" align="center" >
+          <tr valign=top>
+            <td width="18%" height="36" align="center" valign="middle">
+              <select name="dia" >
+                <option value="1">1 </option>
+                <option value="2">2 </option>
+                <option value="3">3 </option>
+                <option value="4">4 </option>
+                <option value="5">5 </option>
+                <option value="6">6 </option>
+                <option value="7">7 </option>
+                <option value="8">8 </option>
+                <option value="9">9 </option>
+                <option value="10">10 </option>
+                <option value="11">11 </option>
+                <option value="12">12 </option>
+                <option value="13">13 </option>
+                <option value="14">14 </option>
+                <option value="15">15 </option>
+                <option value="16">16 </option>
+                <option value="17">17 </option>
+                <option value="18">18 </option>
+                <option value="19">19 </option>
+                <option value="20">20 </option>
+                <option value="21">21 </option>
+                <option value="22">22 </option>
+                <option value="23">23 </option>
+                <option value="24">24 </option>
+                <option value="25">25 </option>
+                <option value="26">26 </option>
+                <option value="27">27 </option>
+                <option value="28">28 </option>
+                <option value="29">29 </option>
+                <option value="30">30 </option>
+                <option value="31">31 </option>
+              </select>
+            </td>
+            <td width="15%" height="36" align="center" valign="middle">
+              <select name="mes" onchange="lb_fecha_onchange()">
+		<option value="1">$msg.get("common.January") </option>
+                <option value="2">$msg.get("common.February")</option>
+                <option value="3">$msg.get("common.March")</option>
+                <option value="4">$msg.get("common.April")</option>
+                <option value="5">$msg.get("common.May") </option>
+                <option value="6">$msg.get("common.June") </option>
+                <option value="7">$msg.get("common.July") </option>
+                <option value="8">$msg.get("common.August") </option>
+                <option value="9">$msg.get("common.September") </option>
+                <option value="10">$msg.get("common.October") </option>
+                <option value="11">$msg.get("common.November") </option>
+                <option value="12">$msg.get("common.December") </option>
+              </select>
+            </td>
+            <td width="19%" height="36" align="center" valign="middle">
+              <select name="ano" onchange="lb_fecha_onchange()">
+                <option value="2003" >2003</option>
+                <option value="2004">2004</option>
+                <option value="2005" selected>2005</option>
+<option value="2006" selected>2006</option>
+<option value="2007" selected>2007</option>
+<option value="2008" selected>2008</option>
+              </select>
+            </td>
+            <td width="19%" height="36" valign="middle" align="center"> <a href="javascript:changeDay();"><img src="./images/icon_go.gif" width="23" height="23" border="0"></a> 
+            </td>
+          </tr>
+        </table>		
+		
+      </td>
+    </tr>
+	<tr>
+		<td>
+			<hr>
+		</td>
+	</tr>
+  </table>
+  <br>
+  <table class="content" cellspacing="2" cellpadding="0" width="80%" height="55">
+    <tr  class="odd"> 
+      <th colspan="4">$msg.get("common.Message")</th>
+    </tr>
+    <tr bgcolor="#999999"> 
+      <td width="15%"> 
+        <div align="center"><font size="2"><b><font face="Arial, Helvetica, sans-serif"><font color="#FFFFFF"> 
+          $msg.get("common.startHour") - $msg.get("common.endHour") </font></font></b></font></div>
+      </td>
+      <td width="25%"> 
+        <div align="center"><font size="2"><b><font face="Arial, Helvetica, sans-serif"><font color="#FFFFFF"> 
+          $msg.get("common.Project") - $msg.get("common.Code") - $msg.get("common.Task")</font></font></b></font></div>
+      </td>
+      <td width="40%"> 
+        <div align="center"><font size="2"><b><font face="Arial, Helvetica, sans-serif"><font color="#FFFFFF"> 
+           $msg.get("common.Comments") </font></font></b></font></div>
+      </td>
+    </tr>
+    #set ($row = 1) 
+	#foreach( $lista in $oneday) 
+	#if (($row % 2) == 0) 
+	#set ($type = "even") 
+	#set ($color = "#EFEFEF") 
+	#else #set ($type = "odd") 
+	#set ($color = "#F5F5F5") 
+	#end 
+    <tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'"> 
+      <td align="center" width="15%" bgcolor="#999999" height="9"> 
+        <div align="center"><font color="#FFFFFF"><b>$!lista.getHour_start() - $!lista.getHour_end()</b></font></div>
+      </td>
+      <td width="25%" height="9">
+        <div align="center">#if ($lista.gettaskid() == 0) #set ($task = "N/A") 
+          #else #set ($task = "$lista.getparentTask().getparentProject().getname() - $lista.getparentTask().getid() - $lista.getparentTask().getname()") #end $!task</div>
+      </td>
+      <td width="40%" height="9"> 
+        <div align="center">$!lista.getFormatedComments()</div>
+      </td>
+    </tr>
+    #set ($row = $row + 1) #end 
+ </table></div>
+ </td></tr></table></div>
+  <input type="hidden" name="operation" value="$!schedulesForm.operation">
+  <input type="hidden" name="hourid" value="$!schedulesForm.hourid">
+  <input type="hidden" name="date" value="$!schedulesForm.date">
+  <input type="hidden" name="year" value="$!schedulesForm.year">
+  <input type="hidden" name="month" value="$!schedulesForm.month">  
+  <input type="hidden" name="day" value="$!schedulesForm.day">  
+  <input type="hidden" name="userid" value="$!schedulesForm.userid" >
+  <hr />
+</form>
+</body>
+</html>

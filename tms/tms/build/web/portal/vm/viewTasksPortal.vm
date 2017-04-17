@@ -1,0 +1,143 @@
+#parse("/portal/vm/header.vm")
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+      <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">$msg.get("common.Task") $taskInfo.name</h1></font></b></font></div>
+  </tr>
+  <tr>
+<body bgcolor="#FFFFFF" text="#000000">
+  <table class="content" cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="2">$msg.get("common.Information") </th>
+    </tr>
+<tr class="odd">
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.TopicId") :</td>
+      <td width="189"> $taskInfo.topic</td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.TaskId") :</td>
+      <td width="189"> $taskInfo.id</td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Name") :</td>
+      <td width="189"> $taskInfo.name</td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Description") :</td>
+      <td width="189"> $taskInfo.getFormatedDescription()</td>
+    </tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Comments") :</td>
+      <td width="189"> $taskInfo.getFormatedComments()</td>
+    </tr>
+#if ($projectInfo.getpublished_assigned() == "1")
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.assignedTo") :</td>
+      <td width="189"> $!taskInfo.getparentAssigned().getname()</td>
+    </tr>
+
+#end
+  </table>
+#if ($userInfo.getAllowCloseTasks() == "S")
+<form name="formTasks" method="post" action="./portalTasks.do">
+  <table  class="content" cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="2">$msg.get("common.closedByClientMsg")</th>
+    </tr>
+  #if($taskInfo.status==1 )
+    <tr class="odd">
+      <td width="15%" class="leftvalue">$msg.get("common.Status") :</td>
+      <td width="85%"> 
+        <input type="checkbox" onclick="disableselect(this.checked, 1)" name="closeIt" value="1" >$msg.get("common.statusClientEnd")
+	<input type="checkbox" onclick="disableselect(this.checked, 2)" name="rejectedIt" value="1" >$msg.get("common.reject")</td>
+    </tr>
+
+     
+    <tr class="odd">
+      <td width="15%" class="leftvalue">$msg.get("common.Comments") :</td>
+      <td width="85%"> 
+        <input size="44" value="" rows="3" wrap="VIRTUAL" style="width: 400px; height: 50px;" name="reason_for_close" cols="43">
+      </td>
+    </tr>
+
+    <tr class="odd">
+      <td width="15%">&nbsp;</td>
+      <td width="85%"> 
+     #if( $projectInfo.status  != 4)
+        #if( $projectInfo.status  != 1  )
+
+  #if($taskInfo.status==1 )
+
+        <input type="submit" name="Submit" value=$msg.get("common.save")>
+
+        #end
+     #end
+    #end
+#end
+       
+      </td>
+    </tr>
+  </table>
+<input type="hidden" name="operation" value="applyCloseClient">  
+<input type="hidden" name="project" value="$taskInfo.project">  
+<input type="hidden" name="id" value="$taskInfo.id">
+<input type="hidden" name="sortColumn" value="name">
+<input type="hidden" name="sortOrder" value="DESC">
+</form>
+#end
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="listing">
+    <tr> 
+      <th colspan="6">$msg.get("common.Files")</th>
+    </tr>
+  <tr>
+<th>$msg.get("common.Type")</th>
+<th>$msg.get("common.Name")</th>
+<th>$msg.get("common.Topics.name")</th>
+<th>$msg.get("common.Date")</th>
+<th>$msg.get("common.class")</th>
+<th>$msg.get("common.Comments")</th>
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $listFiles)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+<td ><img src="./images/$msg.get("common.filetype.$lista.getPrefixType()")" border="no"></td>
+<td ><a href="./download?id=$lista.id"> $lista.getname()</a></td>
+<td ><a href = "./portalTopics.do?operation=add&project=$filesForm.project&subject='$lista.getname()'">$msg.get("common.createName")</a></td>
+<td > $lista.getupload()</td>
+
+#if ($lista.task > 0)
+	#set ($label = $msg.get("common.Task"))
+#else
+	#set ($label = $msg.get("common.Topics.name"))
+#end
+<td >$label</td>
+<td >$lista.getcomments()</td>
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+<script language="JavaScript">
+function disableselect(changestate, whichone)
+{
+    if (whichone == 1) {
+       document.formTasks.rejectedIt.disabled = changestate;
+       document.formTasks.rejectedIt.checked = false;
+    } else {
+      document.formTasks.closeIt.disabled = changestate;
+      document.formTasks.closeIt.disabled = changestate;
+     }
+}
+</script>
+#parse ("/vm/footer.vm")
+
+</body>
+</html>
+

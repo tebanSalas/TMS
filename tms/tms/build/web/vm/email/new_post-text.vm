@@ -1,0 +1,21 @@
+Se ha dado inicio a una nueva discusi?n
+$common.TopicId : $topicid
+$common.Title : $subject
+
+$message
+
+Creada por : $createdBy
+
+Proyecto: $proyectName
+
+
+Siga este Link para seguir la discusion 
+
+Esta notificaci?n fue generada por $creator.
+
+Para ver su $company - Home Page, visite:
+#if ($userProfile =="2")
+$link.getContextURL()/portalLogin.do
+#else
+$link.getContextURL()/login.do
+#end

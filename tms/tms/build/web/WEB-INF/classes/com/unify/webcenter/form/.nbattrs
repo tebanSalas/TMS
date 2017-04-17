@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE attributes PUBLIC "-//NetBeans//DTD DefaultAttributes 1.0//EN" "http://www.netbeans.org/dtds/attributes-1_0.dtd">
+<attributes version="1.0">
+    <fileobject name="homeForm.java">
+        <attr name="class_dependency_org.apache.struts.validator.action.ValidatorActionForm" stringvalue="homeForm"/>
+    </fileobject>
+    <fileobject name="projectsForm.java">
+        <attr name="class_dependency_org.apache.struts.validator.action.ValidatorActionForm" stringvalue="projectsForm"/>
+    </fileobject>
+    <fileobject name="reportsForm.java">
+        <attr name="class_dependency_org.apache.struts.validator.action.ValidatorActionForm" stringvalue="reportsForm"/>
+    </fileobject>
+    <fileobject name="schedulesForm.java">
+        <attr name="class_dependency_org.apache.struts.validator.action.ValidatorActionForm" stringvalue="schedulesForm"/>
+    </fileobject>
+    <fileobject name="tasksForm.java">
+        <attr name="class_dependency_org.apache.struts.validator.action.ValidatorActionForm" stringvalue="tasksForm"/>
+    </fileobject>
+    <fileobject name="topicsForm.java">
+        <attr name="class_dependency_org.apache.struts.validator.action.ValidatorActionForm" stringvalue="topicsForm"/>
+    </fileobject>
+</attributes>

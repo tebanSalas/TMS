@@ -1,0 +1,63 @@
+
+<!--
+Here you find the mappings used in the JDO tutorials
+-->
+
+<!-- Definitions for org.apache.ojb.tutorial5.Product -->
+   <class-descriptor
+   	  class="org.apache.ojb.tutorial5.Product"
+   	  table="PRODUCT"
+   >
+      <field-descriptor
+         name="id"
+         column="ID"
+         jdbc-type="INTEGER"
+         primarykey="true"
+         autoincrement="true"
+      />
+      <field-descriptor
+         name="name"
+         column="NAME"
+         jdbc-type="VARCHAR"
+      />
+      <field-descriptor
+         name="price"
+         column="PRICE"
+         jdbc-type="DOUBLE"
+      />
+      <field-descriptor
+         name="stock"
+         column="STOCK"
+         jdbc-type="INTEGER"
+      />
+   </class-descriptor>
+
+   <!-- Definitions for org.apache.ojb.tutorial5.Product -->
+   <class-descriptor
+   	  class="org.apache.ojb.tutorial5.Product"
+   	  table="PRODUCT"
+   >
+      <field-descriptor
+         name="id"
+         column="ID"
+         jdbc-type="INTEGER"
+         primarykey="true"
+         autoincrement="true"
+      />
+      <field-descriptor
+         name="name"
+         column="NAME"
+         jdbc-type="VARCHAR"
+      />
+      <field-descriptor
+         name="price"
+         column="PRICE"
+         jdbc-type="DOUBLE"
+      />
+      <field-descriptor
+         name="stock"
+         column="STOCK"
+         jdbc-type="INTEGER"
+      />
+   </class-descriptor>
+

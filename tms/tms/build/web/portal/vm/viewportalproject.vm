@@ -1,0 +1,128 @@
+#parse("/portal/vm/header.vm")
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+      <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading"> $msg.get("header.displayStart")</h1></font></b></font></div>
+  </tr>
+  <tr>
+<form method="POST" name="home" action="./portalHome.do">
+  <table class="content" cellspacing="0" cellpadding="0">
+    <tr> 
+      <th colspan="5">$msg.get("common.Details")</th>
+    </tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Project") :</td>
+		<td colspan="4">$projectInfo.name</td>
+	</tr>
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">$msg.get("common.Description") :</td>
+        <td colspan="4">$projectInfo.getFormatedDescription()</td>
+    </tr>
+    <tr class="odd"> 
+        <td valign="top" class="leftvalue">$msg.get("common.Owner") :</td>
+        <td colspan="4"><a href="mailto:$projectInfo.getparentOwner().getemail_work()"> $projectInfo.getparentOwner().getname()</a></td>
+    </tr>
+	 <tr class="odd"> 
+        <td valign="top" class="leftvalue">$msg.get("common.totalTasks") :</td>
+        <td colspan="4">$projectInfo.gettotalprojecttasks()</td>
+    </tr>
+	 <tr class="odd"> 
+        <td valign="top" class="leftvalue">$msg.get("common.totalOnTimeTasks") :</td>
+        <td colspan="4">$projectInfo.gettotalontimeprojecttasks()</td>
+    </tr>
+	 <tr class="odd"> 
+        <td valign="top" class="leftvalue">$msg.get("common.totalDelayedTasks") :</td>
+       #set ($dif =$projectInfo.gettotalprojecttasks()- $projectInfo.gettotalontimeprojecttasks())
+		<td valign="top" colspan="4"><b>$dif</b></td>
+    </tr>
+	</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+      <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">Subproyectos en Proceso</h1></font></b></font></div>
+  </tr>
+  <tr>
+<table class="content" >
+
+   <tr>
+	<th>$msg.get("common.name")</th>
+	<th>$msg.get("common.Description")</th>
+	<th>$msg.get("common.totalTasks")</th>
+	<th>$msg.get("common.totalOnTimeTasks")</th>
+	<th>$msg.get("common.totalDelayedTasks")</th>
+  </tr>
+
+#set ($row = 0)
+  #foreach( $lista in $listSubProj)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+#if ($lista.status==3 || $lista.status==2 || $lista.status==5)
+<tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+		<td><a href="./portalHome.do?operation=view&newProject=$lista.getid()">$lista.name</a></td>		
+		<td>$lista.getFormatedDescription()</td>
+		<td align="center">$lista.gettotalprojecttasks()</td>
+		<td align="center">$lista.gettotalontimeprojecttasks()</td>
+#set ($dif =$lista.gettotalprojecttasks()- $lista.gettotalontimeprojecttasks())
+		<td align="center"><b>$dif</b></td>
+	</tr>
+ #set ($row = $row + 1)
+ #end
+#end
+</tr>
+
+</table>
+
+
+<br><br>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">Subproyectos Finalizados o Suspendidos </h1></font></b></font></div>
+  </tr>
+  <tr>
+<table class="content" >
+
+   <tr>
+	<th>$msg.get("common.name")</th>
+	<th>$msg.get("common.Description")</th>
+	<th>$msg.get("common.totalTasks")</th>
+	<th>$msg.get("common.totalOnTimeTasks")</th>
+	<th>$msg.get("common.totalDelayedTasks")</th>
+  </tr>
+
+#set ($row = 0)
+  #foreach( $lista in $listSubProj)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+#if ($lista.status==1 ||$lista.status==4)
+<tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+		<td><a href="./portalHome.do?operation=view&newProject=$lista.getid()">$lista.name</a></td>		
+		<td>$lista.getFormatedDescription()</td>
+		<td align="center">$lista.gettotalprojecttasks()</td>
+		<td align="center">$lista.gettotalontimeprojecttasks()</td>
+#set ($dif =$lista.gettotalprojecttasks()- $lista.gettotalontimeprojecttasks())
+		<td align="center"><b>$dif</b></td>
+	</tr>
+ #set ($row = $row + 1)
+ #end
+#end
+</tr>
+
+</table>
+
+<table>
+
+
+  <input type="hidden" name="project" value="$!portalForm.project">
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

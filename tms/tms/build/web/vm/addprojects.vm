@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Add Projects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/calendar.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+
+<script src="./themes/calendar.js" type=text/javascript></SCRIPT>
+<script>
+#macro (errorMarkup)
+  #if ($errors.exist() )
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1">$e <br>
+    #end
+    </ul>
+  #end
+#end
+</script>
+
+<script language="JavaScript">
+<!-- Funcion de verificacion de fechas -->
+ano_actual = 2004;
+
+function sendData() {
+
+	if (document.add.fecha1.value != null && document.add.fecha2.value != null) {
+		document.add.start_date.value = document.add.fecha1.value + " 12:00:00.000000000";
+		document.add.end_date.value   = document.add.fecha2.value + " 12:00:00.000000000";
+
+		document.add.submit();
+document.add.operation.value="";
+	} else {
+		alert ('$msg.get("error.datewarning")');
+		return;
+	}
+}
+
+
+</script>
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+
+#parse("/vm/calendarScript.src")
+
+
+#parse ("/vm/header.vm")
+<p><font color="#CC0000">#errorMarkup()</font></p>
+<form method="POST" name="add" action="./projects.do" >
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$title</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+<tr><th colspan="2">$msg.get("common.Information")</th></tr>
+#if ($!projectsForm.operation =="applyEdit")
+ <tr class="odd"> 
+      <td valign="top" class="leftvalue" width="96">$msg.get("common.Id") 
+        :</td>
+     
+      <td width="189">$!projectsForm.id</td>
+    </tr>
+#end
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.name") :</td>
+		<td>
+			<input size="44" value="$!projectsForm.name" style="width: 400px" name="name" maxlength="100" type="TEXT">
+		</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Priority") :</td>
+
+      <TD width="366" height="19"><SELECT size="1" name="priority">
+      <OPTION value="0" #if ($projectsForm.priority == 0) selected #end>$msg.get("common.nonePriority")</OPTION>
+      <OPTION value="1" #if ($projectsForm.priority == 1) selected #end>$msg.get("common.lowestPriority")</OPTION>
+      <OPTION value="2" #if ($projectsForm.priority == 2) selected #end>$msg.get("common.lowPriority")</OPTION>
+      <OPTION value="3" #if ($projectsForm.priority == 3) selected #end>$msg.get("common.mediumPriority")</OPTION>
+      <OPTION value="4" #if ($projectsForm.priority == 4) selected #end>$msg.get("common.highPriority")</OPTION>
+      <OPTION value="5" #if ($projectsForm.priority == 5) selected #end>$msg.get("common.highestPriority")</OPTION>
+      </SELECT>
+			</td>
+    </tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Description") :</td>
+		<td><TEXTAREA textarea rows="3" wrap="VIRTUAL" style="width: 400px; height: 50px;" name="description" cols="43">$!projectsForm.description</TEXTAREA>
+			</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Owner") :</td>
+		<td><SELECT size="1" name="owner">
+#foreach( $lista in $listMembers)
+      <OPTION value="$lista.id" #if ($projectsForm.owner == $lista.id) selected #end>$!lista.name&nbsp;/&nbsp;$!lista.login</OPTION>
+#end
+      </SELECT>
+			</td>
+	</tr>
+
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Organization") :</td>
+		<td><SELECT size="1" name="organization">
+
+#foreach( $lista in $listOrganizations)
+      <OPTION value="$lista.id" #if ($projectsForm.organization == $lista.id) selected #end>$!lista.name</OPTION>
+#end
+      </SELECT>
+			</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Status") :</td>
+		<td><SELECT size="1" name="status">
+      <OPTION value="1" #if ($projectsForm.status == 1) selected #end>$msg.get("common.statusEnd")</OPTION>
+      <OPTION value="2" #if ($projectsForm.status == 2) selected #end>$msg.get("common.statusNotStarted")</OPTION>
+      <OPTION value="3" #if ($projectsForm.status == 3) selected #end>$msg.get("common.statusStarted")</OPTION>
+      <OPTION value="4" #if ($projectsForm.status == 4) selected #end>$msg.get("common.statusSuspended")</OPTION>
+      <OPTION value="5" #if ($projectsForm.status == 5) selected #end>$msg.get("common.statusQuote")</OPTION>
+      </SELECT>
+			</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.Published") :</td>
+		<td><INPUT type="checkbox" name="published" value="1" #if ($projectsForm.published == "1") checked #end>
+			</td>
+	</tr>
+
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.PublishAssignation") :</td>
+		<td><INPUT type="checkbox" name="published_assigned" value="1" #if ($projectsForm.published_assigned == "1") checked #end>
+			</td>
+	</tr>
+
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.automnotification") :</td>
+		<td><INPUT type="checkbox" name="autom_notification" value="1" #if ($projectsForm.autom_notification == "1") checked #end>
+			</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.PublishDueDate") :</td>
+		<td><INPUT type="checkbox" name="published_endtask" value="1" #if ($projectsForm.published_endtask == "1") checked #end>
+			</td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.startDate") :</td>
+		<td>
+		  <input type="text" style="width: 100px" name="fecha1" id="fecha1" size="20" value="$fecha1">
+		  <input type="reset" value=" ... " onclick="return showCalendar('fecha1', 'y-mm-dd');">
+		  <input type="text" style="width: 0px" name="start_date" id="start_date" size="40" value="">
+	      </td>
+	</tr>
+	<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.endDate") :</td>
+		<td>
+		  <input type="text" style="width: 100px" name="fecha2" id="fecha2" size="20" value="$fecha2">
+		  <input type="reset" value=" ... " onclick="return showCalendar('fecha2', 'y-mm-dd');">
+		  <input type="text" style="width: 0px" name="end_date" id="end_date" size="40" value="" hide="true">
+	      </td>
+	</tr>
+<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.SendEMail") :</td>
+		<td><INPUT type="checkbox" name="send_email" value="1" #if ($projectsForm.send_email == "1") checked #end>
+			</td>
+	</tr>
+#if ($userInfo.profile == "4" || $userInfo.profile == "3" || $userInfo.profile == "1" )
+<tr class="odd">
+		<td valign="top" class="leftvalue">$msg.get("common.inheritTeam") :</td>
+		<td><INPUT type="checkbox" name="inheritTeam" value="1" #if ($projectsForm.project_id == 0)  DISABLED #end>
+			</td>
+	</tr>
+#end
+
+  <tr class="odd">
+  <td valign="top" class="leftvalue">&nbsp;</td><td>
+        <input type="button" value='$msg.get("common.save")' onclick="sendData();">
+  </td></tr>
+ </table></div>
+ </td></tr></table></div>
+
+  <input type="hidden" name="operation" value="$!projectsForm.operation">
+  <input type="hidden" name="id" value="$!projectsForm.id">
+  <input type="hidden" name="created" value="$!projectsForm.created">
+  <input type="hidden" name="modified" value="$!projectsForm.modified">
+  <input type="hidden" name="owner" value="$!projectsForm.owner">
+  <input type="hidden" name="published" value="$!projectsForm.published">
+  <input type="hidden" name="upload_max" value="0">
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>
+

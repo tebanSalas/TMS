@@ -1,0 +1,116 @@
+#parse("/portal/vm/header.vm")
+
+#set ($activename = "")
+#set ($activestatus = "")
+#set ($activedate = "")
+
+#set ($imagestatus = "")
+#set ($imagename = "")
+#set ($imagedate = "")
+
+#set ($sortstatus = "ASC")
+#set ($sortname = "ASC")
+#set ($sortdate = "ASC")
+
+
+#if ($!portalForm.sortOrder == "DESC")
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_za.gif' alt='' width='11' height='11'>")
+#else
+	#set ($image = "&#160;<img border='0' src='./themes/$userInfo.getTemplate()/icon_sort_az.gif' alt='' width='11' height='11'>")
+#end
+
+#if ($!portalForm.sortColumn == "name" || $!portalForm.sortColumn == "")
+	#set ($activename = "class='active'")
+	#set ($imagename = $image)
+	#set ($sortname = $!portalForm.sortOrder)
+#elseif ($!portalForm.sortColumn == "status")
+	#set ($activestatus = "class='active'")
+	#set ($imagestatus = $image)
+	#set ($sortstatus = $!portalForm.sortOrder)
+#elseif ($!portalForm.sortColumn == "created")
+	#set ($activedate = "class='active'")
+	#set ($imagedate = $image)
+	#set ($sortdate = $!portalForm.sortOrder)	
+#end
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+      <div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif"><b><font size="3"><h1 class="heading">$msg.get("common.Quote")</h1></font></b></font></div>
+  </tr>
+  <tr>
+<form name="formtasks" method="post" action="./portalTasks.do">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+<th nowrap $activename ><a href="javascript:document.formtasks.sortColumn.value='name';document.formtasks.sortOrder.value='$sortname';document.formtasks.operation.value = 'sortQuote';document.formtasks.submit();" onMouseOver="javascript:window.status='Ordenar por Nombre'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.name")</a>$imagename</th>
+<th>$msg.get("common.Description")</th>
+<th nowrap $activestatus ><a href="javascript:document.formtasks.sortColumn.value='status';document.formtasks.sortOrder.value='$sortstatus';document.formtasks.operation.value = 'sortQuote';document.formtasks.submit();" onMouseOver="javascript:window.status='Ordenar por Status'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Status")</a>$imagestatus</th>
+<th nowrap $activedate ><a href="javascript:document.formtasks.sortColumn.value='created';document.formtasks.sortOrder.value='$sortdate';document.formtasks.operation.value = 'sortQuote';document.formtasks.submit();" onMouseOver="javascript:window.status='Ordenar por Status'; return true;" onMouseOut="javascript:window.status=''; return true">$msg.get("common.Date")</a>$imagedate</th>
+<th>$msg.get("common.Accept")</th>
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $listTasks)
+   #if (($row % 2) == 0)
+    #set ($type = "even")
+	#set ($color = "#EFEFEF")
+   #else
+	#set ($type = "odd")
+	#set ($color = "#F5F5F5")
+   #end
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#DEE7EB'" onmouseout="this.style.backgroundColor='$color'">
+<td> <a href="./portalTasks.do?operation=viewGroup&id=$lista.getid()&project=$projectInfo.id">$lista.getname()</a></td>
+<td>$lista.getFormatedDescription()</td>
+#if ($lista.getstatus() == 0)
+	#set ($tagStatus = $msg.get("common.statusClientEnd"))
+#elseif ($lista.getstatus() == 1)
+	#set ($tagStatus = $msg.get("common.statusEnd"))
+#elseif ($lista.getstatus() == 2)
+	#set ($tagStatus = $msg.get("common.statusNotStarted"))
+#elseif ($lista.getstatus() == 3)
+	#set ($tagStatus = $msg.get("common.statusStarted"))
+#elseif ($lista.getstatus() == 4)
+	#set ($tagStatus = $msg.get("common.statusSuspended"))
+#elseif ($lista.getstatus() == 5)
+	#set ($tagStatus = $msg.get("common.statusQuote"))
+#elseif ($lista.getstatus() == 6)
+	#set ($tagStatus = $msg.get("common.statusQuoteSended"))
+#elseif ($lista.getstatus() == 7)
+	#set ($tagStatus = $msg.get("common.statusQuoteRejected"))
+#elseif ($lista.getstatus() == 8)
+	#set ($tagStatus = $msg.get("common.statusQuoteAcepted"))
+#elseif ($lista.getstatus() == 9)
+	#set ($tagStatus = $msg.get("common.statusCharge"))
+#elseif ($lista.getstatus() == 10)
+	#set ($tagStatus = $msg.get("common.statusChargeSended"))
+#elseif ($lista.getstatus() == 11)
+	#set ($tagStatus = $msg.get("common.statusProcessingCharge"))
+#end
+
+<td>$tagStatus</td>
+<td>$lista.created</td>
+#if ($aproveQuotes== "1")
+   <td valign="top"><a href="./portalTasks.do?operation=aproved&id=$lista.getid()&project=$projectInfo.id&sortColumn=name&sortOrder=DESC">$msg.get("common.yes")</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="./portalTasks.do?operation=rejected&id=$lista.getid()&project=$projectInfo.id&sortColumn=name&sortOrder=DESC">$msg.get("common.no")</a></td>
+#else
+    <td></td>
+#end
+
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+  <br>
+  <hr>
+  <input type="hidden" name="operation" value="listing">
+  <input type="hidden" name="project" value="$!portalForm.project">
+  <input type="hidden" name="sortColumn" value="$!portalForm.sortColumn">
+  <input type="hidden" name="sortOrder" value="$portalForm.sortOrder">
+</form>
+
+</table>
+#parse ("/vm/footer.vm")
+</body>
+</html>
+

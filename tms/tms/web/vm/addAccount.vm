@@ -1,0 +1,367 @@
+<html>
+<head>
+<title>Add Account</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+
+<script src="./themes/calendar.js" type=text/javascript></SCRIPT>
+<script type="text/javascript" src="./javascript/general.js"></script>
+
+<script>
+#macro (errorMarkup)
+  #if ($errors.exist() )
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1">$e <br>
+    #end
+    </ul>
+  #end
+#end
+</script>
+<script language="JavaScript">
+//Validate phone number for 10 digit US numbers.
+//phoneField - The HTML input field containing the phone number to validate.
+//format - Integer value that defines how to format the text field.
+function validatePhone() {
+  if (IsNumeric(document.add.phone_1.value) && IsNumeric(document.add.phone_2.value))
+   {
+      return true;
+   }
+
+}
+
+function IsNumeric(input){   
+    return (input - 0) == input && input.length > 0;
+}
+
+function checkDate( val) {
+ 
+                separado = val.split("-");
+                out = separado[0] + "-";
+                if (separado[1].length <= 1)
+                        out += "0" + separado[1]+"-";
+                else
+                        out += separado[1]+"-";
+ 
+                if (separado[2].length <= 1)
+                        out += "0" + separado[2];
+                else
+                        out += separado[2];
+                return out;
+        }
+<!-- Funcion de verificacion de fechas -->
+
+ano_actual = 2009;
+
+function sendData(message,message2,message3) {
+            if (document.add.trial_date.value!=""){
+var n=document.add.trial_date.value.split("-");
+if (n[1].length < 2) {
+n[1]= "0"+n[1];
+}
+if (n[2].length < 2) {
+n[2]= "0"+n[2];
+}
+document.add.trial_date.value = n[0]+'-'+n[1]+'-'+n[2];
+}
+    if (IsNumeric(document.add.user_fare.value) == true){ 
+    
+    if (validatePhone()){
+        email = document.add.email.value;
+        email2 = document.add.account_email.value;
+        AtPos = email.indexOf("@")
+        StopPos = email.lastIndexOf(".")
+        AtPos2 = email2.indexOf("@")
+        StopPos2 = email2.lastIndexOf(".")
+            band=1;
+        if (email == "" || email2 == "") {
+            band=0;
+        }
+        if (AtPos == -1 || StopPos == -1 || AtPos2 == -1 || StopPos2 == -1) {
+             band=0;
+        }
+        if (StopPos < AtPos || StopPos2 < AtPos2) {
+            band=0;
+        }
+        if (StopPos - AtPos == 1 || StopPos2 - AtPos2 == 1) {
+             band=0;
+        }
+
+        if (band==1)
+            if (document.add.trial_date.value!=""){
+            	if (isValidDate(document.add.trial_date.value,'$msg.get("error.task.invalidFormat")','$msg.get("error.task.invalidMonth")')) {
+		
+                document.add.final_trial_date.value = checkDate(document.add.trial_date.value) + " 12:00:00.000000000";
+
+                document.add.submit();
+                }
+            }else{
+                document.add.final_trial_date.value = "0001-01-01 12:00:00.000000000";
+                document.add.submit();
+            }
+        else
+            alert(message);
+    }else
+        alert(message2);
+}else
+   alert(message3);
+
+}
+
+
+function sendData2(message,message2) {
+if (document.add.trial_date.value!=""){
+var n=document.add.trial_date.value.split("-");
+if (n[1].length < 2) {
+n[1]= "0"+n[1];
+}
+if (n[2].length < 2) {
+n[2]= "0"+n[2];
+}
+document.add.trial_date.value = n[0]+'-'+n[1]+'-'+n[2];
+}
+
+    if (validatePhone()){
+        email = document.add.email.value;
+        email2 = document.add.account_email.value;
+        AtPos = email.indexOf("@")
+        StopPos = email.lastIndexOf(".")
+        AtPos2 = email2.indexOf("@")
+        StopPos2 = email2.lastIndexOf(".")
+            band=1;
+        if (email == "" || email2 == "") {
+            band=0;
+        }
+        if (AtPos == -1 || StopPos == -1 || AtPos2 == -1 || StopPos2 == -1) {
+             band=0;
+        }
+        if (StopPos < AtPos || StopPos2 < AtPos2) {
+            band=0;
+        }
+        if (StopPos - AtPos == 1 || StopPos2 - AtPos2 == 1) {
+             band=0;
+        }
+        if (band==1)
+            if (document.add.trial_date.value!=""){
+            	if (isValidDate(document.add.trial_date.value,'$msg.get("error.task.invalidFormat")','$msg.get("error.task.invalidMonth")')) {
+		
+                document.add.final_trial_date.value = document.add.trial_date.value + " 12:00:00.000000000";
+
+                document.add.submit();
+
+
+                }
+            }else{
+                document.add.final_trial_date.value = "0001-01-01 12:00:00.000000000";
+
+                document.add.submit();
+            }
+        else
+            alert(message);
+    }else
+        alert(message2);
+
+
+}
+
+
+</script>
+</head>
+#parse("/vm/calendarScript.src")
+#parse ("/vm/header.vm")
+<body bgcolor="#FFFFFF" text="#000000">
+<p><font color="#CC0000">#errorMarkup()</font></p>
+<form method="POST" name="add" action="./account.do" enctype="multipart/form-data">
+<div class=blockHeader>
+<table class=title>
+<tr><td>&nbsp;$title</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td class=blockForm colspan=2>
+<div class=content>
+<table cellspacing="0" cellpadding="0">
+    <tr>
+      <th colspan="2">$msg.get("common.DetailsNewAccount")</th>
+    </tr>
+#if ($!accountForm.operation =="applyEdit")
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Id") : </td>
+      <td>
+        &nbsp;$!accountForm.id
+      </td>
+    </tr>
+#end
+
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Name") :</td>
+#if ($userInfo.profile == "4")
+      <td>
+        <input size="44" value="$!accountForm.name" style="width: 250px" name="name" maxlength="100" type="TEXT" #if ($!accountForm.operation=="applyEdit") readOnly="true" #end>
+      </td>
+#else
+  <td>
+        $!accountForm.name
+    <input size="44" value="$!accountForm.name" style="width: 50px" name="name" maxlength="100" type="hidden" >
+      </td>
+#end
+    </tr>
+<tr class="odd">
+
+      <td valign="top" class="leftvalue">$msg.get("common.diminutivo") :</td>
+      <td>
+ #if ($!accountForm.operation == "applyAdd")
+
+        <input size="44" value="$!accountForm.shortname" style="width: 50px" name="shortname" maxlength="5" type="TEXT">    
+#else
+
+    <input size="44" value="$!accountForm.shortname" style="width: 50px" name="shortname" maxlength="100" type="TEXT" readonly="readonly">
+ #end
+
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Description") :</td>
+      <td>
+        <input size="44" value="$!accountForm.description" style="width: 250px" name="description" maxlength="128" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.address") :</td>
+      <td>
+        <input size="44" value="$!accountForm.address" style="width: 250px" name="address" maxlength="100" type="TEXT">
+      </td>
+    </tr>    
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.phone_1") :</td>
+      <td>
+        <input size="44" value="$!accountForm.phone_1" style="width: 150px" name="phone_1" maxlength="13" type="TEXT"> 
+      </td>
+    </tr>
+    <tr class="odd">
+        <td valign="top" class="leftvalue">$msg.get("common.phone_2") :</td>
+      <td>
+        <input size="44" value="$!accountForm.phone_2" style="width: 150px" name="phone_2" maxlength="13" type="TEXT"> 
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.email") :</td>
+      <td>
+        <input size="44" value="$!accountForm.email" style="width: 250px" name="email" maxlength="100" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.user_fare") :</td>
+#if ($userInfo.profile == "4" )
+      <td>
+        <input size="44" value="$!accountForm.user_fare" style="width: 80px" name="user_fare" maxlength="8" type="TEXT">
+      </td>
+#else
+      <td>
+        $!accountForm.user_fare
+      </td>
+
+#end
+    </tr>
+ <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.account_logo") :</td>
+      <td>
+#if ($accountForm.operation=="applyEdit")
+  <img src="./downloadImage?id=$accountForm.id" border="no" height="65" width="85"><input size="10" value="$!accountForm.account_logo" style="width: 400px" name="link" maxlength="100" type="FILE">
+#else
+<input size="35" value="$!accountForm.account_logo" style="width: 400px" name="link" maxlength="100" type="FILE">
+#end
+
+      </td>
+    </tr>
+ <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.shortName") :</td>
+      <td>
+        <input size="44" value="$!accountForm.company" style="width: 250px" name="company" maxlength="100" type="TEXT">
+      </td>
+    </tr>
+ <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.website") :</td>
+      <td>
+        <input size="44" value="$!accountForm.website" style="width: 250px" name="website" maxlength="100" type="TEXT">
+      </td>
+    </tr>
+ <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.creator") :</td>
+      <td>
+        <input size="44" value="$!accountForm.creator" style="width: 250px" name="creator" maxlength="100" type="TEXT">
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.account_email") :</td>
+      <td>
+        <input size="44" value="$!accountForm.account_email" style="width: 250px" name="account_email" maxlength="100" type="TEXT" >
+      </td>
+    </tr>
+
+#if ($!accountForm.operation =="applyEdit" || $!accountForm.operation =="applyAdd")
+<tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.final_trial_date") :</td>
+    #if ($userInfo.getprofile() == "4")
+    
+		<td>
+		  <input type="text" style="width: 100px" name="trial_date" id="trial_date" size="20" value="$trial_date">
+		  <input type="reset" value=" ... " onclick="return showCalendar('trial_date', 'y-mm-dd');">
+               </td>
+               <td>
+                  <input type="hidden" name="final_trial_date" id="final_trial_date" value="">
+               </td>
+        #else
+	<td>
+             <input type="text" style="width: 100px" name="trial_date" id="trial_date" size="20" value="$trial_date" disabled>
+	</td>
+           <td>
+              <input type="hidden" name="final_trial_date" id="final_trial_date" value="">
+           </td>
+        #end
+    </tr>
+
+#end
+
+<tr class="odd">
+    <td valign="top" class="leftvalue">$msg.get("common.mainUrl") :</td>
+    <td>
+        <input size="44" value="$!accountForm.main_url" style="width: 250px" name="main_url" maxlength="100" type="TEXT" >
+    </td>
+</tr>
+<tr class="odd">
+        <td valign="top" class="leftvalue">$msg.get("common.active") :</td>
+
+      <td>
+        <input name="active" type="checkbox" value="S" #if ($!accountForm.active == "S") checked #end #if ($userInfo.profile != "4" ) disabled #end>
+      </td>
+    </tr>
+
+    <tr class="odd"> 
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td> 
+        <input type="button" value=$msg.get("common.save") #if ($userInfo.profile == "4" ) onclick="sendData('$msg.get("errors.invalidEmail")','$msg.get("errors.invalidPhone")','$msg.get("errors.invalidNumber")');" #else onclick="sendData2('$msg.get("errors.invalidEmail")','$msg.get("errors.invalidPhone")');" #end>
+      </td>
+    </tr>
+ </table></div>
+ </td></tr></table></div>
+  <input type="hidden" name="operation" value="$!accountForm.operation">
+  <input type="hidden" name="id" value="$!accountForm.id">
+  <input type="hidden" name="created" value="$!accountForm.created">
+  <input type="hidden" name="fromPage" value="$accountForm.fromPage">
+
+  
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>
+
+
+
+

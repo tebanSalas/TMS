@@ -1,0 +1,73 @@
+<html>
+<head>
+<title>$systemName</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head>
+<script>
+#macro (errorMarkup)
+  #if ($errors.exist() )
+    <ul>
+    #foreach ($e in $errors.all )
+      <img height="15" width="15" border="0" src="./themes/$userInfo.getTemplate()/icon_warning.gif" alt="" vspace="1" hspace="1">$e <br>
+    #end
+    </ul>
+  #end
+#end
+</script>
+<body bgcolor="#FFFFFF" text="#000000">
+<p>&nbsp;</p>
+<p><font color="#CC0000">#errorMarkup()</font></p>
+<form method="POST" name="confirmDelete" action="$do">
+<div class=blockHeader>
+<table class=title width="100%">
+<tr><td>&nbsp;$msg.get("schedule.delete")</td>
+<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td height="142" colspan=2 class=blockForm>
+<div class=content align="center">
+<table cellspacing="0" cellpadding="0">
+<tr>
+<th colspan="3">$msg.get("common.delete.question")</th>
+</tr>
+<tr>
+<th  colspan=>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+<th width="75%" colspan="2">$msg.get("common.startHour") - $msg.get("common.endHour")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$msg.get("common.Code") - $msg.get("common.Task")</th>
+</tr>
+    #foreach( $lista in $items)
+	<tr class="odd">
+     <td>&nbsp;
+</td>
+       <td colspan="2">$!lista.getHour_start() -$!lista.getHour_end()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$!lista.getparentTask().getid() - $!lista.getparentTask().getname()</td>
+    </tr>
+    #end
+    <tr class="odd">
+     <td>&nbsp;
+</td>
+      <td colspan="2" align="left">
+<input type="submit" name="delete" value=$msg.get("common.delete")>
+<input type="hidden" name="fromPage" value="$fromPage">
+<input type="hidden" name="param" value="$param">
+<input type="hidden" name="operation" value="applyDelete">
+<input type="hidden" name="theDate" value="$!theDate">
+<input type="hidden" name="userid" value="$userid">
+<input type="hidden" name="checkedItems" value="$checkedItems">
+<input type="button" name="cancel" value=$msg.get("common.cancel") onClick="history.back();"></td>
+    </tr>
+ </table>
+</div>
+ </td></tr></table></div>
+
+</form>
+#parse ("/vm/footer.vm")
+</body>
+</html>

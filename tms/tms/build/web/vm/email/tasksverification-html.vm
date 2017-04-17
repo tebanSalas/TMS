@@ -1,0 +1,103 @@
+<html>
+<head>
+<title>Email</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<style type="text/css">
+A.LinkText {
+	COLOR: #006666; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 12px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+A.LinkText:hover {
+	COLOR: #ff6600; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 12px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+A.LinkText2 {
+	COLOR: #006666; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 14px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+A.LinkText2:hover {
+	COLOR: #ff6600; FONT-FAMILY: Arial, Helvetica, Sans-Serif; FONT-SIZE: 14px; TEXT-DECORATION: none; VERTICAL-ALIGN: middle
+}
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table cellspacing=0 cellpadding=0 width=90% border=0 height="399">
+  <tbody> 
+  <tr valign=top bgcolor="#006666"> 
+    <td colspan=3 height="16" width="483" bgcolor="#006666"><font size="4"><b><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">Task Management System (TMS)</font></b></font></td>
+  </tr>
+  <tr valign=top> 
+    <td width=483 background=""> <br>
+      <font 
+            face="Verdana, Arial, Helvetica, &#13;&#10;sans-serif" color=#006666 
+            size=2><b><img 
+                  src="$mainURL/images/arrow.gif" 
+                  border=0 nosend="1"> $message_line<br>
+      </b></font> 
+      <hr size="1">
+      <br>
+      <table cellspacing=0 cellpadding=3 border=0 height="84" width="90%">
+        <tbody> 
+<tr valign=top> 
+          <td width=195 height="24"><img height=12 
+                  src="$mainURL/images/bullet_orange.gif" width=4 
+                  border=0 nosend="1"><font 
+                  face="Verdana, Arial, Helvetica, &#13;&#10;sans-serif" 
+                  color=#666666 size=2><b> $tasksLabel :</b></font></td>
+
+
+          <td height="24" width="411"><font 
+                  face="Verdana, Arial, Helvetica, &#13;&#10;sans-serif" 
+                  color=#666666 size=2><b><font color="#333333">$taskid</font></b></font></td>
+        </tr>
+        
+      
+        </tbody> 
+      </table>
+      <br>
+      <table width="90%" border="0" cellspacing="0" cellpadding="3">
+        <tr> 
+          <td width="27%"><font color="#006666" face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>$projectLabel 
+            :</b></font></td>
+          <td width="73%">$!project</td>
+        </tr>
+        <tr> 
+          <td width="27%"><font color="#006666" face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>$clientLabel:</b></font></td>
+          <td width="73%">$!client</td>
+        </tr>
+      </table>
+      <hr size="1">
+      <table width="90%" border="0" cellspacing="0" cellpadding="2" align="left" height="43">
+        <tr> 
+          <td height="15"><font face="Verdana, Arial, Helvetica, &#13;&#10;sans-serif" color="#333333" size="2"></font></td>
+        </tr>
+        <tr> 
+          <td height="15" align="center" valign="top"> 
+
+          </td>
+        </tr>
+      </table>
+      <p><br>
+        <br>
+        <br>
+      </p>
+      <table width="90%" border="0" cellspacing="0" cellpadding="0" height="56">
+        <tr> 
+          <td height="64"><font face="Arial, Helvetica, sans-serif" size="2" color="#333333">Esta 
+            notificaci&oacute;n fue generada por $company. <br>
+            <br>
+            Para ver su $creator - Home Page, visite:<br>
+	   #if ($userProfile =="2")
+		<div align="left"><font face="Arial, Helvetica, sans-serif" size="2" color="#333333"><a class="LinkText" href="$mainURL/portalLogin.do">$mainURL/portalLogin.do</a></font></div>
+	    #else
+                <div align="left"><font face="Arial, Helvetica, sans-serif" size="2" color="#333333"><a class="LinkText" href="$mainURL/login.do">$mainURL/login.do</a></font></div>
+	    #end
+
+            </font> </td>
+        </tr>
+      </table>
+      <p>&nbsp; </p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+</body>
+</html>

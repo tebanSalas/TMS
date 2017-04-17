@@ -1,0 +1,49 @@
+$message_list
+
+$nameLabel : $name
+$dueDateLabel: $!duedate
+
+#if ($priority == "0") #set ($tagPriority = $msg.get("common.nonePriority")) 
+#elseif ($priority == "1") #set ($tagPriority = $msg.get("common.lowestPriority")) 
+#elseif ($priority == "2") #set ($tagPriority = $msg.get("common.lowPriority")) 
+#elseif ($priority == "3") #set ($tagPriority = $msg.get("common.mediumPriority")) 
+#elseif ($priority == "4") #set ($tagPriority = $msg.get("common.highPriority")) 
+#elseif ($priority == "5") #set ($tagPriority = $msg.get("common.highestPriority")) 
+#end 
+$priorityLabel: $!tagPriority
+#if ($status == "0") #set ($tagStatus = $msg.get("common.statusClientEnd")) 
+#elseif ($status == "1") #set ($tagStatus = $msg.get("common.statusEnd")) 
+#elseif ($status == "2") #set ($tagStatus = $msg.get("common.statusNotStarted")) 
+#elseif ($status == "3") #set ($tagStatus = $msg.get("common.statusStarted")) 
+#elseif ($status == "4") #set ($tagStatus = $msg.get("common.statusSuspended")) 
+#elseif ($status == "5") #set ($tagStatus = $msg.get("common.statusQuote")) 
+#elseif ($status == "6") #set ($tagStatus = $msg.get("common.statusQuoteSended")) 
+#elseif ($status == "7") #set ($tagStatus = $msg.get("common.statusQuoteRejected")) 
+#elseif ($status == "8") #set ($tagStatus = $msg.get("common.statusQuoteAcepted")) 
+#elseif ($status == "9") #set ($tagStatus = $msg.get("common.statusCharge")) 
+#elseif ($status == "10") #set ($tagStatus = $msg.get("common.statusChargeSended")) 
+#elseif ($status == "11") #set ($tagStatus = $msg.get("common.statusProcessingCharge")) 
+#elseif ($status == "14") #set ($tagStatus = $msg.get("common.standBy")) 
+
+
+#end 
+$statusLabel: $!tagStatus
+$descriptionLabel: $!description
+
+$projectLabel : $!project
+$clientLabel: $!client
+
+
+
+Para tener acceso directo a la tarea siga el siguiente link:
+$link.getContextURL()/tasks.do?operation=view&id=$!taskid
+
+
+Esta notificación fue generada por $creator.
+
+Para ver su $company - Home Page, visite:
+$link.getContextURL()/login.do
+
+
+
+
