@@ -65,6 +65,9 @@ public class tasksData extends mainData {
     private int emailNotifyTQA;
     private int emailNotifyFQA;
     
+    private int version_control;
+    private int operation_number;
+    
     public tasksData() {
         hasErrors=false;
     }
@@ -1197,6 +1200,24 @@ public class tasksData extends mainData {
         this.emailNotifyFQA = emailNotifyFQA;
     }
 
+    public int getVersion_control() {
+        return version_control;
+    }
+
+    public void setVersion_control(int version_control) {
+        this.version_control = version_control;
+    }
+
+    public int getOperation_number() {
+        return operation_number;
+    }
+
+    public void setOperation_number(int operation_number) {
+        this.operation_number = operation_number;
+    }
+    
+    
+    
  
 
 }

@@ -33,7 +33,7 @@ public class filesForm  extends ValidatorActionForm {
         private String fromPage;
 	private String sortColumn;
 	private String sortOrder;
-        
+        private String to_replicate;
 
         // use for edit and view
         protected String name;
@@ -83,6 +83,12 @@ public class filesForm  extends ValidatorActionForm {
 	public String getsortColumn() { return sortColumn; }
 	public String getsortOrder() { return sortOrder; }        
         public int gettopic() { return topic; }
+
+        public String getTo_replicate() {return to_replicate;}
+        public void setTo_replicate(String to_replicate) {
+            this.to_replicate = to_replicate;
+        }
+        
         
 
         public String getPrefixType() {

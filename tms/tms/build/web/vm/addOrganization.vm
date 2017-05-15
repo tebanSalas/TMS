@@ -26,57 +26,89 @@
 #parse ("/vm/header.vm")
 <p><font color="#CC0000">#errorMarkup()</font></p>
 <body bgcolor="#FFFFFF" text="#000000">
-<form method="POST" name="add" action="./organizations.do" >
-<div class=blockHeader>
-<table class=title>
-<tr><td>&nbsp;$title</td>
-<td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
-<tr>
-<td class=blockForm colspan=2>
-<div class=content>
-<table cellspacing="0" cellpadding="0">
-<tr><th colspan="2">$msg.get("common.Details")</th></tr><tr class="odd">
-<td valign="top" class="leftvalue">* $msg.get("common.name") :</td><td>
-        <input size="44" value="$!organizationsForm.name" style="width: 400px" name="name" maxlength="100" type="TEXT">
-      </td></tr>
-<tr class="odd"><td valign="top" class="leftvalue">$msg.get("common.Address") :</td><td>
-        <textarea rows="5" wrap="VIRTUAL" style="width: 400px; height: 50px;" name="address1" cols="43">$!organizationsForm.address1</textarea>
-      </td></tr>
-<tr class="odd"><td valign="top" class="leftvalue">$msg.get("common.ZipCode") :</td>
-      <td>
-        <input type="text" name="zip_code" value="$!organizationsForm.zip_code">
-      </td>
-    </tr>	  
-<tr class="odd">
-      <td valign="top" class="leftvalue">$msg.get("common.Country") :</td>
-      <td>
-<SELECT size="1" name="cod_pais">
-#foreach( $lista in $list)
-      <OPTION value="$!lista.getcod_pais()" #if ($!organizationsForm.cod_pais == $!lista.getcod_pais()) selected #end>$!lista.getdescription()</OPTION>
-#end
-      </SELECT>
-      </td>
-    </tr>	  
-<tr class="odd"><td valign="top" class="leftvalue">$msg.get("common.Phone") :</td><td>
-        <input size="32" value="$!organizationsForm.phone" style="width: 250px" name="phone" maxlength="32" type="TEXT">
-      </td></tr>
-<tr class="odd"><td valign="top" class="leftvalue">$msg.get("common.WebSite") :</td><td>
-        <input size="44" value="$!organizationsForm.url" style="width: 400px" name="url" maxlength="2000" type="TEXT">
-      </td></tr>
-<tr class="odd"><td valign="top" class="leftvalue">$msg.get("common.Email") :</td><td>
-        <input size="44" value="$!organizationsForm.email" style="width: 400px" name="email" maxlength="2000" type="TEXT">
-      </td></tr>
-<tr class="odd"><td valign="top" class="leftvalue">$msg.get("common.Comments") :</td><td>
-        <textarea rows="3" wrap="VIRTUAL" style="width: 400px; height: 50px;" name="comments" cols="43">$!organizationsForm.comments</textarea>
-      </td></tr>
-<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><input type="SUBMIT" value=$msg.get("common.save")></td></tr>
- </table></div>
- </td></tr></table></div>
+  <form method="POST" name="add" action="./organizations.do" >
+    <div class=blockHeader>
+      <table class=title>
+        <tr>
+          <td>&nbsp;$title</td>
+          <td width="1%">&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+        <td class=blockForm colspan=2>
+          <div class=content>
+            <table cellspacing="0" cellpadding="0">
+              <tr>
+                <th colspan="2">$msg.get("common.Details") </th>
+              </tr>
+              <tr class="odd">
+                <td valign="top" class="leftvalue">* $msg.get("common.name") :</td><td>
+                <input size="44" value="$!organizationsForm.name" style="width: 400px; margin-top: 7px; margin-bottom: 8px; " name="name" maxlength="100" type="TEXT">
+                </td>
+              </tr>
+              <tr class="odd">
+                <td valign="top" class="leftvalue">$msg.get("common.Address") :</td><td>
+                  <textarea rows="5" wrap="VIRTUAL" style="width: 400px; height: 50px; margin-bottom: 8px;" name="address1" cols="43">$!organizationsForm.address1</textarea>
+                </td>
+              </tr>
+              <tr class="odd">
+                <td valign="top" class="leftvalue">$msg.get("common.ZipCode") :</td>
+                <td>
+                  <input type="text" name="zip_code" value="$!organizationsForm.zip_code" style="width: 400px">
+                </td>
+              </tr>	  
+              <tr class="odd">
+                <td valign="top" class="leftvalue">$msg.get("common.Country") :</td>
+                <td>
+                  <SELECT size="1" name="cod_pais" style="width: 400px">
+                    #foreach( $lista in $list)
+                      <OPTION value="$!lista.getcod_pais()" #if ($!organizationsForm.cod_pais == $!lista.getcod_pais()) selected #end>$!lista.getdescription()</OPTION>
+                    #end
+                  </SELECT>
+                </td>
+              </tr>	  
+              <tr class="odd">
+                <td valign="top" class="leftvalue">$msg.get("common.Phone") :</td>
+                <td>
+                  <input size="32" value="$!organizationsForm.phone" style="width: 250px" name="phone" maxlength="32" type="TEXT">
+                </td>
+              </tr>
+              <tr class="odd">
+                <td valign="top" class="leftvalue">$msg.get("common.WebSite") :</td>
+                <td>
+                  <input size="44" value="$!organizationsForm.url" style="width: 400px" name="url" maxlength="2000" type="TEXT">
+                </td>
+              </tr>
+              <tr class="odd">
+                <td valign="top" class="leftvalue">$msg.get("common.Email") :</td>
+                <td>
+                  <input size="44" value="$!organizationsForm.email" style="width: 400px" name="email" maxlength="2000" type="TEXT">
+                </td>
+              </tr>
+              
+              <tr class="odd">
+                <td valign="top" class="leftvalue">$msg.get("common.Comments") :</td>
+                <td>
+                  <textarea rows="3" wrap="VIRTUAL" style="width: 400px; height: 50px; margin-bottom: 8px;" name="comments" cols="43">$!organizationsForm.comments</textarea>
+                </td>
+              </tr>
+              <tr class="odd">
+                <td valign="top" class="leftvalue"></td>
+                <td>
+                  <input type="SUBMIT" value=$msg.get("common.save") >
+                </td>
+              </tr>
+            </table>
+            #parse ("/vm/listingOrganizationVerApp.vm")
+          </div>
+        </td>
+        </tr>
+      </table>
+      </div>
   <input type="hidden" name="operation" value="$!organizationsForm.operation">
   <input type="hidden" name="id" value="$!organizationsForm.id">
   <input type="hidden" name="created" value="$!organizationsForm.created">
 
-</form>
+  </form>
 #parse ("/vm/footer.vm")
 </body>
 </html>

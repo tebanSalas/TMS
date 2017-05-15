@@ -37,7 +37,7 @@
 <tr>
 <th colspan="2">$msg.get("common.delete.question")</th>
 </tr>
-    #foreach( $lista in $items)
+    #foreach($lista in $items)
 	<tr class="odd">
       <td valign="top" class="leftvalue">&nbsp;</td>
       <td >$!lista.description</td>
@@ -46,12 +46,12 @@
     <tr class="odd">
       <td valign="top" class="leftvalue">&nbsp;</td>
       <td>
-<input type="submit" name="delete" value=$msg.get("common.delete")>
-<input type="button" name="cancel" value=$msg.get("common.cancel") onClick="history.back();">
-<input type="hidden" name="operation" value="applyDelete">
-<input type="hidden" name="fromPage" value="$fromPage">
-<input type="hidden" name="param" value="$param">
-<input type="hidden" name="checkedItems" value="$checkedItems">
+        <input type="submit" name="delete" value=$msg.get("common.delete")>
+        <input type="button" name="cancel" value=$msg.get("common.cancel") onClick="history.back();">
+        <input type="hidden" name="operation" value="applyDelete">
+        <input type="hidden" name="fromPage" value="$fromPage">
+        <input type="hidden" name="param" value="$param">
+        <input type="hidden" name="checkedItems" value="$checkedItems">
       </td>
     </tr>
  </table></div>

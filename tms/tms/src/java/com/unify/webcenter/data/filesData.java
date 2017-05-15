@@ -28,6 +28,8 @@ public class filesData extends mainData implements Comparable{
          private String taskName;
     private String topicName;
 private int id_account;
+        private String to_replicate;
+
 	 public void setname(String val) { name = val; } 
 	 public void setid(int val) { id = val; } 
 	 public void setowner(int val) { owner = val; } 
@@ -214,4 +216,13 @@ private int id_account;
     public void setTopicName(String topicName) {
         this.topicName = topicName;
     }
+
+    public String getTo_replicate() {
+        return to_replicate;
+    }
+
+    public void setTo_replicate(String to_replicate) {
+        this.to_replicate = to_replicate;
+    }
+    
 }

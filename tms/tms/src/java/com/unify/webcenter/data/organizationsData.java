@@ -22,6 +22,8 @@ public class organizationsData extends mainData {
 	 protected String phone;
 	 protected String email;
 private int id_account;
+private int serversSupport;
+
 	 public void seturl(String val) { url = val; } 
 	 public void setaddress2(String val) { address2 = val; } 
 	 public void setname(String val) { name = val; } 
@@ -69,4 +71,13 @@ private int id_account;
     public void setId_account(int id_account) {
         this.id_account = id_account;
     }
+
+    public int getServersSupport() {
+        return serversSupport;
+    }
+
+    public void setServersSupport(int serversSupport) {
+        this.serversSupport = serversSupport;
+    }
+    
 }

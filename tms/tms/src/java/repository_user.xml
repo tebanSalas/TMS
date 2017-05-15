@@ -226,6 +226,11 @@ to avoid mixing user defined and system mappings. -->
                       jdbc-type="INTEGER"
                       primarykey="true"
     />
+    <field-descriptor id="15"
+                      name="to_replicate"
+                      column="to_replicate"
+                      jdbc-type="CHAR"
+    />
 </class-descriptor>
 
 <class-descriptor
@@ -448,6 +453,36 @@ to avoid mixing user defined and system mappings. -->
                       jdbc-type="CHAR"
                       
     />
+    <field-descriptor id="32"
+                      name="permission_delete_operation_number"
+                      column="permission_delete_operation_number"
+                      jdbc-type="CHAR"
+                      
+    />
+    <field-descriptor id="33"
+                      name="permission_view_app_control"
+                      column="permission_view_app_control"
+                      jdbc-type="CHAR"
+                      
+    />
+    <field-descriptor id="34"
+                      name="permission_app_control"
+                      column="permission_app_control"
+                      jdbc-type="CHAR"
+                      
+    />
+    <field-descriptor id="35"
+                      name="permission_version_control"
+                      column="permission_version_control"
+                      jdbc-type="CHAR"
+                      
+    />
+    <field-descriptor id="36"
+                      name="permission_report_applications"
+                      column="permission_report_applications"
+                      jdbc-type="CHAR"
+                      
+    />
     <reference-descriptor name="parentOrganization" 
                           class-ref="com.unify.webcenter.data.organizationsData"
                           refresh="true">
@@ -535,6 +570,11 @@ to avoid mixing user defined and system mappings. -->
     <field-descriptor id="14"
                       name="id_account"
                       column="id_account"
+                      jdbc-type="INTEGER"           
+    />    
+    <field-descriptor id="15"
+                      name="serversSupport"
+                      column="servers_support"
                       jdbc-type="INTEGER"           
     />
     
@@ -1113,6 +1153,16 @@ to avoid mixing user defined and system mappings. -->
                       jdbc-type="INTEGER"
                       
                       
+    />
+    <field-descriptor id="35"
+                      name="operation_number"
+                      column="operation_number"
+                      jdbc-type="INTEGER"              
+    />
+    <field-descriptor id="36"
+                      name="version_control"
+                      column="version_control"
+                      jdbc-type="INTEGER"                 
     />
     
     <reference-descriptor name="parentAssigned" 
@@ -1778,4 +1828,244 @@ to avoid mixing user defined and system mappings. -->
         <foreignkey field-id-ref = "4"/>
     </reference-descriptor>
     
+</class-descriptor>
+
+<class-descriptor
+    class="com.unify.webcenter.data.applicationData"
+    table="application"
+>
+    <field-descriptor id="1"
+                      name="id"
+                      column="id"
+                      jdbc-type="INTEGER"
+                      primarykey="true"
+                      autoincrement="true"
+    />
+    <field-descriptor id="2"
+                      name="name"
+                      column="name"
+                      jdbc-type="VARCHAR"
+    />
+    <field-descriptor id="3"
+                      name="description"
+                      column="description"
+                      jdbc-type="VARCHAR"
+    />
+</class-descriptor>
+
+<class-descriptor
+    class="com.unify.webcenter.data.versionData"
+    table="version"
+>
+    <field-descriptor id="1"
+                      name="id"
+                      column="id"
+                      jdbc-type="INTEGER"
+                      primarykey="true"
+                      autoincrement="true"
+    />
+    <field-descriptor id="2"
+                      name="name"
+                      column="name"
+                      jdbc-type="VARCHAR"
+    />
+    <field-descriptor id="3"
+                      name="description"
+                      column="description"
+                      jdbc-type="VARCHAR"
+    />
+</class-descriptor>
+
+<class-descriptor
+    class="com.unify.webcenter.data.versionAppData"
+    table="versionapp"
+>
+    <field-descriptor id="1"
+                      name="id"
+                      column="id"
+                      jdbc-type="INTEGER"
+                      primarykey="true"
+                      autoincrement="true"
+    />
+    <field-descriptor id="2"
+                      name="id_application"
+                      column="id_application"
+                      jdbc-type="INTEGER"
+    />
+    <field-descriptor id="3"
+                      name="id_version"
+                      column="id_version"
+                      jdbc-type="INTEGER"
+    />
+    <reference-descriptor name="parentVersion" 
+                          class-ref="com.unify.webcenter.data.versionData"
+                          refresh="true">
+        <foreignkey field-id-ref = "3"/>
+    </reference-descriptor>
+    <reference-descriptor name="parentApplication" 
+                          class-ref="com.unify.webcenter.data.applicationData"
+                          refresh="true">
+        <foreignkey field-id-ref = "2"/>
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor
+    class="com.unify.webcenter.data.organization_versionAppData"
+    table="orga_VerApp"
+>
+    
+    <field-descriptor id="1"
+                      name="id"
+                      column="id"
+                      jdbc-type="INTEGER"
+                      primarykey="true"
+                      autoincrement="true"
+    />
+    <field-descriptor id="2"
+                      name="id_verApp"
+                      column="id_verApp"
+                      jdbc-type="INTEGER"
+    />
+    <field-descriptor id="3"
+                      name="id_organization"
+                      column="id_organization"
+                      jdbc-type="INTEGER"
+    />
+    <field-descriptor id="4"
+                      name="id_account"
+                      column="id_account"
+                      jdbc-type="INTEGER"
+    />
+    <reference-descriptor name="parentVerApp" 
+                          class-ref="com.unify.webcenter.data.versionData"
+                          refresh="true">
+        <foreignkey field-id-ref = "2"/>
+    </reference-descriptor>
+    <reference-descriptor name="parentOrganization" 
+                          class-ref="com.unify.webcenter.data.organizationsData"
+                          refresh="true">
+        <foreignkey field-id-ref = "3"/>
+    </reference-descriptor>
+    
+    
+</class-descriptor>
+
+<class-descriptor
+    class="com.unify.webcenter.data.applicationControlData"
+    table="application_control"
+>
+    
+    <field-descriptor id="1"
+                      name="id"
+                      column="id"
+                      jdbc-type="INTEGER"
+                      primarykey="true"
+                      autoincrement="true"
+    />
+    <field-descriptor id="2"
+                      name="state"
+                      column="state"
+                      jdbc-type="INTEGER"
+    />
+    <field-descriptor id="3"
+                      name="application_date"
+                      column="application_date"
+                      jdbc-type="TIMESTAMP"
+    />
+    <field-descriptor id="4"
+                      name="comment"
+                      column="comment"
+                      jdbc-type="VARCHAR"
+    />
+    <field-descriptor id="5"
+                      name="id_task"
+                      column="id_task"
+                      jdbc-type="INTEGER"
+    />
+    <field-descriptor id="6"
+                      name="id_application_user"
+                      column="id_application_user"
+                      jdbc-type="INTEGER"
+    />
+    <field-descriptor id="7"
+                      name="id_organization"
+                      column="id_organization"
+                      jdbc-type="INTEGER"
+    />
+    <field-descriptor id="8"
+                      name="id_account"
+                      column="id_account"
+                      jdbc-type="INTEGER"
+    />
+    
+    <reference-descriptor name="parentTask" 
+                          class-ref="com.unify.webcenter.data.tasksData"
+                          refresh="true">
+        <foreignkey field-id-ref = "5"/>
+    </reference-descriptor>
+    <reference-descriptor name="parentMembers" 
+                          class-ref="com.unify.webcenter.data.membersData"
+                          refresh="true">
+        <foreignkey field-id-ref = "6"/>
+    </reference-descriptor>
+    <reference-descriptor name="parentOrganization" 
+                          class-ref="com.unify.webcenter.data.organizationsData"
+                          refresh="true">
+        <foreignkey field-id-ref = "7"/>
+    </reference-descriptor>
+    <reference-descriptor name="parentAccount" 
+                          class-ref="com.unify.webcenter.data.accountsData"
+                          refresh="true">
+        <foreignkey field-id-ref = "8"/>
+    </reference-descriptor>
+    
+</class-descriptor>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<class-descriptor
+    class="com.unify.webcenter.data.empleadosData"
+    table="empleado"
+>
+    
+    <field-descriptor id="1"
+                      name="id"
+                      column="id"
+                      jdbc-type="INTEGER"
+                      primarykey="true"
+                      autoincrement="true"
+    />
+    <field-descriptor id="2"
+                      name="name"
+                      column="name"
+                      jdbc-type="VARCHAR"
+    />
+    <field-descriptor id="3"
+                      name="firstName"
+                      column="firstname"
+                      jdbc-type="VARCHAR"
+    />
+    <field-descriptor id="4"
+                      name="id_account"
+                      column="id_account"
+                      jdbc-type="INTEGER"
+    />
 </class-descriptor>

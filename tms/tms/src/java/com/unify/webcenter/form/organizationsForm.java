@@ -41,6 +41,7 @@ public class organizationsForm  extends ValidatorActionForm {
          private int pageProjects;
          private int pageMembers;
                private int typeProject;
+        private int serversSupport;
                
 	 public void seturl(String val) { url = val; } 
 	 public void setaddress2(String val) { address2 = val; } 
@@ -149,4 +150,13 @@ public class organizationsForm  extends ValidatorActionForm {
     public void setTypeProject(int typeProject) {
         this.typeProject = typeProject;
     }
+
+    public int getServersSupport() {
+        return serversSupport;
+    }
+
+    public void setServersSupport(int serversSupport) {
+        this.serversSupport = serversSupport;
+    }
+    
 }

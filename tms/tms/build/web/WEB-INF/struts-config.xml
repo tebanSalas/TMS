@@ -108,6 +108,18 @@
         
         <form-bean name="masterReportsForm"
                    type="com.unify.webcenter.form.masterReportsForm"/>
+        
+        <form-bean name="versionForm"
+                   type="com.unify.webcenter.form.versionForm"/>
+        
+        <form-bean name="applicationForm"
+                   type="com.unify.webcenter.form.applicationForm"/>
+        
+        <form-bean name="versionAppForm"
+                   type="com.unify.webcenter.form.versionAppForm"/>
+        
+        <form-bean name="empleadoForm"
+                   type="com.unify.webcenter.form.empleadoForm"/>
     </form-beans>
     
     
@@ -642,6 +654,63 @@
             <forward name="main" path="/vm/menuSuperAdmin.vm"/>           
                <forward name="indexing" path="/vm/indexingStatistics.vm"/>
           </action>
+          
+          <action    path="/version"
+                   type="com.unify.webcenter.action.versionAction"
+                   name="versionForm"
+                   scope="request"
+       
+                   validate="false">
+            <forward name="listing" path="/vm/listingVersion.vm"/>
+            <forward name="home" path="/home.do" redirect="true"/>
+            <forward name="displayAddForm"  path="/vm/addVersion.vm"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteVersionYapp.vm"/>
+            <forward name="cantDelete"  path="/vm/cantDelete.vm"/>
+                        
+          </action>
+          
+          <action    path="/applications"
+                   type="com.unify.webcenter.action.applicationAction"
+                   name="applicationForm"
+                   scope="request"
+       
+                   validate="false">
+            <forward name="listing" path="/vm/listingApplication.vm"/>
+            <forward name="home" path="/home.do" redirect="true"/>
+            <forward name="displayAddForm"  path="/vm/addApplication.vm"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteVersionYapp.vm"/>
+            <forward name="cantDelete"  path="/vm/cantDelete.vm"/>
+                       
+        </action>
+        
+        <action    path="/verApps"
+                   type="com.unify.webcenter.action.verAppAction"
+                   name="versionAppForm"
+                   scope="request"
+       
+                   validate="false">
+            <forward name="listing" path="/vm/listingVerApp.vm"/>
+            <forward name="home" path="/home.do" redirect="true"/>
+            <forward name="displayAddForm"  path="/vm/addVersionApp.vm"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteVersionYapp.vm"/>
+            <forward name="cantDelete"  path="/vm/cantDelete.vm"/>
+                       
+        </action>
+        
+        
+        
+          
+          <action    path="/empleados"
+                   type="com.unify.webcenter.action.empleadoAction"
+                   name="empleadoForm"
+                   scope="request"
+       
+                   validate="false">
+            <forward name="listing" path="/vm/listingEmpleados.vm"/>
+            <forward name="home" path="/home.do" redirect="true"/>
+            <forward name="displayAddForm"  path="/vm/addEmpleados.vm"/>
+                        
+        </action>
         
         
     </action-mappings>

@@ -71,6 +71,9 @@ public class tasksForm  extends ValidatorActionForm {
          
         private int emailNotifyTQA;
         private int emailNotifyFQA;
+        
+        private int version_control;
+        private int operation_number;
     
          public void setcheck_monto_fijo(int val) { check_monto_fijo = val ;}
          public void setmonto_manual(java.math.BigDecimal val) { monto_manual = val; }
@@ -353,4 +356,22 @@ public class tasksForm  extends ValidatorActionForm {
     public void setEmailNotifyFQA(int emailNotifyFQA) {
         this.emailNotifyFQA = emailNotifyFQA;
     }
+
+    public int getVersion_control() {
+        return version_control;
+    }
+
+    public void setVersion_control(int version_control) {
+        this.version_control = version_control;
+    }
+
+    public int getOperation_number() {
+        return operation_number;
+    }
+
+    public void setOperation_number(int operation_number) {
+        this.operation_number = operation_number;
+    }
+    
+    
 }

@@ -57,6 +57,7 @@ function sendData(tipo) {
  <a href="javascript:sendData('./encrypt.do?operation=confirm&account=');"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.Encrypt")</a><br><br>
  <a href="javascript:sendData('./broadcastEmail.do?account=');"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.sendEmails")</a><br><br>
  <a href="javascript:sendData('./configSendReport.do?operation=view&account=');"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.ConfigSendReport")</a><br><br>
+
  #if ($activeAccount == "0")
 <a href="./members.do?operation=userlisting1"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.UserRenew")</a><br><br>
  #end
@@ -71,6 +72,13 @@ function sendData(tipo) {
  <a href="./configSendReport.do?operation=view"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.ConfigSendReport")</a><br><br>
  <a href="./members.do?operation=userlisting1"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.UserRenew")</a><br><br>
  <a href="./reports.do?operation=addTaskChange2"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("header.displayTaskChange")</a><br><br>
+ <a href="./version.do?operation=listing"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.crudVersion")</a><br><br>
+ <a href="./applications.do?operation=listing"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.crudApp")</a><br><br>
+ <a href="./verApps.do?operation=listing"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.joinVerApp")</a><br><br>
+
+<!--
+ <a href="./empleados.do?operation=listing"><img src="./images/right-arrow.gif" width="13" height="13" border="0">empleados </a><br><br> 
+ -->
 
 
 #end

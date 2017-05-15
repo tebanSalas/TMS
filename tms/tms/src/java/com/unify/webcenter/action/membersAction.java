@@ -68,10 +68,10 @@ public class membersAction extends Action {
      * @exception ServletException if a servlet exception occurs
      */
     public ActionForward execute(ActionMapping mapping,
-            ActionForm form,
-            HttpServletRequest request,
-            HttpServletResponse response)
-            throws IOException, ServletException {
+                                    ActionForm form,
+                                    HttpServletRequest request,
+                                    HttpServletResponse response)
+                                    throws IOException, ServletException {
         String action;
         HttpSession session;
         membersBroker broker;

@@ -126,7 +126,7 @@ AC_FL_RunContent(
               <td align="right"><a onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image11','','images/contrase2_${loginForm.language}.gif',1)"><img src="images/contrase1_${loginForm.language}.gif" name="Image11" border="0"></a></td>
               <td>
                   <img src="images/espacio.gif" width="10" height="10">
-		  <input type=password name=password size="20">
+		              <input type=password name=password size="20">
 
               </td>
             </tr>
