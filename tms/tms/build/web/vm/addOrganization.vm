@@ -1,3 +1,4 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
 <title>Add Organization</title>
@@ -98,17 +99,17 @@
                 </td>
               </tr>
             </table>
-            #parse ("/vm/listingOrganizationVerApp.vm")
           </div>
         </td>
         </tr>
       </table>
-      </div>
+    </div>
   <input type="hidden" name="operation" value="$!organizationsForm.operation">
   <input type="hidden" name="id" value="$!organizationsForm.id">
   <input type="hidden" name="created" value="$!organizationsForm.created">
 
   </form>
+
 #parse ("/vm/footer.vm")
 </body>
 </html>

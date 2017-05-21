@@ -12,8 +12,8 @@ package com.unify.webcenter.data;
 public class organization_versionAppData extends mainData{
     private int id;
     private versionAppData parentVerApp;
-    private int id_verApp; 
-    private organizationsData parentOranization;
+    private int id_verapp; 
+    private organizationsData parentOrganization;
     private int id_organization;
     private int id_account;
 
@@ -33,20 +33,20 @@ public class organization_versionAppData extends mainData{
         this.parentVerApp = parentVerApp;
     }
 
-    public int getId_verApp() {
-        return id_verApp;
+    public int getId_verapp() {
+        return id_verapp;
     }
 
-    public void setId_verApp(int id_verApp) {
-        this.id_verApp = id_verApp;
+    public void setId_verapp(int id_verapp) {
+        this.id_verapp = id_verapp;
     }
 
-    public organizationsData getParentOranization() {
-        return parentOranization;
+    public organizationsData getParentOrganization() {
+        return parentOrganization;
     }
 
-    public void setParentOranization(organizationsData parentOranization) {
-        this.parentOranization = parentOranization;
+    public void setParentOrganization(organizationsData parentOrganization) {
+        this.parentOrganization = parentOrganization;
     }
 
     public int getId_organization() {
@@ -65,9 +65,6 @@ public class organization_versionAppData extends mainData{
         this.id_account = id_account;
     }
 
-    
-
-    
     
     
 }

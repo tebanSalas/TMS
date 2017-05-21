@@ -151,30 +151,31 @@ public class applicationAction extends Action{
                     // delete each file entry in DB and your file asociated.
                     applicationData datatemp = new applicationData();
                     ListIterator li = items.listIterator();
+                    verAppbroker =  new versionAppBroker();
                     while (li.hasNext()) {
                         datatemp = (applicationData)li.next();
-                        verAppbroker =  new versionAppBroker();
+                        
                         int idTemp = datatemp.getId();
                         boolean exist = verAppbroker.existApp(idTemp);//(datatemp.getId());
                         if(!exist){
-                            applicationBroker.delete(datatemp);
-                            Iterator e = applicationBroker.getList();
-                            request.setAttribute("listaAplicativos", e);
-                            request.setAttribute("menuRoute", 
-                                "<a href='./admin.do'>" +
-                                java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(),"")).getString("common.Administration")
-                                + "</a>&nbsp;/" +
-                                "<a>"+ 
-                                java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(),"")).getString("common.crudApp")+"</a>");
-                            request.setAttribute("company",company);
-                            verAppbroker.close();
-                            return (mapping.findForward("listing"));
+                            applicationBroker.delete(datatemp);                                                      
                         }else{
-                            verAppbroker.close();
+                            
                             return (mapping.findForward("cantDelete"));
-                        }   
+                        }
                     }
-                     
+                    Iterator e = applicationBroker.getList();
+                    request.setAttribute("listaAplicativos", e);
+                    request.setAttribute("menuRoute", 
+                        "<a href='./admin.do'>" +
+                        java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(),"")).getString("common.Administration")
+                        + "</a>&nbsp;/" +
+                        "<a>"+ 
+                        java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(),"")).getString("common.crudApp")+"</a>");
+                    request.setAttribute("company",company);
+                    verAppbroker.close();        
+                    return (mapping.findForward("listing"));
+                    
                          
                 } else if (action.equals("applyAdd")) {
 //                    // Se trata de la aplicacion de un insert en la BD

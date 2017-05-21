@@ -132,7 +132,7 @@
 	</td>
     <td width="32%"><a href="javascript:document.formOrganizations.id.value='$lista.getid()';sendData('view');">$lista.getname()</a></td>
     <td width="26%">$lista.getphone()</td>
-   <td width="37%"><a  href='http://$lista.geturl()' target="_blank">$!lista.geturl()</a></td>
+   <td width="37%"><a  href='http://$!lista.geturl()' target="_blank">$!lista.geturl()</a></td>
   </tr>
 #set ($row = $row + 1)  
 #end

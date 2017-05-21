@@ -8,6 +8,7 @@ package com.unify.webcenter.broker;
 import com.unify.webcenter.data.empleadosData;
 import com.unify.webcenter.data.mainData;
 import com.unify.webcenter.data.organization_versionAppData;
+import com.unify.webcenter.data.versionAppData;
 import java.util.Collection;
 import java.util.Iterator;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -114,4 +115,51 @@ public class organization_versionAppBroker extends MainBroker{
         return e;
     }
     
+    //Metodo que trae todos los applicativos relacionados a una version
+    public Iterator getAppsXorganizacion(int idOrga) throws PersistenceBrokerException {
+        Criteria criteria = new Criteria(); /// es como la definicion del where en la consulta
+        Query query = new QueryByCriteria(organization_versionAppData.class, criteria); // a que data pertenece el criteri
+        criteria.addEqualTo("id_organization", new Integer(idOrga));
+// ask the broker to retrieve the Extent collection
+        Collection allLines = broker.getCollectionByQuery(query); // construye la sentencia de sql y la ejecuta
+        Iterator e = allLines.iterator(); //lo pasa a un tipo de arreglo
+                // We return the object
+        return e;
+    }
+    //Metodo que trae todos los applicativos que no estan relacionados a una version
+     public Iterator getAppsNOorganizacion(int idOrga) throws PersistenceBrokerException {
+        Criteria criteria = new Criteria(); /// es como la definicion del where en la consulta
+        criteria.addSql("Select v.id, v.id_version, v.id_application\n" +
+                        "from tms.orga_ver_app as ova\n" +
+                        "inner join tms.versionapp as v on (v.id = ova.id_verapp )");
+        Query query = new QueryByCriteria(versionAppData.class, criteria); // a que data pertenece el criteri
+        
+// ask the broker to retrieve the Extent collection
+        Collection allLines = broker.getCollectionByQuery(query); // construye la sentencia de sql y la ejecuta
+        Iterator e = allLines.iterator(); //lo pasa a un tipo de arreglo
+                // We return the object
+        return e;
+    }
+     
+    public boolean existVerApp(int id_verApp) {
+        organization_versionAppData data = new organization_versionAppData();  //todos los datos que vienen de la bd
+        Criteria criteria = new Criteria(); /// es como la definicion del where en la consulta
+        criteria.addEqualTo("id_verapp", new Integer(id_verApp)); // es como un tipo de join, diciendo que el "id" sea igual al id que me pasan por parametro
+        
+        // Query of the exact organization
+        Query query = new QueryByCriteria(organization_versionAppData.class, criteria); // a que data pertenece el criteria
+
+        // ask the broker to retrieve the Extent collection
+        Collection allLines = broker.getCollectionByQuery(query); // construye la sentencia de sql y la ejecuta
+        Iterator e = allLines.iterator(); //lo pasa a un tipo de arreglo
+        // If exists the record -MUST EXISTS ALWAYS
+        if (e.hasNext()) { //recorre la colección
+            data = (organization_versionAppData) e.next();
+        }
+        if(data.getId_verapp() == id_verApp){
+            return true;
+        }else{
+           return false;
+        }
+    }
 }

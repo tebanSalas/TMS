@@ -118,6 +118,11 @@
         <form-bean name="versionAppForm"
                    type="com.unify.webcenter.form.versionAppForm"/>
         
+        <form-bean name="organization_versionAppForm"
+                   type="com.unify.webcenter.form.organization_versionAppForm"/>
+        
+        
+        
         <form-bean name="empleadoForm"
                    type="com.unify.webcenter.form.empleadoForm"/>
     </form-beans>
@@ -199,6 +204,7 @@
             <forward name="confirmDelete"  path="/vm/confirmdeleteOrganization.vm"/>
             <forward name="displayAll" path="/vm/viewAllProjectsOrg.vm" />
             <forward name="accessDenied" path="/vm/accessDenied.vm"/>
+            <forward name="addVerApps" path="/vm/addVerAppToOrga.vm"/>
         </action>
         
         <action    path="/topics"
@@ -697,7 +703,20 @@
                        
         </action>
         
-        
+        <action    path="/orgaVerApps"
+                   type="com.unify.webcenter.action.organization_versionAppAction"
+                   name="organization_versionAppForm"
+                   scope="request"
+       
+                   validate="false">
+            <forward name="listing" path="/vm/addVerAppToOrga.vm"/>
+            <forward name="viewOrganization"           path="/organizations.do?operation=listing" redirect="true"/>
+            <forward name="home" path="/home.do" redirect="true"/>
+            <forward name="displayAddForm"  path="/vm/addVersionApp.vm"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteVersionYapp.vm"/>
+            <forward name="cantDelete"  path="/vm/cantDelete.vm"/>
+                       
+        </action>
         
           
           <action    path="/empleados"

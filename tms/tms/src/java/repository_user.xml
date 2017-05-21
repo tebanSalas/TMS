@@ -1911,9 +1911,8 @@ to avoid mixing user defined and system mappings. -->
 
 <class-descriptor
     class="com.unify.webcenter.data.organization_versionAppData"
-    table="orga_VerApp"
+    table="orga_ver_app"
 >
-    
     <field-descriptor id="1"
                       name="id"
                       column="id"
@@ -1922,8 +1921,8 @@ to avoid mixing user defined and system mappings. -->
                       autoincrement="true"
     />
     <field-descriptor id="2"
-                      name="id_verApp"
-                      column="id_verApp"
+                      name="id_verapp"
+                      column="id_verapp"
                       jdbc-type="INTEGER"
     />
     <field-descriptor id="3"
@@ -1937,7 +1936,7 @@ to avoid mixing user defined and system mappings. -->
                       jdbc-type="INTEGER"
     />
     <reference-descriptor name="parentVerApp" 
-                          class-ref="com.unify.webcenter.data.versionData"
+                          class-ref="com.unify.webcenter.data.versionAppData"
                           refresh="true">
         <foreignkey field-id-ref = "2"/>
     </reference-descriptor>
@@ -1945,9 +1944,7 @@ to avoid mixing user defined and system mappings. -->
                           class-ref="com.unify.webcenter.data.organizationsData"
                           refresh="true">
         <foreignkey field-id-ref = "3"/>
-    </reference-descriptor>
-    
-    
+    </reference-descriptor>    
 </class-descriptor>
 
 <class-descriptor

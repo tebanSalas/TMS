@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
 <html>
 <head>
 <title>$msg.get("common.crudVersion")</title>
@@ -72,13 +72,13 @@ function sendData() {
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.version")</td>
       <td>
-   <input size="44" value="$!versionForm.name" style="width: 250px" name="name" maxlength="100" type="text" >
+   <input size="44" value="$!versionForm.name" style="width: 250px" name="name" maxlength="149" type="text" >
       </td>
     </tr>
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.description")</td>
       <td>
-   <input size="44" value="$!versionForm.description" style="width: 250px" name="description" maxlength="100" type="text" >
+   <textarea size="44" value="$!versionForm.description" style="width: 250px" name="description" maxlength="700" type="text" ></textarea>
       </td>
     </tr>  
     <tr class="odd"> 

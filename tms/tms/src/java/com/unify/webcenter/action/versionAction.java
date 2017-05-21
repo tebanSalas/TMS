@@ -150,53 +150,52 @@ public class versionAction extends Action{
                     // delete each file entry in DB and your file asociated.
                     versionData datatemp = new versionData();
                     ListIterator li = items.listIterator();
+                    verAppbroker =  new versionAppBroker();
                     while (li.hasNext()) {
                         datatemp = (versionData)li.next();
-                        verAppbroker =  new versionAppBroker();
                         int idTemp = datatemp.getId();
                         boolean exist = verAppbroker.existVersion(idTemp);//(datatemp.getId());
                         if(!exist){
                             versionBroker.delete(datatemp);
-                            Iterator e = versionBroker.getList();
+                        }else{
+                            return (mapping.findForward("cantDelete")); 
+                        }
+                    }
+                        Iterator e = versionBroker.getList();
                             request.setAttribute("listaVersiones", e);
                             request.setAttribute("menuRoute", 
                                 "<a href='./admin.do'>" +
                                 java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(),"")).getString("common.Administration")
                                 + "</a>&nbsp;/" +
                                 "<a>"+ 
-                                java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(),"")).getString("common.crudVersion")+"</a>");
-                            request.setAttribute("company",company);
-                            verAppbroker.close();
-                            return (mapping.findForward("listing"));
-                        }else{
-                            verAppbroker.close();
-                            return (mapping.findForward("cantDelete"));
-                            
-                        }
-                        
-                    }
-                         
+                            java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(),"")).getString("common.crudVersion")+"</a>");
+                        request.setAttribute("company",company);
+                        verAppbroker.close();
+                        return (mapping.findForward("listing"));
+                                             
                 } else if (action.equals("applyAdd")) {
-//                    // Se trata de la aplicacion de un insert en la BD
-                    versionData data = new versionData();
-                    // We copy all the properties from the form to the bean.
-                    PropertyUtils.copyProperties(data, thisForm);                                              
-//                    // Save the information about the file in DB                            
-                    data.setId(0);
-                      //data.setAccount(user.getId_account());
-                    versionBroker.add(data);
-//                    
-                    request.setAttribute("menuRoute", 
-                        "<a href='./admin.do'>" +
-                        java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(),"")).getString("common.Administration")
-                        + "</a>&nbsp;/" +
-                        "<a>"+ 
-                        java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(),"")).getString("common.crudVersion")+"</a>");
-                    request.setAttribute("company",company);
-                    Iterator e = versionBroker.getList();
-                    request.setAttribute("listaVersiones", e);
+                     
+    //                    // Se trata de la aplicacion de un insert en la BD
+                        versionData data = new versionData();
+                        // We copy all the properties from the form to the bean.
+                        PropertyUtils.copyProperties(data, thisForm);                                              
+    //                    // Save the information about the file in DB                            
+                        data.setId(0);
+                          //data.setAccount(user.getId_account());
+                        versionBroker.add(data);
+    //                    
+                        request.setAttribute("menuRoute", 
+                            "<a href='./admin.do'>" +
+                            java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(),"")).getString("common.Administration")
+                            + "</a>&nbsp;/" +
+                            "<a>"+ 
+                            java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(),"")).getString("common.crudVersion")+"</a>");
+                        request.setAttribute("company",company);
+                        Iterator e = versionBroker.getList();
+                        request.setAttribute("listaVersiones", e);
+                        return (mapping.findForward("listing")); 
                     
-                    return (mapping.findForward("listing")); 
+                    
 //                    
                 } else if (action.equals("applyEdit")) {
                     // Se trata de la aplicacion de un update en la BD

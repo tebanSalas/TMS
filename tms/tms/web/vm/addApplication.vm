@@ -72,13 +72,13 @@ function sendData() {
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.application")</td>
       <td>
-   <input size="44" value="$!applicationForm.name" style="width: 250px" name="name" maxlength="100" type="text" >
+   <input size="44" value="$!applicationForm.name" style="width: 250px" name="name" maxlength="149" type="text" required>
       </td>
     </tr>
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.description")</td>
       <td>
-   <input size="44" value="$!applicationForm.description" style="width: 250px" name="description" maxlength="100" type="text" >
+   <textarea  size="44" value="$!applicationForm.description" style="width: 250px" name="description" maxlength="700" type="text" ></textarea>
       </td>
     </tr>  
     <tr class="odd"> 

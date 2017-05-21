@@ -110,6 +110,8 @@ function getArrayNumbers(theForm) {
 </div>
 #parse ("/vm/listingprojectsOrganization.vm")
 #parse ("/vm/listingmembersOrganizations.vm")
+#parse ("/vm/listingOrganizationVerApp.vm")
+
 
 <form name="homeForm" method="post" action="./organizations.do">
   <input type="hidden" name="sortOrderProjects" value="$!organizationsForm.sortOrderProjects">

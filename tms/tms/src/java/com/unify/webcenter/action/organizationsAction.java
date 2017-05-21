@@ -69,8 +69,9 @@ public class organizationsAction extends Action {
         projectsBroker brokerProjects;
         membersBroker brokerMembers;
         String company = null;
-
+        organization_versionAppBroker OrgaVerAppBroker;
         HttpSession session = request.getSession(false);
+        String patternStr = ","; 
 
         // Si la sesion es nula, se debe redireccionar al login.
         if (session == null || session.getAttribute("login") == null) {
@@ -94,7 +95,7 @@ public class organizationsAction extends Action {
                 }
 
                 organizationsForm thisForm = (organizationsForm) form;
-
+                OrgaVerAppBroker = new organization_versionAppBroker();
                 // fetch action from form
                 action = thisForm.getOperation();
 
@@ -192,6 +193,13 @@ public class organizationsAction extends Action {
 
                     request.setAttribute("list", lista);
 
+//                    PARA PONER EL CUADRO DE CONFIGURACION DE LOS VERAPPS EN EL ADDORGANIZATION
+
+//                    OrgaVerAppBroker = new organization_versionAppBroker();
+//                    Iterator i = OrgaVerAppBroker.getAppsXorganizacion(thisForm.getid());
+//                    request.setAttribute("listaVerAppsXOrga", i);
+//                    OrgaVerAppBroker.close();
+                    
                     return (mapping.findForward("displayAddForm"));
 
                 } else if (action.equals("edit")) {
@@ -229,6 +237,11 @@ public class organizationsAction extends Action {
 
                     request.setAttribute("list", lista);
 
+                    OrgaVerAppBroker = new organization_versionAppBroker();
+                    Iterator i = OrgaVerAppBroker.getAppsXorganizacion(thisForm.getid());
+                    request.setAttribute("listaVerAppsXOrga", i);
+                    OrgaVerAppBroker.close();
+                    
                     return (mapping.findForward("displayEditForm"));
 
                 } else if (action.equals("view") || action.equals("sortChilds") || action.equals("paging")) {
@@ -258,6 +271,11 @@ public class organizationsAction extends Action {
                     // Ordenamos los members
                     sortMembers(request, thisForm, data.getid(), brokerMembers, user.getTime_zone(), user.getId_account());
 
+                    OrgaVerAppBroker = new organization_versionAppBroker();
+                    Iterator i = OrgaVerAppBroker.getAppsXorganizacion(thisForm.getid());
+                    request.setAttribute("listaVerAppsXOrga", i);
+                    OrgaVerAppBroker.close();
+                    
                     request.setAttribute("company", company);
                     return (mapping.findForward("displayViewForm"));
 
@@ -412,7 +430,46 @@ public class organizationsAction extends Action {
                     // forward to display the list 
                     return (mapping.findForward("displayAll"));
 
+                }else if (action.equals("addVerApps")) {
+                    
+                    request.setAttribute("title",
+                        java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(), "")).getString("common.addClientOrg"));
+//                    thisForm.setoperation("applyAdd");
+//                    thisForm.setid(0);
+                    thisForm.setcreated(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
+
+                    // Se agrega el link para el menu con la ruta
+                    request.setAttribute("menuRoute",
+                            "<a href='./home.do'>" + java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(), "")).getString("header.displayStart") + "</a>&nbsp;/" +
+                            "<a href='./organizations.do?operation=listing'>" +
+                            java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(), "")).getString("common.ClientOrganizations") +
+                            "</a>&nbsp;/&nbsp;" + java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(), "")).getString("common.addOrganization"));
+                    request.setAttribute("company", company);
+
+                    organizationsData data = (organizationsData) broker.getData(thisForm.getid(), user.getId_account());
+                    request.setAttribute("organization", data);
+                    
+                    versionAppBroker vab = new versionAppBroker();
+                    Iterator i =  vab.getList();
+                    request.setAttribute("listaVerAppsXOrga", i);
+                    vab.close();
+                    
+                    //Metodo que regrese los aplicativos que aún no estan asociados a la organixacion en cuestión
+//                    OrgaVerAppBroker = new organization_versionAppBroker();
+//                    Iterator i = OrgaVerAppBroker.getAppsNOorganizacion(thisForm.getid());
+//                    request.setAttribute("listaVerAppsXOrga", i);
+                    
+                    return (mapping.findForward("addVerApps"));
+
+                    
+                }else if (action.equals("delete")) {
+                    
                 }
+                
+                
+                
+                
+                
             } catch (Exception e) {
                 servlet.log("[ERROR] Action at final catch: " + e.getMessage());
                 logger.logp(Level.SEVERE, "organizations.do", "perform",

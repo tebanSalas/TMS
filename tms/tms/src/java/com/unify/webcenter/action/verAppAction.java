@@ -6,6 +6,7 @@
 package com.unify.webcenter.action;
 
 import com.unify.webcenter.broker.applicationBroker;
+import com.unify.webcenter.broker.organization_versionAppBroker;
 import com.unify.webcenter.broker.versionAppBroker;
 import com.unify.webcenter.broker.versionAppBroker;
 import com.unify.webcenter.broker.versionBroker;
@@ -49,7 +50,7 @@ public class verAppAction extends Action{
         versionAppBroker versionAppBroker;
         String patternStr = ","; 
         String company = null;
-        versionAppBroker verAppbroker;
+       
         versionBroker verBroker;
         applicationBroker appBroker;
         
@@ -170,14 +171,19 @@ public class verAppAction extends Action{
                     // delete each file entry in DB and your file asociated.
                     versionAppData datatemp = new versionAppData();
                     ListIterator li = items.listIterator();
+                    organization_versionAppBroker ovab= new organization_versionAppBroker();
                     while (li.hasNext()) {
                         datatemp = (versionAppData)li.next();
-                        verAppbroker =  new versionAppBroker();
-//                        int idTemp = datatemp.getId();
-//                        boolean exist = verAppbroker.existApp(idTemp);//(datatemp.getId());
-//                        if(!exist){
+                        int idTemp = datatemp.getId();
+                        boolean exist = ovab.existVerApp(idTemp);//(datatemp.getId());
+                        if(!exist){
                             versionAppBroker.delete(datatemp);
-                            Iterator e = versionAppBroker.getList();
+                            
+                        }else{
+                            return (mapping.findForward("cantDelete"));
+                        }
+                    }
+                          Iterator e = versionAppBroker.getList();
                             request.setAttribute("listaVerApp", e);
                             request.setAttribute("menuRoute", 
                                 "<a href='./admin.do'>" +
@@ -186,13 +192,8 @@ public class verAppAction extends Action{
                                 "<a>"+ 
                                 java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(),"")).getString("common.crudApp")+"</a>");
                             request.setAttribute("company",company);
-                            verAppbroker.close();
                             return (mapping.findForward("listing"));
-//                        }else{
-//                            verAppbroker.close();
-//                            return (mapping.findForward("cantDelete"));
-//                        }   
-                    }
+                    
                      
                          
                 } else if (action.equals("applyAdd")) {
