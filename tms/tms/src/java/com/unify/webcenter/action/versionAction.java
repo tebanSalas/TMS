@@ -174,13 +174,17 @@ public class versionAction extends Action{
                         return (mapping.findForward("listing"));
                                              
                 } else if (action.equals("applyAdd")) {
-                     
+                        errors = thisForm.validate(mapping, request);
+                        if (errors.isEmpty()) {
     //                    // Se trata de la aplicacion de un insert en la BD
                         versionData data = new versionData();
                         // We copy all the properties from the form to the bean.
                         PropertyUtils.copyProperties(data, thisForm);                                              
     //                    // Save the information about the file in DB                            
                         data.setId(0);
+                        if (data.getDescription().equals("")){
+                            data.setDescription("N/A");
+                        }
                           //data.setAccount(user.getId_account());
                         versionBroker.add(data);
     //                    
@@ -193,15 +197,25 @@ public class versionAction extends Action{
                         request.setAttribute("company",company);
                         Iterator e = versionBroker.getList();
                         request.setAttribute("listaVersiones", e);
-                        return (mapping.findForward("listing")); 
-                    
+                        //return (mapping.findForward("listing")); 
+                        return (new ActionForward(mapping.findForward("listing")));
+                        }else {
+                        saveErrors(request, errors);
+                        return (new ActionForward(mapping.findForward("displayAddFormError").
+                                getPath() + "?operation=add"));
+                    }  
                     
 //                    
                 } else if (action.equals("applyEdit")) {
+                    errors = thisForm.validate(mapping, request);
+                        if (errors.isEmpty()) {
                     // Se trata de la aplicacion de un update en la BD
                     versionData data = new versionData();
                     PropertyUtils.copyProperties(data, thisForm);   
                     // We add the new record.
+                    if (data.getDescription().equals("")){
+                            data.setDescription("N/A");
+                        }
                     versionBroker.update(data);
                          
                     // Se agrega el link para el menu con la ruta
@@ -216,7 +230,11 @@ public class versionAction extends Action{
                     request.setAttribute("listaVersiones", e);
                     
                     return (mapping.findForward("listing"));                
-                   
+                   }else {
+                        saveErrors(request, errors);
+                        return (new ActionForward(mapping.findForward("displayAddFormError").
+                                getPath() + "?operation=edit"));
+                    }  
                 } else if (action.equals("showAll") || action.equals("sortAll")) {
                     
                     return (mapping.findForward("displayAllRisksByProject")); 

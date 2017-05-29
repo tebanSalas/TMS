@@ -110,7 +110,7 @@ public class versionAppBroker extends MainBroker{
         if (e.hasNext()) { //recorre la colección
             data = (versionAppData) e.next();
         }
-        if(data.getId_application() == id_version){
+        if(data.getId_version() == id_version){
             return true;
         }else{
            return false;
@@ -123,5 +123,27 @@ public class versionAppBroker extends MainBroker{
         Collection allLines = broker.getCollectionByQuery(query); // construye la sentencia de sql y la ejecuta
         Iterator e = allLines.iterator(); //lo pasa a un tipo de arreglo
         return e;
+    }
+    
+    public boolean exist(int idVer, int idApp) {
+        versionAppData data = new versionAppData();  //todos los datos que vienen de la bd
+        Criteria criteria = new Criteria(); /// es como la definicion del where en la consulta
+        criteria.addEqualTo("id_application", new Integer(idApp)); // es como un tipo de join, diciendo que el "id" sea igual al id que me pasan por parametro
+        criteria.addEqualTo("id_version", new Integer(idVer));
+        // Query of the exact organization
+        Query query = new QueryByCriteria(versionAppData.class, criteria); // a que data pertenece el criteria
+
+        // ask the broker to retrieve the Extent collection
+        Collection allLines = broker.getCollectionByQuery(query); // construye la sentencia de sql y la ejecuta
+        Iterator e = allLines.iterator(); //lo pasa a un tipo de arreglo
+        // If exists the record -MUST EXISTS ALWAYS
+        if (e.hasNext()) { //recorre la colección
+            return true;
+        }else{
+            return false;
+        }
+
+        // We return the object
+        
     }
 }

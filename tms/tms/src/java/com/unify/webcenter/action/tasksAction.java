@@ -1431,7 +1431,7 @@ public class tasksAction extends Action {
                                             sm.send("statustaskchange", from_member, clientManager, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
 
                                         }
-                                        
+                                       
                                         System.out.println("-------------------------");
                                     }else{
                                         System.out.println("---------Tarea NO pùblica: NO notificar al CLIENTE--------");
@@ -1554,6 +1554,11 @@ public class tasksAction extends Action {
                                 if ( data.getstatus()!=12){
                                     System.out.println("---------Task Owner Member--------");
                                     sm.send("statustaskchange", from_member, to_member, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
+                                    System.out.println("----------Control Version---------------");
+                                     membersData clientManager2 =  new membersData();
+                                    String svn = TMSConfigurator.getSvn();
+                                    clientManager2.setemail_work(svn);
+                                    sm.send("statustaskchange", from_member, clientManager2, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
                                     System.out.println("-------------------------");
                                 }
                                 emailSended = true;
@@ -2179,7 +2184,7 @@ public class tasksAction extends Action {
                                             team = (teamsData) teamIterator.next();
                                             clientManager = (membersData) memBroker.getData(team.getmembers(), user.getId_account());
                                             sm.send("statustaskchange", from_member, clientManager, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
-
+                                            
                                         }
                                         
                                         System.out.println("-------------------------");

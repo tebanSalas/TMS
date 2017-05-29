@@ -70,7 +70,7 @@ function sendData() {
       <th colspan="2">$msg.get("common.addverApp")</th>
     </tr>
     <tr class="odd">
-      <td valign="top" class="leftvalue">$msg.get("common.version")</td>
+      <td valign="top" class="leftvalue">$msg.get("common.version") &nbsp;</td>
       <td>
         <select name="id_version" >
           #foreach( $lista in $listaVersion)
@@ -82,7 +82,7 @@ function sendData() {
       </td>
     </tr>
     <tr class="odd">
-      <td valign="top" class="leftvalue">$msg.get("common.application")</td>
+      <td valign="top" class="leftvalue">$msg.get("common.application") &nbsp;</td>
       <td>
         <select name="id_application" >
           #foreach( $listaA in $listaApps)
@@ -92,6 +92,12 @@ function sendData() {
           #end
         </select>
       </td>
+      <tr class="odd">
+        <td valign="top" class="leftvalue">$msg.get("common.description") &nbsp;</td>
+        <td>
+          <textarea rows="5" wrap="VIRTUAL" style="width: 250px; height: 80px; margin-bottom: 8px;" name="description" cols="43" maxlength="695" placeholder="N/A">$!versionAppForm.getDescription()</textarea>
+        </td>
+    </tr>
     </tr>  
     <tr class="odd"> 
       <td valign="top" class="leftvalue">&nbsp;</td>

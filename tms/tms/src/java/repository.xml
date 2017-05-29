@@ -55,7 +55,7 @@
                 username="tms"
                 password="MONO$FUEGO"
         eager-release="false"
-        useAutoCommit="0"
+        useAutoCommit="1"
         ignoreAutoCommitExceptions="false"
 	>
         <connection-pool

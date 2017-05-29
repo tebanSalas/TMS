@@ -110,7 +110,7 @@ MM_updateButtons(document.formOrganizations2, 0);
 
 document.formOrganizations2.checkboxes = new Array();
 #set ($row = 1)
-#foreach( $lista in $list) 
+#foreach( $lista in $listaVerAppsXOrga) 
  document.formOrganizations2.checkboxes[document.formOrganizations2.checkboxes.length] = new MMCheckbox('$!lista.getId()',document.formOrganizations2,'clientListcb$row');
 #set ($row = $row + 1)   
 #end

@@ -127,18 +127,19 @@ public class organization_versionAppBroker extends MainBroker{
         return e;
     }
     //Metodo que trae todos los applicativos que no estan relacionados a una version
-     public Iterator getAppsNOorganizacion(int idOrga) throws PersistenceBrokerException {
+     public boolean getAppsNOorganizacion(int idOrga, int verApp) throws PersistenceBrokerException {
         Criteria criteria = new Criteria(); /// es como la definicion del where en la consulta
-        criteria.addSql("Select v.id, v.id_version, v.id_application\n" +
-                        "from tms.orga_ver_app as ova\n" +
-                        "inner join tms.versionapp as v on (v.id = ova.id_verapp )");
-        Query query = new QueryByCriteria(versionAppData.class, criteria); // a que data pertenece el criteri
-        
-// ask the broker to retrieve the Extent collection
+        criteria.addEqualTo("id_verapp",new Integer(verApp));
+        criteria.addEqualTo("id_organization",new Integer(idOrga));
+        Query query = new QueryByCriteria(organization_versionAppData.class, criteria); // a que data pertenece el criteria
         Collection allLines = broker.getCollectionByQuery(query); // construye la sentencia de sql y la ejecuta
-        Iterator e = allLines.iterator(); //lo pasa a un tipo de arreglo
-                // We return the object
-        return e;
+        Iterator e = allLines.iterator(); 
+        if (e.hasNext()) { //recorre la colección
+            return false; //si está
+        }else{
+           return true; // no está
+           
+        }
     }
      
     public boolean existVerApp(int id_verApp) {

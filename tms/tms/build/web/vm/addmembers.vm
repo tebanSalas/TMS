@@ -191,21 +191,21 @@ document.add.sale_cost.value=0;
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.Cost") :</td>
       <td>
-  <input size="10" value="$!membersForm.cost" style="width: 40px" name="cost" maxlength="10" type="TEXT">
+        <input size="10" value="$!membersForm.cost" style="width: 40px" name="cost" maxlength="10" type="TEXT">
       </td>
     </tr>
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.Comments") :</td>
       <td>
-    <textarea style="width: 350px; height: 60px;" name="comments" cols="45" rows="5" >$!membersForm.comments</textarea>
+        <textarea style="width: 350px; height: 60px;" name="comments" cols="45" rows="5" >$!membersForm.comments</textarea>
       </td>
     </tr>
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.Template") :</td>
       <td>
          <select name="template" >
-			<option value="default" #if ($membersForm.template == "default") selected #end >Default</option>
-			<option value="ordinarylife" #if ($membersForm.template == "ordinarylife") selected #end >Ordinary Life</option>
+			       <option value="default" #if ($membersForm.template == "default") selected #end >Default</option>
+			       <option value="ordinarylife" #if ($membersForm.template == "ordinarylife") selected #end >Ordinary Life</option>
          </select>
       </td>
     </tr>	
@@ -219,45 +219,80 @@ document.add.sale_cost.value=0;
       </td>
     </tr>
 #if (($userInfo.profile == "3" || $userInfo.profile == "4") && $!membersForm.operation == "applyEdit")
- <tr class="odd">
+    <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.user_fare") :</td>
-    #if ($userInfo.getprofile() == "4")
+       #if ($userInfo.getprofile() == "4")
       <td>
         <input size="44" value="$!membersForm.sale_cost" style="width: 150px" name="sale_cost" maxlength="14" type="TEXT">
-	</td>
-    #else
- <td>
-    $!membersForm.sale_cost
- <input size="44" value="$!membersForm.sale_cost" style="width: 150px" name="sale_cost" maxlength="14" type="hidden">
- </td>
-    #end
+	     </td>
+       #else
+      <td>
+        $!membersForm.sale_cost
+        <input size="44" value="$!membersForm.sale_cost" style="width: 150px" name="sale_cost" maxlength="14" type="hidden">
+      </td>
+#end
     </tr>	
 #else
 <input type="hidden" name="sale_cost" value="$!membersForm.sale_cost">
 #end
 
-	<tr class="odd">
-	<td valign="top" class="leftvalue">$msg.get("common.expiredDate") :</td>
+	   <tr class="odd">
+	     <td valign="top" class="leftvalue">$msg.get("common.expiredDate") :</td>
          #if ($userInfo.getprofile() == "4" && $expiration_date == " ")
-            <td>
-		  <input type="text" style="width: 100px" name="fecha1" id="fecha1" size="20" value=$!fecha1>
-		  <input type="reset" value=" ... " onclick="return showCalendar('fecha1', 'y-mm-dd');">
-            </td>
+        <td>
+		      <input type="text" style="width: 100px" name="fecha1" id="fecha1" size="20" value=$!fecha1>
+		      <input type="reset" value=" ... " onclick="return showCalendar('fecha1', 'y-mm-dd');">
+        </td>
         #else 
-	<td>
-             <input type="text" style="width: 100px" name="fecha1" id="fecha1" size="20" value=$!fecha1 disabled>
-	</td>
+	     <td>
+          <input type="text" style="width: 100px" name="fecha1" id="fecha1" size="20" value=$!fecha1 disabled>
+	     </td>
         #end
+    </tr>
 
-	</tr>
-#if (($userInfo.profile == "3")  || ($userInfo.profile == "4")) 
+    #if ($userInfo.profile == "4" || $userInfo.profile == "3")
+    <tr>
+      <th colspan="2">$msg.get("common.autorizations")</th>
+    </tr>
+
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.executeReport") :</td>
       <td>
         <input type="checkbox" #if($membersForm.ind_exec_report == "S") checked #end name="ind_exec_report" value="S">
       </td>
     </tr>
-#end
+   
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Permission.deleteOperationNumber"): </td>
+      <td>
+        <input type="checkbox" name="permission_delete_operation_number" value="1" #if ($membersForm.permission_delete_operation_number == "1") checked #end> 
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Permission.viewAppControl"): </td>
+      <td>
+        <input type="checkbox" name="permission_view_app_control" value="1" #if ($membersForm.permission_view_app_control == "1") checked #end> 
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Permission.appControl"): </td>
+      <td>
+        <input type="checkbox" name="permission_app_control" value="1" #if ($membersForm.permission_app_control == "1") checked #end>
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Permission.versionControl"): </td>
+      <td>
+        <input type="checkbox" name="permission_version_control" value="1" #if ($membersForm.permission_version_control == "1") checked #end>
+      </td>
+    </tr>
+    <tr class="odd">
+      <td valign="top" class="leftvalue">$msg.get("common.Permission.reportAplications"): </td>
+      <td>
+        <input type="checkbox" name="permission_report_applications" value="1" #if ($membersForm.permission_report_applications == "1") checked #end> 
+      </td>
+    </tr>
+ #end
     <tr>
       <th colspan="2">$msg.get("common.Password.specify")</th>
     </tr>
@@ -302,27 +337,7 @@ document.add.sale_cost.value=0;
     </tr>
 #end
 
-    <tr>
-      <th colspan="2">$msg.get("common.applicationControlPermissions")</th>
-    </tr>
-    #if ($userInfo.profile == "4" || $userInfo.profile == "3")
     
-      
-      <td>
-        <input type="checkbox" name="permission_delete_operation_number" value="1" #if ($membersForm.permission_delete_operation_number == "1") checked #end> $msg.get("common.Permission.deleteOperationNumber")<br>
-
-        <input type="checkbox" name="permission_view_app_control" value="1" #if ($membersForm.permission_view_app_control == "1") checked #end> $msg.get("common.Permission.viewAppControl")<br>
-
-        <input type="checkbox" name="permission_app_control" value="1" #if ($membersForm.permission_app_control == "1") checked #end> $msg.get("common.Permission.appControl")<br>
-
-        <input type="checkbox" name="permission_version_control" value="1" #if ($membersForm.permission_version_control == "1") checked #end> $msg.get("common.Permission.versionControl")<br>
-
-        <input type="checkbox" name="permission_report_applications" value="1" #if ($membersForm.permission_report_applications == "1") checked #end> $msg.get("common.Permission.reportAplications")<br>
-
-      
-    </td>   
-    
-    #end
 
     <tr class="odd"> 
       <td valign="top" class="leftvalue">&nbsp;</td>

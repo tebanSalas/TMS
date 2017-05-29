@@ -204,7 +204,7 @@
             <forward name="confirmDelete"  path="/vm/confirmdeleteOrganization.vm"/>
             <forward name="displayAll" path="/vm/viewAllProjectsOrg.vm" />
             <forward name="accessDenied" path="/vm/accessDenied.vm"/>
-            <forward name="addVerApps" path="/vm/addVerAppToOrga.vm"/>
+            
         </action>
         
         <action    path="/topics"
@@ -670,6 +670,7 @@
             <forward name="listing" path="/vm/listingVersion.vm"/>
             <forward name="home" path="/home.do" redirect="true"/>
             <forward name="displayAddForm"  path="/vm/addVersion.vm"/>
+            <forward name="displayAddFormError"    path="/version.do"/>
             <forward name="confirmDelete"  path="/vm/confirmdeleteVersionYapp.vm"/>
             <forward name="cantDelete"  path="/vm/cantDelete.vm"/>
                         
@@ -684,6 +685,7 @@
             <forward name="listing" path="/vm/listingApplication.vm"/>
             <forward name="home" path="/home.do" redirect="true"/>
             <forward name="displayAddForm"  path="/vm/addApplication.vm"/>
+            <forward name="displayAddFormError"    path="/applications.do"/>
             <forward name="confirmDelete"  path="/vm/confirmdeleteVersionYapp.vm"/>
             <forward name="cantDelete"  path="/vm/cantDelete.vm"/>
                        
@@ -693,13 +695,14 @@
                    type="com.unify.webcenter.action.verAppAction"
                    name="versionAppForm"
                    scope="request"
-       
                    validate="false">
+            
             <forward name="listing" path="/vm/listingVerApp.vm"/>
             <forward name="home" path="/home.do" redirect="true"/>
             <forward name="displayAddForm"  path="/vm/addVersionApp.vm"/>
             <forward name="confirmDelete"  path="/vm/confirmdeleteVersionYapp.vm"/>
             <forward name="cantDelete"  path="/vm/cantDelete.vm"/>
+            <forward name="alreadyExist"  path="/vm/alreadyExists.vm"/>
                        
         </action>
         
@@ -707,15 +710,11 @@
                    type="com.unify.webcenter.action.organization_versionAppAction"
                    name="organization_versionAppForm"
                    scope="request"
-       
                    validate="false">
-            <forward name="listing" path="/vm/addVerAppToOrga.vm"/>
-            <forward name="viewOrganization"           path="/organizations.do?operation=listing" redirect="true"/>
-            <forward name="home" path="/home.do" redirect="true"/>
-            <forward name="displayAddForm"  path="/vm/addVersionApp.vm"/>
-            <forward name="confirmDelete"  path="/vm/confirmdeleteVersionYapp.vm"/>
-            <forward name="cantDelete"  path="/vm/cantDelete.vm"/>
-                       
+            
+            <forward name="addVerApps" path="/vm/addVerAppToOrga.vm"/>
+            <forward name="viewOrganization"    path="/organizations.do" redirect="true"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteOrgaVerApp.vm"/>          
         </action>
         
           

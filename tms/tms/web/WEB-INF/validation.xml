@@ -128,6 +128,21 @@
          	     <arg0 key="type_tasksForm.description.displayName"/>         	     
         </field>	 
       </form>
+      
+      <form name="/version">
+         <field    property="name"
+         	   depends="required">
+         	     <arg0 key="common.name"/>         	    
+         </field>      
+         	 
+      </form>
+      <form name="/applications">
+         <field    property="name"
+         	   depends="required">
+         	     <arg0 key="common.name"/>         	    
+         </field>      
+         	 
+      </form>
 
     <form name="/risks">
          <field    property="description"

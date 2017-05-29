@@ -178,12 +178,17 @@ public class applicationAction extends Action{
                     
                          
                 } else if (action.equals("applyAdd")) {
+                    errors = thisForm.validate(mapping, request);
+                    if (errors.isEmpty()) {
 //                    // Se trata de la aplicacion de un insert en la BD
                     applicationData data = new applicationData();
                     // We copy all the properties from the form to the bean.
                     PropertyUtils.copyProperties(data, thisForm);                                              
 //                    // Save the information about the file in DB                            
                     data.setId(0);
+                    if (data.getDescription().equals("")){
+                            data.setDescription("N/A");
+                        }
                       //data.setAccount(user.getId_account());
                     applicationBroker.add(data);
 //                    
@@ -198,12 +203,21 @@ public class applicationAction extends Action{
                     request.setAttribute("listaAplicativos", e);
                     
                     return (mapping.findForward("listing")); 
-//                    
+                  } else {
+                        saveErrors(request, errors);
+                        return (new ActionForward(mapping.findForward("displayAddFormError").
+                                getPath() + "?operation=add"));
+                    }  
                 } else if (action.equals("applyEdit")) {
+                    errors = thisForm.validate(mapping, request);
+                    if (errors.isEmpty()) {
                     // Se trata de la aplicacion de un update en la BD
                     applicationData data = new applicationData();
                     PropertyUtils.copyProperties(data, thisForm);   
                     // We add the new record.
+                    if (data.getDescription().equals("")){
+                            data.setDescription("N/A");
+                        }
                     applicationBroker.update(data);
                          
                     // Se agrega el link para el menu con la ruta
@@ -218,7 +232,11 @@ public class applicationAction extends Action{
                     request.setAttribute("listaAplicativos", e);
                     
                     return (mapping.findForward("listing"));                
-                   
+                    }else {
+                        saveErrors(request, errors);
+                        return (new ActionForward(mapping.findForward("displayAddFormError").
+                                getPath() + "?operation=edit"));
+                    }  
                 } 
 
             }

@@ -22,41 +22,38 @@
   #end
 #end
 </script>
+<script>
+function goBack() {
+    window.history.go(-1);
+}
+</script>
 <body bgcolor="#FFFFFF" text="#000000">
 <p>&nbsp;</p>
 <p><font color="#CC0000">#errorMarkup()</font></p>
-<form method="POST" name="confirmDelete" action="$do">
+
 <div class=blockHeader>
 <table class=title>
-<tr><td>&nbsp;$msg.get("common.deleteRisk")</td>
+<tr><td>&nbsp;$msg.get("common.addverApp")</td>
 <td width="1%">&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
 <td class=blockForm colspan=2>
 <div class=content>
 <table cellspacing="0" cellpadding="0">
 <tr>
-<th colspan="2">$msg.get("common.delete.question")</th>
+<th colspan="2">$msg.get("common.alreadyExist")</th>
 </tr>
-    #foreach($lista in $items)
-	<tr class="odd">
-      <td valign="top" class="leftvalue">&nbsp;</td>
-      <td >$!lista.name</td>
-    </tr>
-    #end
     <tr class="odd">
       <td valign="top" class="leftvalue">&nbsp;</td>
       <td>
-        <input type="submit" name="delete" value=$msg.get("common.delete")>
-        <input type="button" name="cancel" value=$msg.get("common.cancel") onClick="history.back();">
-        <input type="hidden" name="operation" value="applyDelete">
-        
+        <input type="button" name="cancel" value=$msg.get("common.back") onClick="goBack()">
+        <input type="hidden" name="operation" value="listing">
         <input type="hidden" name="checkedItems" value="$checkedItems">
       </td>
     </tr>
  </table></div>
  </td></tr></table></div>
   <hr>
-</form>
+
 #parse ("/vm/footer.vm")
 </body>
 </html>

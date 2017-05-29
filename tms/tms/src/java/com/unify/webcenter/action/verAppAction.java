@@ -204,8 +204,15 @@ public class verAppAction extends Action{
 //                    // Save the information about the file in DB  
 
                     data.setId(0);
-                      //data.setAccount(user.getId_account());
-                    versionAppBroker.add(data);
+                    if (data.getDescription().equals("")){
+                            data.setDescription("N/A");
+                        }
+                    if(!versionAppBroker.exist(data.getId_version(), data.getId_application())){
+                        versionAppBroker.add(data);
+                    }else{
+                        return (mapping.findForward("alreadyExist"));
+                    }
+                    
 //                    
                     request.setAttribute("menuRoute", 
                         "<a href='./admin.do'>" +
@@ -224,6 +231,14 @@ public class verAppAction extends Action{
                     versionAppData data = new versionAppData();
                     PropertyUtils.copyProperties(data, thisForm);   
                     // We add the new record.
+                    if (data.getDescription().equals("")){
+                        data.setDescription("N/A");
+                     }
+                    if(!versionAppBroker.exist(data.getId_version(), data.getId_application())){
+                        versionAppBroker.add(data);
+                    }else{
+                        return (mapping.findForward("alreadyExist"));
+                    }
                     versionAppBroker.update(data);
                          
                     // Se agrega el link para el menu con la ruta

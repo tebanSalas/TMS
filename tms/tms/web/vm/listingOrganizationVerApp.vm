@@ -1,9 +1,11 @@
-  <div id="ovaHead" class="blockHeader">
-    <table class=title>
-      <tr>
-        <td class=toggle width="99%">    
-          <a href="javascript:showHideModule('ova','default')" onMouseOver="javascript:showHideModuleMouseOver('ova'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="ovaToggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
-          $msg.get("common.configApp")
+<p><font color="#CC0000">#errorMarkup()</font></p>
+
+<div id="wbP8Head" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP8','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP8'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbP8Toggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+    $msg.get("common.configApp")
           <span class=addition></span></a>
         </td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -17,19 +19,17 @@
                     <DIV class=abs id=clientListttti><IMG height=1 alt="" src="./themes/$userInfo.getTemplate()/spacer.gif"  width=350></DIV>
                   </DIV>
                 </TD>
-                
                 <TD class=commandBtn width=30>
-                  <A onmouseover="var over = MM_getButtonWithName(document.formOrganizations2, 'clientList4'); if (over) over.over(); return true; " onmouseout="var out = MM_getButtonWithName(document.formOrganizations2, 'clientList4'); if (out) out.out(); return true; " href="javascript:var x = MM_getButtonWithName(document.formOrganizations2, 'clientList4'); if (x) x.click();">
+                  <A onmouseover="var over = MM_getButtonWithName(document.formAppsByOrganization, 'clientList4'); if (over) over.over(); return true;" onmouseout="var out = MM_getButtonWithName(document.formAppsByOrganization, 'clientList4'); if (out) out.out(); return true; " href="javascript:var x = MM_getButtonWithName( document.formAppsByOrganization, 'clientList4'); if (x) x.click();">
                     <IMG height=23 alt=$msg.get("common.addLabel") src="./themes/$userInfo.getTemplate()/btn_add_norm.gif" width=24 border=0 name=clientList4>
                   </A>
                 </TD>
-
                 <TD class=commandBtn width=30>
-                  <A onmouseover="var over = MM_getButtonWithName(document.formOrganizations2, 'clientList5'); if (over) over.over(); return true; " onmouseout="var out = MM_getButtonWithName(document.formOrganizations2, 'clientList5'); if (out) out.out(); return true; " href="javascript:var x = MM_getButtonWithName(document.formOrganizations2, 'clientList5'); if (x) x.click();">
+                  <A onmouseover="var over = MM_getButtonWithName(document.formAppsByOrganization, 'clientList5'); if (over) over.over(); return true; " onmouseout="var out = MM_getButtonWithName(document.formAppsByOrganization, 'clientList5'); if (out) out.out(); return true; " href="javascript:var x = MM_getButtonWithName(document.formAppsByOrganization, 'clientList5'); if (x) x.click();">
                     <IMG height=23 alt=$msg.get("common.deleteLabel") src="./themes/$userInfo.getTemplate()/btn_remove_norm.gif" width=24 border=0 name=clientList5>
                   </A>
                 </TD>
-
+    
                 <TD align=left>
                   <IMG height=26 alt="" src="./themes/$userInfo.getTemplate()/spacer.gif" width=5>
                 </TD>
@@ -41,12 +41,13 @@
       </tr>
     </table>
   </div>
-  <div name="ova" id="ova" style="display:block" class=formBody>
-    <form name="formOrganizations2" method="post" action="./orgaVerApps.do">
+
+<div name="wbP8" id="wbP8" style="display:block" class=formBody>
+<form name="formAppsByOrganization" method="post" action="./orgaVerApps.do">
       <table  border="0" cellspacing="0" cellpadding="0" class="listing">
       <tr>
        <th width="1%" align="center">
-          <a href="javascript:MM_toggleSelectedItems(document.formOrganizations2,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
+          <a href="javascript:MM_toggleSelectedItems(document.formAppsByOrganization,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3" hspace="3"></a>
         </th>
         <th nowrap >$msg.get("common.application")</th>
         <th nowrap >$msg.get("common.version")</th>
@@ -63,13 +64,13 @@
 
       <tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
         <td align="center">
-          <a href="javascript:document.formOrganizations2.id.value='$lista.getId()';MM_toggleItem(document.formOrganizations2, '$lista.getId()', 'ovaListcb$row','$userInfo.getTemplate()');">
-            <img name="ovaListcb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3">
+          <a href="javascript:document.formAppsByOrganization.id.value='$!lista.getId()';MM_toggleItem(document.formAppsByOrganization, '$!lista.getId()', 'appByOrgaListcb$row','$userInfo.getTemplate()');">
+            <img name="appByOrgaListcb$row" border="0" src="./themes/$userInfo.getTemplate()/checkbox_off_16.gif" alt="" vspace="3">
+            <input type="hidden" name="idAppByOrga" value="$!lista.getId()">
           </a>
         </td>
-        <td > $!lista.getParentApplication().getName()</td>
-        <td > $!lista.getParentVersion().getName()</td>
-        
+        <td >  $!lista.getParentVerApp().getParentApplication().getName()</td>
+        <td > $!lista.getParentVerApp().getParentVersion().getName()</td>
       </tr>
       #set ($row = $row + 1)
       #end
@@ -83,45 +84,40 @@
         </tr>
       </table>
       <input type="hidden" name="operation" value="listing">
-      <input type="hidden" name="id" value="22">
-      <input type="hidden" name="id_organization" value="$!organization.id">
-      <input type="hidden" name="id_account" value="$!organization.id_account">
-      <input type="hidden" name="fromPage" value="$!formOrganizations2.fromPage">
+      <input type="hidden" name="organization" value="$organizationsForm.id">
+      <input type="hidden" name="account" value="$organizationsForm.id">
+      <input type="hidden" name="fromPage" value="$!formAppsByOrganization.fromPage">
       <input type="hidden" name="selected" value="22" >
-      <input type="hidden" name="checkedItems" value="" >
+      <input type="hidden" name="ovacheckedItems" value="" >
     </form>
   </div>
-</body>
+
 <script language="JavaScript">
 
-document.formOrganizations2.buttons = new Array();
+document.formAppsByOrganization.buttons = new Array();
+document.formAppsByOrganization.buttons[document.formAppsByOrganization.buttons.length] = new MMCommandButton('clientList4',document.formAppsByOrganization,"javascript:sendDataOrgaVerApp('addVerApps');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','$msg.get("common.addLabel")',false,'Confirm report deletion');
+document.formAppsByOrganization.buttons[document.formAppsByOrganization.buttons.length] = new MMCommandButton('clientList5',document.formAppsByOrganization,"javascript:sendDataOrgaVerApp('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',false,true,true,'','$msg.get("common.deleteLabel")',false,'Confirm report deletion');
 
-document.formOrganizations2.buttons[document.formOrganizations2.buttons.length] = new MMCommandButton('clientList4',document.formOrganizations2,"javascript:sendData('addVerApps');",'./themes/$userInfo.getTemplate()/btn_add_norm.gif','./themes/$userInfo.getTemplate()/btn_add_over.gif','./themes/$userInfo.getTemplate()/btn_add_down.gif','./themes/$userInfo.getTemplate()/btn_add_dim.gif',true,false,false,'','$msg.get("common.addLabel")',false,'Confirm report deletion');
+MM_updateButtons(document.formAppsByOrganization, 0);
 
-document.formOrganizations2.buttons[document.formOrganizations2.buttons.length] = new MMCommandButton('clientList5',document.formOrganizations2,"javascript:sendData('delete');",'./themes/$userInfo.getTemplate()/btn_remove_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_over.gif','./themes/$userInfo.getTemplate()/btn_remove_down.gif','./themes/$userInfo.getTemplate()/btn_remove_dim.gif',false,true,true,'','$msg.get("common.deleteLabel")',false,'Confirm report deletion');
-
-MM_updateButtons(document.formOrganizations2, 0);
-
-document.formOrganizations2.checkboxes = new Array();
+document.formAppsByOrganization.checkboxes = new Array();
 #set ($row = 1)
 #foreach( $lista in $list) 
- document.formOrganizations2.checkboxes[document.formOrganizations2.checkboxes.length] = new MMCheckbox('$!lista.getId()',document.formOrganizations2,'ovaListcb$row');
+ document.formAppsByOrganization.checkboxes[document.formAppsByOrganization.checkboxes.length] = new MMCheckbox('$!lista.getId()',document.formAppsByOrganization,'appByOrgaListcb$row');
 #set ($row = $row + 1)   
 #end
-document.formOrganizations2.tt = 'clientListttt';
+document.formAppsByOrganization.tt = 'clientListttt';
 
 function getArrayNumbers(theForm) {
   if (theForm.selectedItems != null)
-    theForm.checkedItems.value = theForm.selectedItems.join(',');
+    theForm.ovacheckedItems.value = theForm.selectedItems.join(',');
 }
 
 <!-- Funcion que se encarga de hacer el submit de la pagina de acuerdo a la accion -->
 <!-- que ha sido seleccionada. -->
-function sendData(tipo) {
-  document.formOrganizations2.operation.value = tipo;
-  getArrayNumbers(document.formOrganizations2);
-  document.formOrganizations2.submit();
+function sendDataOrgaVerApp(tipo) {
+  document.formAppsByOrganization.operation.value = tipo;
+  getArrayNumbers(document.formAppsByOrganization);
+  document.formAppsByOrganization.submit();
 }
 </script>
-</html>
- 

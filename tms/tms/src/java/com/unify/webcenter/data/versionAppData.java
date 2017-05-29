@@ -15,6 +15,7 @@ public class versionAppData extends mainData{
     private applicationData parentApplication;
     private int id_version;
     private int id_application;
+    private String description;
 
     public int getId() {
         return id;
@@ -54,6 +55,14 @@ public class versionAppData extends mainData{
 
     public void setId_application(int id_application) {
         this.id_application = id_application;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
    
     

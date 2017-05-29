@@ -85,6 +85,7 @@ public class organizationsAction extends Action {
             broker = new organizationsBroker();
             brokerProjects = new projectsBroker();
             brokerMembers = new membersBroker();
+            OrgaVerAppBroker = new organization_versionAppBroker();
 
             ActionErrors errors = new ActionErrors();
 
@@ -95,7 +96,7 @@ public class organizationsAction extends Action {
                 }
 
                 organizationsForm thisForm = (organizationsForm) form;
-                OrgaVerAppBroker = new organization_versionAppBroker();
+                
                 // fetch action from form
                 action = thisForm.getOperation();
 
@@ -270,11 +271,13 @@ public class organizationsAction extends Action {
 
                     // Ordenamos los members
                     sortMembers(request, thisForm, data.getid(), brokerMembers, user.getTime_zone(), user.getId_account());
-
-                    OrgaVerAppBroker = new organization_versionAppBroker();
-                    Iterator i = OrgaVerAppBroker.getAppsXorganizacion(thisForm.getid());
-                    request.setAttribute("listaVerAppsXOrga", i);
-                    OrgaVerAppBroker.close();
+                    
+                    //traemos los aplicativosVersion pertenecientes a una organización
+                    getVerApps(request, thisForm.getid(), OrgaVerAppBroker);
+//                    OrgaVerAppBroker = new organization_versionAppBroker();
+//                    Iterator i = OrgaVerAppBroker.getAppsXorganizacion(thisForm.getid());
+//                    request.setAttribute("listaVerAppsXOrga", i);
+                    
                     
                     request.setAttribute("company", company);
                     return (mapping.findForward("displayViewForm"));
@@ -462,8 +465,6 @@ public class organizationsAction extends Action {
                     return (mapping.findForward("addVerApps"));
 
                     
-                }else if (action.equals("delete")) {
-                    
                 }
                 
                 
@@ -482,6 +483,7 @@ public class organizationsAction extends Action {
                 broker.close();
                 brokerProjects.close();
                 brokerMembers.close();
+                OrgaVerAppBroker.close();
             }
         }
         request.setAttribute("company", company);
@@ -609,6 +611,12 @@ public class organizationsAction extends Action {
 
     }
 
+    //Metodo que pone los aplicativo version el request para que sean usados despues.
+    private void getVerApps(HttpServletRequest request, int orgId, organization_versionAppBroker OrgaVerAppBroker ){
+        OrgaVerAppBroker = new organization_versionAppBroker();
+        Iterator i = OrgaVerAppBroker.getAppsXorganizacion(orgId);
+        request.setAttribute("listaVerAppsXOrga", i);
+    }
     // Metodo que se encarga de dejar en el context una lista de todas las paginas
     // necesarias para dar cabida a los datos del ultimo comando de sql ejecutado.
     private void setPages(MainBroker broker, HttpServletRequest request,

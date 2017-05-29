@@ -46,6 +46,7 @@ public class TMSConfigurator {
     private static String sales_mail="";
     private static String newUserReferenceGuide="";
     private static String maxTasksUpload="200";
+    private static String svn = "";
     public static String getSales_mail() {
         return sales_mail;
     }
@@ -271,6 +272,16 @@ public class TMSConfigurator {
         return enc;
     }
 
+    public static String getSvn() {
+        return svn;
+    }
+
+    public static void setSvn(String svn) {
+        TMSConfigurator.svn = svn;
+    }
+    
+    
+
     /**
      * Metodo que se encarga de parsear el archivo en XML de la configuracion
      * y cargar las instancias privadas que correspondan.   
@@ -301,6 +312,7 @@ public class TMSConfigurator {
         enc = prop.getProperty("enc");
         trial = prop.getProperty("trial");
         version = prop.getProperty("version");
+        svn = prop.getProperty("svn");
         newUserReferenceGuide=(prop.getProperty("newUserReferenceGuide"));
         accountBroker.close();
     }

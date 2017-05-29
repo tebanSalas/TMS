@@ -70,15 +70,15 @@ function sendData() {
       <th colspan="2">$msg.get("common.addApplication")</th>
     </tr>
     <tr class="odd">
-      <td valign="top" class="leftvalue">$msg.get("common.application")</td>
+      <td valign="top" class="leftvalue">$msg.get("common.application") &nbsp;</td>
       <td>
    <input size="44" value="$!applicationForm.name" style="width: 250px" name="name" maxlength="149" type="text" required>
       </td>
     </tr>
     <tr class="odd">
-      <td valign="top" class="leftvalue">$msg.get("common.description")</td>
+      <td valign="top" class="leftvalue">$msg.get("common.description") &nbsp;</td>
       <td>
-   <textarea  size="44" value="$!applicationForm.description" style="width: 250px" name="description" maxlength="700" type="text" ></textarea>
+        <textarea rows="5" wrap="VIRTUAL" style="width: 250px; height: 80px; margin-bottom: 8px;" name="description" cols="43" maxlength="695" placeholder="N/A">$!applicationForm.description</textarea>
       </td>
     </tr>  
     <tr class="odd"> 

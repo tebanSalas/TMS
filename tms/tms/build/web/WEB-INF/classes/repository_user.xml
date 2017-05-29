@@ -1897,6 +1897,11 @@ to avoid mixing user defined and system mappings. -->
                       column="id_version"
                       jdbc-type="INTEGER"
     />
+    <field-descriptor id="4"
+                      name="description"
+                      column="description"
+                      jdbc-type="VARCHAR"
+    />
     <reference-descriptor name="parentVersion" 
                           class-ref="com.unify.webcenter.data.versionData"
                           refresh="true">

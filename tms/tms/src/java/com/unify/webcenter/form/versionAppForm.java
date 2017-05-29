@@ -20,6 +20,7 @@ public class versionAppForm extends ValidatorActionForm{
     private int id_version;
     private int id_application;
     private String operation;
+    private String description;
 
     public int getId() {
         return id;
@@ -67,6 +68,14 @@ public class versionAppForm extends ValidatorActionForm{
 
     public void setOperation(String operation) {
         this.operation = operation;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     
