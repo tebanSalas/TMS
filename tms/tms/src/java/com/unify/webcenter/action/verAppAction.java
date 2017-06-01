@@ -223,7 +223,7 @@ public class verAppAction extends Action{
                     request.setAttribute("company",company);
                     Iterator e = versionAppBroker.getList();
                     request.setAttribute("listaVerApp", e);
-                    
+                    versionAppBroker.close();
                     return (mapping.findForward("listing")); 
 //                    
                 } else if (action.equals("applyEdit")) {

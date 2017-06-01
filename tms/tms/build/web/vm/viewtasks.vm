@@ -36,6 +36,14 @@
 	<td width="30" class="commandBtn"><a href="javascript:var b = MM_getButtonWithName(document.formView, 'ecD4'); if (b) b.click();" onMouseOver="var over = MM_getButtonWithName(document.formView, 'ecD4'); if (over) over.over(); return true; " onMouseOut="var out = MM_getButtonWithName(document.formView, 'ecD4'); if (out) out.out(); return true; "><img width="24" height="23" border="0" name="ecD4" src="./themes/$userInfo.getTemplate()/btn_remove_projectsite_norm.gif" alt="$msg.get("common.removeFromSiteLabel")"></a></td>
 	<td width="30" class="commandBtn"><a href="javascript:var b = MM_getButtonWithName(document.formView, 'ecD1'); if (b) b.click();" onMouseOver="var over = MM_getButtonWithName(document.formView, 'ecD1'); if (over) over.over(); return true; " onMouseOut="var out = MM_getButtonWithName(document.formView, 'ecD1'); if (out) out.out(); return true; "><img width="24" height="23" border="0" name="ecD1" src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif" alt="$msg.get("common.editLabel")"></a></td>
 
+<!--Números de operación
+  
+  <td width="30" class="commandBtn"><a href="javascript:var b = MM_getButtonWithName(document.formView, 'ecD5'); if (b) b.click();" onMouseOver="var over = MM_getButtonWithName(document.formView, 'ecD5'); if (over) over.over(); return true; " onMouseOut="var out = MM_getButtonWithName(document.formView, 'ecD5'); if (out) out.out(); return true; "><img width="24" height="23" border="0" name="ecD5" src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif" alt="$msg.get("common.addnumOperation")"></a></td>
+
+  #if ($loginUser.permission_delete_operation_number == '1')
+  <td width="30" class="commandBtn"><a href="javascript:var b = MM_getButtonWithName(document.formView, 'ecD6'); if (b) b.click();" onMouseOver="var over = MM_getButtonWithName(document.formView, 'ecD6'); if (over) over.over(); return true; " onMouseOut="var out = MM_getButtonWithName(document.formView, 'ecD6'); if (out) out.out(); return true; "><img width="24" height="23" border="0" name="ecD6" src="./themes/$userInfo.getTemplate()/btn_edit_norm.gif" alt="$msg.get("common.deletenumOperation")"></a></td>
+  #end-->
+
 <td align=left><img height="26" width="5" src="./themes/$userInfo.getTemplate()/spacer.gif" alt=""></td></tr></table>
 
 
@@ -273,6 +281,10 @@ document.formView.buttons[document.formView.buttons.length] = new MMCommandButto
 document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD2',document.formView,"javascript:sendData('copy');",'./themes/$userInfo.getTemplate()/btn_copy_norm.gif','./themes/$userInfo.getTemplate()/btn_copy_over.gif','./themes/$userInfo.getTemplate()/btn_copy_down.gif','./themes/$userInfo.getTemplate()/btn_copy_dim.gif',true,true,false,'','$msg.get("common.copyLabel")',false,'Confirm report deletion');
 document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD3',document.formView,"javascript:sendData('addToSite');",'./themes/$userInfo.getTemplate()/btn_add_projectsite_norm.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_over.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_down.gif','./themes/$userInfo.getTemplate()/btn_add_projectsite_dim.gif',true,true,true,'','$msg.get("common.addToSiteLabel")',false,'Confirm report deletion');
 document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD4',document.formView,"javascript:sendData('removeFromSite');",'./themes/$userInfo.getTemplate()/btn_remove_projectsite_norm.gif','./themes/$userInfo.getTemplate()/btn_remove_projectsite_over.gif','./themes/$userInfo.getTemplate()/btn_remove_projectsite_down.gif','./themes/$userInfo.getTemplate()/btn_remove_projectsite_dim.gif',true,true,true,'','$msg.get("common.removeFromSiteLabel")',false,'Confirm report deletion');
+//document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD5',document.formView,"javascript:sendData('selctVerApp');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',true,true,false,'','$msg.get("common.addnumOperation")',false,'Confirm report deletion');
+//#if ($loginUser.permission_delete_operation_number == '1')
+//document.formView.buttons[document.formView.buttons.length] = new MMCommandButton('ecD6',document.formView,"javascript:sendData('edit');",'./themes/$userInfo.getTemplate()/btn_edit_norm.gif','./themes/$userInfo.getTemplate()/btn_edit_over.gif','./themes/$userInfo.getTemplate()/btn_edit_down.gif','./themes/$userInfo.getTemplate()/btn_edit_dim.gif',true,true,false,'','$msg.get("common.deletenumOperation")',false,'Confirm report deletion');
+//#end
 MM_updateButtons(document.formView, 0);
 
 document.formView.checkboxes = new Array();
@@ -288,7 +300,6 @@ function sendData(tipo) {
 </script>
 
 #parse ("/vm/listingfiles.vm")
-
 #parse ("/vm/listingassignments.vm")
 #parse ("/vm/listingTasksStatusLog.vm")
 #parse ("/vm/listingSchedulesLog.vm")

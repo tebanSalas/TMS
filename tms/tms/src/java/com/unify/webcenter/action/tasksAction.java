@@ -635,6 +635,11 @@ public class tasksAction extends Action {
 
                     projectsData projectMember = (projectsData) projBroker.getData(data.getproject(), user.getId_account());
                     
+                    
+                    //Ponemos en el request el usuario que está logueado 
+                    membersData logUser = (membersData) memBroker.getData(user.getid());
+                    request.setAttribute("loginUser", logUser );
+                    
                     ArrayList listLog= new ArrayList();
                     Iterator e= tslBroker.getListByTasks(thisForm.getid(), user.getId_account(), "DESC");
 
@@ -1455,8 +1460,17 @@ public class tasksAction extends Action {
                                                     repetidos.add(new Integer(proyManager.getid()));
                                                     
                                                     sm.send("statustaskchange", from_member, proyManager, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
+                                                    System.out.println("-------------------------");
+                                                    
+                                                    System.out.println("----------Control Version---------------");
+                                                    membersData clientManager2 =  new membersData();
+                                                    String svn = TMSConfigurator.getSvn();
+                                                    clientManager2.setemail_work(svn);
+                                                    sm.send("statustaskchange", from_member, clientManager2, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
+                                                    System.out.println("-------------------------");
                                                 }
                                                 System.out.println("-------------------------");
+                                                
                                             }
                                             idSubProject = subProject.getProject_id();
                                         } else {
@@ -2210,6 +2224,14 @@ public class tasksAction extends Action {
                                                     repetidos.add(new Integer(proyManager.getid()));
                                                     
                                                     sm.send("statustaskchange", from_member, proyManager, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
+                                                    System.out.println("-------------------------");
+                                                    
+                                                    System.out.println("----------Control Version---------------");
+                                                    membersData clientManager2 =  new membersData();
+                                                    String svn = TMSConfigurator.getSvn();
+                                                    clientManager2.setemail_work(svn);
+                                                    sm.send("statustaskchange", from_member, clientManager2, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
+                                                    System.out.println("-------------------------");
                                                 }
                                                 System.out.println("-------------------------");
                                             }
@@ -2382,6 +2404,8 @@ public class tasksAction extends Action {
                         // Se redirecciona a la pagina de administracion
                         return (mapping.findForward("main"));
                     }
+                }else if (action.equals("selctVerApp")) {
+                    return (mapping.findForward("selctVerApp"));
                 }
             } catch (Exception e) {
                 servlet.log("[ERROR] Action at final catch: " + e.getMessage());

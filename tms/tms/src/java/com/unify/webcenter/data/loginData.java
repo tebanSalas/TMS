@@ -42,7 +42,7 @@ public class loginData extends mainData {
         protected String allowCloseTasks;
         private String time_zone;
         private int id_account;
-private String ind_exec_report;
+        private String ind_exec_report;
 
         public void setusername(String val) { username = val; } 
 

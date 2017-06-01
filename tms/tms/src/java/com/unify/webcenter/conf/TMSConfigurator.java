@@ -32,7 +32,7 @@ public class TMSConfigurator {
     private static String default_mail_username = "";
     private static String default_mail_password = "";
     private static String accountingmail = "";
-    private static String mainURL = "http://localhost:8080/tms";
+    private static String mainURL = "http://daytonasoft.net:8080/tmsE";
     private static String managersEmails = "";
     private static String mailAuthentication = "N";
     private static String mailLanguage = "es";
