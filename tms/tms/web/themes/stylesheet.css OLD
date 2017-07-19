@@ -185,6 +185,10 @@ hr {
 	background-color: #EFEFEF;
 }
 
+.apptemp {
+	background-color: #F76C6C;
+}
+
 .old {
 	background-color: #DDDEDF;
 }

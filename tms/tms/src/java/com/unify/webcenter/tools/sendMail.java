@@ -94,7 +94,7 @@ public class sendMail {
           //  }
             session = Session.getDefaultInstance(props);
             if (debug) {
-                session.setDebug(true);
+                session.setDebug(false);;
             }
             
             
@@ -178,7 +178,7 @@ public class sendMail {
             }
 
             if (debug) {
-                session.setDebug(true);
+                session.setDebug(false);;
             }
 
             // construct the message
@@ -363,7 +363,7 @@ public class sendMail {
                 props.put("mail.smtp.host", mailhost);
             }
             if (debug) {
-                session.setDebug(true);
+                session.setDebug(false);;
             }
 
             // construct the message
@@ -490,7 +490,7 @@ public class sendMail {
                 props.put("mail.smtp.host", mailhost);
             }
             if (debug) {
-                session.setDebug(true);
+                session.setDebug(false);;
             }
 
             // construct the message
@@ -642,8 +642,11 @@ public class sendMail {
 
                             System.out.println("Operation: "+ operation);
         System.out.println("Login: "+ to_member.getlogin());
-
-        if (operation.equals("taskassignment") || operation.equals("prioritytaskchange") ||
+        
+        if(operation.equals("asignedOperationNumber")){
+            subject = labels.getString("email." + operation + ".subject") + " " + extra + " a la tarea "+String.valueOf(id);
+            
+        }  else if (operation.equals("taskassignment") || operation.equals("prioritytaskchange") ||
                 operation.equals("statustaskchange") || operation.equals("duedatetaskchange") ||
                 operation.equals("statustaskclosed") || operation.equals("taskreasigned")
                 || operation.equals("finishedtasksnotification")|| operation.equals("sendqatnotification")
@@ -754,7 +757,7 @@ public class sendMail {
             }
 
             if (debug) {
-                session.setDebug(true);
+                session.setDebug(false);;
             }
 
             // construct the message
@@ -884,7 +887,7 @@ public class sendMail {
             }
 
             if (debug) {
-                session.setDebug(true);
+                session.setDebug(false);;
             }
 
             // construct the message
@@ -1318,7 +1321,7 @@ addr = url + "/mail.do?operation=" + operation + "&id=" + id + "&fromid=" + from
             }
 
             if (debug) {
-                session.setDebug(true);
+                session.setDebug(false);;
             }
 
             // construct the message
@@ -1494,7 +1497,7 @@ addr = url + "/mail.do?operation=" + operation + "&id=" + id + "&fromid=" + from
             }
 
             if (debug) {
-                session.setDebug(true);
+                session.setDebug(false);;
             }
 
             // construct the message
@@ -1727,7 +1730,7 @@ addr = url + "/mail.do?operation=" + operation + "&id=" + id + "&fromid=" + from
             }
 
             if (debug) {
-                session.setDebug(true);
+                session.setDebug(false);;
             }
 
             // construct the message

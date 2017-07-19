@@ -919,4 +919,19 @@ public class membersBroker extends MainBroker {
         // We return the object
         return data;
         }
+    
+    
+    public java.util.Iterator getListMemberApplication() throws PersistenceBrokerException {
+          // New criteria for sortering
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("permission_app_control",new Integer(1));
+        // Query of all the members
+        Query query = new QueryByCriteria(membersData.class, criteria);
+
+        // ask the broker to retrieve the Extent collection
+        Collection allLines = broker.getCollectionByQuery(query);
+
+        // now iterate over the result to print each Service
+        return allLines.iterator();
+    }
 }

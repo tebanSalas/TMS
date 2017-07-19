@@ -83,6 +83,8 @@ public class tasksAction extends Action {
         tasksStatusLogBroker tslBroker;
         type_tasksBroker typetasksBroker;
         schedulesLogBroker schLogBroker;
+        organization_versionAppBroker orgaVerAppBroker;
+        applicationControlBroker appControlBroker;
         String company = null;
 
         session = request.getSession(false);
@@ -112,6 +114,8 @@ public class tasksAction extends Action {
             typetasksBroker = new type_tasksBroker();
             tslBroker= new tasksStatusLogBroker();
             schLogBroker= new schedulesLogBroker();
+            orgaVerAppBroker =  new organization_versionAppBroker();
+            appControlBroker = new applicationControlBroker();
             try {
                 if (form == null) {
 
@@ -721,8 +725,20 @@ public class tasksAction extends Action {
                                 projectMember.getid() + "'>" +
                                 java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(), "")).getString("common.Task") + "</a>&nbsp;/" +
                                 "&nbsp;" + data.getname());
-
-
+                        
+                        
+                        //esto no es necesario cuando ya arregle el tema de las foreing
+                        versionAppBroker vab =  new versionAppBroker();
+                        versionAppData verApp = (versionAppData)vab.getData(data.getVerapp());
+                        vab.close();
+                        request.setAttribute("verApp", verApp);
+                        
+                       //Se llenan las listas con la información de las organizaciones donde ya se replicó y donde no
+                       if(data.getOperation_number() != 0){ //solo si tiene número de operación
+                            getOrganizationsApplied(data.getid(), request);
+                            getOrganizationsUnApplied(data.getid(), request);
+                       }
+                        
                         // Ahora se cargan las lista de files y assigments.
                         sortAssignments(request, thisForm, assignBroker, fileBroker, user.getTime_zone(), user.getId_account());
                         sortFiles(request, thisForm, fileBroker, user.getId_account());
@@ -1101,6 +1117,8 @@ public class tasksAction extends Action {
                         return (new ActionForward(mapping.findForward("displayAddEditError").
                                 getPath() + "?operation=add"));
                     }
+
+
                 } else if (action.equals("applyEdit")) {
                     // Se validan los datos ingresados
                     errors = thisForm.validate(mapping, request);
@@ -1129,9 +1147,70 @@ public class tasksAction extends Action {
                         membersData from_member = (membersData) memBroker.getData(login.getid(), user.getId_account());
                         membersData to_member = (membersData) memBroker.getData(data.getassigned_to(), user.getId_account());
                         membersData to_member2 = (membersData) memBroker.getData(dataOld.getassigned_to(), user.getId_account());
+                        
+                        
+                          
+                            if(data.getstatus()==0 && data.getOperation_number()!=0){
+                                int idOrga =dataOld.getparentProject().getorganization();
+                                applicationControlData appControl = (applicationControlData) appControlBroker.getApplicationByTaskAndOga(data.getid(),idOrga);
+                                
+                              //metodo que a las propias que pasan a FC, y se encuentras en AT, las pone en aplicado 
+                                if(appControl.getState()==1){
+                                    appControl.setState(2);
+                                    String descripcion = appControl.getComment();
+                                    descripcion = descripcion+"-- Tarea Aplicada porque se finalizó cliente en estado Aplicado Temporal";
+                                    appControl.setComment(descripcion);
+                                    appControlBroker.update(appControl);
+                                    
+                                    //si la tarea va a FC, tiene núm de operación y el estado de aplicación sea NOAPLICADO
+                            //Entonces no se puede finalizar cliente hasta que se aplique
+                                }else if(appControl.getState()==0){
+                                    errors.add("SpreadFixConflict",new ActionError("errors.task.shouldApply"));
+                                    saveErrors(request, errors);
+                                    request.setAttribute("company", company);
+                                    return (new ActionForward(mapping.findForward("displayAddEditError").
+                                            getPath() + "?operation=edit"));
+                                }
+                            }
 
-                    
-
+                            
+//                            if(data.getstatus()==0 && data.getOperation_number()!=0){
+//                                int idOrga =dataOld.getparentProject().getorganization();
+//                                applicationControlData appControl = (applicationControlData) appControlBroker.getApplicationByTaskAndOga(data.getid(),idOrga);
+//                                if(appControl.getState()==0){
+//                                    errors.add("SpreadFixConflict",new ActionError("errors.task.shouldApply"));
+//                                    saveErrors(request, errors);
+//                                    request.setAttribute("company", company);
+//                                    return (new ActionForward(mapping.findForward("displayAddEditError").
+//                                            getPath() + "?operation=edit"));
+//                                }
+//                            }
+                        
+                        
+                        
+                        //metodo que borra todos los registros de replicas por si una tarea es rechazada cuando estè en finalizado
+                        //exepto el registro de APLICACION propio de la tarea
+                        //si el registro de aplicacion propio se quiere borrar, hay que eliminar el número de op 
+                        if((data.getstatus()!=0 && data.getstatus()!=1) && data.getOperation_number()!=0 && dataOld.getstatus()==1){
+                            int idOrga =  dataOld.getparentProject().getorganization();
+                            Iterator i = appControlBroker.getApplicacionesPorTarea(data.getid());
+                            while(i.hasNext()){
+                                applicationControlData appData = (applicationControlData) i.next();
+                                
+                                    if(appData.getId_organization()!=idOrga){
+                                        appControlBroker.delete(appData);
+                                    }else if(appData.getState() == 2 || appData.getState() == 1){
+                                        appData.setApplication_date(null);
+                                        appData.setId_application_user(0);
+                                        appData.setState(0);
+                                        appControlBroker.update(appData);
+                                    }
+                            }
+                            
+                            //return (new ActionForward(mapping.findForward("displayViewForm2").
+                                           // getPath() + "?operation=view&id=" + data.getid()));
+                        }
+                        
                         // Control del manejo de las tareas predecesoras y requeridas
                         if (data.getpredecessor_required().equals("1")) {
                             // La tarea predecesora es requerida, se debe ver si su 
@@ -1179,11 +1258,39 @@ public class tasksAction extends Action {
                                     getPath() + "?operation=edit"));
                         }
 
-
-                        // Si le esta poniendo el estado finalizado o finalizado por el cliente
-                        // es decir, estado 0 u 1, y no le estipulo un valor de spread fix diferente
-                        // de Si o No
-                        if ((data.getstatus() == 0 || data.getstatus() == 1) &&
+//*********************** validaciones de cambio de estado, con numero de operación y criterios de replicas
+                        
+                        //valida que una tarea sin importar el estado que no tenga num operación y tenga difinido el repica
+                        // que indique que debe de tener un num operación ara poder replicar
+                        if (data.getOperation_number() == 0 && data.getspread_fix().equalsIgnoreCase(" ") == false) {
+                                errors.add("SpreadFixConflict",
+                                    new ActionError("errors.task.spreadFixx"));
+                            saveErrors(request, errors);
+                            request.setAttribute("company", company);
+                            return (new ActionForward(mapping.findForward("displayAddEditError").
+                                    getPath() + "?operation=edit"));
+                            
+                            
+                        // Valida que una tarea que vaya para F, FC o RF con la replica definida, haya pasado por CC antes    
+                        } else if((data.getstatus() == 0 || 
+                            data.getstatus() == 1 || 
+                            data.getstatus() == 11 ) && 
+                            data.getspread_fix().equalsIgnoreCase(" ") == false && 
+                            !tslBroker.existStateInTask(dataOld.getid(), 13)){
+                            
+                               errors.add("SpreadFixConflict",
+                                        new ActionError("error.ccaprove"));
+                                saveErrors(request, errors);
+                                request.setAttribute("company", company);
+                                return (new ActionForward(mapping.findForward("displayAddEditError").
+                                        getPath() + "?operation=edit"));
+                                
+                        // Validar que cuando una tarea cambia a estado de CC,FC,F,RF, y con num de operación , la tarea cuente con el criterio de replicas       
+                        } else if ((data.getstatus() == 13 ||
+                            data.getstatus() == 0 || 
+                            data.getstatus() == 1 || 
+                            data.getstatus() == 11 ) 
+                                && (data.getOperation_number() != 0) &&
                                 data.getspread_fix().equalsIgnoreCase(" ")) {
                             errors.add("SpreadFixConflict",
                                     new ActionError("errors.task.spreadFix"));
@@ -1191,20 +1298,66 @@ public class tasksAction extends Action {
                             request.setAttribute("company", company);
                             return (new ActionForward(mapping.findForward("displayAddEditError").
                                     getPath() + "?operation=edit"));
-                        }
-
-                        // Si no es terminada por cliente o terminada y tiene un spread fix
-                        // diferente de " "
-                        if (data.getstatus() != 0 && data.getstatus() != 1 &&
-                                data.getspread_fix().equalsIgnoreCase(" ") == false) {
-                            errors.add("SpreadFixConflict",
+                        
+                        //si una tarea va cambiar de estado (Diferente de F, FC, CC, RF, RECHA) y tenga asigando la replicidad
+                        // debe de dar un error
+                        }else if ((data.getstatus() != 13 &&
+                            data.getstatus() != 0 && 
+                            data.getstatus() != 1 && 
+                            data.getstatus() != 11 && 
+                            data.getstatus() != 3 && 
+                            data.getstatus() != 12 ) &&  
+                            //data.getOperation_number() != 0 &&
+                            data.getspread_fix().equalsIgnoreCase(" ") == false) {
+                            
+                                errors.add("SpreadFixConflict",
                                     new ActionError("errors.task.spreadFixNotValid"));
                             saveErrors(request, errors);
                             request.setAttribute("company", company);
                             return (new ActionForward(mapping.findForward("displayAddEditError").
                                     getPath() + "?operation=edit"));
+                         
                         }
-
+                        
+                        
+//                        AQUI ES DONDE SE CREAN LOS REGISTROS EN LA TABLA DE controlAplicacion POR CADA
+//                        ORANIZACIÓN QUE TENGA EL MISMO VERSIONAPP DENTRO DE SUS CONFIGURACIONES
+                    
+                       if((data.getstatus()==1 && data.getOperation_number() != 0) &&
+                               data.getspread_fix().equalsIgnoreCase("S")){
+                           
+                           Iterator i = appControlBroker.listOrganizationXVerApp(data.getVerapp());
+                           while (i.hasNext()) {
+                               organization_versionAppData orga = (organization_versionAppData) i.next();
+                               
+//Se valida no duplicar el registro con la misma tarea y la misma organizacion, ya que el original fue creado, 
+//cuando se solicitó el número de operación
+                               if(dataOld.getparentProject().getorganization() != orga.getId_organization()){
+                                   
+                                   //se valida que si ya está que no se dupliqe 
+                                   if(!appControlBroker.existInAppControl(data.getid(),orga.getId_organization(),orga.getId_account())){
+                                       applicationControlData appControlTemp =  new applicationControlData();
+                                       appControlTemp.setState(0);
+                                       appControlTemp.setId_task(data.getid());
+                                       appControlTemp.setId_application_user(0); //no debe ser así 
+                                       appControlTemp.setId_account(orga.getId_account());
+                                       appControlTemp.setId_organization(orga.getId_organization());
+                                       appControlTemp.setComment(" ");
+                                       appControlBroker.add(appControlTemp);
+                                   }
+                               }
+                            }
+                       }
+                       
+                       //valiadmos que una tarea no pueda cambiar de estado si ya está en FC
+                       if(dataOld.getstatus()==0 && data.getOperation_number()!=0 && dataOld.getstatus()!=data.getstatus()){
+                          errors.add("SpreadFixConflict",new ActionError("error.fcChangeStatus"));
+                                    saveErrors(request, errors);
+                                    request.setAttribute("company", company);
+                                    return (new ActionForward(mapping.findForward("displayAddEditError").
+                                            getPath() + "?operation=edit")); 
+                       }
+                        
                         // Verificamos si la fecha de la tarea es superior a la fecha del proyecto
                         // en el cual esta siendo creado. Si es mayor no se permite definirla.
 
@@ -1310,6 +1463,9 @@ public class tasksAction extends Action {
                         data.setactual_time(originalTask.getactual_time());
                         data.setEmailNotifyFQA(thisForm.getEmailNotifyFQA());
                         data.setEmailNotifyTQA(thisForm.getEmailNotifyTQA());
+                        if(data.getstatus() == 13 || data.getstatus() == 11 ){
+                            data.setcompletion(100);
+                        }
                         taskBroker.update(data);
                         
 
@@ -1374,6 +1530,23 @@ public class tasksAction extends Action {
                         boolean emailSended = false;
 
                         if (changestatus) {
+                            
+                            
+                            //envio de correo electronico con el número de operación
+                            if((data.getstatus()==0 || data.getstatus()==1) && data.getOperation_number()!=0){
+                                System.out.println("----------Control Version---------------");
+
+                                membersData clientManager2 =  new membersData();
+                                String svn = TMSConfigurator.getSvn();
+                                clientManager2.setid(0);
+                                clientManager2.setemail_work(svn);
+                                sm.send("statustaskchange", from_member, clientManager2, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
+                            }
+                            
+                            
+                              
+                            
+                            
                             if (data.getstatus() == 6 || data.getstatus() == 7 ||
                                     data.getstatus() == 8) {
                              
@@ -1460,17 +1633,18 @@ public class tasksAction extends Action {
                                                     repetidos.add(new Integer(proyManager.getid()));
                                                     
                                                     sm.send("statustaskchange", from_member, proyManager, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
-                                                    System.out.println("-------------------------");
                                                     
-                                                    System.out.println("----------Control Version---------------");
-                                                    membersData clientManager2 =  new membersData();
-                                                    String svn = TMSConfigurator.getSvn();
-                                                    clientManager2.setemail_work(svn);
-                                                    sm.send("statustaskchange", from_member, clientManager2, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
                                                     System.out.println("-------------------------");
+//                                                   System.out.println("----------Control Version---------------");
+//                                                    
+//                                                    membersData clientManager2 =  new membersData();
+//                                                    String svn = TMSConfigurator.getSvn();
+//                                                    clientManager2.setemail_work(svn);
+//                                                    clientManager2.setid(0);
+//                                                    sm.send("statustaskchange", from_member, clientManager2, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
+//                                                    
+//                                                    System.out.println("-------------------------");
                                                 }
-                                                System.out.println("-------------------------");
-                                                
                                             }
                                             idSubProject = subProject.getProject_id();
                                         } else {
@@ -1568,12 +1742,7 @@ public class tasksAction extends Action {
                                 if ( data.getstatus()!=12){
                                     System.out.println("---------Task Owner Member--------");
                                     sm.send("statustaskchange", from_member, to_member, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
-                                    System.out.println("----------Control Version---------------");
-                                     membersData clientManager2 =  new membersData();
-                                    String svn = TMSConfigurator.getSvn();
-                                    clientManager2.setemail_work(svn);
-                                    sm.send("statustaskchange", from_member, clientManager2, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
-                                    System.out.println("-------------------------");
+//                                    
                                 }
                                 emailSended = true;
                             }
@@ -2224,16 +2393,20 @@ public class tasksAction extends Action {
                                                     repetidos.add(new Integer(proyManager.getid()));
                                                     
                                                     sm.send("statustaskchange", from_member, proyManager, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
-                                                    System.out.println("-------------------------");
                                                     
-                                                    System.out.println("----------Control Version---------------");
-                                                    membersData clientManager2 =  new membersData();
-                                                    String svn = TMSConfigurator.getSvn();
-                                                    clientManager2.setemail_work(svn);
-                                                    sm.send("statustaskchange", from_member, clientManager2, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
                                                     System.out.println("-------------------------");
+//                                                    System.out.println("----------Control Version---------------");
+//                                                    
+//                                                    membersData clientManager2 =  new membersData();
+//                                                    String svn = TMSConfigurator.getSvn();
+//                                                    clientManager2.setemail_work(svn);
+//                                                    clientManager2.setid(0);
+//                                                    sm.send("statustaskchange", from_member, clientManager2, data.getid(), new String(data.getname()), user,String.valueOf(session.getAttribute("mainUrl")));
+//                                                    
+//                                                    System.out.println("-------------------------");
+                                                    
                                                 }
-                                                System.out.println("-------------------------");
+                                                
                                             }
                                             idSubProject = subProject.getProject_id();
                                         } else {
@@ -2404,9 +2577,142 @@ public class tasksAction extends Action {
                         // Se redirecciona a la pagina de administracion
                         return (mapping.findForward("main"));
                     }
-                }else if (action.equals("selctVerApp")) {
-                    return (mapping.findForward("selctVerApp"));
+                }else if (action.equals("selectVerApp")) {
+                    
+                    tasksData data = (tasksData) taskBroker.getData(thisForm.getid(), user.getId_account());
+                    projectsData projectMember = (projectsData) projBroker.getData(data.getproject(), user.getId_account());
+                    
+                    if (user.getid() == projectMember.getowner() ||
+                            user.getid() == data.getassigned_to() ||
+                            //user.getid() == 1) {
+                            (user.getprofile().equals("3") || user.getprofile().equals("4"))) {
+                        
+                        
+                        int idProject = Integer.parseInt (request.getParameter("project"));
+                        int idTask = Integer.parseInt (request.getParameter("id"));
+
+                        tasksData task = new tasksData();
+                        task =  (tasksData) taskBroker.getData(idTask);
+
+                        projectsData project = new projectsData();
+                        project = (projectsData) projBroker.getData(idProject);
+                        int idOrganization = project.getorganization();
+
+                        if(task.getOperation_number() == 0){
+                            Iterator i = orgaVerAppBroker.getAppsXorganizacion(idOrganization);
+                            if(i.hasNext()){
+                                request.setAttribute("listaVerAppsXOrga", i);
+                            }else{
+                               return (mapping.findForward("MessageconfigOrganization")); 
+                            }                      
+        //                    request.setAttribute("project", project );
+        //                    request.setAttribute("task", task );
+                            return (mapping.findForward("selectVerApp"));
+                        }else{
+                            return (mapping.findForward("numOperationAssigned"));
+                            //retorno de la vista qeu dice que ya tiene un número de operación
+                        }
+                    }else{
+                        request.setAttribute("menuRoute",
+                                "<a href='./home.do'>" + java.util.ResourceBundle.getBundle("ApplicationResources", new Locale(user.getlanguage(), "")).getString("header.displayStart") + "</a>&nbsp;");
+                        request.setAttribute("company", company);
+                        return (mapping.findForward("accessDenied"));
+                    }
+                        
+                    
                 }
+                else if (action.equals("assignVerApp")) {
+                    int idProject = Integer.parseInt (request.getParameter("project"));
+                    int idTask = Integer.parseInt (request.getParameter("task"));
+                    int idVerApp = Integer.parseInt (request.getParameter("verApp"));
+                    
+                    tasksData task = new tasksData();
+                    task =  (tasksData) taskBroker.getData(idTask);
+                    
+                    projectsData project = new projectsData();
+                    project = (projectsData) projBroker.getData(idProject);
+                    int idOrganization = project.getorganization();
+                    
+                     if(task.getOperation_number()==0){
+                        
+                        //obtenemos el último número de operación utilizado y le sumamos uno, para asignarlo
+                        int num_op = taskBroker.getNumOperarion();
+                        //num_op = num_op + 1;
+                        
+                        task.setOperation_number(num_op);
+                        task.setVerapp(idVerApp);
+                       
+                        // inserción de la tarea en la tabla de control de aplicativos
+                        applicationControlData appControl = new applicationControlData();
+                        appControl.setId(0);
+                        appControl.setState(0);
+                        //appControl.setApplication_date(null);
+                        appControl.setComment(" ");
+                        appControl.setId_task(idTask);
+                        appControl.setId_application_user(0);
+                        appControl.setId_organization(idOrganization);
+                        appControl.setId_account(project.getId_account());
+                        
+                        
+                        
+                        //actualizamos la tarea y creamos el registro
+                         taskBroker.update(task);
+                        appControlBroker.add(appControl);
+                       
+                        
+                        String numOp = ""+num_op;
+                        task.getparentAssigned();
+                        membersData from_member = (membersData) memBroker.getData(user.getid(), user.getId_account());
+                        sm.send("asignedOperationNumber", from_member, task.getparentAssigned(), task.getid(), new String(numOp), user,String.valueOf(session.getAttribute("mainUrl")));
+                        
+                        
+                        
+                       return (new ActionForward(mapping.findForward("displayViewForm2").
+                                    getPath() + "?operation=view&id=" + task.getid()));
+                            
+                    }else{
+                        return (mapping.findForward("numOperationAssigned"));
+                        //retorno de la vista qeu dice que ya tiene un número de operación
+                    }
+                        
+                        
+                        
+                        
+                                
+                    
+                    
+                    
+                                   
+//                    return (mapping.findForward("listing"));
+                    
+                }
+                
+                else if (action.equals("deleteOperationNumber")) {
+                    int idTask = Integer.parseInt (request.getParameter("id"));
+                    tasksData data = (tasksData)taskBroker.getData(idTask);
+                    if(data.getstatus()<=1 || data.getOperation_number()==0){
+                        return (mapping.findForward("cantDelete"));
+                    }
+                    request.setAttribute("tarea", data);
+                    return (mapping.findForward("confirmDeleteOperationNumber"));
+                    
+                }else if (action.equals("applyDeleteOperationNumber")) {
+                    int idTask = Integer.parseInt (request.getParameter("id"));
+                    tasksData data = (tasksData)taskBroker.getData(idTask);
+                    data.setOperation_number(0);
+                    data.setVersion_control(0);
+                    data.setVerapp(0);
+                    taskBroker.update(data);
+                    
+                    Iterator i = appControlBroker.getApplicacionesPorTarea(idTask);
+                    while(i.hasNext()){
+                        applicationControlData appData = (applicationControlData) i.next();
+                        appControlBroker.delete(appData);
+                    }
+                    return (new ActionForward(mapping.findForward("displayViewForm2").
+                                    getPath() + "?operation=view&id=" + data.getid()));
+                }
+                
             } catch (Exception e) {
                 servlet.log("[ERROR] Action at final catch: " + e.getMessage());
                 e.printStackTrace();
@@ -2688,5 +2994,22 @@ public class tasksAction extends Action {
 
         return Integer.parseInt(""+listStatus.get(taskStatus));
     }
+    
+    public void getOrganizationsApplied(int id_task, HttpServletRequest request){
+        applicationControlBroker acb = new applicationControlBroker();
+        Iterator i = acb.getListOrganizationsApplied(id_task);
+        request.setAttribute("orgaApplied", i);
+        applicationControlData data = new applicationControlData();
+    }
+    
+    public void getOrganizationsUnApplied(int id_task, HttpServletRequest request){
+        applicationControlBroker acb = new applicationControlBroker();
+        Iterator i = acb.getListOrganizationsUnApplied(id_task);
+        request.setAttribute("orgaUnApplied", i);
+        
+    }
+    
+
+    
 }
     

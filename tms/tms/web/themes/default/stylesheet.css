@@ -411,7 +411,9 @@ hr {
 	color: #FFFFFF;
 	text-decoration: none;
 }
-
+.apptemp {
+	background-color: #F76C6C;
+}
 
 .odd {
 	background-color: #F5F5F5;
@@ -523,7 +525,7 @@ hr {
 .commandDesc {
 	/*border:1px solid #000000;*/
 	/*width:200px;*/
-	background-color#ff0000;
+	/*background-color#ff0000;*/
 	text-align:right;
 	padding-right:10px;
 

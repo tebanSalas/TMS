@@ -1,0 +1,64 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>$systemName</title>
+<meta name="robots" content="none">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<script type="text/javascript" src="swc.js"></script>
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+<script type="text/Javascript">
+<!--
+var gBrowserOK = true;
+var gOSOK = true;
+var gCookiesOK = true;
+var gFlashOK = true;
+// -->
+
+function sendData(tipo) {
+    var x = document.form0.account.selectedIndex;
+    tipo= tipo+document.form0.account.options[x].value;
+    document.form0.action=tipo;
+    document.form0.submit();
+}
+</script>
+
+<link rel="stylesheet" href="themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+</head>
+<body >
+#parse ("/vm/header.vm")
+
+<table class="content" cellspacing="0" cellpadding="0">
+
+ <tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td>
+<td>
+<form  method="POST" name="form0" action="" >
+
+#if ($!userInfo.getAppControl() == 1 )
+    <a href="./AppControl.do?operation=appControl"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.Permission.appControl")</a><br><br>
+#end
+#if ($!userInfo.getVersionControl() == 1 )
+    <a href="./AppControl.do?operation=versionControl"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.Permission.versionControl")</a><br><br>
+#end
+#if ($!userInfo.getReportApplications() == 1 )
+    <a href="./AppControl.do?operation=DisplayfilterReportApplied"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.Permission.reportAplications")</a><br><br>
+#end    
+ 
+
+<!--
+ <a href="./empleados.do?operation=listing"><img src="./images/right-arrow.gif" width="13" height="13" border="0">empleados </a><br><br> 
+ -->
+
+
+</form>
+ </tr>
+</table>
+#parse ("/vm/footer.vm")
+</body>
+</html>

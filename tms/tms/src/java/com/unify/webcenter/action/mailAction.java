@@ -132,7 +132,7 @@ String mainURL = "";
                     action.equals("statustaskchange") || action.equals("duedatetaskchange") ||
                     action.equals("taskrejected") || action.equals("statustaskclosed") || action.equals("taskreasigned")
                     || action.equals("sendqatnotification")
-                || action.equals("sendqafnotification")
+                || action.equals("sendqafnotification") || action.equals("asignedOperationNumber")
                     ) {
 
 
@@ -208,7 +208,10 @@ String mainURL = "";
                 }else if (action.equals("sendqatnotification")
                 || action.equals("sendqafnotification")) {
                     return (mapping.findForward("notification-qa-html"));
-                } else {
+                } else if (action.equals("asignedOperationNumber")){
+                        servlet.log("[DEBUG] mailAction at execute(): Action is " + action + "| envía correo de notificacion");
+                        return (mapping.findForward("notification-html"));
+                    }else {
                     
                     if (action.equals("taskreasigned")){
                         return (mapping.findForward("taskreasigned-html"));

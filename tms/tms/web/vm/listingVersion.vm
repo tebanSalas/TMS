@@ -1,4 +1,4 @@
- <html>
+<html>
 <head>
 <title>$msg.get("common.crudVersion")</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

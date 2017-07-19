@@ -1,0 +1,153 @@
+<html>
+<head>
+<title>$msg.get("common.Permission.appControl")</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head><body bgcolor="#FFFFFF" text="#000000">
+
+
+
+#parse ("/vm/header.vm")
+
+
+<div name="wbP" id="wbP" style="display:block" class=formBody>
+
+<form name="formversion" method="post" action="./AppControl.do">
+<div id="wbPHead" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbPToggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">
+      $msg.get("common.listTasksVersionControl")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+   </nobr>
+   </td>
+  </tr>
+ </table>
+ </div>
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+  <tr>
+    <th width="1%" align="center">
+      <a href="javascript:MM_toggleSelectedItems(document.formversion,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="" alt="" vspace="3" hspace="3"></a>
+        <th nowrap >$msg.get("common.numOp")</th>
+        <th nowrap >$msg.get("common.Reports.IdTarea")</th>
+        <th nowrap >$msg.get("common.taskName")</th>
+        <th nowrap >$msg.get("common.statusTasks")</th>
+        <th nowrap >$msg.get("common.Project")</th>
+        <th nowrap >$msg.get("common.assignedTo")</th>
+        <th nowrap >$msg.get("common.apply")</th>
+      </th>
+
+    </tr>
+  #set ($row = 1)
+  #foreach( $lista in $tasks)
+ 
+
+          #if (($row % 2) == 0)
+            #set ($type = "even")
+            #set ($color = "#EFEFEF")
+          #else
+           #set ($type = "odd")
+           #set ($color = "#F5F5F5")
+          #end
+          
+
+<tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
+  <td align="center">
+  <a href="">
+  <img name="clientListcb$row" border="0" src="" alt="" vspace="3"></a>
+  </td>
+    <td > $!lista.getOperation_number()</td>
+    <td > $!lista.getid()</td>
+    <td > <a href="javascript:document.formversion.idTask.value='$!lista.getid()';sendData('returnTask');">$!lista.getname()</a></td>
+
+    #if ($!lista.getstatus() == 0)
+  <td> $msg.get("common.statusClientEnd")</td>
+#elseif ($!lista.getstatus() == 1)
+  <td> $msg.get("common.statusEnd")</td>
+#elseif ($!lista.getstatus() == 2)
+  <td> $msg.get("common.statusNotStarted")</td>
+#elseif ($!lista.getstatus() == 3)
+  <td> $msg.get("common.statusStarted")</td>
+#elseif ($!lista.getstatus() == 4)
+  <td> $msg.get("common.statusSuspended")</td>
+#elseif ($!lista.getstatus() == 5)
+  <td> $msg.get("common.statusQuote")</td>
+#elseif ($!lista.getstatus() == 6)
+  <td> $msg.get("common.statusQuoteSended")</td>
+#elseif ($!lista.getstatus() == 7)
+  <td> $msg.get("common.statusQuoteRejected")</td>
+#elseif ($!lista.getstatus() == 8)
+  <td> $msg.get("common.statusQuoteAcepted")</td>
+#elseif ($!lista.getstatus() == 9)
+  <td> $msg.get("common.statusCharge")</td>
+#elseif ($!lista.getstatus() == 10)
+  <td> $msg.get("common.statusChargeSended")</td>
+#elseif ($!lista.getstatus() == 11)
+  <td> $msg.get("common.statusProcessingCharge")</td>
+#elseif ($!lista.getstatus() == 12)
+  <td> $msg.get("common.statusRejected")</td>
+#elseif ($!lista.getstatus() == 13)
+  <td> $msg.get("common.qualitycontrol")</td>
+#elseif ($!lista.getstatus() == 14)
+  <td> $msg.get("common.standBy")</td>
+#end
+  
+    
+    
+    <td > $!lista.getparentProject().getname()</td>
+    <td > $!lista.getparentAssigned().getname()</td>
+    <td id="$!lista.getid()"> <button onclick="submitter(this)">$msg.get("common.apply")</button></td>
+
+
+  </tr>
+#set ($row = $row + 1)
+#end
+</table>
+
+
+<table cellspacing="0" width="100%" border="0" cellpadding="0">
+ <tr>
+   <td height="5" colspan="2"><img width="1" height="5" border="0" src="./themes/$userInfo.getTemplate()/spacer.gif" alt="">
+   </td>
+ </tr>
+</table>
+  <input type="hidden" name="operation" value="applyVersionControl">
+  <input type="hidden" name="id" id="id">
+  <input type="hidden" name="idTask" id="idTask">
+  
+</form>
+</div>
+
+#parse ("/vm/footer.vm")
+</body>
+<script language="JavaScript">
+
+function sendData(tipo) {
+	document.formversion.operation.value = tipo;
+	document.formversion.submit();
+}
+
+function submitter(btn) {
+    var id_app = btn.parentElement.id;
+    document.formversion.id.value = id_app;
+    document.formversion.submit();
+}
+
+
+
+</script>
+</html>

@@ -32,7 +32,7 @@ public class TMSConfigurator {
     private static String default_mail_username = "";
     private static String default_mail_password = "";
     private static String accountingmail = "";
-    private static String mainURL = "http://daytonasoft.net:8080/tmsE";
+    private static String mainURL = "http://192.168.0.9:8080/tmsE";
     private static String managersEmails = "";
     private static String mailAuthentication = "N";
     private static String mailLanguage = "es";
@@ -47,6 +47,8 @@ public class TMSConfigurator {
     private static String newUserReferenceGuide="";
     private static String maxTasksUpload="200";
     private static String svn = "";
+    
+    
     public static String getSales_mail() {
         return sales_mail;
     }
@@ -279,6 +281,12 @@ public class TMSConfigurator {
     public static void setSvn(String svn) {
         TMSConfigurator.svn = svn;
     }
+
+    
+
+    
+    
+    
     
     
 

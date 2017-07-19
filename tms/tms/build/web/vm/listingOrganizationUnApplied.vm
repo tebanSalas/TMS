@@ -1,0 +1,78 @@
+<p><font color="#CC0000">#errorMarkup()</font></p>
+
+<div id="wbP9Head" class="blockHeader">
+<table class=title>
+  <tr>
+    <td class=toggle width="99%">    
+      <a href="javascript:showHideModule('wbP9','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP9'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbP9Toggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+      $msg.get("common.organizationsUnAplied")
+      <span class=addition></span>
+      </a>
+    </td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+</table>
+</div>
+
+<div name="wbP9" id="wbP9" style="display:block" class=formBody>
+  <form name="formAppsByOrganization" method="post" action="./orgaVerApps.do">
+    <table  border="0" cellspacing="0" cellpadding="0" class="listing">
+      <tr>
+       <th width="1%" align="center">
+          <a href="javascript:MM_toggleSelectedItems(document.formAppsByOrganization,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="" alt="" vspace="3" hspace="3"></a>
+        </th>
+        <th nowrap >$msg.get("common.Organization")</th>
+        <th nowrap >$msg.get("common.stateApplication")</th>
+        <th nowrap >$msg.get("common.numOperation")</th>
+        <th nowrap >$msg.get("common.versionControl")</th>
+      </tr>
+      #set ($row = 1)
+      #foreach( $lista in $orgaUnApplied)
+        #if($!lista.getState()!=1)
+
+          #if (($row % 2) == 0)
+            #set ($type = "even")
+            #set ($color = "#EFEFEF")
+          #else
+           #set ($type = "odd")
+           #set ($color = "#F5F5F5")
+          #end
+        #else
+          #set ($type = "apptemp")
+          #set ($color = "#F76C6C")
+        #end  
+
+      <tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
+        <td align="center">
+          <a href="javascript:document.formAppsByOrganization.id.value='$!lista.getId()';MM_toggleItem(document.formAppsByOrganization, '$!lista.getId()', 'appByOrgaListcb$row','$userInfo.getTemplate()');">
+            <img name="appByOrgaListcb$row" border="0" src="" alt="" vspace="3">
+          </a>
+        </td>
+        <td >  $!lista.getParentOrganization().getname()</td>
+
+        #if($!lista.getState()==0)
+          <td >No Aplicado</td>
+        #elseif($!lista.getState()==1)
+          <td >Aplicado Temporal</td>
+        #elseif($!lista.getState()==2)
+          <td >Aplicado</td>          
+        #end 
+
+        <td > $!lista.getParentTask().getOperation_number()</td>
+        <td > $!lista.getParentTask().getVersion_control()</td>
+      </tr>
+      #set ($row = $row + 1)
+      #end
+      </table>
+
+      <table cellspacing="0" width="100%" border="0" cellpadding="0">
+        <tr>
+          <td height="5" colspan="2">
+            <img width="1" height="5" border="0" src="./themes/$userInfo.getTemplate()/spacer.gif" alt="">
+          </td>
+        </tr>
+      </table>
+      
+    </form>
+  </div>
+

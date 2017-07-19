@@ -1,0 +1,162 @@
+<html>
+<head>
+<title>$msg.get("header.viewAppControl")</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./themes/$userInfo.getTemplate()/stylesheet.css" type="text/css">
+<SCRIPT src="./themes/swc.js" type=text/javascript></SCRIPT>
+<script type="text/javascript" src="./javascript/general.js"></script>
+<script type="text/JavaScript" src="./javascript/overlib/overlib.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/lang/calendar-en.js"></script>
+<script type="text/JavaScript" src="./javascript/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" href="./themes/default/calendar.css" type="text/css">
+
+</head><body bgcolor="#FFFFFF" text="#000000">
+
+
+
+#parse ("/vm/header.vm")
+
+
+<div name="wbP" id="wbP" style="display:block" class=formBody>
+
+<form name="applicationControlForm" method="post" action="./AppControl.do">
+<div id="wbPHead" class="blockHeader">
+<table class=title>
+<tr>
+  <td class=toggle width="99%">    
+  <a href="javascript:showHideModule('wbP','default')" onMouseOver="javascript:showHideModuleMouseOver('wbP'); return true; " onMouseOut="javascript:window.status=''; return true;"><img name="wbPToggle" border="0" src="./themes/default/module_toggle_open.gif" alt="">&nbsp;
+      $msg.get("common.Permission.reportAplications")
+<span class=addition></span></a>
+   </td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=heading_line_icons>   
+   <nobr>
+   </nobr>
+   </td>
+  </tr>
+ </table>
+ </div>
+<table  border="0" cellspacing="0" cellpadding="0" class="listing">
+      <tr>
+       <th width="1%" align="center">
+          <a href="javascript:MM_toggleSelectedItems(document.formAppsByOrganization,'$userInfo.getTemplate()')"><img height="13" width="13" border="0" src="" alt="" vspace="3" hspace="3"></a>
+        </th>
+        <th nowrap >$msg.get("common.dateApplication")</th>
+        <th nowrap >$msg.get("common.Reports.IdTarea")</th>
+        <th nowrap >$msg.get("common.taskName")</th>
+        <th nowrap >$msg.get("common.Organization")</th>
+        <th nowrap >$msg.get("common.userApplicator")</th>
+        <th nowrap >$msg.get("common.stateApplication")</th>
+        <th nowrap >$msg.get("common.numOp")</th>
+        <th nowrap >$msg.get("common.vc")</th>
+        <th nowrap >$msg.get("common.Description")</th>
+      </tr>
+      #set ($row = 1)
+      #foreach( $lista in $applied)
+        #if($!lista.getState()!=1)
+
+          #if (($row % 2) == 0)
+            #set ($type = "even")
+            #set ($color = "#EFEFEF")
+          #else
+           #set ($type = "odd")
+           #set ($color = "#F5F5F5")
+          #end
+        #else
+          #set ($type = "apptemp")
+          #set ($color = "#F76C6C")
+        #end  
+        
+
+      <tr class="$type" onmouseover="this.style.backgroundColor='#FFFEE7'" onmouseout="this.style.backgroundColor='$color'">
+        <td align="center">
+          <a href="javascript:document.formAppsByOrganization.id.value='$!lista.getId()';MM_toggleItem(document.formAppsByOrganization, '$!lista.getId()', 'appByOrgaListcb$row','$userInfo.getTemplate()');">
+            <img name="appByOrgaListcb$row" border="0" src="" alt="" vspace="3">
+          </a>
+        </td>
+        <td > $!lista.getApplication_date()</td>
+        <td > $!lista.getId_task()</td>
+        <td><a href="javascript:document.applicationControlForm.idTask.value='$!lista.getId_task()';sendData('returnTask');">$!lista.getParentTask().getname()</a></td>
+        <td >  $!lista.getParentOrganization().getname()</td>
+        <td > $!lista.getParentMembers().getname()</td>
+
+        #if($!lista.getState()==0)
+          <td >No Aplicado</td>
+        #elseif($!lista.getState()==1)
+          <td >Aplicado Temporal</td>
+        #elseif($!lista.getState()==2)
+          <td >Aplicado</td>          
+        #end 
+
+        <td > $!lista.getParentTask().getOperation_number()</td>
+        <td > $!lista.getParentTask().getVersion_control()</td>
+        <td > $!lista.getComment()</td>
+      </tr>
+      #set ($row = $row + 1)
+      #end
+      </table>
+
+
+<table cellspacing="0" width="100%" border="0" cellpadding="0">
+ <tr>
+   <td height="5" colspan="2"><img width="1" height="5" border="0" src="./themes/$userInfo.getTemplate()/spacer.gif" alt="">
+   </td>
+ </tr>
+</table>
+<table cellspacing="0" width="100%" border="0" cellpadding="0">
+ <tr>
+   <td nowrap class="footerCell">&#160;&#160;&#160;&#160;
+
+#foreach( $lista in $listPagesApplied)
+  #if ($currentPage.equalsIgnoreCase("$lista.intValue()"))
+    <b>$lista.intValue()</b>&#160;
+  #else
+<a href="javascript:document.applicationControlForm.operation.value='executeReportApplied';document.applicationControlForm.pageTasks.value='$lista.intValue()';document.applicationControlForm.submit();">$lista.intValue()</a>&#160;
+  #end
+#end
+
+   </td>
+    
+ </tr>
+ <tr>
+   <td height="5" colspan="2"><img width="1" height="5" border="0" src="./themes/$userInfo.getTemplate()/spacer.gif" alt="">
+   </td>
+ </tr>
+</table>
+  <input type="hidden" name="operation" value="confirmApplication">
+  <input type="hidden" name="id" id="id">
+  <input type="hidden" name="idTask" id="idTask">
+  <input type="hidden" name="pageTasks" value="">
+  
+  <input type="hidden" name="currentPage" value="">
+  <input type="hidden" name="startDate" value="$!startDate">
+  <input type="hidden" name="endDate" value="$!endDate">
+  <input type="hidden" name="id_organization" value="$!id_organization">
+  <input type="hidden" name="id_application_user" value="$!id_application_user">
+
+
+
+</form>
+</div>
+
+#parse ("/vm/footer.vm")
+</body>
+<script language="JavaScript">
+
+function sendData(tipo) {
+	document.applicationControlForm.operation.value = tipo;
+	document.applicationControlForm.submit();
+}
+
+function submitter(btn) {
+    var id_app = btn.parentElement.id;
+    document.applicationControlForm.id.value = id_app;
+    document.applicationControlForm.submit();
+}
+
+
+
+</script>
+</html>

@@ -57,7 +57,7 @@ public class administrationAction extends Action {
         String company = null;
         HttpSession session = request.getSession(false);
 
-        accountsBroker accountBroker = new accountsBroker();
+        accountsBroker accountBroker;
 
         // Si la sesion es nula, se debe redireccionar al login.
         if (session == null || session.getAttribute("login") == null) {
@@ -65,7 +65,9 @@ public class administrationAction extends Action {
             // forward to display the login page
             return (mapping.findForward("login"));
         } else {
-
+            
+            accountBroker = new accountsBroker();
+            
             // Si el usuario esta logeado se le despliega el menu
             try {
  //Set the selected tab 

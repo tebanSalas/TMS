@@ -405,15 +405,25 @@ function changeRequired(theObj) {
 	 <td>
 #if ($!tasksForm.operation == "applyAdd")
 	--
-#else
+#elseif($tasksForm.status == 0 || $tasksForm.status == 1 || $tasksForm.status == 11 || $tasksForm.status == 13)
+		  	#if ($tasksForm.spread_fix.equalsIgnoreCase("S"))
+        		$msg.get("common.yes")
+        		<input type="hidden" name="spread_fix" value="$tasksForm.spread_fix">
+      		#elseif ($tasksForm.spread_fix.equalsIgnoreCase("N"))
+        		$msg.get("common.no")
+        		<input type="hidden" name="spread_fix" value="$tasksForm.spread_fix">
+     		 #elseif ($tasksForm.spread_fix.equalsIgnoreCase(" "))
+        		--
+        		<input type="hidden" name="spread_fix" value="$tasksForm.spread_fix">
+      		
+      		#end
+ #else
 		<SELECT size="1" name="spread_fix">
 		      <OPTION value="S" #if ($tasksForm.spread_fix.equalsIgnoreCase("S")) selected #end>$msg.get("common.yes")</OPTION>
 		      <OPTION value="N" #if ($tasksForm.spread_fix.equalsIgnoreCase("N")) selected #end>$msg.get("common.no")</OPTION>
 		      <OPTION value=" " #if ($tasksForm.spread_fix.equalsIgnoreCase(" ")) selected #end>--</OPTION>
-#if ($userInfo.getprofile() == "3")
-		      <OPTION value="P" #if ($tasksForm.spread_fix.equalsIgnoreCase("P")) selected #end>$msg.get("common.spreadedFix")</OPTION>		      
-#end
-	      </SELECT>
+			  
+	     </SELECT>
 #end
 	  </td>
 	</tr>
@@ -464,6 +474,10 @@ function changeRequired(theObj) {
   <input type="hidden" name="topic2task" value="$!tasksForm.topic2task">
   <input type="hidden" name="organization" value="$assignedProject.getparentOrganizations().getid()">
   <input type="hidden" name="actual_time" value="$!tasksForm.actual_time">
+
+  <input type="hidden" name="operation_number" value="$!tasksForm.operation_number">
+  <input type="hidden" name="version_control" value="$!tasksForm.version_control">
+  <input type="hidden" name="verapp" value="$!tasksForm.verapp">
 </form>
 #parse ("/vm/footer.vm")
 </body>

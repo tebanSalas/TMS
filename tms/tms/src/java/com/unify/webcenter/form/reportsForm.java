@@ -40,6 +40,10 @@ public class reportsForm  extends ValidatorActionForm {
          private int pages;
          private String lastPage; 
          private int publish;
+         
+         private String[] QA_assigned;
+         private String[] RF_assigned;
+                 
                  
 	 public void setname(String val) { name = val; } 
 	 public void setend_date(java.sql.Timestamp val) { end_date = val; } 
@@ -169,4 +173,22 @@ public class reportsForm  extends ValidatorActionForm {
     public void setPublish(int publish) {
         this.publish = publish;
     }
+
+    public String[] getQA_assigned() {
+        return QA_assigned;
+    }
+
+    public void setQA_assigned(String[] QA_assigned) {
+        this.QA_assigned = QA_assigned;
+    }
+
+    public String[] getRF_assigned() {
+        return RF_assigned;
+    }
+
+    public void setRF_assigned(String[] RF_assigned) {
+        this.RF_assigned = RF_assigned;
+    }
+    
+    
 }

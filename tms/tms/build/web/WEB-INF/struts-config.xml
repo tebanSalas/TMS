@@ -121,6 +121,8 @@
         <form-bean name="organization_versionAppForm"
                    type="com.unify.webcenter.form.organization_versionAppForm"/>
         
+        <form-bean name="applicationControlForm"
+                   type="com.unify.webcenter.form.applicationControlForm"/>
         
         
         <form-bean name="empleadoForm"
@@ -186,7 +188,7 @@
             <forward name="newAccount" path="/vm/email/new_account-html.vm"/>
             <forward name="taskreasigned-html" path="/vm/email/taskreasigned-html.vm"/>
             <forward name="tasksverification-html" path="/vm/email/tasksverification-html.vm"/>
-            
+            <forward name="notification-qa-html" path="/vm/email/qanotification-html.vm"/>
         </action>
         
         
@@ -315,7 +317,13 @@
             <forward name="displayAllMyTasks"     path="/vm/viewAllMyTasks.vm" />	
             <forward name="confirmMove"           path="/vm/confirmmove.vm"/>
             <forward name="viewReportChangeTask"  path="/vm/result_report_change_task.vm"/>
+            <forward name="selectVerApp"          path="/vm/select_verApp_ToTask.vm"/>
+            <forward name="numOperationAssigned"          path="/vm/numOperationAssigned.vm"/>
             <forward name="main"                  path="/admin.do"/>
+            <forward name="displayViewForm2"       path="/tasks.do"/>
+            <forward name="confirmDeleteOperationNumber"       path="/vm/confirmDeleteOperationNumber.vm"/>
+            <forward name="cantDelete"  path="/vm/cantDelete.vm"/>
+            <forward name="MessageconfigOrganization"  path="/vm/messageconfigOrganization.vm"/>
         </action>
         
         <action    path="/members"
@@ -402,6 +410,8 @@
             <forward name="main" path="/vm/menuAdmin.vm"/>
             <forward name="info" path="/vm/systemInfo.vm"/>
         </action>
+        
+        
         
         <action    path="/performance"
                    type="com.unify.webcenter.action.performanceAction"
@@ -581,7 +591,25 @@
                    scope="request">
             <forward name="main" path="/vm/menuSuperAdmin.vm"/>
             <forward name="subOptions" path="/vm/subOptionsCromsWorkReport.vm"/>
-              <forward name="options" path="/vm/optionCromsWorkReport.vm"/>
+            <forward name="options" path="/vm/optionCromsWorkReport.vm"/>
+        </action>
+        
+        <action    path="/AppControl"
+                   type="com.unify.webcenter.action.applicationControlAction"
+                   scope="request"
+                   validate="false">
+            <forward name="main" path="/vm/menuAppControl.vm"/>
+            <forward name="organizations" path="/vm/filterOrganizations.vm"/>
+            <forward name="displayTasksApplication" path="/vm/listingTasksApplicationControl.vm"/>
+            <forward name="displayConfirmApplication" path="/vm/displayConfirmApplication.vm"/>
+            <forward name="displayApplyVersionControl" path="/vm/displayApplyVersionControl.vm"/>
+            <forward name="displayVersionControl" path="/vm/displayVersionControl.vm"/>
+            <forward name="displayfilterReportApplied" path="/vm/displayfilterReportApplied.vm"/>
+            <forward name="executeReportApplied" path="/vm/executeReportApplied.vm"/>
+            <forward name="displayTaskView"       path="/tasks.do"/>
+            <forward name="displayAppControl"       path="/AppControl.do"/>
+            
+            
         </action>
         
         <action    path="/account"
@@ -700,7 +728,7 @@
             <forward name="listing" path="/vm/listingVerApp.vm"/>
             <forward name="home" path="/home.do" redirect="true"/>
             <forward name="displayAddForm"  path="/vm/addVersionApp.vm"/>
-            <forward name="confirmDelete"  path="/vm/confirmdeleteVersionYapp.vm"/>
+            <forward name="confirmDelete"  path="/vm/confirmdeleteVerApp.vm"/>
             <forward name="cantDelete"  path="/vm/cantDelete.vm"/>
             <forward name="alreadyExist"  path="/vm/alreadyExists.vm"/>
                        

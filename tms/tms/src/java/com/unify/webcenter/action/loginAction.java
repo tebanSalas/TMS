@@ -177,6 +177,10 @@ public class loginAction extends Action {
                                 //Atributo que permite la evaluacion en el menu de reportes 
                                 //para activar la opcion de ejecutar reporte de actividades
                                 login.setInd_exec_report(member.getInd_exec_report());
+                                login.setViewAppControl(member.getPermission_view_app_control());
+                                login.setAppControl(member.getPermission_app_control());
+                                login.setReportApplications(member.getPermission_report_applications());
+                                login.setVersionControl(member.getPermission_version_control());
                                 
                                 String company = TMSConfigurator.getCompany(login);
                                 

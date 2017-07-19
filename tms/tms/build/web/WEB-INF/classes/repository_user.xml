@@ -456,31 +456,31 @@ to avoid mixing user defined and system mappings. -->
     <field-descriptor id="32"
                       name="permission_delete_operation_number"
                       column="permission_delete_operation_number"
-                      jdbc-type="CHAR"
+                      jdbc-type="INTEGER"
                       
     />
     <field-descriptor id="33"
                       name="permission_view_app_control"
                       column="permission_view_app_control"
-                      jdbc-type="CHAR"
+                      jdbc-type="INTEGER"
                       
     />
     <field-descriptor id="34"
                       name="permission_app_control"
                       column="permission_app_control"
-                      jdbc-type="CHAR"
+                      jdbc-type="INTEGER"
                       
     />
     <field-descriptor id="35"
                       name="permission_version_control"
                       column="permission_version_control"
-                      jdbc-type="CHAR"
+                      jdbc-type="INTEGER"
                       
     />
     <field-descriptor id="36"
                       name="permission_report_applications"
                       column="permission_report_applications"
-                      jdbc-type="CHAR"
+                      jdbc-type="INTEGER"
                       
     />
     <reference-descriptor name="parentOrganization" 
@@ -1128,7 +1128,7 @@ to avoid mixing user defined and system mappings. -->
                       column="type_task"
                       jdbc-type="INTEGER"
     />
-    <field-descriptor id="31"
+    <field-descriptor id="38"
                       name="spread_fix"
                       column="spread_fix"
                       jdbc-type="CHAR"
@@ -1164,7 +1164,12 @@ to avoid mixing user defined and system mappings. -->
                       column="version_control"
                       jdbc-type="INTEGER"                 
     />
-    
+    <field-descriptor id="37"
+                      name="verapp"
+                      column="verapp"
+                      jdbc-type="INTEGER"                 
+    />
+   
     <reference-descriptor name="parentAssigned" 
                           class-ref="com.unify.webcenter.data.membersData"
                           refresh="true">
@@ -1175,6 +1180,12 @@ to avoid mixing user defined and system mappings. -->
                           class-ref="com.unify.webcenter.data.projectsData"
                           refresh="true">
         <foreignkey field-id-ref = "2"/>
+    </reference-descriptor>
+    
+    <reference-descriptor name="parentVerApp" 
+                          class-ref="com.unify.webcenter.data.versionAppData"
+                          refresh="true">
+        <foreignkey field-id-ref = "37"/>
     </reference-descriptor>
     
     <collection-descriptor name="assignmentsList" 
@@ -1194,6 +1205,7 @@ to avoid mixing user defined and system mappings. -->
                           refresh="true">
         <foreignkey field-id-ref = "31"/>
     </reference-descriptor>
+     
 </class-descriptor>
 
 <class-descriptor

@@ -276,5 +276,26 @@ public class tasksStatusLogBroker extends MainBroker {
         }
 
     }
+        
+    public boolean existStateInTask(int task, int status) throws PersistenceBrokerException {
+        // New criteria for sortering
+        Criteria criteria = new Criteria();
+
+        criteria.addEqualTo("task", Integer.valueOf("" + task));
+        criteria.addEqualTo("status", Integer.valueOf("" + status));
+        
+        // Query of all the tasks
+        Query query = new QueryByCriteria(tasksStatusLogData.class, criteria);
+
+        // ask the broker to retrieve the Extent collection
+        Collection allLines = broker.getCollectionByQuery(query);
+         Iterator e = allLines.iterator();
+        // If exists the record -MUST EXISTS ALWAYS
+        // We return the object
+         return e.hasNext();
+
+        
+    }    
+        
 
 }

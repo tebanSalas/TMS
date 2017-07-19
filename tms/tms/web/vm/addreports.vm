@@ -97,23 +97,10 @@ function sendData() {
        </SELECT></TD>
  </TR>
 
-  <TR class=odd>
-    <TD class=leftvalue vAlign=top>$msg.get("common.emailnotifyfqa") : </TD>
-    <TD class=rightvalue><SELECT multiple size=4 name=members[]>
-  #if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")
-        <OPTION value=ALL selected>$msg.get("common.selectAll")</OPTION> 
-  #end
-  #foreach( $lista in $list_members)
-  #if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")
-      <OPTION value=$!lista.getid()>$!lista.getname()</OPTION>
-    #else
-    <OPTION value=$lista.getid() selected>$!lista.getname()</OPTION>
-    #end
-  #end
-       </SELECT></TD>
-
+ <TR class=odd>
+    
     <TD class=leftvalue vAlign=top>$msg.get("common.emailnotifytqa") : </TD>
-    <TD class=rightvalue><SELECT multiple size=4 name=members[]>
+    <TD class=rightvalue><SELECT multiple size=4 name=QA_assigned[]>
   #if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")
         <OPTION value=ALL selected>$msg.get("common.selectAll")</OPTION> 
   #end
@@ -125,8 +112,21 @@ function sendData() {
     #end
   #end
        </SELECT></TD>
-  </TR>
 
+    <TD class=leftvalue vAlign=top>$msg.get("common.emailnotifyfqa") : </TD>
+    <TD class=rightvalue><SELECT multiple size=4 name=RF_assigned[]>
+  #if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")
+        <OPTION value=ALL selected>$msg.get("common.selectAll")</OPTION> 
+  #end
+  #foreach( $lista in $list_members)
+  #if ($userInfo.getprofile() == "3" || $userInfo.getprofile() == "4")
+      <OPTION value=$!lista.getid()>$!lista.getname()</OPTION>
+    #else
+    <OPTION value=$lista.getid() selected>$!lista.getname()</OPTION>
+    #end
+  #end
+       </SELECT></TD>
+ </TR>
 
   <TR class=odd>
     <TD class=leftvalue vAlign=top>$msg.get("common.startDate") :</TD>

@@ -343,6 +343,7 @@ public class reportsAction extends Action {
                         }
                         request.setAttribute("listing_projects", request.getParameter("listing_projects"));
                     }
+                    //lista de "asignado a "
                     String listing_members= "";
                     if (request.getParameter("listing_members")==null){
                                 if (thisForm.getmembers().length >1){
@@ -369,6 +370,64 @@ public class reportsAction extends Action {
                              thisForm.setmembers(str);
                         }
                         request.setAttribute("listing_members", request.getParameter("listing_members"));
+                    }
+                    
+                    //lista de "CC a"
+                    String listing_QA_assigned= "";
+                    if (request.getParameter("listing_QA_assigned")==null){
+                                if (thisForm.getQA_assigned().length >1){
+                                    for (int i=0; i<thisForm.getQA_assigned().length; i++){
+                                        if (i+1 != thisForm.getQA_assigned().length){
+                                            listing_QA_assigned=listing_QA_assigned + thisForm.getQA_assigned()[i]+",";
+                                        }else{
+                                            listing_QA_assigned=listing_QA_assigned+thisForm.getQA_assigned()[i];
+                                        }
+                                    }
+                                }else{
+                                     listing_QA_assigned=thisForm.getQA_assigned()[0];
+                                }
+                        request.setAttribute("listing_QA_assigned", listing_QA_assigned);
+                        request.setAttribute("list_QA_assigned", convertToString(thisForm.getQA_assigned()));
+                    }else{
+                        subs= request.getParameter("listing_QA_assigned");
+                        if(subs.contains(",")){
+                            request.setAttribute("list_QA_assigned", convertToString(subs.split(",")));
+                             thisForm.setQA_assigned(subs.split(","));
+                        }else{
+                            str[0]= subs;
+                            request.setAttribute("list_QA_assigned", str);
+                             thisForm.setQA_assigned(str);
+                        }
+                        request.setAttribute("listing_QA_assigned", request.getParameter("listing_QA_assigned"));
+                    }
+                    
+                    //lista de "RF a"
+                    String listing_RF_assigned= "";
+                    if (request.getParameter("listing_RF_assigned")==null){
+                                if (thisForm.getRF_assigned().length >1){
+                                    for (int i=0; i<thisForm.getRF_assigned().length; i++){
+                                        if (i+1 != thisForm.getRF_assigned().length){
+                                            listing_RF_assigned=listing_RF_assigned + thisForm.getRF_assigned()[i]+",";
+                                        }else{
+                                            listing_RF_assigned=listing_RF_assigned+thisForm.getRF_assigned()[i];
+                                        }
+                                    }
+                                }else{
+                                     listing_members=thisForm.getRF_assigned()[0];
+                                }
+                        request.setAttribute("listing_RF_assigned", listing_RF_assigned);
+                        request.setAttribute("list_RF_assigned", convertToString(thisForm.getRF_assigned()));
+                    }else{
+                        subs= request.getParameter("listingRF_assigned");
+                        if(subs.contains(",")){
+                            request.setAttribute("list_RF_assigned", convertToString(subs.split(",")));
+                             thisForm.setRF_assigned(subs.split(","));
+                        }else{
+                            str[0]= subs;
+                            request.setAttribute("list_RF_assigned", str);
+                             thisForm.setRF_assigned(str);
+                        }
+                        request.setAttribute("listing_RF_assigned", request.getParameter("listing_RF_assigned"));
                     }
                     
                     String listing_priorities= "";
@@ -476,7 +535,7 @@ public class reportsAction extends Action {
                         charge="ALL";
                     }
                     }
-                    Iterator e = broker.getReportByTasks(thisForm.getprojects(), thisForm.getmembers(),
+                    Iterator e = broker.getReportByTasks(thisForm.getprojects(), thisForm.getmembers(),thisForm.getQA_assigned(),thisForm.getRF_assigned(),
                             thisForm.getpriorities(), thisForm.getstatus(), thisForm.gettypetasks(),
                             request.getParameter("FechaInicio"),
                             request.getParameter("startDate1"), request.getParameter("startDate2"),
@@ -487,7 +546,7 @@ public class reportsAction extends Action {
                             thisForm.getsortColumn(), thisForm.getsortOrder(),
                             thisForm.getspreadfix(), user.getId_account(), thisForm.getPages(), charge, request.getParameter("published"));
                     
-                     Iterator e1 = broker.getReportByTasksWithoutPaging(thisForm.getprojects(), thisForm.getmembers(),
+                     Iterator e1 = broker.getReportByTasksWithoutPaging(thisForm.getprojects(), thisForm.getmembers(),thisForm.getQA_assigned(),thisForm.getRF_assigned(),
                             thisForm.getpriorities(), thisForm.getstatus(), thisForm.gettypetasks(),
                             request.getParameter("FechaInicio"),
                             request.getParameter("startDate1"), request.getParameter("startDate2"),
@@ -564,6 +623,8 @@ public class reportsAction extends Action {
                     // y convertirla en un String[]
                     thisForm.setprojects(data.getprojects().split(","));
                     thisForm.setmembers(data.getmembers().split(","));
+                    thisForm.setQA_assigned(data.getQA_assigned().split(","));
+                    thisForm.setRF_assigned(data.getRF_assigned().split(","));
                     thisForm.setpriorities(data.getpriorities().split(","));
                     thisForm.setstatus(data.getstatus().split(","));
                     thisForm.settypetasks(data.gettypetasks().split(","));
@@ -750,6 +811,64 @@ public class reportsAction extends Action {
                         request.setAttribute("listing_members", request.getParameter("listing_members"));
                     }
                     
+                    //lista de "CC a"
+                    String listing_QA_assigned= "";
+                    if (request.getParameter("listing_QA_assigned")==null){
+                                if (thisForm.getQA_assigned().length >1){
+                                    for (int i=0; i<thisForm.getQA_assigned().length; i++){
+                                        if (i+1 != thisForm.getQA_assigned().length){
+                                            listing_QA_assigned=listing_QA_assigned + thisForm.getQA_assigned()[i]+",";
+                                        }else{
+                                            listing_QA_assigned=listing_QA_assigned+thisForm.getQA_assigned()[i];
+                                        }
+                                    }
+                                }else{
+                                     listing_QA_assigned=thisForm.getQA_assigned()[0];
+                                }
+                        request.setAttribute("listing_QA_assigned", listing_QA_assigned);
+                        request.setAttribute("list_QA_assigned", convertToString(thisForm.getQA_assigned()));
+                    }else{
+                        subs= request.getParameter("listing_QA_assigned");
+                        if(subs.contains(",")){
+                            request.setAttribute("list_QA_assigned", convertToString(subs.split(",")));
+                             thisForm.setQA_assigned(subs.split(","));
+                        }else{
+                            str[0]= subs;
+                            request.setAttribute("list_QA_assigned", str);
+                             thisForm.setQA_assigned(str);
+                        }
+                        request.setAttribute("listing_QA_assigned", request.getParameter("listing_QA_assigned"));
+                    }
+                    
+                    //lista de "RF a"
+                    String listing_RF_assigned= "";
+                    if (request.getParameter("listing_RF_assigned")==null){
+                                if (thisForm.getRF_assigned().length >1){
+                                    for (int i=0; i<thisForm.getRF_assigned().length; i++){
+                                        if (i+1 != thisForm.getRF_assigned().length){
+                                            listing_RF_assigned=listing_RF_assigned + thisForm.getRF_assigned()[i]+",";
+                                        }else{
+                                            listing_RF_assigned=listing_RF_assigned+thisForm.getRF_assigned()[i];
+                                        }
+                                    }
+                                }else{
+                                     listing_members=thisForm.getRF_assigned()[0];
+                                }
+                        request.setAttribute("listing_RF_assigned", listing_RF_assigned);
+                        request.setAttribute("list_RF_assigned", convertToString(thisForm.getRF_assigned()));
+                    }else{
+                        subs= request.getParameter("listingRF_assigned");
+                        if(subs.contains(",")){
+                            request.setAttribute("list_RF_assigned", convertToString(subs.split(",")));
+                             thisForm.setRF_assigned(subs.split(","));
+                        }else{
+                            str[0]= subs;
+                            request.setAttribute("list_RF_assigned", str);
+                             thisForm.setRF_assigned(str);
+                        }
+                        request.setAttribute("listing_RF_assigned", request.getParameter("listing_RF_assigned"));
+                    }
+                    
                     String listing_priorities= "";
                     if (request.getParameter("listing_priorities")==null){
                                 if (thisForm.getpriorities().length >1){
@@ -835,7 +954,7 @@ public class reportsAction extends Action {
                     
            
                     
-                    Iterator e = broker.getReportByTasks(thisForm.getprojects(), thisForm.getmembers(),
+                    Iterator e = broker.getReportByTasks(thisForm.getprojects(), thisForm.getmembers(), thisForm.getQA_assigned(), thisForm.getRF_assigned(),
                             thisForm.getpriorities(), thisForm.getstatus(), thisForm.gettypetasks(),
                             data.getind_range_start_date(),
                             data.getstart_date_start(), data.getend_date_start(),
@@ -852,7 +971,7 @@ public class reportsAction extends Action {
                         lista.add(e.next());
                     }
 
-                            Iterator e1 = broker.getReportByTasksWithoutPaging(thisForm.getprojects(), thisForm.getmembers(),
+                            Iterator e1 = broker.getReportByTasksWithoutPaging(thisForm.getprojects(), thisForm.getmembers(), thisForm.getQA_assigned(), thisForm.getRF_assigned(),
                             thisForm.getpriorities(), thisForm.getstatus(), thisForm.gettypetasks(),
                             data.getind_range_start_date(),
                             data.getstart_date_start(), data.getend_date_start(),

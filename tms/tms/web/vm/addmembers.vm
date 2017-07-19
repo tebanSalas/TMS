@@ -265,31 +265,31 @@ document.add.sale_cost.value=0;
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.Permission.deleteOperationNumber"): </td>
       <td>
-        <input type="checkbox" name="permission_delete_operation_number" value="1" #if ($membersForm.permission_delete_operation_number == "1") checked #end> 
+        <input type="checkbox" name="permission_delete_operation_number" value="1" #if ($membersForm.permission_delete_operation_number == 1) checked #end> 
       </td>
     </tr>
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.Permission.viewAppControl"): </td>
       <td>
-        <input type="checkbox" name="permission_view_app_control" value="1" #if ($membersForm.permission_view_app_control == "1") checked #end> 
+        <input type="checkbox" name="permission_view_app_control" value="1" #if ($membersForm.permission_view_app_control == 1) checked #end> 
       </td>
     </tr>
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.Permission.appControl"): </td>
       <td>
-        <input type="checkbox" name="permission_app_control" value="1" #if ($membersForm.permission_app_control == "1") checked #end>
+        <input type="checkbox" name="permission_app_control" value="1" #if ($membersForm.permission_app_control == 1) checked #end>
       </td>
     </tr>
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.Permission.versionControl"): </td>
       <td>
-        <input type="checkbox" name="permission_version_control" value="1" #if ($membersForm.permission_version_control == "1") checked #end>
+        <input type="checkbox" name="permission_version_control" value="1" #if ($membersForm.permission_version_control == 1) checked #end>
       </td>
     </tr>
     <tr class="odd">
       <td valign="top" class="leftvalue">$msg.get("common.Permission.reportAplications"): </td>
       <td>
-        <input type="checkbox" name="permission_report_applications" value="1" #if ($membersForm.permission_report_applications == "1") checked #end> 
+        <input type="checkbox" name="permission_report_applications" value="1" #if ($membersForm.permission_report_applications == 1) checked #end> 
       </td>
     </tr>
  #end

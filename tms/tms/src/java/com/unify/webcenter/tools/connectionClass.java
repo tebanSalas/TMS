@@ -25,6 +25,7 @@ public class connectionClass {
          //   Class.forName("oracle.jdbc.driver.OracleDriver");
             Class.forName("org.postgresql.Driver");
             Connection connection;
+            //return connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "tms", "H6F8nVrZRM");
           return connection = DriverManager.getConnection("jdbc:postgresql://192.168.0.9:5432/postgres", "tms", "MONO$FUEGO");
             //return con = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:db10g", "ecommerce", "ecommerce");
            // return con = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.8:1521:SAS", "tms", "tmssocase");

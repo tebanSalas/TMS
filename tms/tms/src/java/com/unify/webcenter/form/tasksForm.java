@@ -2,6 +2,7 @@
 
 package com.unify.webcenter.form;
 
+import com.unify.webcenter.data.versionAppData;
 import java.math.BigDecimal;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.*;
@@ -74,6 +75,8 @@ public class tasksForm  extends ValidatorActionForm {
         
         private int version_control;
         private int operation_number;
+        private int verapp;
+        private versionAppData parentVerApp;
     
          public void setcheck_monto_fijo(int val) { check_monto_fijo = val ;}
          public void setmonto_manual(java.math.BigDecimal val) { monto_manual = val; }
@@ -372,6 +375,20 @@ public class tasksForm  extends ValidatorActionForm {
     public void setOperation_number(int operation_number) {
         this.operation_number = operation_number;
     }
-    
-    
+
+    public int getVerapp() {
+        return verapp;
+    }
+
+    public void setVerapp(int verapp) {
+        this.verapp = verapp;
+    }
+
+    public versionAppData getParentVerApp() {
+        return parentVerApp;
+    }
+
+    public void setParentVerApp(versionAppData parentVerApp) {
+        this.parentVerApp = parentVerApp;
+    }    
 }

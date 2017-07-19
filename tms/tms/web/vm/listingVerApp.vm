@@ -85,6 +85,7 @@
 
 <th nowrap >$msg.get("common.application")</th>
 <th nowrap >$msg.get("common.version")</th>
+<th nowrap >$msg.get("common.Description")</th>
 
     </tr>
   #set ($row = 1)
@@ -105,6 +106,7 @@
 
 <td > $!lista.getParentApplication().getName()</td>
 <td > $!lista.getParentVersion().getName()</td>
+<td > $!lista.getDescription()</td>
 
 
   </tr>

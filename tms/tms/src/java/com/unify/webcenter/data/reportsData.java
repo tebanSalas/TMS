@@ -24,6 +24,8 @@ public class reportsData extends mainData {
 	 protected java.sql.Timestamp created;
 	 protected String projects;
 	 protected String members;
+         private String QA_assigned;
+         private String RF_assigned;
 	 protected String status;	 
 	 protected String priorities;
          protected String spreadfix;
@@ -111,4 +113,22 @@ private int id_account;
     public void setChargeable(String chargeable) {
         this.chargeable = chargeable;
     }
+
+    public String getQA_assigned() {
+        return QA_assigned;
+    }
+
+    public void setQA_assigned(String QA_assigned) {
+        this.QA_assigned = QA_assigned;
+    }
+
+    public String getRF_assigned() {
+        return RF_assigned;
+    }
+
+    public void setRF_assigned(String RF_assigned) {
+        this.RF_assigned = RF_assigned;
+    }
+    
+    
 }

@@ -2807,4 +2807,57 @@ public class tasksBroker extends MainBroker {
         }
         return total;
     }
+    
+    
+    //obtengo el ultimo número de operación
+    public int getNumOperarion() throws PersistenceBrokerException {
+         Connection conn = null;
+        ResultSet rs = null;
+        Statement stmt1 = null;
+        int numOperation = 0;
+//        projectsData task= new projectsData();
+        String query="";
+        query="select nextval('seq_num_operation')";
+            
+        connectionClass _conecctionClass = new connectionClass();
+        conn = _conecctionClass.getConnection();
+        try {             
+            stmt1 = conn.createStatement();
+            rs = stmt1.executeQuery(query);
+              while (rs.next()) {
+                 numOperation = rs.getInt("nextval");
+              }   
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            conn.close();
+        } catch (SQLException ex1) {
+            ex1.printStackTrace();
+        }
+        return numOperation;
+    }
+    
+    public java.util.Iterator getTasksVersionControl(int accountId) throws PersistenceBrokerException {
+          // New criteria for sortering
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("id_account",new Integer(accountId));
+        criteria.addEqualTo("status", new Integer(0));
+        criteria.addEqualTo("version_control", new Integer(0));
+        criteria.addNotEqualToColumn("operation_number", ""+0);
+        
+        criteria.addOrderByAscending("operation_number");
+            // Query of all the organizations
+            Query query = new QueryByCriteria(tasksData.class, criteria);
+
+            // ask the broker to retrieve the Extent collection
+            Collection allLines = broker.getCollectionByQuery(query);
+
+            // now iterate over the result to print each Service
+            return allLines.iterator();
+	}
+    
+    
+      
+    
 }

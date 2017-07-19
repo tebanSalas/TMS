@@ -62,7 +62,9 @@ function sendData(tipo) {
 <a href="./members.do?operation=userlisting1"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.UserRenew")</a><br><br>
  #end
 <a href="./reports.do?operation=addTaskChange2"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("header.displayTaskChange")</a><br><br>
-
+<a href="./version.do?operation=listing"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.crudVersion")</a><br><br>
+ <a href="./applications.do?operation=listing"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.crudApp")</a><br><br>
+ <a href="./verApps.do?operation=listing"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.joinVerApp")</a><br><br>
 
 #else
  <a href="./account.do?operation=view&account=$userInfo.id_account"><img src="./images/right-arrow.gif" width="13" height="13" border="0">&nbsp;$msg.get("common.account")</a><br><br>

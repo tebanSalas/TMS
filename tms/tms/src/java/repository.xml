@@ -58,6 +58,23 @@
         useAutoCommit="1"
         ignoreAutoCommitExceptions="false"
 	>
+<!--        
+        <jdbc-connection-descriptor
+		jcd-alias="postgreSQL"
+		default-connection="true"
+   		platform="PostgreSQL"
+   		jdbc-level="2.0"
+   		driver="org.postgresql.Driver"
+   		protocol="jdbc"
+   		subprotocol="postgresql"
+                dbalias="//localhost:5432/postgres"
+   		username="tms"
+   		password="H6F8nVrZRM"
+        eager-release="false"
+        useAutoCommit="1"
+        ignoreAutoCommitExceptions="false"
+	> -->
+        
         <connection-pool
             maxActive="200"
 	    whenExhaustedAction="2"

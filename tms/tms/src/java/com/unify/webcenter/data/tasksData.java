@@ -67,6 +67,8 @@ public class tasksData extends mainData {
     
     private int version_control;
     private int operation_number;
+    private int verapp;
+    private versionAppData parentVerApp;
     
     public tasksData() {
         hasErrors=false;
@@ -1215,6 +1217,24 @@ public class tasksData extends mainData {
     public void setOperation_number(int operation_number) {
         this.operation_number = operation_number;
     }
+
+    public int getVerapp() {
+        return verapp;
+    }
+
+    public void setVerapp(int verapp) {
+        this.verapp = verapp;
+    }
+
+    public versionAppData getParentVerApp() {
+        return parentVerApp;
+    }
+
+    public void setParentVerApp(versionAppData parentVerApp) {
+        this.parentVerApp = parentVerApp;
+    }
+
+    
     
     
     

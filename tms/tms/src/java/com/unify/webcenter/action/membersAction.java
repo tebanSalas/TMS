@@ -917,6 +917,8 @@ public class membersAction extends Action {
                             // We add the new record and set the password
                             String pass = data.getpassword();
                             data.setpassword(membersData.encrypt(data.getpassword()));
+                            
+                            
 
 
                             broker.add(data);

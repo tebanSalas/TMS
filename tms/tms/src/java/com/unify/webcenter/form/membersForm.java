@@ -53,11 +53,11 @@ public class membersForm  extends ValidatorActionForm {
          //actividades
                 private String ind_exec_report;
         // nuevos campos para permisos sobre el control de aplicaciones
-                private String permission_delete_operation_number;
-                private String permission_view_app_control;
-                private String permission_app_control;
-                private String permission_version_control;
-                private String permission_report_applications;
+                private int permission_delete_operation_number;
+                private int permission_view_app_control;
+                private int permission_app_control;
+                private int permission_version_control;
+                private int permission_report_applications;
          
 	 public void setpersonal_title(String val) { personal_title = val; } 
 	 public void setpassword(String val) { password = val; } 
@@ -224,45 +224,47 @@ public class membersForm  extends ValidatorActionForm {
         this.ind_exec_report = ind_exec_report;
     }
 
-    public String getPermission_delete_operation_number() {
+    public int getPermission_delete_operation_number() {
         return permission_delete_operation_number;
     }
 
-    public void setPermission_delete_operation_number(String permission_delete_operation_number) {
+    public void setPermission_delete_operation_number(int permission_delete_operation_number) {
         this.permission_delete_operation_number = permission_delete_operation_number;
     }
 
-    public String getPermission_view_app_control() {
+    public int getPermission_view_app_control() {
         return permission_view_app_control;
     }
 
-    public void setPermission_view_app_control(String permission_view_app_control) {
+    public void setPermission_view_app_control(int permission_view_app_control) {
         this.permission_view_app_control = permission_view_app_control;
     }
 
-    public String getPermission_app_control() {
+    public int getPermission_app_control() {
         return permission_app_control;
     }
 
-    public void setPermission_app_control(String permission_app_control) {
+    public void setPermission_app_control(int permission_app_control) {
         this.permission_app_control = permission_app_control;
     }
 
-    public String getPermission_version_control() {
+    public int getPermission_version_control() {
         return permission_version_control;
     }
 
-    public void setPermission_version_control(String permission_version_control) {
+    public void setPermission_version_control(int permission_version_control) {
         this.permission_version_control = permission_version_control;
     }
 
-    public String getPermission_report_applications() {
+    public int getPermission_report_applications() {
         return permission_report_applications;
     }
 
-    public void setPermission_report_applications(String permission_report_applications) {
+    public void setPermission_report_applications(int permission_report_applications) {
         this.permission_report_applications = permission_report_applications;
     }
+
+   
     
     
 

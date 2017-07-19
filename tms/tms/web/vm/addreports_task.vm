@@ -96,6 +96,7 @@ function sendData() {
   #end
        </SELECT></TD>
  </TR>
+ 
   <TR class=odd>
     <TD class=leftvalue vAlign=top>$msg.get("common.startDate") :</TD>
     <TD class=rightvalue>

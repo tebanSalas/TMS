@@ -229,17 +229,27 @@ public class verAppAction extends Action{
                 } else if (action.equals("applyEdit")) {
                     // Se trata de la aplicacion de un update en la BD
                     versionAppData data = new versionAppData();
-                    PropertyUtils.copyProperties(data, thisForm);   
+                    versionAppData dataold = new versionAppData();
+                    PropertyUtils.copyProperties(data, thisForm); 
+                    
+                    dataold =  (versionAppData) versionAppBroker.getData(data.getId());
                     // We add the new record.
                     if (data.getDescription().equals("")){
                         data.setDescription("N/A");
                      }
-                    if(!versionAppBroker.exist(data.getId_version(), data.getId_application())){
-                        versionAppBroker.add(data);
+                    if(data.getId_application()!=dataold.getId_application() || 
+                            data.getId_version()!=dataold.getId_version())
+                    {
+                        if(!versionAppBroker.exist(data.getId_version(), data.getId_application())){
+                            versionAppBroker.add(data);
+                        }else{
+                            return (mapping.findForward("alreadyExist"));
+                        }
                     }else{
-                        return (mapping.findForward("alreadyExist"));
+                       versionAppBroker.update(data); 
                     }
-                    versionAppBroker.update(data);
+                    
+                    
                          
                     // Se agrega el link para el menu con la ruta
                    request.setAttribute("menuRoute", 

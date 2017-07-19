@@ -35,7 +35,12 @@ public class applicationControlForm extends ValidatorActionForm{
     private int id_account;
     
     private String operation;
-
+    
+    //Campos de paginación
+    private int pageTasks;
+    private String sortOrderTasks;
+    private String source;
+    
     public int getId() {
         return id;
     }
@@ -138,6 +143,30 @@ public class applicationControlForm extends ValidatorActionForm{
 
     public void setOperation(String operation) {
         this.operation = operation;
+    }
+
+    public int getPageTasks() {
+        return pageTasks;
+    }
+
+    public void setPageTasks(int pageTasks) {
+        this.pageTasks = pageTasks;
+    }
+
+    public String getSortOrderTasks() {
+        return sortOrderTasks;
+    }
+
+    public void setSortOrderTasks(String sortOrderTasks) {
+        this.sortOrderTasks = sortOrderTasks;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     

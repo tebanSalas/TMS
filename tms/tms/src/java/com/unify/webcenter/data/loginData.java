@@ -43,6 +43,10 @@ public class loginData extends mainData {
         private String time_zone;
         private int id_account;
         private String ind_exec_report;
+        private int viewAppControl;
+        private int reportApplications;
+        private int AppControl;
+        private int versionControl;
 
         public void setusername(String val) { username = val; } 
 
@@ -128,6 +132,41 @@ public class loginData extends mainData {
     public void setInd_exec_report(String ind_exec_report) {
         this.ind_exec_report = ind_exec_report;
     }
+
+    public int getReportApplications() {
+        return reportApplications;
+    }
+
+    public void setReportApplications(int reportApplications) {
+        this.reportApplications = reportApplications;
+    }
+
+    
+
+    public int getViewAppControl() {
+        return viewAppControl;
+    }
+
+    public void setViewAppControl(int viewAppControl) {
+        this.viewAppControl = viewAppControl;
+    }
+
+    public int getAppControl() {
+        return AppControl;
+    }
+
+    public void setAppControl(int AppControl) {
+        this.AppControl = AppControl;
+    }
+
+    public int getVersionControl() {
+        return versionControl;
+    }
+
+    public void setVersionControl(int versionControl) {
+        this.versionControl = versionControl;
+    }
+    
 
 
 }

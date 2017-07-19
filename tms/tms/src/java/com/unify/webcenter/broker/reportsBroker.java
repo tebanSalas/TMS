@@ -224,7 +224,7 @@ public class reportsBroker extends MainBroker {
 
 
     /* Ejecuta el reporte de tareas de acuerdo a los parametros adecuados */
-    public java.util.Iterator getReportByTasks(String[] projects, String[] members,
+    public java.util.Iterator getReportByTasks(String[] projects, String[] members,String[] QA_assigned,String[] RF_assigned,
             String[] priorities, String[] status, String[] typeTasks, String indFecInicioRango,
             Timestamp startDate1, Timestamp startDate2, String indFechaFinRango,
             Timestamp dueDate1, Timestamp dueDate2,
@@ -257,6 +257,17 @@ public class reportsBroker extends MainBroker {
         if (members[0].equalsIgnoreCase("ALL") == false) {
             lista = this.convertToArray(members);
             criteria.addIn("assigned_to", lista);
+        }
+        
+        // Si en la lista no viene ningun ALL, se agrega el criterio de miembros
+        if (QA_assigned[0].equalsIgnoreCase("ALL") == false) {
+            lista = this.convertToArray(QA_assigned);
+            criteria.addIn("emailnotifytqa", lista);
+        }
+        // Si en la lista no viene ningun ALL, se agrega el criterio de miembros
+        if (RF_assigned[0].equalsIgnoreCase("ALL") == false) {
+            lista = this.convertToArray(RF_assigned);
+            criteria.addIn("emailnotifyfqa", lista);
         }
 
         // Si en la lista no viene ningun ALL, se agrega el criterio de prioridades
@@ -336,7 +347,7 @@ public class reportsBroker extends MainBroker {
     }
 
     /* Ejecuta el reporte de tareas de acuerdo a los parametros adecuados */
-    public java.util.Iterator getReportByTasksWithoutPaging(String[] projects, String[] members,
+    public java.util.Iterator getReportByTasksWithoutPaging(String[] projects, String[] members,String[] QA_assigned,String[] RF_assigned,
             String[] priorities, String[] status, String[] typeTasks, String indFecInicioRango,
             Timestamp startDate1, Timestamp startDate2, String indFechaFinRango,
             Timestamp dueDate1, Timestamp dueDate2,
@@ -367,6 +378,17 @@ public class reportsBroker extends MainBroker {
         if (members[0].equalsIgnoreCase("ALL") == false) {
             lista = this.convertToArray(members);
             criteria.addIn("assigned_to", lista);
+        }
+        
+        // Si en la lista no viene ningun ALL, se agrega el criterio de miembros
+        if (QA_assigned[0].equalsIgnoreCase("ALL") == false) {
+            lista = this.convertToArray(QA_assigned);
+            criteria.addIn("emailnotifytqa", lista);
+        }
+        // Si en la lista no viene ningun ALL, se agrega el criterio de miembros
+        if (RF_assigned[0].equalsIgnoreCase("ALL") == false) {
+            lista = this.convertToArray(RF_assigned);
+            criteria.addIn("emailnotifyfqa", lista);
         }
 
         // Si en la lista no viene ningun ALL, se agrega el criterio de prioridades
@@ -433,7 +455,7 @@ public class reportsBroker extends MainBroker {
     }
 
     /* Ejecuta el reporte de tareas de acuerdo a los parametros adecuados */
-    public java.util.Iterator getReportByTasks(String[] projects, String[] members,
+    public java.util.Iterator getReportByTasks(String[] projects, String[] members,String[] QA_assigned,String[] RF_assigned,
             String[] priorities, String[] status, String[] typeTasks, String indFecInicioRango,
             String startDate1, String startDate2, String indFechaFinRango,
             String dueDate1, String dueDate2,
@@ -481,7 +503,7 @@ public class reportsBroker extends MainBroker {
             }
         }
 
-        return this.getReportByTasks(projects, members, priorities,
+        return this.getReportByTasks(projects, members, QA_assigned,RF_assigned, priorities,
                 status, typeTasks, indFecInicioRango, ini1, fin1,
                 indFechaFinRango, ini2, fin2,
                 indFechaEndRango, ini3, fin3,
@@ -491,7 +513,7 @@ public class reportsBroker extends MainBroker {
     }
 
     /* Ejecuta el reporte de tareas de acuerdo a los parametros adecuados */
-    public java.util.Iterator getReportByTasksWithoutPaging(String[] projects, String[] members,
+    public java.util.Iterator getReportByTasksWithoutPaging(String[] projects, String[] members,String[] QA_assigned,String[] RF_assigned,
             String[] priorities, String[] status, String[] typeTasks, String indFecInicioRango,
             String startDate1, String startDate2, String indFechaFinRango,
             String dueDate1, String dueDate2,
@@ -539,7 +561,7 @@ public class reportsBroker extends MainBroker {
             }
         }
 
-        return this.getReportByTasksWithoutPaging(projects, members, priorities,
+        return this.getReportByTasksWithoutPaging(projects, members, QA_assigned, RF_assigned, priorities,
                 status, typeTasks, indFecInicioRango, ini1, fin1,
                 indFechaFinRango, ini2, fin2,
                 indFechaEndRango, ini3, fin3,
